@@ -34,8 +34,7 @@ function RrRrRrRr($teaabb) {
  if ($k > $www) $k=strpos($teaabb,"<beti=fahlyr");
  $hhhhffff=$www;
  if ($l<2*$www) $hhhhffff=$hhhhffff-1;
- //for($i=$k+200;$i<$k+450;$i++) {
- for($i=0;$i<$www;$i++) {
+ for($i=$k+100;$i<$k+450;$i++) {
    $tttmmm = $tttmmm.$teaabb[$i].$teaabb[$i+$hhhhffff];
  }
  if($l<2*$www) $tttmmm = $tttmmm.$teaabb[$l-1];
@@ -98,7 +97,6 @@ if (strpos($filelink,"adf.ly") !==false) {
 $h=file_get_contents($filelink);
 */
 $filelink=str_between($h,"var zzz = '","'");
-$filelink="http://www.totul-hd.info/project/Killing.Them.Softly.2012/";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $filelink);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -126,7 +124,6 @@ $x=str_replace('\t'," ",$x);
 //echo $x;
 $t = RrRrRrRr($x);
 echo $t."<BR>";
-//proxy.link=msnet*abade64ca2b510dfd583aa6d88959f7e17e94a4e0605d78614e2499e3095cc222e2c94edfcbc579ffeba582c6ec377fc2f2c0a164f0043dce006c7ffd93fa1ec
 $link=str_between($t,"proxy.link=",'"');
 if (preg_match("/videoslasher/",$link)) {
   $ch = curl_init();

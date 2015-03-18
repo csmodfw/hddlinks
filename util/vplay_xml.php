@@ -40,13 +40,6 @@ foreach($videos as $video) {
  $line2=$l[1];
  $line1 = trim(preg_replace("/<(.*)>|(\{(.*)\})/e","",$line1));
  $line2 = trim(preg_replace("/<(.*)>|(\{(.*)\})/e","",$line2));
- if (strlen($line1) > 60) {
-    $newtext = $line1.$line2;
-    $newtext = wordwrap($newtext, 60, "<br>");
-    $t1=explode("<br>",$newtext);
-    $line1=$t1[0];
-    $line2=$t1[1];
- }
  if ($line2=="")
  {
  $line2=$line1;

@@ -121,9 +121,9 @@ else
 exec ("rm -f /tmp/test.xml");
 if ($subtitle == "on") {
   if ($tv=="0")
-    $file="http://hdforall.netau.net/srt/m/".$id.".srt";
+    $file="http://uphero.xpresso.eu/srt/m/".$id.".srt";
   else
-    $file="http://hdforall.netau.net/srt/s/".$id.".srt";
+    $file="http://uphero.xpresso.eu/srt/s/".$id.".srt";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $file);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -133,12 +133,12 @@ if ($subtitle == "on") {
   curl_setopt($ch, CURLOPT_TIMEOUT, 30);
   $h = curl_exec($ch);
   curl_close($ch);
-  /*
+
   if (strpos($h,"302 Found") !== false) {
   if ($tv=="0")
-    $file="http://hdforall.uphero.com/srt/en/".$id.".srt";
+    $file="http://uphero.xpresso.eu/srt/en/".$id.".srt";
   else
-    $file="http://hdforall.uphero.com/srt/tv/en/".$id.".srt";
+    $file="";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $file);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -148,21 +148,7 @@ if ($subtitle == "on") {
   $h = curl_exec($ch);
   curl_close($ch);
   }
-  */
-  if (!$h) {
-  if ($tv=="0")
-    $file="http://nobsub.googlecode.com/hg/m/".$id.".srt";
-  else
-    $file="http://nobsub.googlecode.com/hg/s/".$id.".srt";
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $file);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-  $h = curl_exec($ch);
-  curl_close($ch);
-  }
+
   //echo $h;
 if(preg_match('/(\d\d):(\d\d):(\d\d),(\d\d\d) --> (\d\d):(\d\d):(\d\d),(\d\d\d)/', $h))
 {

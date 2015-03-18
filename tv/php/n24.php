@@ -255,7 +255,6 @@ foreach($videos as $video) {
     //$title = getRewriteString($title);
     //$title = str_replace("&amp;","&",$title);
     $title=fix_s($title);
-    //$title=urlencode($title);
     /*
     $title=c($title);
     $title=str_replace(urldecode("%C8%9B"),"t",$title);

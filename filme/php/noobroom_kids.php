@@ -592,44 +592,17 @@ $link = "/usr/local/etc/www/cgi-bin/scripts/filme/php/noobroom.rss";
   <image></image>
   </item>
   ';
-$link="http://hdforall.netau.net/srt/m/";
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $link);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-  $html_s = curl_exec($ch);
-  curl_close($ch);
-  if ($html_s) $videos = explode("<li>", $html_s);
-if (!$html_s) {
-$link="http://nobsub.googlecode.com/hg/m/list.txt";
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $link);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-  $html_s = curl_exec($ch);
-  curl_close($ch);
-  if ($html_s) {
-   $videos = explode(",", $html_s);
-   $videos = array_values($videos);
-   foreach($videos as $video) {
-     $srt[$video]="exista";
-   }
-}
-} else {
+$link="http://uphero.xpresso.eu/srt/m/glob.php";
+$html=file_get_contents($link);
+$videos = explode(",", $html);
+
 unset($videos[0]);
 $videos = array_values($videos);
 
 foreach($videos as $video) {
-  $t1=explode('>',$video);
-  $t2=explode('<',$t1[1]);
-  $t3=explode('.',$t2[0]);
-  $id_srt=trim($t3[0]);
-  if (strpos($video,".srt") !== false) $srt[$id_srt]="exista";
-}
+  $t1=explode('.',$video);
+  $id_srt=trim($t1[0]);
+  $srt[$id_srt]="exista";
 }
 $videos = explode('<table>', $html);
 unset($videos[0]);

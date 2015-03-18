@@ -176,7 +176,7 @@ fclose($fh);
 <onEnter>
   startitem = "middle";
   setRefreshTime(1);
-  info="Contribuiti cu subtitrari! http://hdforall.netau.net/srt/noobroom.php";
+  info="Contribuiti cu subtitrari! http://uphero.xpresso.eu/srt/noobroom.php";
   start="0";
 </onEnter>
 <onExit>

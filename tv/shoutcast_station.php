@@ -224,8 +224,6 @@ url;
 <channel>
   <title><?php echo $tit;?></title>
 <?php
-//Sky
-//http://listen.sky.fm/webplayer/00srnb.jsonp?callback=_API_Playlists_getChannel
 function str_between($string, $start, $end){
 	$string = " ".$string; $ini = strpos($string,$start);
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini;

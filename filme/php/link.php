@@ -750,7 +750,15 @@ if ((strpos($filelink,"vidxden") !==false) || (strpos($filelink,"divxden") !==fa
      $link=str_between($h,"url=","&");
    }
 } elseif ((strpos($filelink, 'fastupload.rol.ro') !== false)  || (strpos($filelink, 'fastupload.ro') !== false) || (strpos($filelink, 'superweb') !== false)) {
-   $h = file_get_contents($filelink);
+     $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $filelink);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  //curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Linux; U; Android 0.5; en-us) AppleWebKit/522+ (KHTML, like Gecko) Safari/419.3');
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  //curl_setopt($ch, CURLOPT_REFERER,"http://990.ro/");
+  $h = curl_exec($ch);
+  curl_close($ch);
    $link=str_between($h,"file': '","'");
    $t1=explode("tracks':",$h);
    $t2=explode("'file': ",$t1[1]);
@@ -1543,11 +1551,14 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
     $filelink="http://videomega.tv/cdn.php?ref=".$hash;
   }
   //echo $filelink;
+   $cookie="/tmp/videomega.txt";
    $ch = curl_init($filelink);
    curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
    curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
    curl_setopt($ch, CURLOPT_REFERER, "http://filmehd.net");
+   curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
+   curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
    $h = curl_exec($ch);
    curl_close($ch);
    $h=urldecode($h);
@@ -1557,10 +1568,27 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
 
    $t2=explode('"',$t1[1]);
    $srt=$t2[0];
+   if (!$srt) $srt=str_between($h,'captions" src="','"');
    $t1=explode('onReady(function(){jwplayer()',$h);
    $t2=explode('file:"',$t1[1]);
    $t3=explode('"',$t2[1]);
    $link=$t3[0];
+
+   if (!$link)
+    $link=str_between($h,'source src="','"');
+   //$link=str_replace("&","&amp;",$link);
+$out='#!/bin/sh
+cat <<EOF
+Content-type: video/mp4
+
+EOF
+exec /opt/bin/curl --cookie "/tmp/videomega.txt"  "'.$link.'"';
+$fp = fopen('/usr/local/etc/www/cgi-bin/scripts/util/m.cgi', 'w');
+fwrite($fp, $out);
+fclose($fp);
+exec("chmod +x /usr/local/etc/www/cgi-bin/scripts/util/m.cgi");
+sleep (2);
+$link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
    exec ("rm -f /tmp/test.xml");
    if ($srt) {
    $l_srt="http://127.0.0.1/cgi-bin/scripts/util/srt_xml.php?file=".urlencode($srt);

@@ -1,4 +1,4 @@
-#!/tmp/www/cgi-bin/php
+#!/usr/local/bin/Resource/www/cgi-bin/php
 <?php
 phpinfo();
 ?>

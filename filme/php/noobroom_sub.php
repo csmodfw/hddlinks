@@ -419,7 +419,7 @@ echo '
 	<title>Ultimele filme subtitrate</title>
 	<menu>main menu</menu>
 <?php
-$l="http://hdforall.netau.net/srt/m/g.php";
+$l="http://uphero.xpresso.eu/srt/m/g.php";
 $h=file_get_contents($l);
 $sub=explode(",",$h);
 $ff="/tmp/n.txt";

@@ -1,7 +1,7 @@
 #!/usr/local/bin/Resource/www/cgi-bin/php
 <?php
 $pass = $_GET["pass"];
-$l="http://hdforall.uphero.com/reg.php?pass=".$pass;
+$l="http://uphero.xpresso.eu/srt/reg.php?pass=".$pass;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

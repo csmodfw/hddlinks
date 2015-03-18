@@ -584,7 +584,7 @@ for ($i=0;$i<count($links);$i++) {
         }
         if (strpos($cur_link, 'videomega') !== false)
           $mysrt_roshare="asasas";
-          echo $cur_link;
+          //echo $cur_link;
           /*
           $ch = curl_init($cur_link);
           curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);

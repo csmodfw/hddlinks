@@ -5,10 +5,6 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
-//http://fck-c06.empflix.com/dev6/0/001/278/0001278761.fid?key=9cae6fe65285c1bbd00f6f953124bef3&src=emp
-//http://fck-c06.empflix.com/dev6/0/001/278/0001278761.fid?key=9cae6fe65285c1bbd00f6f953124bef3&src=emp
-//http://fck-c02.empflix.com/dev2/0/001/283/0001283707.fid?key=7a30c311e942e6db40c73bbbe579c403&src=emp
-//http://fck-c02.empflix.com/dev2/0/001/283/0001283707.fid?key=7a30c311e942e6db40c73bbbe579c403&src=emp
 $link = $_GET["file"];
 $html = file_get_contents($link);
 $link = str_between($html, 'flashvars.config = escape("', '"');

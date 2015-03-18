@@ -183,9 +183,6 @@ foreach($videos as $video) {
     $t2 = explode('"', $t1[1]);
     $image = $t2[0];
     //http://ivm.gsp.ro/thumbs/gsptv/2012/03/17/hYD3TCnCjCm_3L.jpg
-    //http://ivm.gsp.ro/thumbs/gsptv/2013/02/02/Psnlko3RMjC_1L.jpg
-    //http://ivm.gsp.ro/thumbs/gsptv/2013/02/02/Psnlko3RMjC_1S.jpg
-    //http://vod1.gsp.ro/gsptv/2013/02/02/Ll7VrWeX5dK.mp4
     //"mp4:gsptv/2012/03/17/orgVI6Htmjq.mp4"
     $t1=explode("thumbs/",$image);
     $t2=explode("_",$t1[1]);
