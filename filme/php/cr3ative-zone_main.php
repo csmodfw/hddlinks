@@ -162,14 +162,14 @@ $host = "http://127.0.0.1/cgi-bin";
 echo '
 	<item>
 	<title>Toate</title>
-	<link>http://127.0.0.1/cgi-bin/scripts/filme/php/cr3ative-zone.php?query=1,http://cr3ative-zone.ucoz.ro/load/filme_online/1</link>
+	<link>http://127.0.0.1/cgi-bin/scripts/filme/php/cr3ative-zone.php?query=1,/load/filme_online/1</link>
 	<annotation>Toate</annotation>
 
 	<mediaDisplay name="threePartsView"/>
 	</item>
 ';
 $html = file_get_contents("http://cr3ative-zone.ucoz.ro/load/filme_online/1");
-$html=str_between($html,'div class="portrait-navigation">','</div');
+$html=str_between($html,'div class="lb-block-content lb-list-reset lb-sharea">','</div');
 //echo $html;
 $videos = explode('href="', $html);
 unset($videos[0]);
@@ -177,12 +177,13 @@ $videos = array_values($videos);
 foreach($videos as $video) {
 	$t2 = explode('"',$video);
 	$link=$t2[0];
-	$link = $host."/scripts/filme/php/cr3ative-zone.php?query=1,".urlencode($link);
-	
+
 	$t3 = explode(">",$video);
 	//print_r($t3);
-	$t4 = explode("<",$t3[1]);
+	$t4 = explode("<",$t3[2]);
 	$title = trim($t4[0]);
+	$link = $host."/scripts/filme/php/cr3ative-zone.php?query=1,".urlencode($link);
+	
 	
 	echo '
 	<item>

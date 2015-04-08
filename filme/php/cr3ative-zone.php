@@ -167,7 +167,7 @@ if($query) {
    $page = $queryArr[0];
    $search = $queryArr[1];
 }
-$html=file_get_contents(urldecode($search)."-".$page."-2");
+$html=file_get_contents("http://cr3ative-zone.ucoz.ro".urldecode($search)."-".$page);
 
 if($page > 1) { ?>
 
@@ -191,12 +191,11 @@ if($search) {
 $videos = explode('div class="user-avatar-', $html);
 unset($videos[0]);
 $videos = array_values($videos);
-
 foreach($videos as $video) {
 
-//  link  
+//  link
   $v1 = explode('href="', $video);
-  $v2 = explode('"', $v1[1]);
+  $v2 = explode('"', $v1[8]);
   $link = $v2[0];
 
 //  titlu
@@ -211,17 +210,14 @@ foreach($videos as $video) {
   $v1 = explode('src="', $video);
   $v2 = explode('"', $v1[1]);
   $image = $v2[0];
-//  descriere  
-  $v1 = explode('class="cell-news-center">', $video);
-  $v2 = explode('</p', $v1[1]);
+//  descriere
+  $v1 = explode('div class="lb-movie-desc">', $video);
+  $v2 = explode('</div>', $v1[1]);
   //$v3=explode("calitate de exceptie.",$v2[0]);
   $descriere = $v2[0];
-
-	$descriere = preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$descriere);
-    $descriere = fix_s($descriere);
-
-	if (strlen($descriere)>=300) {
-       $descriere = substr($descriere,0,300);
+  $descriere = preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$descriere);
+	if (strlen($descriere)>=1000) {
+       $descriere = substr($descriere,0,1000);
        $descriere = substr($descriere,0,-strlen(strrchr($descriere," ")))."...";
        }
 

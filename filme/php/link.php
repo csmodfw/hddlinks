@@ -1527,11 +1527,15 @@ exec("chmod +x /usr/local/etc/www/cgi-bin/scripts/util/m.cgi");
 sleep (2);
 $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
 //$link="http://api.video.mail.ru/file/video/hv/mail/vladimir_aleksei/_myvideo/275";
+} elseif (strpos($filelink,"realvid.net") !==false) {
+  $h=file_get_contents($filelink);
+  $link=str_between($h,"config:{file:'","'");
 } elseif (strpos($filelink,"videomega.tv") !==false) {
   //http://videomega.tv/iframe.php?ref=IHcNODXJUC&width=660&height=360
   //echo $filelink;
   //http://videomega.tv/validatehash.php?hashkey=072077082085098097079074089065065089074079097098085082077072
   //http://videomega.tv/?ref=P155K0FF0550FF0K551P
+  //$cookie="/tmp/videomega.txt";
   $filelink=str_replace("http://videomega.tv/?ref=","http://videomega.tv/cdn.php?ref=",$filelink);
   if (strpos($filelink,"validatehash") !== false) {
    $ch = curl_init($filelink);
@@ -1577,12 +1581,21 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
    if (!$link)
     $link=str_between($h,'source src="','"');
    //$link=str_replace("&","&amp;",$link);
+   $lines = file($cookie);
+   foreach ($lines as $line_num => $line) {
+      //echo $line;
+     if (strpos($line,"cfduid") !==false) {
+      $t1=explode("cfduid",$line);
+      $c=trim($t1[1]);
+      break;
+     }
+   }
 $out='#!/bin/sh
 cat <<EOF
 Content-type: video/mp4
 
 EOF
-exec /opt/bin/curl --cookie "/tmp/videomega.txt"  "'.$link.'"';
+exec /opt/bin/curl -H "Cookie: __cfduid='.$c.';  _ga=GA1.2.12345678.12345678; _gat=1" -H "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"  "'.$link.'"';
 $fp = fopen('/usr/local/etc/www/cgi-bin/scripts/util/m.cgi', 'w');
 fwrite($fp, $out);
 fclose($fp);
@@ -1595,6 +1608,7 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
    $h=file_get_contents($l_srt);
    }
 } elseif (strpos($filelink,"ok.ru") !==false) {
+  $filelink=str_replace("video/","videoembed/",$filelink);
   $h1=file_get_contents($filelink);
   $id=str_between($h1,'data-player-id="embed_video_','"');
   $l="http://ok.ru/dk?cmd=videoPlayerMetadata&mid=".$id;
@@ -1717,7 +1731,8 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
   //http://streamin.to/embed-giepc5gb5yvp-640x360.html
   if (strpos($filelink,"embed") !== false) {
    $id=str_between($filelink,"embed-","-");
-   if (preg_match("/stramin/",$filelink))
+   if (!$id) $id=str_between($filelink,"embed-",".");
+   //if (preg_match("/streamin/",$filelink))
     $filelink="http://streamin.to/".$id;
   }
   $ch = curl_init($filelink);

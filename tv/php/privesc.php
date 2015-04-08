@@ -269,7 +269,18 @@ foreach($videos as $video) {
     url1=getUrl(url);
     movie1="http://127.0.0.1/cgi-bin/scripts/util/translate.cgi?stream," + url1;
     cancelIdle();
-    playItemUrl(url1,10);
+    storagePath = getStoragePath("tmp");
+    storagePath_stream = storagePath + "stream.dat";
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, url1);
+    streamArray = pushBackStringArray(streamArray, url1);
+    streamArray = pushBackStringArray(streamArray, video/x-flv);
+    streamArray = pushBackStringArray(streamArray, "'.$title.'");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer.rss");
     </script>
     </onClick>
     <download>'.$link.'</download>
