@@ -188,14 +188,14 @@ echo '
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
-<!--
+
 <item>
 <title>filmesubtitrate.info</title>
 <link><?php echo $host; ?>/scripts/filme/php/filmesubtitrate_info_main.php</link>
 <annotation>http://www.seriale.filmesubtitrate.info/p/seriale-online-subtitrate-in-romana.html</annotation>
 <mediaDisplay name="photoView"/>
 </item>
--->
+
 <item>
 <title>seriale-filme</title>
 <link><?php echo $host; ?>/scripts/filme/php/seriale-filme_main.php</link>

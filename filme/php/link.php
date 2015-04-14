@@ -870,7 +870,7 @@ if ((strpos($filelink,"vidxden") !==false) || (strpos($filelink,"divxden") !==fa
   $filelink = "http://www.modovideo.com/frame.php?v=".$id;
   $h = file_get_contents($filelink);
   $link = str_between($h,"plugin.video=","&");
-} elseif (strpos($filelink, 'roshare.info') !==false ) {
+} elseif (strpos($filelink, 'roshare.info') !==false || strpos($filelink, 'rosharing.com') !==false ||strpos($filelink, 'rosharing.net') !==false) {
    //http://roshare.info/embedx-huwehn7cr7tx.html#
   //op=download2&id=g74g97qqkzz1&rand=nopnu7b7og43gtuzyh73eofno6odcr66cjkugrq&referer=&method_free=&method_premium=&down_direct=1
   $referer=$filelink;
@@ -882,34 +882,7 @@ if ((strpos($filelink,"vidxden") !==false) || (strpos($filelink,"divxden") !==fa
   }
   $cookie="/tmp/rosh.txt";
   $dat="/usr/local/etc/dvdplayer/roshare.dat";
-  //http://roshare.info/embedx-1nm87mvkp84o.html#
-   if (!file_exists($dat)) {
-   $ch = curl_init($filelink);
-   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-   curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
-   $h = curl_exec($ch);
-   $id=str_between($h,'id" value="','"');
-   $rand=str_between($h,'rand" value="','"');
-   sleep(31);
-   $post="op=download2&id=".$id."&rand=".$rand."&referer=&method_free=&method_premium=&down_direct=1";
-   //echo $post;
-   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-   curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
-   curl_setopt ($ch, CURLOPT_POST, 1);
-   curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
-   $h = curl_exec($ch);
-   curl_close ($ch);
-   //echo $h;
-   //$h=file_get_contents($filelink);
-   //$link=unpack_DivXBrowserPlugin(2,$h);
-   //$ret=unpack_DivXBrowserPlugin(2,$h,true);
-   //$ret1=explode(",",$ret);
-   //$link=$ret1[0];
-   //$link="http://127.0.0.1/cgi-bin/scripts/util/wget.cgi?link=".$link.";referer=".$referer.";";
-   //$mysrt=$ret1[1];
-   $link=trim(str_between($h,'downlpl" href="','"'));
-   $mysrt=trim(str_between($h,'downlsub1" href="','"'));
-   } else {
+
    if (!file_exists($cookie)) {
     $handle = fopen($dat, "r");
     $c = fread($handle, filesize($dat));
@@ -919,41 +892,42 @@ if ((strpos($filelink,"vidxden") !==false) || (strpos($filelink,"divxden") !==fa
     $user=urlencode($a1);
     $user=str_replace("@","%40",$user);
     $pass=trim($a[1]);
-    $post="op=login&redirect=http%3A%2F%2Froshare.info%2F&login=".$user."&password=".$pass;
-    $l="http://roshare.info";
+    $post="username=".$user."&password=".$pass;
+    $l="http://rosharing.net/ajax/_account_login.ajax.php";
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $l);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
     //curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
     curl_setopt ($ch, CURLOPT_POST, 1);
-    curl_setopt ($ch, CURLOPT_REFERER, "http://roshare.info/login.html");
+    curl_setopt ($ch, CURLOPT_REFERER, "http://rosharing.net/login.html");
     curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
     curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
     curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
     $h1 = curl_exec($ch);
     curl_close($ch);
    }
+   $filelink=str_replace("roshare.info","rosharing.net",$filelink);
+   $filelink=str_replace("rosharing.com","rosharing.net",$filelink);
    $ch = curl_init($filelink);
+   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+   curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+   curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+   $h2 = curl_exec($ch);
+   curl_close ($ch);
+   //echo $h2;
+   $l1=str_between($h2,"btn btn-free btnfree' href='","'");
+   $ch = curl_init($l1);
+   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
    curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
    curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
    curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
    $h = curl_exec($ch);
-   $id=str_between($h,'id" value="','"');
-   $rand=str_between($h,'rand" value="','"');
-   sleep(16);
-   $post="op=download2&id=".$id."&rand=".$rand."&referer=&method_free=&method_premium=&down_direct=1";
-   //echo $post;
-   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-   curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
-   curl_setopt ($ch, CURLOPT_POST, 1);
-   curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
-   $h = curl_exec($ch);
    curl_close ($ch);
-   $link=trim(str_between($h,'downlpl" href="','"'));
-   $mysrt=trim(str_between($h,'downlsub1" href="','"'));
-   }
-   $link=str_replace(" ","%20",$link);
+$link=trim(str_between($h,'source src="','"'));
+$mysrt=trim(str_between($h,'kind="captions" src="','"'));
+$mysrt=str_replace("http://rosharing.net/srt.php?q=","http://rosharing.net/downsub/download.php?filename=",$mysrt);
 
 $l="/usr/local/etc/dvdplayer/update.txt";
 if (file_exists($l)) {
@@ -964,7 +938,7 @@ $player_tip=trim($t[0]);
 $player_tip=0;
 }
 $f = "/usr/local/bin/home_menu";
-if (file_exists($f) && $player_tip==0) {
+if (file_exists($f) && $player_tip==123456789) {
   $out='#!/bin/sh
 cat <<EOF
 Content-type: video/mp4
@@ -979,7 +953,7 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
 }
    $l_srt="http://127.0.0.1/cgi-bin/scripts/util/srt_xml.php?file=".urlencode($mysrt);
    $h=file_get_contents($l_srt);
-} elseif (strpos($filelink, 'rosharing') !==false ) {
+} elseif (strpos($filelink, 'rosharing1') !==false ) {
    //http://roshare.info/embedx-huwehn7cr7tx.html#
   //op=download2&id=g74g97qqkzz1&rand=nopnu7b7og43gtuzyh73eofno6odcr66cjkugrq&referer=&method_free=&method_premium=&down_direct=1
   $referer=$filelink;

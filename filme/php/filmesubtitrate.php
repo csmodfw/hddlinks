@@ -218,15 +218,15 @@ foreach($videos as $video) {
     $t4=explode("<",$t3[2]);
     $title=trim($t4[0]);
 
-    $t1 = explode('src=http', $video);
-    $t2 = explode('&', $t1[1]);
-    $image = "http".$t2[0];
+    $t1 = explode('src="', $video);
+    $t2 = explode('"', $t1[1]);
+    $image = $t2[0];
 
     //$t1 = explode('title="', $video);
     //$t2 = explode('"', $t1[2]);
     //$title = trim($t2[0]);
     $title=trim(preg_replace("/Film|Online|Subtitrat/i","",$title));
-    
+    $link=str_replace("playfs.com","fsplay.net",$link);
 		$link = $host.'/scripts/filme/php/filme_link.php?file='.$link.','.urlencode($title);
 
     echo '

@@ -130,7 +130,7 @@ $title = "";
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch,CURLOPT_REFERER,"http://www.fsplay.net");
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:14.0) Gecko/20100101 Firefox/14.0.1');
-  //curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   $html=curl_exec($ch);
   curl_close($ch);
   $html= decode_entities($html);
@@ -174,7 +174,7 @@ $link=str_replace("www.seriale.filmesubtitrate.info","www.fsplay.net",$link);
 		$title=str_replace("&nbsp;","",$title);
 	}
 	$title=trim(str_replace("&nbsp;","",$title));
-
+    $link=str_replace("playfs.com","fsplay.net",$link);
 	if ($title && preg_match("/ep|part/i",$link) && preg_match($mm,$link) && !preg_match("/#com/",$link)) {
         $m++;
 	$link="http://127.0.0.1/cgi-bin/scripts/filme/php/filme_link.php?file=".$link.",".urlencode($title);
