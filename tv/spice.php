@@ -35,6 +35,7 @@ if (file_exists($filename)) {
 if (!file_exists($cookie)) {
   $l="http://www.spicetvbox.ro/user/login";
 
+
   $post="goto=&user=".$user."&pass=".$pass;
   //echo $post;
   $ch = curl_init();
@@ -59,12 +60,26 @@ if (!file_exists($cookie)) {
 }
 }
   $link="http://www.spicetvbox.ro/live";
+  $handle = fopen($cookie, "r");
+  $c = fread($handle, filesize($cookie));
+  fclose($handle);
+  $t1=preg_replace('/[ ]{2,}|[\t]/', ' ', trim($c));
+  $t1=explode('HttpOnly_',$t1);
+  if (sizeof($t1) > 2) {
+	$t2=explode(' ',$t1[2]);
+	$site=$t2[0];
+  } else {
+  	$t2=explode(' ',$t1[1]);
+	$site=$t2[0];
+}
+  
+  $link=$site."/live";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $link);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt($ch, CURLOPT_REFERER,"http://www.spicetvbox.ro/user/cont");
+  curl_setopt($ch, CURLOPT_REFERER,$site."/user/cont");
   curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   $html = curl_exec($ch);
   curl_close($ch);

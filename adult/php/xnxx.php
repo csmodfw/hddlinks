@@ -235,7 +235,8 @@ foreach($videos as $video) {
     $t2 = explode('"', $t1[1]);
     $link = $t2[0];
 
-    $title=str_between($video,'text-decoration:underline; text-color: #FFFFFF; color: #FFFFFF;">','<');
+    //$title=str_between($video,'text-decoration:underline; text-color: #FFFFFF; color: #FFFFFF;">','<');
+    $title=str_between($video,'title="','"');
     $link = $host."/scripts/adult/php/xnxx_link.php?file=".$link;
 
     $t1 = explode('src="', $video);

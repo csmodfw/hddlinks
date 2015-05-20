@@ -29,6 +29,6 @@ $link = $_GET["file"];
 //$t2 = explode('href="', $t1[1]);
 //$t3=explode('"',$t2[1]);
 //$link = urldecode($t3[0]);
-$link=trim(str_between($html,"videoUrlJS	= '","'"));
+$link=trim(str_between($html,'videoUrlJS = "','"'));
 print $link;
 ?>

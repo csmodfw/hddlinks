@@ -258,14 +258,24 @@ columnCount=5
 		</mediaDisplay>
 
 	</item_template>
-
+	<searchLink>
+	  <link>
+	    <script>"<?php echo $host."/scripts/php1/yt_search.php?query=1,"; ?>" + urlEncode(keyword) + "," + urlEncode(keyword);</script>
+	  </link>
+	</searchLink>
 <channel>
 <title>Videoclipuri</title>
 
 
 <item>
 <title>Youtube</title>
-	<link>rss_file:///usr/local/etc/www/cgi-bin/scripts/clip/youtube/yt_index.rss</link>
+  <onClick>
+		keyword = getInput();
+		if (keyword != null)
+		 {
+	       jumpToLink("searchLink");
+		  }
+   </onClick>
 	<location>http://youtube.com</location>
 	<image>image/youtube.gif</image>
 	<media:thumbnail url="image/youtube.gif" />

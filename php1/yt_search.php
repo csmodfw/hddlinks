@@ -5,15 +5,17 @@ $query = $_GET["query"];
 if($query) {
    $queryArr = explode(',', $query);
    $page = $queryArr[0];
-   $search = $queryArr[1];
+   $search = urldecode($queryArr[1]);
    $tit=urldecode($queryArr[2]);
    $pageToken= $queryArr[3];
 }
+$page_title="Cautare: ".$search;
+$search=str_replace(" ","+",$search);
 $key="AIzaSyDhpkA0op8Cyb_Yu1yQa1_aPSr7YtMacYU";
 if ($pageToken)
-$l2="https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=25&pageToken=".$pageToken."&playlistId=".$search."&key=".$key;
+$l2="https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&pageToken=".$pageToken."&q=".$search."&key=".$key;
 else
-$l2="https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=25&playlistId=".$search."&key=".$key;
+$l2="https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=".$search."&key=".$key;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l2);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -291,7 +293,7 @@ function str_between($string, $start, $end){
 //echo $html;
 echo '
 	<channel>
-		<title>'.$tit.'</title>
+		<title>'.$page_title.'</title>
 		<menu>main menu</menu>
 		';
 if($page > 1) { ?>
@@ -314,12 +316,11 @@ if($search) {
 <?php } ?>
 <?php
 for ($k=0;$k<25;$k++) {
-	//$id = str_between($video,"<id>http://gdata.youtube.com/feeds/api/videos/","</id>");
-    $id=$p["items"][$k]["snippet"]["resourceId"]["videoId"];
+    $id=$p["items"][$k]["id"]["videoId"];
 	$title = $p["items"][$k]["snippet"]["title"];
 	$image = $p["items"][$k]["snippet"]["thumbnails"]["medium"]["url"];
-	$image=str_replace("https","http",$image);
 	$link = "http://www.youtube.com/watch?v=".$id;
+	$image=str_replace("https","http",$image);
 	$durata="";
 	$data= $p["items"][$k]["snippet"]["publishedAt"];
 	$descriere= $p["items"][$k]["snippet"]["description"];

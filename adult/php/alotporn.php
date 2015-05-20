@@ -191,9 +191,9 @@ if($query) {
    $search = str_replace(" ","%20",$search);
 }
 if ($page > 1) {
-$html = file_get_contents($search."recent/".$page."/");
+$html = file_get_contents($search."".$page."/");
 } else {
-$html = file_get_contents($search."recent/");
+$html = file_get_contents($search."");
 }
 if($page > 1) { ?>
 
@@ -221,25 +221,26 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
-$videos = explode('div id="video', $html);
+$html=str_between($html,'<div class="thumbs">','</div');
+$videos = explode('a href="', $html);
 //http://alotporn.com/amateur/recent/2/
 unset($videos[0]);
 $videos = array_values($videos);
 
 foreach($videos as $video) {
     $t1=explode('href="',$video);
-    $t2 = explode('"', $t1[1]);
-    $link = "http://alotporn.com".$t2[0];
+    $t2 = explode('"', $video);
+    $link = $t2[0];
     $t3=explode('title="',$video);
     $t4=explode('"',$t3[1]);
     $title=$t4[0];
-    $link = $host."/scripts/adult/php/alotporn_link.php?file=".$link;
+    $link = $link=$host."/scripts/adult/php/alotporn_link.php?file=".$link;
 
     $t1 = explode('src="', $video);
     $t2 = explode('"', $t1[1]);
     $image = $t2[0];
 
-    $data = trim(str_between($video,'<span class="duration">','</span>'));
+    $data = trim(str_between($video,'span class="length">','</span>'));
     $data = preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$data);
 
     $data = "Duration: ".$data;

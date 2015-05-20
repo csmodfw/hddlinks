@@ -457,7 +457,7 @@ columnCount=5
 
 <item>
 <title>Agerpres</title>
-<link><?php echo $host; ?>/scripts/php1/youtube_user.php?query=1,UCfnP_igK3BPLst-QTmIh0Wg</link>
+<link><?php echo $host; ?>/scripts/php1/youtube_user.php?query=1,agerpresro</link>
 <media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/agerpres.png" />
 <image>/usr/local/etc/www/cgi-bin/scripts/tv/image/agerpres.png</image>
 <location>http://www1.agerpres.ro/agerpres/home</location>

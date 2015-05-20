@@ -190,10 +190,10 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini;
 	return substr($string,$ini,$len);
 }
-$html = file_get_contents("http://www.publika.md/");
-$html = str_between($html,'<div class="videoCarouselItems">',"</ul>");
+
 $image = "/usr/local/etc/www/cgi-bin/scripts/tv/image/publika.jpg";
-$videos = explode('<li>', $html);
+$html = file_get_contents("http://www.publika.md/");
+$videos = explode('<div class="item"', $html);
 
 unset($videos[0]);
 $videos = array_values($videos);
@@ -201,10 +201,13 @@ foreach($videos as $video) {
     $t1 = explode('href="', $video);
     $t2 = explode('"', $t1[1]);
     $link = $t2[0];
-    
+
     $t1 = explode('title="', $video);
     $t2 = explode('"', $t1[1]);
     $title = $t2[0];
+    $t1 = explode('src="',$video);
+    $t2 = explode('"',$t1[1]);
+    $image = $t2[0];
      $title = str_replace("&ordm;","s",$title);
      $title = str_replace("&Ordm;","S",$title);
      $title = str_replace("&thorn;","t",$title);
@@ -217,10 +220,7 @@ foreach($videos as $video) {
      $title = str_replace("&acirc;","a",$title);
      $title = str_replace("&Acirc;","A",$title);
      $title=str_replace("&quot;",'"',$title);
-    $t1 = explode('src="',$video);
-    $t2 = explode('"',$t1[1]);
-    $image = $t2[0];
-    if ($link <> "") {
+    if ($title <> "") {
     $name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".flv";
     $descriere=$title;
     echo '

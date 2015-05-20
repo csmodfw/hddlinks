@@ -162,20 +162,29 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
-$html = file_get_contents("http://alotporn.com/categories/");
-//$html = str_between($html,'<div id="submenu">','id="page">');
-$videos = explode('div id="category', $html);
+$l="http://alotporn.com/categories/";
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, "http://alotporn.com/");
+  $html = curl_exec($ch);
+  curl_close($ch);
+$html=str_between($html,'<div class="categories-cont">','</div');
+$videos = explode('<a href="', $html);
 unset($videos[0]);
 $videos = array_values($videos);
 foreach($videos as $video) {
-    $t=explode('href="',$video);
-    $t1=explode('"',$t[1]);
-    $link="http://alotporn.com".$t1[0];
+    //$t=explode('href="',$video);
+    $t1=explode('"',$video);
+    $link=$t1[0];
     $link=str_replace("recent/","",$link);
-
-    $t2=explode(">",$t[1]);
-    $t3=explode("<",$t2[2]);
-  	$title=trim($t3[0]);
+    //echo $t[1];
+    //$t2=explode(">",$t[1]);
+    //$t3=explode("<",$t2[2]);
+  	//$title=trim($t3[0]);
+  	$title=str_between($video,'class="title">',"<");
 
   	$link=$host."/scripts/adult/php/alotporn.php?query=1,".$link;
   	echo '
