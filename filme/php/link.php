@@ -1584,12 +1584,23 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
 } elseif (strpos($filelink,"ok.ru") !==false) {
   $filelink=str_replace("video/","videoembed/",$filelink);
   $h1=file_get_contents($filelink);
+  //echo $h1;
   $id=str_between($h1,'data-player-id="embed_video_','"');
   $l="http://ok.ru/dk?cmd=videoPlayerMetadata&mid=".$id;
+  //echo $l;
   $h2=file_get_contents($l);
-  $p=json_decode($h2,1);
-  $link=$p["videos"][4]["url"];
-  if (!$link) $link= $p["videos"][3]["url"];
+  //echo $h2;
+  //die();
+  //http://217.20.145.42/?id=21387938310&expires=1423386297139&type=3&ct=0&sig=5d077c4020b136ce976f17801862b10848b0ba68&clientType=0
+  //$p=json_decode($h2);
+  $link=str_between($h2,'hd","url":"','"');
+  if (!$link) $link=str_between($h2,'sd","url":"','"');
+  if (!$link) $link=str_between($h2,'"low","url":"','"');
+
+  //echo $l1;
+  //$link=$p["videos"][4]["url"];
+  //die();
+  $link=str_replace("\u0026","&",$link);
 } elseif (strpos($filelink,"upafile.com") !==false) {
   $h=file_get_contents($filelink);
   $link=unpack_DivXBrowserPlugin(1,$h,false);

@@ -358,73 +358,30 @@ function xml_fix($string) {
 
 
 
-$html=str_replace("premiumBackground","itemBackground",$html);
-$html=str_replace("premiumThumb","itemsThumb",$html);
-
-$html=str_replace("floatL trailerHref","itemBackground",$html);
-$html=str_replace("trailerItem","itemsThumb",$html);
-$html=str_replace('title="','><>',$html);
-$html=str_replace('" data-trailer-Id="','<',$html);
-$html=str_replace('class="trailerDiv','a class="floatL',$html);
-
-$html=str_replace('class="tvSpan','class="itemBackground',$html);
-$html=str_replace("canaletvThumb","itemsThumb",$html);
-$html=str_replace('floatL ccsSprites canaletvRightArrow','class="floatL ccsSprites RightArrow',$html);
-
-$html=str_replace('radioA','class="itemBackground',$html);
-$html=str_replace("radioThumb","itemsThumb",$html);
-$html=str_replace('" rel="','<',$html);
-$html=str_replace('floatL ccsSprites radioRight','class="floatL ccsSprites RightArrow',$html);
-
-
-$h_var1= str_between($html,'class="floatL itemsThumb">','class="floatL ccsSprites RightArrow');
-if ($h_var1)
-  $html=$h_var1;
-else {
-  $html=str_between($html,'list: [',']');
-  $html=xml_fix($html);
-}
-if ($h_var1)
- $videos = explode('a class="floatL', $html);
-else
- $videos=explode('item_id":',$html);
+$html=str_between($html,'list: ',']}],').']}]';
+$html=xml_fix($html);
+//echo $html;
+$videos=explode('"id":',$html);
 unset($videos[0]);
 $videos = array_values($videos);
 
 foreach($videos as $video) {
- if ($h_var1) {
-  $t1=explode('href="',$video);
-  $t2=explode('"',$t1[1]);
-  $l=$t2[0];
-  $rest = substr($l, 0, -2);
-  $id = substr(strrchr($rest, "-"), 1);
-  if (strpos($video,'idpl') !== false)
-	$id = str_between($video,'id="idpl','"');
-//  if (strpos($video,' data-id') !== false)
-//	$id = str_between($video,' data-id="','"');
-
-  $t1=explode('src="',$video);
-  $t2=explode('"',$t1[1]);
-  $image=$t2[0];
-
-  $t1=explode('class="itemBackground',$video);
-  $t2=explode(">",$t1[1]);
-  $t3=explode("<",$t2[2]);
-  $title=$t3[0];
-} else {
   $t1=explode('url":"',$video);
-  $t2=explode('"',$t1[1]);
-  $t3=$t2[0];
-  $t4=explode("#",$t3);
-  $l=$t4[0];
-  $rest = substr($l, 0, -2);
-  $id = substr(strrchr($rest, "-"), 1);
+if ( sizeof($t1)>1) {
+  $t2=explode(',',$video);
+  //$t3=$t2[1];
+  //$t4=explode(",",$t3);
+  //$l=$t4[0];
+  //$rest = substr($l, 0, -2);
+  //$id = substr(strrchr($rest, "-"), 1);
+  $id = $t2[0];
   if (strpos($video,'idpl') !== false)
 	$id = str_between($video,'id="idpl','"');
 //  if (strpos($video,' data-id') !== false)
 //	$id = str_between($video,' data-id="','"');
 
   $t1=explode('thumbnail_path":"',$video);
+if ( sizeof($t1)>1) {
   $t2=explode('"',$t1[1]);
   $image=$t2[0];
 
@@ -433,16 +390,57 @@ foreach($videos as $video) {
   $t3=explode('"',$t1[1]);
   $title=$t3[0];
   $title=str_replace('"','',$title);
+
+  $t1=explode('item_type":"',$video);
+  //$t2=explode(">",$t1[1]);
+  $t3=explode('"',$t1[1]);
+  $type=$t3[0];
+}
 }
   $rest = substr($search1, 0, -8);
   $pg_id = substr(strrchr($rest, "-"), 1);
   if (! is_numeric($id) ) {
+  if (is_numeric($pg_id) ) {
   $l="http://www.seenow.ro/smarttv/placeholder/list/id/".$pg_id."/start/0/limit/999";
   $h=file_get_contents($l);
   $p=json_decode($h,1);
-
+  //print_r ($p);
   $items=$p['items'];
   $items = array_values($items);
+
+// abonament 62, 5514 -->> tv-60
+  if ($pg_id == 60) {
+  $videos_arr = $items;
+  $l="http://www.seenow.ro/smarttv/placeholder/list/id/62/start/0/limit/999";
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch,CURLOPT_REFERER,"http://www.seenow.ro/");
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:14.0) Gecko/20100101 Firefox/14.0.1');
+  $h=curl_exec($ch);
+  curl_close($ch);
+
+$p=json_decode($h,1);
+$items=$p['items'];
+$items = array_values($items);
+$videos_arr = array_merge($videos_arr,$items);
+
+$l="http://www.seenow.ro/smarttv/placeholder/list/id/5514/start/0/limit/999";
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch,CURLOPT_REFERER,"http://www.seenow.ro/");
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:14.0) Gecko/20100101 Firefox/14.0.1');
+  $h=curl_exec($ch);
+  curl_close($ch);
+
+$p=json_decode($h,1);
+$items=$p['items'];
+$items = array_values($items);
+$videos_arr = array_merge($videos_arr,$items);
+$items = $videos_arr;
+}
+
   $h=search_arr($items, 'thumbnail', $image);
   if ($h) {
 		$id="";
@@ -457,19 +455,19 @@ foreach($videos as $video) {
 			$t2=explode('=',$t1);
 			$id=$t2[sizeof($t2)-1];
 		}
+	}
   }
 }
-  if (! is_numeric($id) ) {
-    if ($h_var1)
-    $t0 = explode('href="',$video);
-    else
+  if (! is_numeric($id) || $type=='placeholder') {
     $t0 = explode('url":"',$video);
     $t1 = explode('"', $t0[1]);
     $l = "http://www.seenow.ro".$t1[0];
-    $link = substr($l, 0, -1);
-	$rest = substr($l, 0, -2);
-	$id = substr(strrchr($rest, "-"), 1);
-	$link=$host."/scripts/tv/php/seenow_e.php?query=1,".urlencode($link).",".urlencode($title);
+    $t2 =  explode('-', $t1[0]);
+    // $link = substr($l, 0, -1);
+	// $rest = substr($l, 0, -2);
+	// $id = substr(strrchr($rest, "-"), 1);
+	$id = $t2[(sizeof($t2)-1)];
+	$link=$host."/scripts/tv/php/seenow_e.php?query=1,".urlencode($l)."-pagina-,".urlencode($title);
 	echo '
 	<item>
 	<title>'.$title.'</title>

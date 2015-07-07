@@ -395,20 +395,30 @@ if (strpos($filelink,"filmeonlinesubtitrate") !== false) {
   $i1=str_between($html1,"js_content.php","'");
   $filelink="http://filmehd.net/js_content.php".$i1;
   $html=file_get_contents($filelink);
+  //echo $html;
   $f=explode("return p}",$html);
   $e=explode("'.split",$f[1]);
   $ls=$e[0];
+  //echo $ls;
   $t1=explode("||",$ls);
+  if ($t1[2])
+  $t2=$t1[2];
+  else
   $t2=$t1[1];
+
+  //echo $t2;
+  //$t2=$ls;
   if (strpos($t2,"ok") !== false) {
   //echo $t2;
   preg_match_all("/\d+/",$t2,$m);
   //print_r ($m);
+  if (strlen($m[0][2])< 14)
   $id=$m[0][2];
+  else
+  $id=$m[0][3];
   //echo $id;
   $html=' "http://ok.ru/videoembed/'.$id.'" '.$html;
-  //echo $html;
-  }
+}
 } elseif (strpos($filelink,"fsplay.net") !== false) {
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $filelink);
@@ -521,7 +531,8 @@ $s=$s."|indavideo\.hu|redfly\.us|videa\.hu|videakid\.hu|mooshare\.biz|streamin\.
 for ($i=0;$i<count($links);$i++) {
   if (strpos($links[$i],"http") !== false) {
     $t1=explode("http:",$links[$i]);
-    $cur_link="http:".$t1[1];
+    $p=count($t1);
+    $cur_link="http:".$t1[$p-1];
   } else {
   $cur_link="http:".$links[$i];
   }
