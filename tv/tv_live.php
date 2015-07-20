@@ -195,13 +195,14 @@ ret;
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
-
+<!--
 <item>
 <title>Seenow TV (Abonament)</title>
 <link><?php echo $host; ?>/scripts/tv/php/seenow_e.php?query=1,http://www.seenow.ro/tv-60-pagina-,Seenow+TV+(abonament)</link>
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
+-->
 <!--
 <item>
 <title>Filmbox TV (Abonament)</title>
@@ -327,7 +328,7 @@ else
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
-
+<!--
 <?php
 error_reporting(0);
 $f="/usr/local/etc/dvdplayer/seenow_p.txt";
@@ -342,6 +343,7 @@ echo '
 ';
 }
 ?>
+-->
 <item>
 <title>TV Live - Muzică</title>
 <link><?php echo $host; ?>/scripts/tv/music_tv.php</link>
@@ -457,14 +459,14 @@ echo '
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
-
+<!--
 <item>
 <title>TV Live - Vietnam (vtc.com.vn)</title>
 <link><?php echo $host; ?>/scripts/tv/vtc.php</link>
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <!--
 <item>
 <title>mozhay TV (Russian) - press Audio to change channel</title>

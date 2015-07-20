@@ -17,14 +17,16 @@ if (file_exists("/data"))
   $cookie1= "/data/spice1.txt";
 else
   $cookie1="/usr/local/etc/spice1.txt";
-if (file_exists($cookie1)) {
+
+/* if (file_exists($cookie1)) {
   $handle = fopen($cookie1, "r");
   $c = fread($handle, filesize($cookie1));
   fclose($handle);
   $fh = fopen($cookie, 'w');
   fwrite($fh, $c);
   fclose($fh);
-}
+} */
+
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $link);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -36,12 +38,39 @@ if (file_exists($cookie1)) {
   $h = curl_exec($ch);
   curl_close($ch);
 
-  $handle = fopen($cookie, "r");
+/*  $handle = fopen($cookie, "r");
   $c = fread($handle, filesize($cookie));
   fclose($handle);
   $fh = fopen($cookie1, 'w');
   fwrite($fh, $c);
-  fclose($fh);
+  fclose($fh); */
+
+if (file_exists($cookie)) {
+  $handle = fopen($cookie, "r");
+  $c = fread($handle, filesize($cookie));
+  fclose($handle);
+	if (strpos($c,"stvDevice") !== false) {
+		$lines = explode(PHP_EOL, $c);
+		$fh = fopen($cookie1, 'w');
+		foreach($lines as $line)
+			if (strpos($line,"stvDevice") !== false) 
+				fwrite($fh, $line."\n");
+		fclose($fh);
+	} elseif (file_exists($cookie1)) {
+		$handle = fopen($cookie, "r");
+		$c = fread($handle, filesize($cookie));
+		fclose($handle);
+	if (strpos($c,"stvDevice") === false) {
+		$fh = fopen($cookie1, "r");
+		$d = fread($fh, filesize($cookie1));
+		fclose($fh);
+		$handle = fopen($cookie, "a");
+		fwrite($handle, $d."\n");
+		fclose($handle);
+
+	}
+  }
+}
 
 $rtmp=str_between($h,"var stvLiveStreamer='","'");
 $str=str_between($h,"var stvLiveChannel='","'");

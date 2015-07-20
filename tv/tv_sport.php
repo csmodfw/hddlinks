@@ -271,7 +271,7 @@ columnCount=5
 <annotation>Stiri si informatii de ultima ora din sport, interviuri si comentarii la cald din fotbalul de pretutindeni. Meciurile live din Europa League si Cupa Romaniei se vad doar pe www.sport.ro</annotation>
 </item>
 
-
+<!--
 	<item>
 	<title>Koolnet (abonament)</title>
 	<link><?php echo $host; ?>/scripts/tv/php/seenow_e.php?query=1,http://www.seenow.ro/ro/koolnet-5514-pagina-,Koolnet</link>
@@ -287,6 +287,7 @@ columnCount=5
 	<image>/usr/local/etc/www/cgi-bin/scripts/tv/image/cupa.png</image>
 	<mediaDisplay name="threePartsView"/>
 	</item>
+-->
 <!--
 <item>
 <title>Liga2.ro</title>
@@ -403,6 +404,7 @@ columnCount=5
 <annotation>Site-ul oficial al echipei Dinamo Bucuresti. Include stiri, informatii, magazin virtual, fotografii, imnul Cainilor Rosii.</annotation>
 </item>
 -->
+<!--
 <item>
 <title>CFR Cluj</title>
 <link><?php echo $host; ?>/scripts/tv/sport/cfr_cluj.php</link>
@@ -411,6 +413,7 @@ columnCount=5
 <location>http://www.cfr1907.ro/ro/multimedia/video/</location>
 <annotation>CFR Cluj este un club de fotbal din Romá­©a, í­¦iintat í¬ anul 1907 í¬ orasul Cluj</annotation>
 </item>
+-->
 <!--
 <item>
 <title>sportitalia</title>
@@ -421,6 +424,7 @@ columnCount=5
 <annotation></annotation>
 </item>
 -->
+<!--
 <item>
 <title>Bing</title>
 <link><?php echo $host; ?>/scripts/tv/bing_sport.php</link>
@@ -429,7 +433,7 @@ columnCount=5
 <location>http://www.bing.com/</location>
 <annotation>FOX Soccer Channel, NBA, NHL, NFL, MLB, College Football, College Basketball</annotation>
 </item>
-
+-->
 <item>
 <title>NBA</title>
 <link><?php echo $host; ?>/scripts/php1/youtube_user.php?query=1,nba</link>

@@ -70,4 +70,5 @@ function fix_s($s) {
 }
 $check="http://hddlinks.p.ht/c.php?";
 $check="http://hddlinks.pht.ro/c.php?";
+$check="http://hdforall.freehostia.com/c.php?"
 ?>

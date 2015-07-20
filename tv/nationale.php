@@ -345,7 +345,7 @@ columnCount=5
 <location>http://tvrplus.ro</location>
 <annotation>Starea Natiei - TVR Plus</annotation>
 </item>
-
+<!--
 <item>
 <title>National 24 Plus</title>
 <link><?php echo $host; ?>/scripts/tv/php/n24.php?query=1,</link>
@@ -354,6 +354,7 @@ columnCount=5
 <location>http://www.n24plus.ro/</location>
 <annotation>National TV - mai ceva ca-n viata!</annotation>
 </item>
+-->
 <!--
 <item>
 <title>Naţional TV</title>
@@ -372,6 +373,7 @@ columnCount=5
 <location>http://www.protv.ro/</location>
 <annotation>Vezi aici emisiuni inregistrate ale postului TV ProTV</annotation>
 </item>
+<!--
 <item>
 <title>Naţional TV</title>
 <link><?php echo $host; ?>/scripts/php1/youtube_user.php?query=1,nationaltvro</link>
@@ -380,7 +382,7 @@ columnCount=5
 <location>http://www.nationaltv.ro/</location>
 <annotation>Naţional 24 Plus : filmele româneşti, emisiunile şi serialele tale preferate</annotation>
 </item>
-
+-->
 
 <item>
 <title>RealitateaTV</title>

@@ -14,14 +14,14 @@ if (file_exists("/data"))
 else
   $cookie1="/usr/local/etc/spice1.txt";
 
-if (file_exists($cookie1) && !file_exists($cookie)) {
+/* if (file_exists($cookie1) && !file_exists($cookie)) {
   $handle = fopen($cookie1, "r");
   $c = fread($handle, filesize($cookie1));
   fclose($handle);
   $fh = fopen($cookie, 'w');
   fwrite($fh, $c);
   fclose($fh);
-}
+} */
 
 if (file_exists($filename)) {
   $handle = fopen($filename, "r");
@@ -59,6 +59,34 @@ if (!file_exists($cookie)) {
   fclose($fh);
 }
 }
+
+if (file_exists($cookie)) {
+  $handle = fopen($cookie, "r");
+  $c = fread($handle, filesize($cookie));
+  fclose($handle);
+	if (strpos($c,"stvDevice") !== false) {
+		$lines = explode(PHP_EOL, $c);
+		$fh = fopen($cookie1, 'w');
+		foreach($lines as $line)
+			if (strpos($line,"stvDevice") !== false) 
+				fwrite($fh, $line."\n");
+		fclose($fh);
+	} elseif (file_exists($cookie1)) {
+		$handle = fopen($cookie, "r");
+		$c = fread($handle, filesize($cookie));
+		fclose($handle);
+	if (strpos($c,"stvDevice") === false) {
+		$fh = fopen($cookie1, "r");
+		$d = fread($fh, filesize($cookie1));
+		fclose($fh);
+		$handle = fopen($cookie, "a");
+		fwrite($handle, $d."\n");
+		fclose($handle);
+
+	}
+  }
+}
+
   $link="http://www.spicetvbox.ro/live";
   $handle = fopen($cookie, "r");
   $c = fread($handle, filesize($cookie));
@@ -333,7 +361,12 @@ foreach($videos as $video) {
    $t2=explode('"',$t1[1]);
    $link=$t2[0];
    
-   $title=str_between($video,'<strong>','</strong>');
+   $t1=explode('title="',$video);
+   $t2=explode('"',$t1[1]);
+   $title=$t2[0];
+
+//   $title=str_between($video,'<strong>','</strong>');
+
 	$id_prog="";
 	$id_prog=str_replace("+","plus",$title);
 	$id_prog=strtolower(str_replace(" ","-",$id_prog));

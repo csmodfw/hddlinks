@@ -240,12 +240,15 @@ ret;
 <annotation>http://vplus.ro/movies/</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
+<!--
 <item>
 <title>Seenow avantaj (abonament)</title>
 <link><?php echo $host; ?>/scripts/tv/php/seenow_e.php?query=1,http://www.seenow.ro/ro/avantaj-61-pagina-,Seenow+Avantaj</link>
 <annotation>http://seenow.ro</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
+-->
+<!--
 <?php
 $f="/usr/local/etc/dvdplayer/seenow_p.txt";
 if (file_exists($f)) {
@@ -259,6 +262,7 @@ echo '
 ';
 }
 ?>
+-->
 <!--
 <item>
 <title>inviatapenet</title>
@@ -327,13 +331,14 @@ echo '
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
+<!--
 <item>
 <title>onlinehd</title>
 <link><?php echo $host; ?>/scripts/filme/php/onlinehd_main.php</link>
 <annotation>http://www.onlinehd.info</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 
 <item>
 <title>seriale.filmesubtitrate</title>
@@ -348,7 +353,7 @@ echo '
 <annotation>http://www.990.ro</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+<!--
 <item>
 <title>radioarad</title>
 <link><?php echo $host; ?>/scripts/filme/php/radioarad_main.php</link>
@@ -362,7 +367,7 @@ echo '
 <annotation>http://www.filmeonline.cc</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <item>
 <title>voxfilmeonline</title>
 <link><?php echo $host; ?>/scripts/filme/php/voxfilmeonline_main.php</link>
@@ -387,13 +392,14 @@ echo '
 </item>
 -->
 
-
+<!--
 <item>
 <title>filmeonline</title>
 <link><?php echo $host; ?>/scripts/filme/php/filmeonline_main.php</link>
 <annotation>http://www.filmeonline.org</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
+-->
 <!--
 <item>
 <title>frapex</title>
@@ -423,14 +429,14 @@ echo '
 <annotation>http://www.filme-bune.net/</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+<!--
 <item>
 <title>cr3ative-zone</title>
 <link><?php echo $host; ?>/scripts/filme/php/cr3ative-zone_main.php</link>
 <annotation>http://cr3ative-zone.ucoz.ro</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <!--
 <item>
 <title>peţeavă</title>
@@ -551,14 +557,14 @@ echo '
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
-
+<!--
 <item>
 <title>documentare.digitalarena - filme şi seriale documentare</title>
 <link><?php echo $host; ?>/scripts/filme/php/digitalarena_main.php</link>
 <annotation>http://documentare.digitalarena.ro</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <!--
 <item>
 <title>filmedocumentare - filme şi seriale documentare</title>
@@ -589,6 +595,7 @@ echo '
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
+<!--
 <item>
 <title>onlinefilmletoltes.eu (in lb. maghiara)</title>
 <link><?php echo $host; ?>/scripts/filme/php/onlinefilmletoltes_main.php</link>
@@ -609,15 +616,15 @@ echo '
 <annotation>http://www.moovie.cc</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
-
+-->
+<!--
 <item>
 <title>cartelmovies</title>
 <link><?php echo $host; ?>/scripts/filme/php/cartel_main.php</link>
 <annotation>http://www.cartelmovies.net</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 
 
 </channel>

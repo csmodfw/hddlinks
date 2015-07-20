@@ -3,4 +3,4 @@ cat <<EOF
 Content-type: video/mp4
 
 EOF
-exec /usr/local/etc/www/cgi-bin/scripts/rtmpdump -b 60000 -q -v -p "http://www.filmon.com" -W "http://www.filmon.com/tv/modules/FilmOnTV/files/flashapp/filmon/FilmonPlayer.swf" -r "rtmp://live304.edge.filmon.com/live/" -a "live/?id=0ad5aac39bb13fbe85e2e6bd9f392619e83ef0d85b5830d93ecf25130680a97bc530e686d158cf4d362d9f148356beed2a40126497741c7a04b08a1ab1038639f6fdb47680ebdf0a307f59be91f99baef4da38138a1bc12128e026fad6d186c97b59175da3a50aad3d01394822098aed36efb6f8a8a255fb4609f0f3eaf69e4a446d296cdf496ab77be9047618fa3295d1a8f1378ba4a45c" -y "65.low.stream"
+exec /usr/local/etc/www/cgi-bin/scripts/rtmpdump -b 60000 -q -v -p "http://www.filmon.com" -W "http://www.filmon.com/tv/modules/FilmOnTV/files/flashapp/filmon/FilmonPlayer.swf" -r "http://live303.edge.filmon.com/live/" -a "live/22.low.stream/playlist.m3u8?id=0ad5aac39bb13fbe5bd7244d49eee7ac911466a0b7f0c20f9383566afcfc8ee2edf5a236929e14668d0896e1b1de6402d90b8ac4bd18ae9f120e4cb2410446199bcd3253bdc0fe62b75cc64f903c384f6d3bb73bd7c2a7232fd353354f1910ef5a68bf4fae33ef15b9de22b8b683df7c2be99798cf15281cafa95987f370e431e72e2dfea720933e16f26a4fb04e61356919958592bf0c16" -y "SD"

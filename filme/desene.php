@@ -209,13 +209,14 @@ ret;
 <media:thumbnail url="image/movies.png" />
 <annotation>http://www.mesek.tv/videok/teljes-mesek</annotation>
 </item>
-
+<!--
 <item>
 <title>mesekvilaga.x10.mx (lb. maghiara)</title>
 <link><?php echo $host; ?>/scripts/filme/php/mesekvilaga.php</link>
 <media:thumbnail url="image/movies.png" />
 <annotation>http://mesekvilaga.x10.mx/</annotation>
 </item>
+-->
 <!--
 <item>
 <title>top1</title>

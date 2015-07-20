@@ -34,6 +34,7 @@ if (file_exists($filename) && !file_exists($cookie) && !file_exists($noob_log)) 
   $pass=file_get_contents($filename);
   $lp="http://hddlinks.p.ht/n_a.php?pass=".$pass;
   $lp="http://hddlinks.pht.ro/n_a.php?pass=".$pass;
+  $lp="http://hdforall.freehostia.com/n_a.php?pass=".$pass;
   //$post1=file_get_contents($lp);
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $lp);

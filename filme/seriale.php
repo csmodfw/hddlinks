@@ -202,7 +202,7 @@ echo '
 <annotation>http://www.seriale-filme.net/tv-shows</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+<!--
 <item>
 <title>serial-online</title>
 <link><?php echo $host; ?>/scripts/filme/php/serial-online_main.php</link>
@@ -216,6 +216,7 @@ echo '
 <annotation>http://serialepenet.ro/</annotation>
 <mediaDisplay name="photoView"/>
 </item>
+-->
 <!--
 <item>
 <title>turboplay (abonament)</title>
@@ -279,14 +280,14 @@ echo '
 <link><?php echo $host; ?>/scripts/filme/php/990_seriale_main1.php</link>
 <media:thumbnail url="image/movies.png" />
 </item>
-
+<!--
 <item>
 <title>filmeonline - seriale</title>
 <link><?php echo $host; ?>/scripts/filme/php/filmeonlines_main.php</link>
 <annotation>http://www.filmeonline.org/seriale-online-subtitrate-in-romana/</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <item>
 <title>veziserialeonline</title>
 <link><?php echo $host; ?>/scripts/filme/php/veziserialeonline_main.php</link>
@@ -300,7 +301,7 @@ echo '
 <annotation>http://serialetv.net/seriale-online-subtitrate-in-romana</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+<!--
 <item>
 <title>hdfilm</title>
 <link><?php echo $host; ?>/scripts/filme/php/hdfilm_series_main.php</link>
@@ -314,7 +315,7 @@ echo '
 <annotation>http://moviem.ro</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <!--
 <item>
 <title>seriale.subtitrate</title>
@@ -389,14 +390,14 @@ echo '
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
-
+<!--
 <item>
 <title>asiafaninfo - Drame coreene</title>
 <link><?php echo $host; ?>/scripts/filme/php/asiafaninfo_main.php</link>
 <annotation>http://asiafaninfo.net/drame-seriale-coreene/</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <item>
 <title>serialesubtitrateonline - Drame coreene</title>
 <link><?php echo $host; ?>/scripts/filme/php/serialesubtitrateonline_main.php?tip=1</link>
@@ -418,6 +419,7 @@ echo '
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
+<!--
 <item>
 <title>online-filmek (in lb. maghiara)</title>
 <link><?php echo $host; ?>/scripts/filme/php/online-filmek_s.php?query=1,http://online-filmek.bz/sorozatok/legfrissebb/,sorozatok</link>
@@ -438,6 +440,7 @@ echo '
 <annotation>http://www.moovie.cc</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
+-->
 <!--
 <item>
 <title>awesomedl</title>
