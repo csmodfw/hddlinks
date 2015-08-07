@@ -1,36 +1,23 @@
 #!/usr/local/bin/Resource/www/cgi-bin/php
 <?php
+include ("y.php");
 ############################################################################
 # Copyright: ©2011, ©2012 wencaS <wenca.S@seznam.cz>
 # This file is part of xListPlay.
 # licence GNU GPL v2
 ############################################################################
-
-function s_dec($s) {
-/*
-	By: Nick A. Gaun
-	Sekator500 <sekator500@gmail.com>
-*/
-
-	$sA = str_split($s);
-	$sA = array_reverse($sA);
-	$sA = array_slice($sA,3);
-	$tS = $sA[0];
-	$sA[0] = $sA[19 % count($sA)];
-	$sA[19] = $tS;
-	$sA = array_reverse($sA);
-	$sA = array_slice($sA,2);
-
-	return implode($sA);
-}	
-
+function str_between($string, $start, $end){
+	$string = " ".$string; $ini = strpos($string,$start);
+	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini;
+	return substr($string,$ini,$len);
+}
 $a_itags=array(37,22,18);
 
 $file=$_GET["file"];
 for ($k=0;$k<2;$k++) {
 if(preg_match('/youtube\.com\/(v\/|watch\?v=|embed\/)([\w\-]+)/', $file, $match)) {
   $id = $match[2];
-  $l = 'http://www.youtube.com/get_video_info?&video_id=' . $id . '&el=leanback&ps=xl&eurl=https://s.ytimg.com/yts/swfbin/apiplayer-vflhRmAoN.swf&hl=en_US&sts=1588';
+  $l = "https://www.youtube.com/watch?v=".$id;
   //$html   = file_get_contents($link);
   $html="";
   $p=0;
@@ -40,13 +27,15 @@ if(preg_match('/youtube\.com\/(v\/|watch\?v=|embed\/)([\w\-]+)/', $file, $match)
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $html = curl_exec($ch);
   curl_close($ch);
   $p++;
   }
   //echo $html;
-  parse_str($html,$parts);
-  $videos = explode(',',$parts['url_encoded_fmt_stream_map']); 
+  $html = str_between($html,'ytplayer.config = ',';ytplayer.load');
+  $parts = json_decode($html,1);
+  $videos = explode(',', $parts['args']['url_encoded_fmt_stream_map']);
 foreach ($videos as $video) {
 		parse_str($video, $output);
 		if (in_array($output['itag'], $a_itags)) break;
@@ -77,9 +66,10 @@ foreach ($videos as $video) {
       $ch = curl_init();
       curl_setopt($ch, CURLOPT_URL, $link);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-      curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+      curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
       curl_setopt($ch, CURLOPT_HEADER, 1);
       curl_setopt($ch, CURLOPT_NOBODY, 1);
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
       $h1 = curl_exec($ch);
       curl_close($ch);
       //echo $h1;
@@ -93,7 +83,7 @@ cat <<EOF
 Content-type: video/mp4
 
 EOF
-exec /opt/bin/curl -s "'.$link.'"';
+exec /usr/local/bin/Resource/www/cgi-bin/scripts/curl -s -A "Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0" "'.$link.'"';
 $fp = fopen('/usr/local/etc/www/cgi-bin/scripts/util/m.cgi', 'w');
 fwrite($fp, $out);
 fclose($fp);
@@ -101,7 +91,7 @@ exec("chmod +x /usr/local/etc/www/cgi-bin/scripts/util/m.cgi");
 sleep (1);
 $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
 //$link="http://127.0.0.1/cgi-bin/scripts/util/curl.cgi?".$link;
-//$link="http://127.0.0.1/cgi-bin/translate?stream,,".$link;
+//$link="http://127.0.0.1/cgi-bin/scripts/util/translate.cgi?stream,,".$link;
 //}
 print $link;
 }

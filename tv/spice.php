@@ -9,6 +9,7 @@ function str_between($string, $start, $end){
 $filename = "/usr/local/etc/dvdplayer/spice.txt";
 $cookie="D://spice.txt";
 $cookie="/tmp/spice1.txt";
+$site="http://www.spicetvbox.eu";
 if (file_exists("/data"))
   $cookie1= "/data/spice1.txt";
 else
@@ -33,7 +34,7 @@ if (file_exists($filename)) {
   $user=str_replace("@","%40",$user);
   $pass=trim($a[1]);
 if (!file_exists($cookie)) {
-  $l="http://www.spicetvbox.ro/user/login";
+  $l="http://www.spicetvbox.eu/user/login";
 
 
   $post="goto=&user=".$user."&pass=".$pass;
@@ -51,12 +52,12 @@ if (!file_exists($cookie)) {
   $html = curl_exec($ch);
   curl_close($ch);
 
-  $handle = fopen($cookie, "r");
+/*  $handle = fopen($cookie, "r");
   $c = fread($handle, filesize($cookie));
   fclose($handle);
   $fh = fopen($cookie1, 'w');
   fwrite($fh, $c);
-  fclose($fh);
+  fclose($fh);*/
 }
 }
 
@@ -87,7 +88,7 @@ if (file_exists($cookie)) {
   }
 }
 
-  $link="http://www.spicetvbox.ro/live";
+  $link="http://www.spicetvbox.eu/live";
   $handle = fopen($cookie, "r");
   $c = fread($handle, filesize($cookie));
   fclose($handle);

@@ -620,7 +620,7 @@ if ((strpos($filelink,"vidxden") !==false) || (strpos($filelink,"divxden") !==fa
     //$link="http://127.0.0.1/cgi-bin/scripts/util/mozhay.cgi?id=".$id.";token=".$token;
   }
 } elseif (strpos($filelink,'vimeo.com') !==false){
-  //http://player.vimeo.com/video/16275866
+  //http://player.vimeo.com/video/131376602
   ///cgi-bin/translate?info,,http://vimeo.com/16275866
   if (strpos($filelink,"player.vimeo.com") !==false) {
      $t1=explode("?",$filelink);
@@ -632,7 +632,8 @@ if ((strpos($filelink,"vidxden") !==false) || (strpos($filelink,"divxden") !==fa
      $id=$t1[3];
   }
   $cookie="/tmp/cookie.txt";
-  $l="https://vimeo.com/".$id;
+  $l="https://player.vimeo.com/video/".$id;
+  //echo $l;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -643,6 +644,9 @@ if ((strpos($filelink,"vidxden") !==false) || (strpos($filelink,"divxden") !==fa
   curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $html = curl_exec($ch);
   curl_close($ch);
+  $link=str_between($html,'"url":"','"');
+  $link=str_replace("https","http",$link);
+  /*
   $l1=str_between($html,'data-config-url="','"');
   $l1=str_replace("&amp;","&",$l1);
   $l1=str_replace("https","http",$l1);
@@ -662,6 +666,7 @@ if ((strpos($filelink,"vidxden") !==false) || (strpos($filelink,"divxden") !==fa
     $t1=explode('sd":',$h1);
     $link=str_between($t1[1],'url":"','"');
   }
+  */
 /*
   $l1="http://player.vimeo.com/config/".$id."?type=moogaloop&referrer=vimeo.com&cdn_server=a.vimeocdn.com&player_server=player.vimeo.com&clip_id=".$id;
   $ch = curl_init();

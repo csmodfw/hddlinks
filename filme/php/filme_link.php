@@ -587,7 +587,7 @@ for ($i=0;$i<count($links);$i++) {
           preg_match('/(viki\.com\/player\/medias\/)([\w\-]+)/', $cur_link, $match);
           $viki_id = $match[2];
         }
-        if (strpos($cur_link,"roshare.info") !==false || strpos($cur_link,"rosharing.com") !==false) {
+        if (strpos($cur_link,"roshare.info") !==false || strpos($cur_link,"rosharing.com") !==false || strpos($cur_link,"rosharing.net") !==false) {
           $mysrt_roshare="asasas";
         }
         if ((strpos($cur_link, 'fastupload.rol.ro') !== false)  || (strpos($cur_link, 'fastupload.ro') !== false) || (strpos($cur_link, 'superweb') !==false)) {

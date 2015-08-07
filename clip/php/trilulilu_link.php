@@ -9,6 +9,7 @@ function str_between($string, $start, $end){
 $link = $_GET["file"];
 //http://fs69.trilulilu.ro/stream.php?type=video&source=site&hash=0e5a2288cca024&username=alonewolf&key=ministhebest&format=flv-vp6&start=
 $h = file_get_contents($link);
+/*
 $userid = str_between($h, 'userid":"', '"');
 $hash = str_between($h, 'hash":"', '"');
 $server = str_between($h, 'server":"', '"');
@@ -26,5 +27,7 @@ if (!preg_match("|200|", $AgetHeaders[0])) {
      }
    }
 }
+*/
+$link= str_between($h,'file: "','"');
 print $link;
 ?>
