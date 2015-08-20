@@ -43,11 +43,12 @@ function _slice($a,$b) {
   curl_close($ch);
   $tS = explode('&&',$html);
   foreach($tS as $a) {
-  if (strpos($a,'"/signature/"') !== false) {
-	$fcd = str_between($html,'hqdefault.jpg")};',')};').')};';
-	$t1 = explode('};',$fcd);
-	$t2 = explode('}',$t1[0]);
-	$t3 = explode(';',$t1[1]);
+  if (strpos($a,'function(a,b){a.splice(0,b)}') !== false) {
+	//$fcd = str_between($html,'hqdefault.jpg")};',')};').')};';
+	$t1 = explode('};',$a);
+	$t2 = explode('={',$t1[2]);
+	$t2 = explode('},',$t2[1]);
+	$t3 = explode(';',$t1[3]);
   }
   }
 $t4 = '<?php'."\n".'function s_dec($s) { '."\n";
