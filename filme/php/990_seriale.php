@@ -206,9 +206,11 @@ foreach($videos as $video) {
     $t4 = explode("<",$t3[1]);
     $title1 = trim($t4[0]);
     //$link = str_replace("download","sfast",$link);
+    /*
     $link = str_replace("seriale2","player-serial",$link);
     $t1=explode("-",$link);
     $link=$t1[0]."-".$t1[1]."-".$t1[2]."-".$t1[3]."-sfast.html";
+    */
     //$link = str_replace(",","*",$link);
     //http://www.990.ro/player-seriale-88-7216-Stargate-Atlantis-Poarta-stelara-Atlantis-online-Rising-.html
     //http://www.990.ro/player-seriale-redirect-serial.php?id=88&idul=7216&v=1

@@ -376,6 +376,22 @@ if (strpos($filelink,"filmeonlinesubtitrate") !== false) {
     //$link1 = str_replace("download","",$filelink);
     //$link1 = str_replace("seriale2","player-seriale",$link1);
   $link1=$filelink;
+    if (strpos($filelink,"seriale") !== false) {
+    //$link1 = str_replace("seriale2","player-serial",$link1);
+      $ch = curl_init($link1);
+      curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+      curl_setopt($ch,CURLOPT_REFERER,$filelink);
+      //curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+      $html11 = curl_exec($ch);
+      curl_close ($ch);
+      $t1=explode("player-serial",$html11);
+      $t2=explode("'",$t1[1]);
+      $link1="http://www.990.ro/player-serial".$t2[0];
+//echo $link1;
+//http://www.990.ro/player-serial-224607-28309-sfast-26051.html
+//http://www.990.ro/player-serial-224607-28309-sfast.html
+  }
   $ch = curl_init($link1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch,CURLOPT_REFERER,$filelink);

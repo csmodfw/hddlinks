@@ -1593,19 +1593,46 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
   $id=str_between($h1,'data-player-id="embed_video_','"');
   $l="http://ok.ru/dk?cmd=videoPlayerMetadata&mid=".$id;
   //echo $l;
-  $h2=file_get_contents($l);
+  //http://ok.ru/dk?cmd=videoPlayerMetadata&mid=36511091433
+
+  //$h2=file_get_contents($l);
+  $ch = curl_init($l);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch,CURLOPT_REFERER,$filelink);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+  $h2 = curl_exec($ch);
+  curl_close ($ch);
+  
   //echo $h2;
   //die();
+  //http://217.20.153.81/?sig=7348d405f2a2c874e46925c318ad51a82e99d9d1&ct=4&urls=217.20.145.40;217.20.157.207&expires=1441867224111&clientType=0&id=58970475241&type=3&bytes=3177656-5711903
+  //http://217.20.153.81/?sig=7348d405f2a2c874e46925c318ad51a82e99d9d1&ct=4&urls=217.20.145.40;217.20.157.207&expires=1441867224111&clientType=0&id=58970475241&type=3&bytes=7739-3177655
+  //http://217.20.153.81/?sig=7348d405f2a2c874e46925c318ad51a82e99d9d1&ct=4&urls=217.20.145.40;217.20.157.207&expires=1441867224111&clientType=0&id=58970475241&type=3&bytes=0-2097152
+  //http://217.20.153.81/?sig=d740e8d33f622f4f503e0f90f6dd1edb60031df6&ct=0&urls=217.20.145.40;217.20.157.207&expires=1441868356888&clientType=0&id=58970475241&type=3&bytes=0-
+  //http://217.20.153.81/?sig=a4770d28ecf21d22e6c5df9da3bb238e960d5ffb&ct=0&urls=217.20.145.40%3B217.20.157.207&expires=1441867637678&clientType=0&id=58970475241&type=3
   //http://217.20.145.42/?id=21387938310&expires=1423386297139&type=3&ct=0&sig=5d077c4020b136ce976f17801862b10848b0ba68&clientType=0
-  //$p=json_decode($h2);
+  //$p=json_decode($h2,1);
+  //print_r ($p);
+  //$t1=explode("BaseURL",$h2);
+  //print_r ($t1);
+  //$link=$t1[9];
+
   $link=str_between($h2,'hd","url":"','"');
+  //$link=str_between($h2,'mobile","url":"','"');
   if (!$link) $link=str_between($h2,'sd","url":"','"');
   if (!$link) $link=str_between($h2,'"low","url":"','"');
 
+  //$link=str_between($h2,'recommended_movie"}}','"');
   //echo $l1;
   //$link=$p["videos"][4]["url"];
   //die();
+  $link=str_replace("\u003E","",$link);
+  $link=str_replace("\u003C/","",$link);
   $link=str_replace("\u0026","&",$link);
+  $link=str_replace("&amp;","&",$link);
+  $link=str_replace("%3B",";",$link);
+  //$link=$link."&bytes=0-2100000";
 } elseif (strpos($filelink,"upafile.com") !==false) {
   $h=file_get_contents($filelink);
   $link=unpack_DivXBrowserPlugin(1,$h,false);
