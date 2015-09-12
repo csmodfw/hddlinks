@@ -1587,52 +1587,37 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
    $h=file_get_contents($l_srt);
    }
 } elseif (strpos($filelink,"ok.ru") !==false) {
-  $filelink=str_replace("video/","videoembed/",$filelink);
-  $h1=file_get_contents($filelink);
-  //echo $h1;
-  $id=str_between($h1,'data-player-id="embed_video_','"');
-  $l="http://ok.ru/dk?cmd=videoPlayerMetadata&mid=".$id;
-  //echo $l;
-  //http://ok.ru/dk?cmd=videoPlayerMetadata&mid=36511091433
-
-  //$h2=file_get_contents($l);
-  $ch = curl_init($l);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
-  curl_setopt($ch,CURLOPT_REFERER,$filelink);
+  $filelink=str_replace("videoembed/","video/",$filelink);
+  $filelink=str_replace("ok.ru","m.ok.ru",$filelink);
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $filelink);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Linux; U; Android 0.5; en-us) AppleWebKit/522+ (KHTML, like Gecko) Safari/419.3');
+  //curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
-  $h2 = curl_exec($ch);
-  curl_close ($ch);
-  
-  //echo $h2;
-  //die();
-  //http://217.20.153.81/?sig=7348d405f2a2c874e46925c318ad51a82e99d9d1&ct=4&urls=217.20.145.40;217.20.157.207&expires=1441867224111&clientType=0&id=58970475241&type=3&bytes=3177656-5711903
-  //http://217.20.153.81/?sig=7348d405f2a2c874e46925c318ad51a82e99d9d1&ct=4&urls=217.20.145.40;217.20.157.207&expires=1441867224111&clientType=0&id=58970475241&type=3&bytes=7739-3177655
-  //http://217.20.153.81/?sig=7348d405f2a2c874e46925c318ad51a82e99d9d1&ct=4&urls=217.20.145.40;217.20.157.207&expires=1441867224111&clientType=0&id=58970475241&type=3&bytes=0-2097152
-  //http://217.20.153.81/?sig=d740e8d33f622f4f503e0f90f6dd1edb60031df6&ct=0&urls=217.20.145.40;217.20.157.207&expires=1441868356888&clientType=0&id=58970475241&type=3&bytes=0-
-  //http://217.20.153.81/?sig=a4770d28ecf21d22e6c5df9da3bb238e960d5ffb&ct=0&urls=217.20.145.40%3B217.20.157.207&expires=1441867637678&clientType=0&id=58970475241&type=3
-  //http://217.20.145.42/?id=21387938310&expires=1423386297139&type=3&ct=0&sig=5d077c4020b136ce976f17801862b10848b0ba68&clientType=0
-  //$p=json_decode($h2,1);
-  //print_r ($p);
-  //$t1=explode("BaseURL",$h2);
-  //print_r ($t1);
-  //$link=$t1[9];
-
-  $link=str_between($h2,'hd","url":"','"');
-  //$link=str_between($h2,'mobile","url":"','"');
-  if (!$link) $link=str_between($h2,'sd","url":"','"');
-  if (!$link) $link=str_between($h2,'"low","url":"','"');
-
-  //$link=str_between($h2,'recommended_movie"}}','"');
-  //echo $l1;
-  //$link=$p["videos"][4]["url"];
-  //die();
-  $link=str_replace("\u003E","",$link);
-  $link=str_replace("\u003C/","",$link);
-  $link=str_replace("\u0026","&",$link);
-  $link=str_replace("&amp;","&",$link);
-  $link=str_replace("%3B",";",$link);
-  //$link=$link."&bytes=0-2100000";
+  //curl_setopt($ch, CURLOPT_REFERER,"http://990.ro/");
+  $h = curl_exec($ch);
+  curl_close($ch);
+  //http://217.20.153.80/?sig=02ca7b380f40ffbed19cfb057c06ac49382f5d00&ct=0&urls=217.20.145.39%3B217.20.157.204&expires=1442125983098&clientType=1&id=59340163817&type=2
+  //http://m.ok.ru/dk?st.cmd=moviePlaybackRedirect&st.sig=374ff21f63e1ba880b52fd6868ccacc15623bc6d&st.mq=2&st.mvid=36541041385&st.exp=1442212295756&_prevCmd=anonymMovie&tkn=8342
+  $t1=explode('data-objid="',$h);
+  $t2=explode('href="',$t1[1]);
+  $t3=explode('"',$t2[1]);
+  $l=$t3[0];
+  $l=str_replace("&amp;","&",$l);
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Linux; U; Android 0.5; en-us) AppleWebKit/522+ (KHTML, like Gecko) Safari/419.3');
+  //curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_HEADER, 1);
+  curl_setopt($ch, CURLOPT_NOBODY, 1);
+  $h1 = curl_exec($ch);
+  curl_close($ch);
+  //Location: http://217.20.153.80/?sig=02ca7b380f40ffbed19cfb057c06ac49382f5d00&ct=0&urls=217.20.145.39%3B217.20.157.204&expires=1442125983098&clientType=1&id=59340163817&type=2
+  $t1=explode("Location:",$h1);
+  $t2=explode("\n",$t1[1]);
+  $link=trim($t2[0]);
 } elseif (strpos($filelink,"upafile.com") !==false) {
   $h=file_get_contents($filelink);
   $link=unpack_DivXBrowserPlugin(1,$h,false);
@@ -1774,6 +1759,21 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
   curl_close($ch);
   //echo $h;
   $link=str_between($h,'file: "','"');
+} elseif (strpos($filelink,"up2stream.com") !==false) {
+   $ch = curl_init();
+   curl_setopt($ch, CURLOPT_URL, $filelink);
+   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+   curl_setopt($ch, CURLOPT_REFERER, "http://voxfilmeonline.com/");
+   $h = curl_exec($ch);
+   curl_close($ch);
+   $link=str_between($h,'<source src="','"');
+   $srt=str_between($h,'servevtta.php?s=','"');
+   if ($srt) {
+   $l_srt="http://127.0.0.1/cgi-bin/scripts/util/srt_xml.php?file=".urlencode($srt);
+   $h=file_get_contents($l_srt);
+   }
 } elseif (strpos($filelink,"kodik.biz") !==false) {
   $h=file_get_contents($filelink);
   //echo $h;

@@ -70,7 +70,7 @@ $file = fopen("s_dec.php","w");
 fwrite($file,$t4);
 fclose($file);
 include ("s_dec.php");
-unlink("s_dec.php");
+//unlink("s_dec.php");
 
 
 //https://s.ytimg.com/yts/jsbin/html5player-en_US-vflnSSUZV/html5player.js

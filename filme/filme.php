@@ -375,6 +375,13 @@ echo '
 <mediaDisplay name="threePartsView"/>
 </item>
 
+<item>
+<title>playhd</title>
+<link><?php echo $host; ?>/scripts/filme/php/playhd_main.php</link>
+<annotation>http://playhd.biz</annotation>
+<mediaDisplay name="threePartsView"/>
+</item>
+
 <!--
 <item>
 <title>vezi-online</title>

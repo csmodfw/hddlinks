@@ -50,19 +50,28 @@ foreach ($videos as $video) {
 	if (isset($output['quality']))       unset($output['quality']);
 	if (isset($output['codecs']))        unset($output['codecs']);
 	if (isset($output['fallback_host'])) unset($output['fallback_host']);
-	if (isset($output['requiressl']))    unset($output['requiressl']);
-	if (isset($output['sparamsl']))    unset($output['sparams']);
 	//sparams
 
-    $out=str_replace("sig=","signature=",$output['url']);
+    //$out=str_replace("sig=","signature=",$output['url']);
+    $out=$output['url'];
     if (!preg_match("/signature/",$out)) {
 		$signature=s_dec($output['s']);
 		$link=$out."&signature=".$signature;
 	} else {
 	$link=$out;
     }
-//test
 
+    /*
+	if (isset($output['sig'])) {
+		$signature=($output['sig']);
+	} else {
+        //print $output['s'];
+		$signature=s_dec($output['s']);
+	}
+	$link=$output['url']."&signature=".$signature;
+	*/
+//test
+/*
       $ch = curl_init();
       curl_setopt($ch, CURLOPT_URL, $link);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -73,10 +82,12 @@ foreach ($videos as $video) {
       $h1 = curl_exec($ch);
       curl_close($ch);
       //echo $h1;
-
+*/
 ///
+//exec /usr/local/bin/Resource/www/cgi-bin/scripts/curl -s -A "Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0" "'.$link.'"';
 sleep(1);
 }
+
 if ($html) {
 $out='#!/bin/sh
 cat <<EOF
@@ -95,6 +106,7 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
 //}
 print $link;
 }
+
 /*
 $link=str_replace("https","http",$link);
 $link="http://127.0.0.1/cgi-bin/scripts/util/w.cgi?".$link;

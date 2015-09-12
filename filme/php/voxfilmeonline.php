@@ -163,7 +163,7 @@ if($query) {
    $page = $queryArr[0];
    $search = $queryArr[1];
 }
-
+//http://voxfilmeonline.com/page/2/
 if($page) {
 	$html = file_get_contents($search."page/".$page."/");
 } else {
@@ -197,7 +197,7 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
-$videos = explode('class="galleryitem"', $html);
+$videos = explode('<div class="entry-thumbnails"', $html);
 
 unset($videos[0]);
 $videos = array_values($videos);
@@ -216,7 +216,7 @@ foreach($videos as $video) {
   $t3=str_replace("Vizioneaza Film Online","",$t2[0]);
   $t4=explode("&#8211;",$t3);
   $title=trim($t4[0]);
-  
+  /*
   if (strpos($video,"default-thumb.png") === false) {
     $t1 = explode('src=', $video);
     $t2 = explode('&', $t1[2]);
@@ -224,7 +224,10 @@ foreach($videos as $video) {
   } else {
     $image="http://filmedivix.com/wp-content/themes/xseriale/images/default-thumb.png";
   }
-
+  */
+$t1=explode('src="',$video);
+$t2=explode('"',$t1[1]);
+$image=$t2[0];
 //  descriere
 
   $v1 = explode('<p>', $video);
