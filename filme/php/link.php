@@ -620,6 +620,7 @@ if ((strpos($filelink,"vidxden") !==false) || (strpos($filelink,"divxden") !==fa
     //$link="http://127.0.0.1/cgi-bin/scripts/util/mozhay.cgi?id=".$id.";token=".$token;
   }
 } elseif (strpos($filelink,'vimeo.com') !==false){
+//$filelink="https://player.vimeo.com/video/139275068";
   //http://player.vimeo.com/video/131376602
   ///cgi-bin/translate?info,,http://vimeo.com/16275866
   if (strpos($filelink,"player.vimeo.com") !==false) {
@@ -632,19 +633,45 @@ if ((strpos($filelink,"vidxden") !==false) || (strpos($filelink,"divxden") !==fa
      $id=$t1[3];
   }
   $cookie="/tmp/cookie.txt";
-  $l="https://player.vimeo.com/video/".$id;
+  //$l="https://player.vimeo.com/video/".$id;
+  $l="https://vimeo.com/".$id;
   //echo $l;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch,CURLOPT_REFERER,"http://www.biziday.ro");
   curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
   curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $html = curl_exec($ch);
   curl_close($ch);
-  $link=str_between($html,'"url":"','"');
+  $l1=str_between($html,'data-config-url="','"');
+  $l1=str_replace("&amp;","&",$l1);
+  //echo $html;
+  //$l1=str_replace("https","http",$l1);
+  //$l1="http://player.vimeo.com/config/".$id."?type=moogaloop&referrer=vimeo.com&cdn_server=a.vimeocdn.com&player_server=player.vimeo.com&clip_id=".$id;
+  //echo $l1."<BR>";
+  //$l1="http://player.vimeo.com/video/98321920/config?autoplay=0&byline=0&bypass_privacy=1&context=clip.main&default_to_hd=1&portrait=0&title=0&s=ee2f825e1cdcdacd5fd9264a39a56e45a0b44c45";
+  //echo $l1."<BR>";
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l1);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+  $h1 = curl_exec($ch);
+  curl_close($ch);
+  //echo $h1;
+  if (strpos($h1,'hd":') !== false) {
+    $t1=explode('hd":',$h1);
+    $link=str_between($t1[1],'url":"','"');
+  } else {
+    $t1=explode('sd":',$h1);
+    $link=str_between($t1[1],'url":"','"');
+  }
   $link=str_replace("https","http",$link);
   /*
   $l1=str_between($html,'data-config-url="','"');
@@ -1580,7 +1607,7 @@ fwrite($fp, $out);
 fclose($fp);
 exec("chmod +x /usr/local/etc/www/cgi-bin/scripts/util/m.cgi");
 sleep (2);
-$link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
+$link1="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
    exec ("rm -f /tmp/test.xml");
    if ($srt) {
    $l_srt="http://127.0.0.1/cgi-bin/scripts/util/srt_xml.php?file=".urlencode($srt);
@@ -1603,13 +1630,14 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
   $t1=explode('data-objid="',$h);
   $t2=explode('href="',$t1[1]);
   $t3=explode('"',$t2[1]);
-  $l=$t3[0];
-  $l=str_replace("&amp;","&",$l);
+  $link=$t3[0];
+  $link=str_replace("&amp;","&",$link);
+  /*
   $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_URL, $link);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Linux; U; Android 0.5; en-us) AppleWebKit/522+ (KHTML, like Gecko) Safari/419.3');
-  //curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  //curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Linux; U; Android 0.5; en-us) AppleWebKit/522+ (KHTML, like Gecko) Safari/419.3');
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0');
   curl_setopt($ch, CURLOPT_HEADER, 1);
   curl_setopt($ch, CURLOPT_NOBODY, 1);
   $h1 = curl_exec($ch);
@@ -1618,6 +1646,7 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
   $t1=explode("Location:",$h1);
   $t2=explode("\n",$t1[1]);
   $link=trim($t2[0]);
+  */
 } elseif (strpos($filelink,"upafile.com") !==false) {
   $h=file_get_contents($filelink);
   $link=unpack_DivXBrowserPlugin(1,$h,false);

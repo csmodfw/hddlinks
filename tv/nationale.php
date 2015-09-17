@@ -321,7 +321,7 @@ columnCount=5
 
 <item>
 <title>Biziday</title>
-<link><?php echo $host; ?>/scripts/tv/php/seenow_e.php?query=1,http://www.seenow.ro/biziday-3298-pagina-,Biziday</link>
+<link><?php echo $host; ?>/scripts/tv/php/biziday.php?query=1,</link>
 <media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/biziday.jpg" />
 <image>/usr/local/etc/www/cgi-bin/scripts/tv/image/biziday.jpg</image>
 <location>http://www.biziday.ro/</location>
