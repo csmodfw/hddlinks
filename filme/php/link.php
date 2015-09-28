@@ -1613,6 +1613,31 @@ $link1="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
    $l_srt="http://127.0.0.1/cgi-bin/scripts/util/srt_xml.php?file=".urlencode($srt);
    $h=file_get_contents($l_srt);
    }
+} elseif (strpos($filelink,"openload.co") !==false) {
+   preg_match('/openload\.co\/(v\/|watch\?v=|embed\/)([\w\-]+)/', $filelink, $match);
+   $file = $match[2];
+   $key="UebmYlZN";
+   $login="de2a2a3fe31fdb89";
+   $ticket="https://api.openload.co/1/file/dlticket?file=".$file."&login=".$login."&key=".$key;
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, $ticket);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+      $ret = curl_exec($ch);
+      curl_close($ch);
+  $t=str_between($ret,'ticket":"','"');
+  $dl="https://api.openload.co/1/file/dl?file=".$file."&ticket=".$t;
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, $dl);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+      $ret = curl_exec($ch);
+      curl_close($ch);
+  $link=str_between($ret,'url":"','"');
+  $link=str_replace("\/","/",$link);
+  $link=str_replace("https","http",$link);
 } elseif (strpos($filelink,"ok.ru") !==false) {
   $filelink=str_replace("videoembed/","video/",$filelink);
   $filelink=str_replace("ok.ru","m.ok.ru",$filelink);
@@ -1822,6 +1847,9 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
   $t2=explode('"',$t1[1]);
   }
   $link=str_replace("\/","/",$t2[0]);
+} elseif (strpos($filelink,"allvid.ch") !==false) {
+  $h=file_get_contents($filelink);
+  $link=str_between($h,'[{file:"','"');
 }
 
 //////////////////////////////////////////////////////////////////

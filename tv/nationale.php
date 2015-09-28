@@ -544,6 +544,7 @@ columnCount=5
 	<annotation>CANCAN TV, cel mai fierbinte show monden al momentului, se va difuza de luni pana joi de la 22.30. | Emisiunile Kanal D - Cancan TV - prezintã Andreea Mantea, Adrian Artene - ediþii online, galerii foto si video, noutati.</annotation>
 </item>
 -->
+<!--
 <item>
 <title>Mondenii</title>
 <link><?php echo $host; ?>/scripts/php1/youtube_user.php?query=1,mondeniionline</link>
@@ -552,6 +553,7 @@ columnCount=5
 <location>http://mondenii.primatv.ro/</location>
 <annotation>Site-ul Oficial Mondenii.ro - Arhiva video completa Mondenii de la PrimaTV. Episoade, foto, stiri, interviuri, blog, ringtone mondenii info despre Mirela Zeta, Andreea Gramosteanu si Angel Popescu.</annotation>
 </item>
+-->
 <!--
 <item>
 <title>SensoTV</title>
@@ -562,23 +564,7 @@ columnCount=5
 <annotation>Senso TV este o televiziune online ce face parte dintr-un trust media, compus din 6 canale TV online: Arts Channel, Health Channel, Music Channel, Politic Channel, Extrem Sports Channel si Lifestyle Channel.</annotation>
 </item>
 -->
-<item>
-<title>Publika.Md</title>
-<link><?php echo $host; ?>/scripts/tv/php/publika.php</link>
-<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/publika.jpg" />
-<image>/usr/local/etc/www/cgi-bin/scripts/tv/image/publika.jpg</image>
-<location>http://publika.md/</location>
-<annotation>Site-ul de stiri care iti ofera informatia proaspata corecta obiectiva si documentata despre stirile de ultima ora.</annotation>
-</item>
 
-<item>
-<title>JurnalTV</title>
-<link><?php echo $host; ?>/scripts/tv/php/jurnaltv.php</link>
-<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/jurnaltv.jpg" />
-<image>/usr/local/etc/www/cgi-bin/scripts/tv/image/jurnaltv.jpg</image>
-<location>http://jurnaltv.md/</location>
-<annotation>JurnalTV - Prima televiziune de stiri din Republica Moldova</annotation>
-</item>
 
 <item>
 <title>privesc.eu</title>

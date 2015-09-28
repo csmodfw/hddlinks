@@ -280,6 +280,12 @@ echo '
 <link><?php echo $host; ?>/scripts/filme/php/990_seriale_main1.php</link>
 <media:thumbnail url="image/movies.png" />
 </item>
+
+<item>
+<title>filme9</title>
+<link><?php echo $host; ?>/scripts/filme/php/filme9s.php?query=1,</link>
+<media:thumbnail url="image/movies.png" />
+</item>
 <!--
 <item>
 <title>filmeonline - seriale</title>

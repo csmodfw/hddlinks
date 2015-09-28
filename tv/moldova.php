@@ -260,103 +260,52 @@ columnCount=5
 	</item_template>
   <channel>
 
-    <title>Emisiuni posturi locale</title>
-<!--
-<item>
-<title>tvt89</title>
-<link><?php echo $host; ?>/scripts/tv/locale/tvt89.php</link>
-<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/tvt89.jpg" />
-<image>/usr/local/etc/www/cgi-bin/scripts/tv/image/tvt89.jpg</image>
-<location>http://tvt89.bridgeman.ro/index.php</location>
-<annotation>tvt89 a fost prima staţie de televiziune privată din România şi a rămas în conştiinţa publicului din vestul ţării, drept primul canal tv prin care s-au manifestat liber zilele revoluţiei române.</annotation>
+    <title>Stiri si Emisiuni din Moldova</title>
 
-</item>
--->
-<!--
 <item>
-<title>1 TV Bacau</title>
-<link><?php echo $host; ?>/scripts/php1/youtube_user.php?query=1,1tvbacauvideo</link>
-<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/1tvbacau.jpg" />
-<image>/usr/local/etc/www/cgi-bin/scripts/tv/image/1tvbacau.jpg</image>
-<location>http://www.1tvbacau.ro/</location>
-<annotation>1 TV Bacau, post local de televiziune, prezintă evenimentele locale din ziua respectivă</annotation>
+<title>Publika.Md</title>
+<link><?php echo $host; ?>/scripts/tv/php/publika.php</link>
+<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/publika.jpg" />
+<image>/usr/local/etc/www/cgi-bin/scripts/tv/image/publika.jpg</image>
+<location>http://publika.md/</location>
+<annotation>Site-ul de stiri care iti ofera informatia proaspata corecta obiectiva si documentata despre stirile de ultima ora.</annotation>
 </item>
-->>
-<!--
+
 <item>
-<title>Transilvania Tube</title>
-<link><?php echo $host; ?>/scripts/tv/locale/transilvaniatube.php</link>
-<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/transilvaniatube.png" />
-<image>/usr/local/etc/www/cgi-bin/scripts/tv/image/transilvaniatube.png</image>
-<location>http://transilvaniatube.ro/</location>
-<annotation>Look TV, Transilvania Live</annotation>
+<title>JurnalTV</title>
+<link><?php echo $host; ?>/scripts/tv/php/jurnaltv.php</link>
+<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/jurnaltv.jpg" />
+<image>/usr/local/etc/www/cgi-bin/scripts/tv/image/jurnaltv.jpg</image>
+<location>http://jurnaltv.md/</location>
+<annotation>JurnalTV - Prima televiziune de stiri din Republica Moldova</annotation>
 </item>
--->
-<!--
+
 <item>
-<title>TVSat</title>
-<link><?php echo $host; ?>/scripts/tv/locale/tvsatrm.php</link>
-<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/tvsat.gif" />
-<image>/usr/local/etc/www/cgi-bin/scripts/tv/image/tvsat.gif</image>
-<location>http://www.jurnal.tvsatrm.ro/</location>
-<annotation>Cele mai importante stiri din judetul Buzau. Jurnalul TVSat video, inregistrarile emisiunilor. TVSat Live!</annotation>
+<title>Moldova in Direct</title>
+<link><?php echo $host; ?>/scripts/tv/php/moldova-in-direct.php</link>
+<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/moldova-in-direct.jpg" />
+<image>/usr/local/etc/www/cgi-bin/scripts/tv/image/moldova-in-direct.jpg</image>
+<location>http://www.trm.md/ro/moldova-in-direct/</location>
+<annotation>Emisiune difuzata de postul Moldova 1</annotation>
 </item>
--->
-<!--
+
 <item>
-<title>Info TV</title>
-<link><?php echo $host; ?>/scripts/tv/locale/infotv.php</link>
-<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/infotv.gif" />
-<image>/usr/local/etc/www/cgi-bin/scripts/tv/image/infotv.gif</image>
-<location>http://www.infotv.ro/</location>
-<annotation>Info TV va ofera zilnic cele mai noi informatii din actualitatea locala Aradeana, incadrul jurnalului infotv. Emisiuni de actualitate, politica, social, cultura, sport, divertisment. Va oferim si micile informatii: meteo, curs valutar, tranzactii bursiere, anunturi.</annotation>
+<title>In PROfunzime</title>
+<link><?php echo $host; ?>/scripts/tv/php/in-profunzime.php</link>
+<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/in-profunzime.png" />
+<image>/usr/local/etc/www/cgi-bin/scripts/tv/image/in-profunzime.png</image>
+<location>http://inprofunzime.md/emisiuni/shows/in-profunzime-cu-lorena-bogza/</location>
+<annotation>Emisiune difuzata de postul PROTV</annotation>
 </item>
--->
+
 <item>
-<title>RTS</title>
-<link><?php echo $host; ?>/scripts/php1/youtube_user.php?query=1,rtseverin</link>
-<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/televiziuneaseverin.png" />
-<image>/usr/local/etc/www/cgi-bin/scripts/tv/image/televiziuneaseverin.png</image>
-<location>http://www.televiziuneaseverin.ro/rts4/</location>
-<annotation>RTS - Radioteleviziunea Severin</annotation>
+<title>privesc.eu</title>
+<link><?php echo $host; ?>/scripts/tv/php/privesc_main.php</link>
+<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/privesc.jpg" />
+<image>/usr/local/etc/www/cgi-bin/scripts/tv/image/privesc.jpg</image>
+<location>http://www.privesc.eu</location>
+<annotation>Privesc.eu</annotation>
 </item>
-<!--
-<item>
-<title>Tele'M</title>
-<link><?php echo $host; ?>/scripts/tv/locale/telem_main.php</link>
-<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/telem.png" />
-<image>/usr/local/etc/www/cgi-bin/scripts/tv/image/telem.png</image>
-<location>http://www.telem.ro/telem/</location>
-<annotation>Televiziunea Tele'M Iaşi - informaţia deşteaptă</annotation>
-</item>
--->
-<!--
-<item>
-<title>BaricadaTV</title>
-<link><?php echo $host; ?>/scripts/clip/php/vimeo2.php?query=,4936621,BaricadaTV</link>
-<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/baricadatv.jpg" />
-<image>/usr/local/etc/www/cgi-bin/scripts/tv/image/baricadatv.jpg</image>
-<location>http://vimeo.com/user4936621/videos</location>
-<annotation>BaricadaTV.  revolutie in televiziune!</annotation>
-</item>
--->
-<!--
-<item>
-<title>eMaramures</title>
-<link><?php echo $host; ?>/scripts/tv/locale/emaramures.php</link>
-<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/emaramures.jpg" />
-<image>/usr/local/etc/www/cgi-bin/scripts/tv/image/emaramures.jpg</image>
-<location>http://www.emaramures.ro</location>
-<annotation>STIRI MARAMURES  ziar electronic actualizat non-stop cu stiri din Baia Mare, Sighet, Borsa, Targu Lapus...</annotation>
-</item>
--->
-<item>
-<title>CNS Roman</title>
-<link><?php echo $host; ?>/scripts/php1/youtube_user.php?query=1,tvcns</link>
-<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/cns.jpg" />
-<image>/usr/local/etc/www/cgi-bin/scripts/tv/image/cns.jpg</image>
-<location>http://www.cnstv.ro/</location>
-<annotation>Televiziunea Roman CNS</annotation>
-</item>
+
 </channel>
 </rss>

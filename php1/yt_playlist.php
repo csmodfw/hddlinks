@@ -9,6 +9,9 @@ if($query) {
    $tit=urldecode($queryArr[2]);
    $pageToken= $queryArr[3];
 }
+//https://www.youtube.com/watch?v=LfJCquIOyjw&list=
+//PLX1sXeabwyzYlZMFNSA4TKwSop97eNSPG
+//PLX1sXeabwyzYlZMFNSA4TKwSop97eNSPG
 $key="AIzaSyDhpkA0op8Cyb_Yu1yQa1_aPSr7YtMacYU";
 if ($pageToken)
 $l2="https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=25&pageToken=".$pageToken."&playlistId=".$search."&key=".$key;
@@ -329,6 +332,7 @@ for ($k=0;$k<25;$k++) {
     $link="http://127.0.0.1/cgi-bin/scripts/util/yt.php?file=".$link;
     //$link=str_replace("&","&amp;",$link);
 	$name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".mp4";
+	if ($title) {
     echo '
     <item>
     <title>'.$title.'</title>
@@ -362,6 +366,7 @@ for ($k=0;$k<25;$k++) {
     <media:thumbnail url="'.$image.'" />
     </item>
     ';
+    }
 }
 ?>
 <item>

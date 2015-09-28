@@ -8,6 +8,7 @@ if($query) {
    $search = $queryArr[1];
    $pageToken= $queryArr[2];
    $playlistID=$queryArr[3];
+   $tit=urldecode($queryArr[4]);
 }
 
 $key="AIzaSyDhpkA0op8Cyb_Yu1yQa1_aPSr7YtMacYU";
@@ -318,12 +319,19 @@ http://gdata.youtube.com/feeds/api/users/nba/uploads?&start-index=1&max-results=
 if(!$page) {
     $page = 1;
 }
-
+if ($search) {
 echo '
 	<channel>
 		<title>Uploads by '.$search.'</title>
 		<menu>main menu</menu>
 		';
+ } else {
+ echo '
+	<channel>
+		<title>Uploads by '.$tit.'</title>
+		<menu>main menu</menu>
+		';
+ }
 if($page > 1) { ?>
 <item>
 <?php
@@ -356,6 +364,7 @@ for ($k=0;$k<25;$k++) {
 	$link1= "http://127.0.0.1/cgi-bin/scripts/util/youtube.cgi?stream,,".urlencode($link);
     $link="http://127.0.0.1/cgi-bin/scripts/util/yt.php?file=".$link;
 	$name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".mp4";
+	if ($title) {
     echo '
     <item>
     <title>'.$title.'</title>
@@ -389,6 +398,7 @@ for ($k=0;$k<25;$k++) {
     <media:thumbnail url="'.$image.'" />
     </item>
     ';
+    }
 }
 ?>
 <item>

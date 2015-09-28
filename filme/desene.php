@@ -164,6 +164,13 @@ ret;
 <annotation>http://noobroom.com</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
+
+<item>
+<title>Desenedublete</title>
+<link><?php echo $host; ?>/scripts/filme/php/deseneledublate.php?page=1,,desenedublate</link>
+<annotation>http://deseneledublate.blogspot.ro/</annotation>
+<mediaDisplay name="threePartsView"/>
+</item>
 <!--
 <item>
 <title>Desene Animate</title>
@@ -203,12 +210,14 @@ ret;
 <annotation>http://990.ro</annotation>
 </item>
 -->
+<!--
 <item>
 <title>mesek.tv (lb. maghiara)</title>
 <link><?php echo $host; ?>/scripts/filme/php/mesek.php?query=,http://www.mesek.tv/videok/teljes-mesek</link>
 <media:thumbnail url="image/movies.png" />
 <annotation>http://www.mesek.tv/videok/teljes-mesek</annotation>
 </item>
+-->
 <!--
 <item>
 <title>mesekvilaga.x10.mx (lb. maghiara)</title>

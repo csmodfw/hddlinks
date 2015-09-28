@@ -232,7 +232,7 @@ foreach($videos as $video) {
     $t2 = explode('"', $t1[1]);
     $link = "http://pornomovies.com".$t2[0];
 
-    $t3=explode(">",$t1[2]);
+    $t3=explode('thumb_title">',$video);
     $t4=explode("<",$t3[1]);
     $title=$t4[0];
     $t1 = explode('src="', $video);

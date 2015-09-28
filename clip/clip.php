@@ -269,18 +269,12 @@ columnCount=5
 
 <item>
 <title>Youtube</title>
-  <onClick>
-		keyword = getInput();
-		if (keyword != null)
-		 {
-	       jumpToLink("searchLink");
-		  }
-   </onClick>
+<link><?php echo $host; ?>/scripts/php1/yt_fav.php</link>
 	<location>http://youtube.com</location>
 	<image>image/youtube.gif</image>
 	<media:thumbnail url="image/youtube.gif" />
 	<annotation>YouTube este un loc în care puteti descoperi, urmări, încărca şi distribui videoclipuri.</annotation>
-	<mediaDisplay name="onePartView" />
+
 </item>
 <!--
 <item>
@@ -291,6 +285,7 @@ columnCount=5
 	<image>image/youtube.gif</image>
 	<media:thumbnail url="image/youtube.gif" />
 	<annotation>Căutare videoclipuri postate pe youtube de către....</annotation>
+		<mediaDisplay name="onePartView" />
 </item>
 -->
 <item>
@@ -497,6 +492,7 @@ columnCount=5
 	<annotation>Vimeo is a respectful community of creative people who are passionate about sharing the videos they make. We provide the best tools and highest quality video.</annotation>
 </item>
 -->
+<!--
 <item>
 <title>Dailymotion</title>
 	<link><?php echo $host; ?>/scripts/clip/dm.php</link>
@@ -505,7 +501,7 @@ columnCount=5
 	<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/clip/image/dailymotion.png" />
 	<annotation>Dailymotion is about finding new ways to see, share and engage your world through the power of online video. You can find or upload videos.</annotation>
 </item>
-
+-->
 <item>
 <title>Metacafe</title>
 	<link><?php echo $host; ?>/scripts/clip/php/metacafe.php?query=1</link>

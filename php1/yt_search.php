@@ -103,7 +103,7 @@ setRefreshTime(-1);
 		  <script>getPageInfo("pageTitle");</script>
 		</text>
   	<text align="left" offsetXPC="6" offsetYPC="15" widthPC="100" heightPC="4" fontSize="16" backgroundColor="10:105:150" foregroundColor="100:200:255">
-    Press 2 for download, 3 for download manager
+    Press 2 for download, 3 for download manager, 1 add to favorite
 		</text>
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
@@ -212,6 +212,15 @@ else if (userInput == "three" || userInput == "3")
     jumpToLink("destination");
     "true";
 }
+else if (userInput == "one" || userInput == "1")
+{
+ showIdle();
+ url="http://127.0.0.1/cgi-bin/scripts/php1/yt_add.php?mod=add*" + getItemInfo(getFocusItemIndex(),"link1") + "*" + getItemInfo(getFocusItemIndex(),"title1");
+ dummy=getUrl(url);
+ cancelIdle();
+ redrawDisplay();
+ ret="true";
+}
 else if (userInput == "video_play" || userInput == "play") {
 					showIdle();
 					playvideo = getFocusItemIndex();
@@ -316,20 +325,22 @@ if($search) {
 <?php } ?>
 <?php
 for ($k=0;$k<25;$k++) {
+    $link = "";
     $id=$p["items"][$k]["id"]["videoId"];
 	$title = $p["items"][$k]["snippet"]["title"];
 	$image = $p["items"][$k]["snippet"]["thumbnails"]["medium"]["url"];
-	$link = "http://www.youtube.com/watch?v=".$id;
 	$image=str_replace("https","http",$image);
 	$durata="";
 	$data= $p["items"][$k]["snippet"]["publishedAt"];
 	$descriere= $p["items"][$k]["snippet"]["description"];
 	$descriere=fix_s($descriere);
-
-	$link1= "http://127.0.0.1/cgi-bin/scripts/util/youtube.cgi?stream,,".urlencode($link);
-    $link="http://127.0.0.1/cgi-bin/scripts/util/yt.php?file=".$link;
-    //$link=str_replace("&","&amp;",$link);
+	//$descriere="";
+	$title=fix_s($title);
 	$name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".mp4";
+  if (array_key_exists("videoId",$p["items"][$k]["id"])) {
+    $id=$p["items"][$k]["id"]["videoId"];
+	$link1 = "http://www.youtube.com/watch?v=".$id;
+	$link="http://127.0.0.1/cgi-bin/scripts/util/yt.php?file=".$link1;
     echo '
     <item>
     <title>'.$title.'</title>
@@ -354,6 +365,8 @@ for ($k=0;$k<25;$k++) {
     </script>
     </onClick>
     <download>'.$link.'</download>
+    <link1></link1>
+    <title1></title1>
     <paurl>'.$link.'</paurl>
     <name>'.$name.'</name>
     <annotation>'.$descriere.'</annotation>
@@ -363,6 +376,55 @@ for ($k=0;$k<25;$k++) {
     <media:thumbnail url="'.$image.'" />
     </item>
     ';
+  }
+  if (array_key_exists("playlistId",$p["items"][$k]["id"])) {
+    $id=$p["items"][$k]["id"]["playlistId"];
+	$link = "http://127.0.0.1/cgi-bin/scripts/php1/yt_playlist.php?query=1,".$id.",".urlencode($title);
+	$link1=$id;
+	$title="(playlist) ".$title;
+    echo '
+    <item>
+    <title>'.$title.'</title>
+    <link>'.$link.'</link>
+    <download>'.$link.'</download>
+    <paurl>'.$link.'</paurl>
+    <name>'.$name.'</name>
+    <annotation>'.$descriere.'</annotation>
+    <image>'.$image.'</image>
+    <durata>'.$durata.'</durata>
+    <pub>'.$data.'</pub>
+    <link1>'.$link1.'</link1>
+    <title1>'.urlencode($title).'</title1>
+    <media:thumbnail url="'.$image.'" />
+    </item>
+    ';
+  }
+  if (array_key_exists("channelId",$p["items"][$k]["id"])) {
+    $id=$p["items"][$k]["snippet"]["channelTitle"];
+    $link1=$id;
+	$link = "http://127.0.0.1/cgi-bin/scripts/php1/youtube_user.php?query=1,".$id.",,,".urlencode($title);
+	//$link = "http://127.0.0.1/cgi-bin/scripts/php1/yt_playlist.php?query=1,".$id.",".urlencode($title);
+	$link1=$id;
+    $title="(user) ".$title;
+    echo '
+    <item>
+    <title>'.$title.'</title>
+    <link>'.$link.'</link>
+    <download>'.$link.'</download>
+    <paurl>'.$link.'</paurl>
+    <name>'.$name.'</name>
+    <annotation>'.$descriere.'</annotation>
+    <image>'.$image.'</image>
+    <durata>'.$durata.'</durata>
+    <pub>'.$data.'</pub>
+    <link1>'.$link1.'</link1>
+    <title1>'.urlencode($title).'</title1>
+    <media:thumbnail url="'.$image.'" />
+    </item>
+    ';
+  }
+
+
 }
 ?>
 <item>

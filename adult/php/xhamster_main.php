@@ -170,13 +170,14 @@ function str_between($string, $start, $end){
   		<link>'.$link.'</link>
   	</item>';
 $html = file_get_contents("http://xhamster.com");
-//$html = str_between($html,'<table id="channels"','</table>');
-$videos = explode("'/channels/", $html);
+$html = str_between($html,'Categories</div>','</div');
+$videos = explode("href='", $html);
 unset($videos[0]);
 $videos = array_values($videos);
 foreach($videos as $video) {
+
     $t1=explode("'",$video);
-    $link="http://xhamster.com/channels/".$t1[0];
+    $link=$t1[0];
     //http://xhamster.com/channels/new-upskirts-1.html
     $link=substr($link, 0, -6);
   	$t1=explode(">",$video);
@@ -184,11 +185,13 @@ foreach($videos as $video) {
   	$title=$t2[0];
 
   	$link=$host."/scripts/adult/php/xhamster.php?query=1,".$link;
+  	if ($title) {
   	echo '
   	<item>
   		<title>'.$title.'</title>
   		<link>'.$link.'</link>
   	</item>';
+  	}
 }
 ?>
 </channel>

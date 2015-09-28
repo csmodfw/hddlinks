@@ -182,13 +182,14 @@ $host = "http://127.0.0.1/cgi-bin";
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
+<!--
 <item>
 <title>porno720p</title>
   <link><?php echo $host; ?>/scripts/adult/php/porno720p.php?query=1,http://porno720p.com</link>
 <image>image/adult.png</image>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <item>
 <title>Tube8</title>
   <link><?php echo $host; ?>/scripts/adult/tube8.php</link>
@@ -322,12 +323,14 @@ $host = "http://127.0.0.1/cgi-bin";
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
+<!--
 <item>
 <title>timtube</title>
   <link><?php echo $host; ?>/scripts/adult/php/timtube.php</link>
 <image>/usr/local/etc/www/cgi-bin/scripts/adult/image/timtube.jpg</image>
 <mediaDisplay name="threePartsView"/>
 </item>
+-->
 <!--
 <item>
 <title>drtuber</title>
@@ -344,13 +347,14 @@ $host = "http://127.0.0.1/cgi-bin";
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
+<!--
 <item>
 <title>flytube</title>
   <link><?php echo $host; ?>/scripts/adult/flytube.php</link>
 <image>/usr/local/etc/www/cgi-bin/scripts/adult/image/flytube.jpg</image>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <item>
 <title>xhamster</title>
   <link><?php echo $host; ?>/scripts/adult/php/xhamster_main.php</link>

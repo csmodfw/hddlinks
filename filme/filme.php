@@ -281,6 +281,13 @@ echo '
 </item>
 
 <item>
+<title>calitatehd</title>
+<link><?php echo $host; ?>/scripts/filme/php/calitatehd_main.php</link>
+<annotation>http://www.calitatehd.com</annotation>
+<mediaDisplay name="threePartsView"/>
+</item>
+
+<item>
 <title>filmeonline2013</title>
 <link><?php echo $host; ?>/scripts/filme/php/filmeonline2013_main.php</link>
 <annotation>http://www.filmeonline2013.biz/</annotation>
@@ -436,14 +443,15 @@ echo '
 <annotation>http://www.filme-bune.net/</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-<!--
+
+
 <item>
 <title>cr3ative-zone</title>
 <link><?php echo $host; ?>/scripts/filme/php/cr3ative-zone_main.php</link>
 <annotation>http://cr3ative-zone.ucoz.ro</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
--->
+
 <!--
 <item>
 <title>peţeavă</title>

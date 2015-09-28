@@ -10,6 +10,7 @@ function str_between($string, $start, $end){
 $link = $_GET["file"];
 $link = urldecode($link);
 $html = file_get_contents($link);
+/*
 $t1=explode("http://www.sport.ro/video/get-video",$html);
 $t2=explode("&",$t1[1]);
 $l1="http://www.sport.ro/video/get-video".$t2[0];
@@ -21,5 +22,7 @@ if (!$link) {
   $link=str_between($html,'var image_file = "','"');
   $link=str_replace("jpg","mp4",$link);
 }
+*/
+$link=str_between($html,'og:video" content="','"');
 print $link;
 ?>

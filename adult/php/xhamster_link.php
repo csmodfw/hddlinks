@@ -11,10 +11,13 @@ $link = $_GET["file"];
 $html = file_get_contents($link);
 $mod=str_between($html,"url_mode=","&");
 $srv=str_between($html,"srv=","&");
-$file=str_between($html,"file=","&");
+$file=str_between($html,'file":"','"');
+/*
 if ($mod=="3")
   $link=urldecode($file);
 else if ($mod=="1")
   $link=urldecode($srv."/key=".$file);
+*/
+$link=str_replace("\/","/",$file);
 print $link;
 ?>

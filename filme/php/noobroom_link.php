@@ -150,7 +150,7 @@ if ($subtitle == "on") {
   }
 
   //echo $h;
-if(preg_match('/(\d\d):(\d\d):(\d\d),(\d\d\d) --> (\d\d):(\d\d):(\d\d),(\d\d\d)/', $h))
+if(preg_match('/(\d\d):(\d\d):(\d\d)(\.|,)(\d\d\d) --> (\d\d):(\d\d):(\d\d)(\.|,)(\d\d\d)/', $h))
 {
 $ttxml     = '';
 $full_line = '';
@@ -162,10 +162,10 @@ if($file_array = file($file))
   {
     $line = rtrim($line);
     $line = preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$line);
-        if(preg_match('/(\d\d):(\d\d):(\d\d),(\d\d\d) --> (\d\d):(\d\d):(\d\d),(\d\d\d)/', $line, $match))
+        if(preg_match('/(\d\d):(\d\d):(\d\d)(\.|,)(\d\d\d) --> (\d\d):(\d\d):(\d\d)(\.|,)(\d\d\d)/', $line, $match))
         {
-          $begin = round(3600 * $match[1] + 60 * $match[2] + $match[3] + $match[4]/1000);
-          $end   = round(3600 *$match[5] + 60 * $match[6] + $match[7] + $match[8]/1000);
+          $begin = round(3600 * $match[1] + 60 * $match[2] + $match[3] + $match[5]/1000);
+          $end   = round(3600 *$match[6] + 60 * $match[7] + $match[8] + $match[10]/1000);
           $line1 = '';
           $line2 = '';
           $line3 = '';

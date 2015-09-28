@@ -236,7 +236,7 @@ foreach($videos as $video) {
     $title=$t4[0];
     $link = $link=$host."/scripts/adult/php/alotporn_link.php?file=".$link;
 
-    $t1 = explode('src="', $video);
+    $t1 = explode('data-original="', $video);
     $t2 = explode('"', $t1[1]);
     $image = $t2[0];
 

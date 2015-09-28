@@ -21,6 +21,8 @@ $link = str_between($html, "quality_180p=", '"');
 	$link = urldecode($link);
 //print $link;
 }
+$link=str_between($html,'video_url":"','"');
+$link=str_replace("\/","/",$link);
 $link=urldecode($link);
 print $link;
 ?>
