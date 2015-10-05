@@ -96,7 +96,7 @@ fi
 mount -o,remount,r /
 fi
 
-#CS mod HD4ALL - 07.07.2014
+#CS mod HD4ALL - 05.10.2014
 if [ $PLAYER = "10" ]
 then
 	if [ -f /usr/local/bin/Resource/www/cgi-bin/scripts/mini1.php ]
@@ -158,6 +158,11 @@ then
 		sed -i s/'userInput == "left"'/'userInput == "left"" || userInput == "L"'/g $i
 	fi
 
+	#iNeXT fix
+	if [ $interface = "iNeXT" ]; then
+		sed -i 's/getInput()/getInput("Input", "doModal")/g' $i
+	fi
+
    done
    for i in $( find -name '*.rss' )
     do
@@ -185,6 +190,11 @@ then
 		sed -i s/'userInput == "pagedown" || userInput == "pageup"'/'userInput == "pagedown" || userInput == "pageup" || userInput == "PD" || userInput == "PG"'/g $i
 		sed -i s/'userInput == "right"'/'userInput == "right"" || userInput == "R"'/g $i
 		sed -i s/'userInput == "left"'/'userInput == "left"" || userInput == "L"'/g $i
+	fi
+
+	#iNeXT fix
+	if [ $interface = "iNeXT" ]; then
+		sed -i 's/getInput()/getInput("Input", "doModal")/g' $i
 	fi
 
    done

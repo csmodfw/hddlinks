@@ -1579,6 +1579,10 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
    $t2=explode('"',$t1[1]);
    $srt=$t2[0];
    if (!$srt) $srt=str_between($h,'captions" src="','"');
+   if (strpos($srt,"s=") !==false) {
+   $t1=explode("s=",$srt);
+   $srt=$t1[1];
+   }
    $t1=explode('onReady(function(){jwplayer()',$h);
    $t2=explode('file:"',$t1[1]);
    $t3=explode('"',$t2[1]);
@@ -1610,10 +1614,26 @@ sleep (2);
 $link1="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
    exec ("rm -f /tmp/test.xml");
    if ($srt) {
+   //echo $srt;
    $l_srt="http://127.0.0.1/cgi-bin/scripts/util/srt_xml.php?file=".urlencode($srt);
    $h=file_get_contents($l_srt);
    }
 } elseif (strpos($filelink,"openload.co") !==false) {
+   $filelink=str_replace("openload.co/f/","openload.co/embed/",$filelink);
+   //echo $filelink;
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, $filelink);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+      curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+      $h1 = curl_exec($ch);
+      curl_close($ch);
+   $t1=explode('kind="captions"',$h1);
+   $t2=explode('src="',$t1[1]);
+   $t3=explode('"',$t2[1]);
+   $srt="https://openload.co".$t3[0];
+   //echo $h1;
    preg_match('/openload\.co\/(v\/|watch\?v=|embed\/)([\w\-]+)/', $filelink, $match);
    $file = $match[2];
    $key="UebmYlZN";
@@ -1626,6 +1646,7 @@ $link1="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
       curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
       $ret = curl_exec($ch);
       curl_close($ch);
+      //echo $ret;
   $t=str_between($ret,'ticket":"','"');
   $dl="https://api.openload.co/1/file/dl?file=".$file."&ticket=".$t;
       $ch = curl_init();
@@ -1635,9 +1656,16 @@ $link1="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
       curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
       $ret = curl_exec($ch);
       curl_close($ch);
+      //echo $ret;
   $link=str_between($ret,'url":"','"');
   $link=str_replace("\/","/",$link);
   $link=str_replace("https","http",$link);
+  //echo $srt;
+   if ($srt) {
+   $l_srt="http://127.0.0.1/cgi-bin/scripts/util/srt_xml.php?file=".urlencode($srt);
+   $h=file_get_contents($l_srt);
+   //echo $h;
+   }
 } elseif (strpos($filelink,"ok.ru") !==false) {
   $filelink=str_replace("videoembed/","video/",$filelink);
   $filelink=str_replace("ok.ru","m.ok.ru",$filelink);

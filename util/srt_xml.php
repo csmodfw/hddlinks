@@ -24,24 +24,29 @@ $last_end=0;
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $h = curl_exec($ch);
   curl_close($ch);
   $file_array=explode("\n",$h);
 
 if($file_array)
 {
-if(preg_match('/(\d\d):(\d\d):(\d\d),(\d\d\d) --> (\d\d):(\d\d):(\d\d),(\d\d\d)/', $h)) {
+if(preg_match('/(\d\d):(\d\d):(\d\d)(\.|,)(\d\d\d) --> (\d\d):(\d\d):(\d\d)(\.|,)(\d\d\d)/', $h)) {
+  //print_r ($file_array);
   foreach($file_array as $line)
   {
     $line = trim($line);
+    //print $line."<BR>";
     $line = preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$line);
-        if(preg_match('/(\d\d):(\d\d):(\d\d),(\d\d\d) --> (\d\d):(\d\d):(\d\d),(\d\d\d)/', $line, $match))
+        if(preg_match('/(\d\d):(\d\d):(\d\d)(\.|,)(\d\d\d) --> (\d\d):(\d\d):(\d\d)(\.|,)(\d\d\d)/', $line, $match))
         {
-          $begin = round(3600 * $match[1] + 60 * $match[2] + $match[3] + $match[4]/1000);
-          $end   = round(3600 *$match[5] + 60 * $match[6] + $match[7] + $match[8]/1000);
+          //print_r ($match);
+          $begin = round(3600 * $match[1] + 60 * $match[2] + $match[3] + $match[5]/1000);
+          $end   = round(3600 *$match[6] + 60 * $match[7] + $match[8] + $match[10]/1000);
           $line1 = '';
           $line2 = '';
           $line3 = '';
+          //print $begin. "-".$end;
           if ($begin > $last_end)
           {
            $ttxml .=$last_end."\n";
@@ -107,6 +112,7 @@ $ttxml .="10002"."\n";
 $ttxml .="\n";
 $ttxml .="\n";
 }
+//echo $ttxml;
 $new_file = "/tmp/test.xml";
 $fh = fopen($new_file, 'w');
 fwrite($fh, $ttxml);

@@ -299,6 +299,15 @@ columnCount=5
 </item>
 
 <item>
+<title>ProTV Moldova</title>
+<link><?php echo $host; ?>/scripts/tv/php/protv_md.php</link>
+<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/protv.jpg" />
+<image>/usr/local/etc/www/cgi-bin/scripts/tv/image/protv.jpg</image>
+<location>http://www.protv.md/</location>
+<annotation>Vezi aici emisiuni inregistrate ale postului TV ProTV Moldova</annotation>
+</item>
+
+<item>
 <title>privesc.eu</title>
 <link><?php echo $host; ?>/scripts/tv/php/privesc_main.php</link>
 <media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/privesc.jpg" />

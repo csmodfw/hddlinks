@@ -7,7 +7,7 @@ function str_between($string, $start, $end){
 }
 function prep($b) {
 $c=urlencode($b);
-$c=str_replace("%C3%83%C2%A2","â",$b);
+$c=str_replace("%C3%83%C2%A2","â",$c);
 $c=str_replace("%C3%84%C2%83","ã",$c);
 $c=str_replace("%C3%85%C2%A3","þ",$c);
 $c=str_replace("%C3%83%C2%AE","î",$c);
@@ -179,5 +179,6 @@ fclose($fh);
 }
 //}
 }
+//echo $ttxml;
 print $movie;
 ?>

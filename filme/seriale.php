@@ -286,6 +286,18 @@ echo '
 <link><?php echo $host; ?>/scripts/filme/php/filme9s.php?query=1,</link>
 <media:thumbnail url="image/movies.png" />
 </item>
+
+<item>
+<title>vtube</title>
+<link><?php echo $host; ?>/scripts/filme/php/vtube.php</link>
+<media:thumbnail url="image/movies.png" />
+</item>
+
+<item>
+<title>vezi-online.ro</title>
+<link><?php echo $host; ?>/scripts/filme/php/vezi-online_ro_main.php</link>
+<media:thumbnail url="image/movies.png" />
+</item>
 <!--
 <item>
 <title>filmeonline - seriale</title>

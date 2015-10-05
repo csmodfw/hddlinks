@@ -14,7 +14,7 @@ function _slice($a,$b) {
 	return  $a;
 }
 
-
+if (!file_exists("/tmp/s_dec.php")) {
   $l = "https://www.youtube.com/watch?v=RjUlmco7v2M";
   $html="";
   $p=0;
@@ -69,9 +69,14 @@ $t4=$t4.'return $sA;'."\n".'};'."\n"."?>\n";
 $file = fopen("s_dec.php","w");
 fwrite($file,$t4);
 fclose($file);
+$file = fopen("/tmp/s_dec.php","w");
+fwrite($file,"ok");
+fclose($file);
 include ("s_dec.php");
 //unlink("s_dec.php");
-
+} else {
+include ("s_dec.php");
+}
 
 //https://s.ytimg.com/yts/jsbin/html5player-en_US-vflnSSUZV/html5player.js
 ?>

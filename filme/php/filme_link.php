@@ -609,7 +609,7 @@ for ($i=0;$i<count($links);$i++) {
         if ((strpos($cur_link, 'fastupload.rol.ro') !== false)  || (strpos($cur_link, 'fastupload.ro') !== false) || (strpos($cur_link, 'superweb') !==false)) {
           $mysrt_roshare="asasas";
         }
-        if (strpos($cur_link, 'videomega') !== false || strpos($cur_link, 'up2stream.com') !== false)
+        if (strpos($cur_link, 'videomega') !== false || strpos($cur_link, 'up2stream.com') !== false || strpos($cur_link, 'openload.co') !== false)
           $mysrt_roshare="asasas";
           //echo $cur_link;
           /*
@@ -640,6 +640,7 @@ for ($i=0;$i<count($links);$i++) {
          elseif (preg_match("/hd=2/",$cur_link)) $title=$server." (480p)";
          elseif (preg_match("/hd=3/",$cur_link)) $title=$server." (720p)";
         }
+        if (!($mysrt || $mysrt_google || $viki_id || $mysrt_roshare)){
 	    echo'
 	    <item>
 	    <title>'.$title.'</title>
@@ -666,6 +667,7 @@ for ($i=0;$i<count($links);$i++) {
         <name>'.$titledownload.'.flv</name>
         </item>
         ';
+        }
         if (preg_match("/vk\.com/",$cur_link) && preg_match("/hd=3/",$cur_link)) {
         $cur_link1=str_replace("hd=3","hd=2",$cur_link);
         $link="http://127.0.0.1/cgi-bin/scripts/filme/php/link.php?file=".urlencode($cur_link1);
@@ -821,7 +823,7 @@ for ($i=0;$i<count($links);$i++) {
         $f = "/usr/local/bin/home_menu";
 	    echo'
 	    <item>
-	    <title>Play cu subtitrare</title>
+	    <title>'.$server.'</title>
         <onClick>
         <script>
         showIdle();
@@ -832,9 +834,6 @@ for ($i=0;$i<count($links);$i++) {
         } else if ($viki_id <> "") {
         echo '
         dummy=getURL("http://127.0.0.1/cgi-bin/scripts/util/viki_xml.php?file='.$viki_id.'");';
-        } else {
-        echo '
-        dummy=getURL("http://127.0.0.1/cgi-bin/scripts/util/srt_xml.php?file='.urlencode($mysrt).'");';
         }
         echo '
         movie="'.$link.'";
