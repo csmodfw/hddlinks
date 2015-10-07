@@ -13,7 +13,11 @@ if($query) {
 
 $key="AIzaSyDhpkA0op8Cyb_Yu1yQa1_aPSr7YtMacYU";
 if (!$playlistID) {
-$l1="https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=".$search."&key=".$key;;
+if (substr($search, 0, 2) <> "UC") {
+$l1="https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=".$search."&key=".$key;
+} else {
+$l1="https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=".$search."&key=".$key;
+}
 //echo $l1;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l1);
@@ -319,16 +323,16 @@ http://gdata.youtube.com/feeds/api/users/nba/uploads?&start-index=1&max-results=
 if(!$page) {
     $page = 1;
 }
-if ($search) {
+if ($tit) {
 echo '
 	<channel>
-		<title>Uploads by '.$search.'</title>
+		<title>Uploads by '.$tit.'</title>
 		<menu>main menu</menu>
 		';
  } else {
  echo '
 	<channel>
-		<title>Uploads by '.$tit.'</title>
+		<title>Uploads by '.$search.'</title>
 		<menu>main menu</menu>
 		';
  }

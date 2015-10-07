@@ -273,14 +273,7 @@ columnCount=5
 </item>
 -->
 <!--
-<item>
-<title>1 TV Bacau</title>
-<link><?php echo $host; ?>/scripts/php1/youtube_user.php?query=1,1tvbacauvideo</link>
-<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/1tvbacau.jpg" />
-<image>/usr/local/etc/www/cgi-bin/scripts/tv/image/1tvbacau.jpg</image>
-<location>http://www.1tvbacau.ro/</location>
-<annotation>1 TV Bacau, post local de televiziune, prezintă evenimentele locale din ziua respectivă</annotation>
-</item>
+
 ->>
 <!--
 <item>
@@ -358,5 +351,33 @@ columnCount=5
 <location>http://www.cnstv.ro/</location>
 <annotation>Televiziunea Roman CNS</annotation>
 </item>
+
+<item>
+<title>Stirile Tv Giurgiu</title>
+<link><?php echo $host; ?>/scripts/php1/youtube_user.php?query=1,stiritvgiurgiu</link>
+<media:thumbnail url="image/youtube.gif" />
+<image>image/youtube.gif</image>
+<location>youtube</location>
+<annotation>TV Giurgiu - Stiri din Giurgiu, evenimente, actualitate, politic, social, economic, stiri locale, news tv</annotation>
+</item>
+
+<item>
+<title>TVNews Buzau</title>
+<link><?php echo $host; ?>/scripts/php1/youtube_user.php?query=1,newsbuzau</link>
+<media:thumbnail url="image/youtube.gif" />
+<image>image/youtube.gif</image>
+<location>youtube</location>
+<annotation>Stiri din Buzau</annotation>
+</item>
+
+<item>
+<title>Alege TV - Gazeta de Sud</title>
+<link><?php echo $host; ?>/scripts/php1/youtube_user.php?query=1,UCiFsLOo78bBLMUcUeqlf8Ww,,,Alege+TV</link>
+<media:thumbnail url="image/youtube.gif" />
+<image>image/youtube.gif</image>
+<location>youtube</location>
+<annotation>Stiri din Craiova</annotation>
+</item>
+
 </channel>
 </rss>

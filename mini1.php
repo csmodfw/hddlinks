@@ -413,8 +413,8 @@ showIdle();
 "<?php echo $host; ?>/scripts/user/youtube.php";
 </script>
 </onClick>
-<focus>/usr/local/etc/www/cgi-bin/scripts/image/onehd_focus.png</focus>
-<unfocus>/usr/local/etc/www/cgi-bin/scripts/image/onehd_unfocus.png</unfocus>
+<focus>/usr/local/etc/www/cgi-bin/scripts/image/music_focus.png</focus>
+<unfocus>/usr/local/etc/www/cgi-bin/scripts/image/music_unfocus.png</unfocus>
 <annotation>Canale de muzica disponibile pe youtube</annotation>
 </item>
 

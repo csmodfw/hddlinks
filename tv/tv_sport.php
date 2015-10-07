@@ -308,8 +308,15 @@ columnCount=5
 <annotation>Notizie sportive, informazioni, highlights video e tabelle comparative delle squadre di calcio. Tutti i calendari dei campionati di calcio con le quote dei bookmakers ed aggiornamenti sugli incontri di calcio</annotation>
 </item>
 -->
-
-
+<item>
+<title>RedmystSports</title>
+<link><?php echo $host; ?>/scripts/php1/youtube_user.php?query=1,UCV58U9zsnFwrrVgGWmADTCA,,,RedmystSports</link>
+<media:thumbnail url="image/youtube.gif" />
+<image>image/youtube.gif</image>
+<location>youtube</location>
+<annotation>Liga 1</annotation>
+</item>
+<!--
 <item>
 <title>www.footytube.com</title>
 <link><?php echo $host; ?>/scripts/tv/sport/footytube.php?query=0</link>
@@ -318,6 +325,7 @@ columnCount=5
 <location>http://www.footytube.com</location>
 <annotation>footytube.com. Latest football highlights, clips and videos.</annotation>
 </item>
+-->
 <!--
 <item>
 <title>www.tvgool.ro</title>

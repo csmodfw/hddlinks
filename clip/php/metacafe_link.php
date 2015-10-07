@@ -10,6 +10,7 @@ function str_between($string, $start, $end){
 //http://v.mccont.com/ItemFiles/%5BFrom%20www.metacafe.com%5D%209089514.23935216.4.mp4?__gda__=1347632471_9a21f3bbd97a2582f2a985f78b0c9c68
 //http://v.mccont.com/ItemFiles/%5BFrom%20www.metacafe.com%5D%209089514.23935216.4.mp4?__gda__=__gda__
 $html = file_get_contents($link);
+/*
 $link = urldecode(str_between($html, '<object classid="', '</object>'));
 //echo $link;
 $link1 = str_between($link,'"mediaURL":"','"');
@@ -21,5 +22,12 @@ $link1 = str_replace(' ','%20',$link1);
 $link1 = str_replace('[','%5B',$link1);
 $link1 = str_replace(']','%5D',$link1);
 $link2 = $link1."?__gda__=".$key;
-print $link2;
+*/
+$link1=urldecode(str_between($html,'videoURL=','&'));
+$link1= str_replace('\/','/',$link1);
+$link1= str_replace('\/','/',$link1);
+$link1 = str_replace(' ','%20',$link1);
+$link1 = str_replace('[','%5B',$link1);
+$link1 = str_replace(']','%5D',$link1);
+print $link1;
 ?>

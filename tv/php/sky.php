@@ -196,8 +196,9 @@ function dec($string) {
     $v=str_replace("\/","/",$v);
     return $v;
 }
-$link="http://www.sky.fm/";
+$link="http://www.radiotunes.com/";
 $html=file_get_contents($link);
+//echo $html;
 $videos = explode('<li data-channel', $html);
 
 unset($videos[0]);
