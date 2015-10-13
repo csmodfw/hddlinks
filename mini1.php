@@ -600,7 +600,7 @@ showIdle();
     {
     pass="1325";
     writeStringToFile(optionsPath, pass);
-    keyword = getInput();
+    keyword = getInput("Input", "doModal");
     if (keyword != null)
     {
       if (keyword == pass)
@@ -619,7 +619,7 @@ showIdle();
     }
     else
     {
-    keyword = getInput();
+    keyword = getInput("Input", "doModal");
     if (keyword != null)
     {
       if (keyword == pass)

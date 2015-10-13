@@ -114,12 +114,12 @@
           if(idx == 0)
           {
             print("username!!!!");
-    				keyword = getInput();
+    				keyword = getInput("Input", "doModal");
     				  user = keyword;
           }
           else if(idx == 1)
           {
-    				  keyword = getInput();
+    				  keyword = getInput("Input", "doModal");
     				  pass = keyword;
           }
           ret = "true";

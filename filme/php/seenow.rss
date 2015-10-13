@@ -111,7 +111,7 @@
           if(idx == 0)
           {
             print("username!!!!");
-    				keyword = getInput();
+    				keyword = getInput("Input", "doModal");
     				if (keyword != null)
     				{
     				  url="http://127.0.0.1/cgi-bin/scripts/util/see.php?pass=" + keyword;

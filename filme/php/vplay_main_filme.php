@@ -252,7 +252,7 @@ echo '
 <title>Căutare filme</title>
 <annotation>Căutare film</annotation>
 <onClick>
-  keyword = getInput();
+  keyword = getInput("Input", "doModal");
   if (keyword != null)
   {
    jumpToLink("searchLink");

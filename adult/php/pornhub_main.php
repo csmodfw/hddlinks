@@ -1,7 +1,6 @@
 #!/usr/local/bin/Resource/www/cgi-bin/php
 <?php echo "<?xml version='1.0' encoding='UTF8' ?>";
 $host = "http://127.0.0.1/cgi-bin";
-$img = "/usr/local/etc/www/cgi-bin/scripts/clip/image/trilulilu.png";
 ?>
 <rss version="2.0">
 <onEnter>
@@ -40,14 +39,15 @@ $img = "/usr/local/etc/www/cgi-bin/scripts/clip/image/trilulilu.png";
 	showHeader="no"
 	showDefaultInfo="no"
 	imageFocus=""
-	sliding="no"
-   idleImageXPC="5" idleImageYPC="5" idleImageWidthPC="8" idleImageHeightPC="10"
+	sliding="no" idleImageXPC="5" idleImageYPC="5" idleImageWidthPC="8" idleImageHeightPC="10"
 >
 
   	<text align="center" offsetXPC="0" offsetYPC="0" widthPC="100" heightPC="20" fontSize="30" backgroundColor="10:105:150" foregroundColor="100:200:255">
 		  <script>getPageInfo("pageTitle");</script>
 		</text>
-
+		<!--<image offsetXPC=5 offsetYPC=2 widthPC=20 heightPC=16>
+		  <script>channelImage;</script>
+		</image>-->
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
 		</text>
@@ -55,7 +55,7 @@ $img = "/usr/local/etc/www/cgi-bin/scripts/clip/image/trilulilu.png";
 		  <script>print(annotation); annotation;</script>
 		</text>
 		<image  redraw="yes" offsetXPC=60 offsetYPC=35 widthPC=30 heightPC=30>
-  <?php echo $img; ?>
+  <script>channelImage;</script>
 		</image>
         <idleImage>image/POPUP_LOADING_01.png</idleImage>
         <idleImage>image/POPUP_LOADING_02.png</idleImage>
@@ -135,6 +135,7 @@ ret;
 </onUserInput>
 
 	</mediaDisplay>
+
 	<item_template>
 		<mediaDisplay  name="threePartsView" idleImageXPC="5" idleImageYPC="5" idleImageWidthPC="8" idleImageHeightPC="10">
         <idleImage>image/POPUP_LOADING_01.png</idleImage>
@@ -148,90 +149,54 @@ ret;
 		</mediaDisplay>
 
 	</item_template>
-	<searchLink>
-	  <link>
-	    <script>"<?php echo $host."/scripts/clip/php/trilulilu_s.php?query=1,"; ?>" + urlEncode(keyword) + "," + urlEncode(keyword);</script>
-	  </link>
-	</searchLink>
+
+<script>
+    channelImage = "/usr/local/etc/www/cgi-bin/scripts/adult/image/pornhub.png";
+  </script>
 <channel>
-
-<title>trilulilu.ro</title>
-<!--
-<item>
-
-  <title>Căutare</title>
-  <onClick>
-		keyword = getInput("Input", "doModal");
-		if (keyword != null)
-		 {
-	       jumpToLink("searchLink");
-		  }
-   </onClick>
-</item>
--->
+	<title>pornhub.com</title>
+	<menu>main menu</menu>
 <?php
-function str_between($string, $start, $end){
-	$string = " ".$string; $ini = strpos($string,$start);
-	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini;
-	return substr($string,$ini,$len);
+function str_between($string, $start, $end){ 
+	$string = " ".$string; $ini = strpos($string,$start); 
+	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
+	return substr($string,$ini,$len); 
 }
-$html=file_get_contents("http://www.trilulilu.ro/video");
-//$t=explode('ul class="categories"',$html);
-//$h=$t[1];
-$h=$html;
-/*
-$link="http://www.trilulilu.ro/video";
-$link1=$host."/scripts/clip/php/trilulilu.php?query=1,".urlencode($link).",Toate";
-$title="Toate";
-  echo '
-  <item>
-  <title>'.$title.'</title>
-  <link>'.$link1.'</link>
-  </item>
-  ';
-echo '
-<item>
-<title>Cinefocus</title>
-<link>'.$host.'/scripts/clip/php/trilulilu.php?query=1,http://www.trilulilu.ro/canal/cinefocus,Cinefocus</link>
-</item>
-';
-*/
-/*
-echo '
-<item>
-<title>Luzarii de pe Electrolizei</title>
-<link>'.$host.'/scripts/clip/php/trilulilu.php?query=1,http://www.trilulilu.ro/canal/luzarii,Luzarii+de+pe+Electrolizei</link>
-</item>
-';
-*/
-$videos = explode('<li', $h);
-
+  	$link=$host."/scripts/adult/php/pornhub.php?query=1,o=bw";
+  	echo '
+  	<item>
+  		<title>New</title>
+  		<link>'.$link.'</link>
+  	</item>';
+$l="http://www.pornhub.com/categories";
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, "http://www.pornhub.com");
+  $html = curl_exec($ch);
+  curl_close($ch);
+$videos = explode('a class="sidebarIndent"', $html);
 unset($videos[0]);
 $videos = array_values($videos);
-
 foreach($videos as $video) {
-  $t1=explode('href="',$video);
-  $t2=explode('"',$t1[1]);
-  $link=$t2[0];
-
-  $t3=explode(">",$t1[1]);
-  $t4=explode("<",$t3[1]);
-  $title=trim($t4[0]);
-
-  if (preg_match("/header/",$link)) {
-    $t1=explode("?",$link);
+    $t=explode('href="/video?',$video);
+    $t1=explode('"',$t[1]);
     $link=$t1[0];
-    $link1=$host."/scripts/clip/php/trilulilu.php?query=1,".urlencode($link).",".urlencode($title);
-  echo '
-  <item>
-  <title>'.$title.'</title>
-  <link>'.$link1.'</link>
-  </item>
-  ';
-  }
+    $t2=explode(">",$t[1]);
+    $t3=explode("<",$t2[1]);
+  	$title=$t3[0];
+
+  	$link=$host."/scripts/adult/php/pornhub.php?query=1,".$link;
+  	if ($title) {
+  	echo '
+  	<item>
+  		<title>'.$title.'</title>
+  		<link>'.$link.'</link>
+  	</item>';
+  	}
 }
 ?>
-
-
 </channel>
 </rss>

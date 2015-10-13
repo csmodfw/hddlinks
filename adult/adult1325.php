@@ -465,6 +465,13 @@ French Maid TV
 <image>/usr/local/etc/www/cgi-bin/scripts/adult/image/xnxx.gif</image>
 <mediaDisplay name="threePartsView"/>
 </item>
+
+  <item>
+<title>pornhub</title>
+<link><?php echo $host; ?>/scripts/adult/php/pornhub_main.php</link>
+<image>/usr/local/etc/www/cgi-bin/scripts/adult/image/pornhub.png</image>
+<mediaDisplay name="threePartsView"/>
+</item>
 <!--
 <item>
 <title>Hardcore</title>

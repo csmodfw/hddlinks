@@ -9,13 +9,17 @@ function str_between($string, $start, $end){
 //http://fck-c06.empflix.com/dev6/0/001/278/0001278761.fid?key=9cae6fe65285c1bbd00f6f953124bef3&src=emp
 //http://fck-c02.empflix.com/dev2/0/001/283/0001283707.fid?key=7a30c311e942e6db40c73bbbe579c403&src=emp
 //http://fck-c02.empflix.com/dev2/0/001/283/0001283707.fid?key=7a30c311e942e6db40c73bbbe579c403&src=emp
-$link = $_GET["file"];
-$html = file_get_contents($link);
-$link = str_between($html, 'flashvars.config = escape("', '"');
-if (strpos($link,"http") === false) $link="http:".$link;
-$html = file_get_contents($link);
-$link1 = str_between($html, "<videoLink>", "</videoLink>");
-$link1=str_replace("&amp;","&",$link1);
-if (strpos($link1,"http") === false) $link1="http:".$link1;
-print $link1;
+$l = $_GET["file"];
+$link="http://www.pornhub.com/view_video.php?viewkey=".$l;
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $link);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  $html = curl_exec($ch);
+  curl_close($ch);
+$out=trim(str_between($html,"var player_quality_720p = '","'"));
+if (!$out)  $out=trim(str_between($html,"var player_quality_480p = '","'"));
+if (!$out)  $out=trim(str_between($html,"var player_quality_240p = '","'"));
+print $out;
 ?>

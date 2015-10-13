@@ -232,13 +232,14 @@ foreach($videos as $video) {
     $t1=explode('href="',$video);
     $t2 = explode('"', $t1[1]);
     $link = $t2[0];
-
+    if (strpos($link,"http") === false) $link="http:".$link;
     $title=str_between($video,'<h2>','</h2>');
     $link = $host."/scripts/adult/php/empflix_link.php?file=".$link;
 
     $t1 = explode('src="', $video);
     $t2 = explode('"', $t1[1]);
     $image = $t2[0];
+    if (strpos($image,"http") === false) $image="http:".$image;
 
     $data = trim(str_between($video,'duringTime">','<'));
     $data = preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$data);

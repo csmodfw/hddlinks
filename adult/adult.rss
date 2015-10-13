@@ -114,7 +114,7 @@
           if(idx == 0)
           {
             print("oldpass!!!!");
-    				keyword = getInput();
+    				keyword = getInput("Input", "doModal");
     				if (keyword != null)
     				{
     				  old_pass = keyword;
@@ -131,7 +131,7 @@
           else if(idx == 1)
           {
             print("newpass!!!!");
-    				keyword = getInput();
+    				keyword = getInput("Input", "doModal");
     				if (keyword != null)
     				{
     				  new_pass = keyword;

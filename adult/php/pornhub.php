@@ -4,6 +4,9 @@ $host = "http://127.0.0.1/cgi-bin";
 ?>
 <rss version="2.0">
 <onEnter>
+    storagePath             = getStoragePath("tmp");
+    storagePath_stream      = storagePath + "stream.dat";
+    storagePath_playlist    = storagePath + "playlist.dat";
   startitem = "middle";
   setRefreshTime(1);
 </onEnter>
@@ -16,7 +19,7 @@ $host = "http://127.0.0.1/cgi-bin";
 <mediaDisplay name="threePartsView"
 	sideLeftWidthPC="0"
 	sideRightWidthPC="0"
-	
+
 	headerImageWidthPC="0"
 	selectMenuOnRight="no"
 	autoSelectMenu="no"
@@ -25,11 +28,11 @@ $host = "http://127.0.0.1/cgi-bin";
 	itemImageWidthPC="0"
 	itemXPC="8"
 	itemYPC="25"
-	itemWidthPC="50"
+	itemWidthPC="45"
 	itemHeightPC="8"
 	capXPC="8"
 	capYPC="25"
-	capWidthPC="50"
+	capWidthPC="45"
 	capHeightPC="64"
 	itemBackgroundColor="0:0:0"
 	itemPerPage="8"
@@ -39,23 +42,29 @@ $host = "http://127.0.0.1/cgi-bin";
 	showHeader="no"
 	showDefaultInfo="no"
 	imageFocus=""
-	sliding="no"
-	idleImageXPC="5" idleImageYPC="5" idleImageWidthPC="8" idleImageHeightPC="10"
+	sliding="no" idleImageXPC="5" idleImageYPC="5" idleImageWidthPC="8" idleImageHeightPC="10"
 >
-		
+
   	<text align="center" offsetXPC="0" offsetYPC="0" widthPC="100" heightPC="20" fontSize="30" backgroundColor="10:105:150" foregroundColor="100:200:255">
 		  <script>getPageInfo("pageTitle");</script>
 		</text>
-  	<text align="left" offsetXPC="6" offsetYPC="15" widthPC="75" heightPC="4" fontSize="16" backgroundColor="10:105:150" foregroundColor="100:200:255">
-    2= adauga la favorite
+  	<text align="left" offsetXPC="6" offsetYPC="15" widthPC="100" heightPC="4" fontSize="16" backgroundColor="10:105:150" foregroundColor="100:200:255">
+    Press 2 for download, 3 for download manager
 		</text>
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
 		</text>
-  	<text  redraw="yes" align="center" offsetXPC="0" offsetYPC="90" widthPC="100" heightPC="8" fontSize="17" backgroundColor="10:105:150" foregroundColor="100:200:255">
-		  <script>print(annotation); annotation;</script>
+
+		<text align="center" redraw="yes"
+          lines="10" fontSize=17
+		      offsetXPC=55 offsetYPC=55 widthPC=40 heightPC=42
+		      backgroundColor=0:0:0 foregroundColor=200:200:200>
+			<script>print(annotation); annotation;</script>
 		</text>
-		<image  redraw="yes" offsetXPC=60 offsetYPC=35 widthPC=35 heightPC=40>
+  	<text  redraw="yes" align="center" offsetXPC="0" offsetYPC="90" widthPC="100" heightPC="8" fontSize="17" backgroundColor="10:105:150" foregroundColor="100:200:255">
+		  <script>print(location); location;</script>
+		</text>
+		<image  redraw="yes" offsetXPC=60 offsetYPC=22.5 widthPC=30 heightPC=25>
 		<script>print(img); img;</script>
 		</image>
         <idleImage>image/POPUP_LOADING_01.png</idleImage>
@@ -66,15 +75,16 @@ $host = "http://127.0.0.1/cgi-bin";
         <idleImage>image/POPUP_LOADING_06.png</idleImage>
         <idleImage>image/POPUP_LOADING_07.png</idleImage>
         <idleImage>image/POPUP_LOADING_08.png</idleImage>
+
 		<itemDisplay>
 			<text align="left" lines="1" offsetXPC=0 offsetYPC=0 widthPC=100 heightPC=100>
 				<script>
 					idx = getQueryItemIndex();
 					focus = getFocusItemIndex();
-					if(focus==idx) 
+					if(focus==idx)
 					{
 					  location = getItemInfo(idx, "location");
-					  annotation = getItemInfo(idx, "title");
+					  annotation = getItemInfo(idx, "annotation");
 					  img = getItemInfo(idx,"image");
 					}
 					getItemInfo(idx, "title");
@@ -83,7 +93,7 @@ $host = "http://127.0.0.1/cgi-bin";
   				<script>
   					idx = getQueryItemIndex();
   					focus = getFocusItemIndex();
-  			    if(focus==idx) "16"; else "14";
+  			    if(focus==idx) "14"; else "14";
   				</script>
 				</fontSize>
 			  <backgroundColor>
@@ -103,7 +113,7 @@ $host = "http://127.0.0.1/cgi-bin";
 			</text>
 
 		</itemDisplay>
-		
+
 <onUserInput>
 <script>
 ret = "false";
@@ -131,21 +141,27 @@ if (userInput == "pagedown" || userInput == "pageup")
   redrawDisplay();
   "true";
 }
-else if (userInput == "two" || userInput == "2")
-{
- showIdle();
- url="http://127.0.0.1/cgi-bin/scripts/filme/php/filme9_add.php?mod=add*" + getItemInfo(getFocusItemIndex(),"link1") + "*" + getItemInfo(getFocusItemIndex(),"title1");
- dummy=getUrl(url);
- cancelIdle();
- redrawDisplay();
- ret="true";
+if (userInput == "two" || userInput == "2")
+	{
+     showIdle();
+     url=getItemInfo(getFocusItemIndex(),"download");
+     movie=getUrl(url);
+     cancelIdle();
+	 topUrl = "http://127.0.0.1/cgi-bin/scripts/util/download.cgi?link=" + movie + ";name=" + getItemInfo(getFocusItemIndex(),"name");
+	 dlok = loadXMLFile(topUrl);
+	 "true";
+}
+if (userInput == "three" || userInput == "3")
+   {
+    jumpToLink("destination");
+    "true";
 }
 ret;
 </script>
 </onUserInput>
-		
+
 	</mediaDisplay>
-	
+
 	<item_template>
 		<mediaDisplay  name="threePartsView" idleImageXPC="5" idleImageYPC="5" idleImageWidthPC="8" idleImageHeightPC="10">
         <idleImage>image/POPUP_LOADING_01.png</idleImage>
@@ -159,34 +175,48 @@ ret;
 		</mediaDisplay>
 
 	</item_template>
-	<searchLink>
-	  <link>
-	    <script>"http://127.0.0.1/cgi-bin/scripts/filme/php/filme9_s.php?query=1," + urlEncode(keyword) + "," + urlEncode(keyword);</script>
-	  </link>
-	</searchLink>
+<destination>
+	<link>http://127.0.0.1/cgi-bin/scripts/util/level.php
+	</link>
+</destination>
 <channel>
-	<title>filme9 - seriale</title>
-	<menu>main menu</menu>
+	<title>pornhub.com</title>
+
 <?php
 $query = $_GET["query"];
 if($query) {
    $queryArr = explode(',', $query);
    $page = $queryArr[0];
-   $search1 = $queryArr[1];
+   $search = $queryArr[1];
+   $search = str_replace(" ","%20",$search);
 }
+    if($search) {
+        $l = "http://www.pornhub.com/video?".$search."&page=".$page;
+    } else {
+        $l = "http://www.pornhub.com/video?".$search."&page=".$page;
+    }
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, "http://www.pornhub.com");
+  $html = curl_exec($ch);
+  curl_close($ch);
+
 if($page > 1) { ?>
 
 <item>
 <?php
 $sThisFile = 'http://127.0.0.1'.$_SERVER['SCRIPT_NAME'];
 $url = $sThisFile."?query=".($page-1).",";
-if($search) {
-  $url = $url.$search;
+if($search) { 
+  $url = $url.$search; 
 }
 ?>
 <title>Previous Page</title>
 <link><?php echo $url;?></link>
-<annotation>Pagina anterioară</annotation>
+<annotation>Previous Page</annotation>
 <image>image/left.jpg</image>
 <mediaDisplay name="threePartsView"/>
 </item>
@@ -195,77 +225,88 @@ if($search) {
 <?php } ?>
 
 <?php
-if ($page == 1) {
-echo '
-<item>
-<title>Cautare</title>
-  <onClick>
-		keyword = getInput("Input", "doModal");
-		if (keyword != null)
-		 {
-	       jumpToLink("searchLink");
-		  }
-   </onClick>
-</item>
-';
-  $title="Lista serialelor favorite";
-  $link = $host."/scripts/filme/php/filme9_fav.php";
-  echo '
-  <item>
-  <title>'.$title.'</title>
-  <link>'.$link.'</link>
-  <image></image>
-  </item>
-  ';
+function str_between($string, $start, $end){ 
+	$string = " ".$string; $ini = strpos($string,$start); 
+	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
+	return substr($string,$ini,$len); 
 }
-$l="http://www.filme9.com/seriale/pagina-".$page."/";
-$html= file_get_contents($l);
-$host = "http://127.0.0.1/cgi-bin";
-$videos = explode('<div class="serial', $html);
-
+$videos = explode('<li class="videoblock"', $html);
 unset($videos[0]);
 $videos = array_values($videos);
 
 foreach($videos as $video) {
-	$t1 = explode('href="', $video);
-	$t2 = explode('"', $t1[1]);
-	$link = $t2[0];
+    $t1 = explode('_vkey="', $video);
+    $t2 = explode('"', $t1[1]);
+    $link = $t2[0];
+    //http://img02.redtubefiles.com/_thumbs/0000350/0350855/0350855_009m.jpg
+    $t1 = explode('data-mediumthumb="', $video);
+    $t2 = explode('"', $t1[1]);
+    $image = $t2[0];
+    if (strpos($image,".gif") !== false) {
+     $image=str_between($video,'data-thumb="','"');
+    }
 
-	$t1 = explode('src="', $video);
-	$t2 = explode('"', $t1[1]);
-	$image = $t2[0];
+    $t1 = explode('title="', $video);
+    $t2 = explode('"', $t1[1]);
+    $title = $t2[0];
+    $link = $host."/scripts/adult/php/pornhub_link.php?file=".$link;
 
-	$t1 = explode('class="nume">', $video);
-	$t2 = explode('<', $t1[1]);
-	$title=$t2[0];
-    $link1 = $link;
-    $link = $host."/scripts/filme/php/filme9z.php?file=".$link1.",".urlencode($title);
+
+    $data = trim(str_between($video,'class="duration">','<'));
+    $data = preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$data);
+
+    $data = "Duration: ".$data;
+    $name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".flv";
+
     echo '
     <item>
     <title>'.$title.'</title>
-    <link>'.$link.'</link>	
-    <image>'.$image.'</image>
-    <title1>'.urlencode($title).'</title1>
-    <link1>'.urlencode($link1).'</link1>
-    <media:thumbnail url="'.$image.'" />
-    </item>
-    ';
+    <onClick>
+    <script>
+    showIdle();
+    url="'.$link.'";
+    movie=getUrl(url);
+    cancelIdle();
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/x-flv);
+    streamArray = pushBackStringArray(streamArray, "'.$title.'");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer.rss");
+    </script>
+    </onClick>
+    <download>'.$link.'</download>
+    <name>'.$name.'</name>
+  <image>'.$image.'</image>
+  <annotation>'.$data.'</annotation>
+  <location>'.$title.'</location>
+  <media:thumbnail url="'.$image.'" />
+  <mediaDisplay name="threePartsView"/>
+  </item>
+  ';
 }
 
+
 ?>
+
 <item>
 <?php
 $sThisFile = 'http://127.0.0.1'.$_SERVER['SCRIPT_NAME'];
 $url = $sThisFile."?query=".($page+1).",";
-if($search) {
-  $url = $url.$search;
+if($search) { 
+  $url = $url.$search; 
 }
 ?>
 <title>Next Page</title>
 <link><?php echo $url;?></link>
-<annotation>Pagina următoare</annotation>
+<annotation>Next Page</annotation>
 <image>image/right.jpg</image>
 <mediaDisplay name="threePartsView"/>
 </item>
+
 </channel>
 </rss>

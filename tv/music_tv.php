@@ -158,12 +158,12 @@ ret;
 <channel>
 	<title>TV Live - Muzica</title>
 	<menu>main menu</menu>
-
+<!--
    <item>
    <title>OneHD Concerts</title>
    <link>/usr/local/etc/www/cgi-bin/scripts/tv/onehd_concert.rss</link>
    </item>
-
+-->
    <item>
     <title>Virgin TV</title>
     <onClick>playItemUrl("http://127.0.0.1/cgi-bin/translate?stream,,rtmp://fms.105.net:1935/live/virgin1",10);</onClick>

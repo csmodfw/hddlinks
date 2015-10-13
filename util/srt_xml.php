@@ -31,6 +31,7 @@ $last_end=0;
 
 if($file_array)
 {
+$k=0;
 if(preg_match('/(\d\d):(\d\d):(\d\d)(\.|,)(\d\d\d) --> (\d\d):(\d\d):(\d\d)(\.|,)(\d\d\d)/', $h)) {
   //print_r ($file_array);
   foreach($file_array as $line)
@@ -41,6 +42,7 @@ if(preg_match('/(\d\d):(\d\d):(\d\d)(\.|,)(\d\d\d) --> (\d\d):(\d\d):(\d\d)(\.|,
         if(preg_match('/(\d\d):(\d\d):(\d\d)(\.|,)(\d\d\d) --> (\d\d):(\d\d):(\d\d)(\.|,)(\d\d\d)/', $line, $match))
         {
           //print_r ($match);
+          $k++;
           $begin = round(3600 * $match[1] + 60 * $match[2] + $match[3] + $match[5]/1000);
           $end   = round(3600 *$match[6] + 60 * $match[7] + $match[8] + $match[10]/1000);
           $line1 = '';
@@ -113,13 +115,16 @@ $ttxml .="\n";
 $ttxml .="\n";
 }
 //echo $ttxml;
+if ($k>5) {
 $new_file = "/tmp/test.xml";
 $fh = fopen($new_file, 'w');
 fwrite($fh, $ttxml);
 fclose($fh);
+}
 } else {
 //echo $h;
 $videos = explode('<p', $h);
+if (count($videos) > 1) {
 unset($videos[0]);
 $videos = array_values($videos);
 $n=1;
@@ -185,6 +190,7 @@ $new_file = "/tmp/test.xml";
 $fh = fopen($new_file, 'w');
 fwrite($fh, $ttxml);
 fclose($fh);
+}
 }
 }
 ?>

@@ -374,13 +374,14 @@ echo '
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
+<!--
 <item>
 <title>FilmOn</title>
 <link><?php echo $host; ?>/scripts/tv/php/filmon.php</link>
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <item>
 <title>Playlist from database.eu.pn</title>
 <link><?php echo $host; ?>/scripts/tv/simpletv.php</link>

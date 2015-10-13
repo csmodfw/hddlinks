@@ -171,7 +171,7 @@ ret;
 <title>Adaugă un utilizator</title>
 <onClick>
 <script>
-keyword = getInput();
+keyword = getInput("Input", "doModal");
 if (keyword != null)
 {
 url="http://127.0.0.1/cgi-bin/scripts/filme/php/peteava_user1.php?mod=add," + keyword;
@@ -185,7 +185,7 @@ jumptolink("destination");
 <title>Şterge un utilizator (din lista nouă)</title>
 <onClick>
 <script>
-keyword = getInput();
+keyword = getInput("Input", "doModal");
 if (keyword != null)
 {
 url="http://127.0.0.1/cgi-bin/scripts/filme/php/peteava_user1.php?mod=delete," + keyword;

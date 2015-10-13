@@ -3,6 +3,7 @@
 error_reporting(0);
 $filelink = $_GET["file"];
 $filelink=urldecode($filelink);
+exec ("rm -f /tmp/test.xml");
 //echo $filelink;
 if (strpos($filelink,"is.gd") !==false) {
  $a = @get_headers($filelink);
@@ -1632,7 +1633,7 @@ $link1="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
    $t1=explode('kind="captions"',$h1);
    $t2=explode('src="',$t1[1]);
    $t3=explode('"',$t2[1]);
-   $srt="https://openload.co".$t3[0];
+   if ($t3[0]) $srt="https://openload.co".$t3[0];
    //echo $h1;
    preg_match('/openload\.co\/(v\/|watch\?v=|embed\/)([\w\-]+)/', $filelink, $match);
    $file = $match[2];
@@ -1663,6 +1664,7 @@ $link1="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
   //echo $srt;
    if ($srt) {
    $l_srt="http://127.0.0.1/cgi-bin/scripts/util/srt_xml.php?file=".urlencode($srt);
+   //echo $l_srt;
    $h=file_get_contents($l_srt);
    //echo $h;
    }

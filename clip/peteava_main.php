@@ -159,7 +159,7 @@ ret;
 <item>
 <title>Căutare</title>
 <onClick>
-  keyword = getInput();
+  keyword = getInput("Input", "doModal");
   if (keyword != null)
   {
     jumpToLink("searchLink");

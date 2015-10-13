@@ -401,10 +401,11 @@ for ($k=0;$k<25;$k++) {
   }
   if (array_key_exists("channelId",$p["items"][$k]["id"])) {
     $id=$p["items"][$k]["snippet"]["channelTitle"];
+    if (!$id) $id=$p["items"][$k]["snippet"]["channelId"];
     $link1=$id;
 	$link = "http://127.0.0.1/cgi-bin/scripts/php1/youtube_user.php?query=1,".$id.",,,".urlencode($title);
 	//$link = "http://127.0.0.1/cgi-bin/scripts/php1/yt_playlist.php?query=1,".$id.",".urlencode($title);
-	$link1=$id;
+
     $title="(user) ".$title;
     echo '
     <item>

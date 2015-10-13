@@ -201,7 +201,7 @@ ret;
 <item>
   <title>Search for station</title>
   <onClick>
-     keyword = getInput();
+     keyword = getInput("Input", "doModal");
      if (keyword != null)
 		{
 	       jumpToLink("searchLink");

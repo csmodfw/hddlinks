@@ -114,7 +114,7 @@
           if(idx == 0)
           {
             print("username!!!!");
-    				keyword = getInput();
+    				keyword = getInput("Input", "doModal");
     				if (keyword != null)
     				{
     				  username = keyword;
@@ -123,7 +123,7 @@
           else if(idx == 1)
           {
             print("pass!!!!");
-    				keyword = getInput();
+    				keyword = getInput("Input", "doModal");
     				if (keyword != null)
     				{
     				  pass = keyword;

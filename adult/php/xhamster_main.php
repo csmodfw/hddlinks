@@ -170,7 +170,7 @@ function str_between($string, $start, $end){
   		<link>'.$link.'</link>
   	</item>';
 $html = file_get_contents("http://xhamster.com");
-$html = str_between($html,'Categories</div>','</div');
+$html = str_between($html,'Categories</div>','<div class="head"');
 $videos = explode("href='", $html);
 unset($videos[0]);
 $videos = array_values($videos);

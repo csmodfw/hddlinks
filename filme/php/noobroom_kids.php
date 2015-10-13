@@ -556,7 +556,7 @@ optionsPath="/usr/local/etc/dvdplayer/amigo.dat";
 pass = readStringFromFile(optionsPath);
 if (pass == null)
 {
- keyword = getInput();
+ keyword = getInput("Input", "doModal");
  if (keyword != null)
  {
   url1="http://127.0.0.1/cgi-bin/scripts/filme/php/amigo.php?pass=" + keyword;

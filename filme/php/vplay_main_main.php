@@ -251,7 +251,7 @@ echo '
 <title>Căutare serial</title>
 <annotation>Căutare serial</annotation>
 <onClick>
-  keyword = getInput();
+  keyword = getInput("Input", "doModal");
   if (keyword != null)
   {
    jumpToLink("searchLink");
