@@ -797,6 +797,7 @@ if ((strpos($filelink,"vidxden") !==false) || (strpos($filelink,"divxden") !==fa
    $t2=explode("'file': ",$t1[1]);
    $t3=explode('"',$t2[1]);
    $mysrt=$t3[1];
+   if (!$mysrt) $mysrt=str_between($h,"captions.file': '","'");
    $l_srt="http://127.0.0.1/cgi-bin/scripts/util/srt_xml.php?file=".urlencode($mysrt);
    $h=file_get_contents($l_srt);
 } elseif (strpos($filelink, 'zetshare.net') !== false) {

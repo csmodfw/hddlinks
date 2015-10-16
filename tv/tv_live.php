@@ -301,13 +301,14 @@ else
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
+<!--
 <item>
 <title>Spice TV</title>
 <link><?php echo $host; ?>/scripts/tv/spice.php</link>
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <item>
 <title>PBX România</title>
 <link><?php echo $host; ?>/scripts/tv/pbx.php</link>
