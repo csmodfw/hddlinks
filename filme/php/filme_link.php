@@ -253,6 +253,15 @@ else if (userInput == "five" || userInput == "5")
     jumpToLink("sub");
     ret="true";
 }
+else if (userInput == "six" || userInput == "6")
+   {
+    showidle();
+    topUrl = "http://127.0.0.1/cgi-bin/scripts/filme/php/captcha.php?file=" + getItemInfo(getFocusItemIndex(),"download");
+    dummy = getUrl(topUrl);
+    cancelIdle();
+    jumpToLink("captcha");
+    ret="true";
+}
 else
 {
 info_serial="";
@@ -263,6 +272,14 @@ ret="false";
 ret;
 </onUserInput>
 </mediaDisplay>
+<captcha>
+<link>
+<script>
+ url="/usr/local/etc/www/cgi-bin/scripts/filme/php/captcha.rss";
+ url;
+</script>
+</link>
+</captcha>
 <destination>
 	<link>http://127.0.0.1/cgi-bin/scripts/util/level.php
 	</link>
@@ -820,6 +837,7 @@ for ($i=0;$i<count($links);$i++) {
         ';
         }
         if ($mysrt || $mysrt_google || $viki_id || $mysrt_roshare){
+        if (strpos($server,"openload") !== false) $server=$server." (apasati 6 pentru captcha)";
         $f = "/usr/local/bin/home_menu";
 	    echo'
 	    <item>

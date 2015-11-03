@@ -186,7 +186,7 @@ else if(userInput == "right" || userInput == "R")
 {
 showIdle();
 idx = Integer(getFocusItemIndex());
-url_canal = "http://127.0.0.1/cgi-bin/scripts/tv/php/dolce_prog.php?file=" + getItemInfo(idx,"id");
+url_canal = "http://127.0.0.1/cgi-bin/scripts/tv/php/prog.php?file=" + getItemInfo(idx,"id");
 annotation = getURL(url_canal);
 cancelIdle();
 redrawDisplay();
@@ -243,7 +243,7 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
-    <id>10001</id>
+    <id>tvr-1</id>
      </item>
      
      <item>
@@ -267,7 +267,7 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
-    <id>10002</id>
+    <id>tvr-2</id>
      </item>
      
      <item>
@@ -291,7 +291,7 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
-    <id>10015</id>
+    <id>tvr-international</id>
      </item>
 <!--     
      <item>
@@ -339,7 +339,7 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
-    <id>10167</id>
+    <id>tvr-3</id>
      </item>
      
      <item>
@@ -387,7 +387,7 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
-    <id>10190</id>
+    <id>tvr-hd</id>
      </item>
 	 
      <item>
@@ -411,7 +411,7 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
-    <id></id>
+    <id>tvr-moldova</id>
      </item>
      </channel>
 </rss>

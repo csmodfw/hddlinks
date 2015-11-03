@@ -151,6 +151,55 @@ function unpack_DivXBrowserPlugin($n_func,$html_cod,$sub=false) {
   }
   return $ret_val;
 }
+function unpack_allmyvideos($n_func,$html_cod) {
+  $f=explode("return p}",$html_cod);
+  $e=explode("'.split",$f[$n_func]);
+  //$ls=$e[0];
+  $ls=$e[0];
+  //echo $ls;
+  $a=explode(",",$ls);
+  //print_r($a); //for debug only
+  $a1=explode("'",$a[count($a)-1]); //char list for replace
+  //$b1=explode(",",$a1[1]);
+  $base_enc=$a1[1];
+  $base_enc=36;
+  //echo "<BR>".$base_enc;
+  $w=explode("|",$a1[1]);
+  //print_r ($w);
+  $ch="0123456789abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz";
+  $ch="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  $ch="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  $fl="";
+  for ($i=0;$i<count($a)-1;$i++) {
+    $fl=$fl.$a[$i];
+  }
+  $r="";
+  $x=strlen($fl);
+  //echo $fl;
+  for ($i=0;$i<strlen($fl);$i++) {
+    if (!preg_match('/[A-Za-z0-9]/',$fl[$i])) { //nu e alfanumeric
+       $r=$r.$fl[$i];
+    } elseif (($i<$x) && (preg_match('/[A-Za-z0-9]/',$fl[$i])) && (preg_match('/[A-Za-z0-9]/',$fl[$i+1]))) {
+       $pos=strpos($ch,$fl[$i+1]);
+       $pos=$base_enc*$fl[$i] + $pos;
+       if ($w[$pos] <> "")
+         $r=$r.$w[$pos];
+       else
+         $r=$r.$fl[$i].$fl[$i+1];
+     } elseif (($i>0) && (preg_match('/[A-Za-z0-9]/',$fl[$i])) && (preg_match('/[A-Za-z0-9]/',$fl[$i-1]))) {
+       // nothing
+     } else {
+       $pos=strpos($ch,$fl[$i]);
+        if ($w[$pos] <> "")
+          $r=$r.$w[$pos];
+        else
+          $r=$r.$fl[$i];
+     }
+  }
+  $r=str_replace("\\","",$r);
+
+  return $r;
+}
 function str_prep($string){
   $string = str_replace(' ','%20',$string);
   $string = str_replace('[','%5B',$string);
@@ -1640,6 +1689,14 @@ $link1="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
    $file = $match[2];
    $key="UebmYlZN";
    $login="de2a2a3fe31fdb89";
+   $f="/tmp/ticket.txt";
+   $captcha="";
+   $invalid_t=false;
+   if (file_exists($f)) {
+     $t_f=file_get_contents($f);
+     if (strpos($t_f,$file) === false) $invalid_t=true;
+   }
+   if (!file_exists($f) || $invalid_t) {
    $ticket="https://api.openload.co/1/file/dlticket?file=".$file."&login=".$login."&key=".$key;
       $ch = curl_init();
       curl_setopt($ch, CURLOPT_URL, $ticket);
@@ -1649,8 +1706,12 @@ $link1="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
       $ret = curl_exec($ch);
       curl_close($ch);
       //echo $ret;
-  $t=str_between($ret,'ticket":"','"');
-  $dl="https://api.openload.co/1/file/dl?file=".$file."&ticket=".$t;
+     $t=str_between($ret,'ticket":"','"');
+  } else {
+    $t=file_get_contents($f);
+    $captcha=file_get_contents("/tmp/captcha.txt");
+  }
+  $dl="https://api.openload.co/1/file/dl?file=".$file."&ticket=".$t."&captcha_response=".$captcha;
       $ch = curl_init();
       curl_setopt($ch, CURLOPT_URL, $dl);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -1855,6 +1916,7 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
    curl_close($ch);
    $link=str_between($h,'<source src="','"');
    $srt=str_between($h,'servevtta.php?s=','"');
+   if (!$srt) $srt=str_between($h,'captions" src="','"');
    if ($srt) {
    $l_srt="http://127.0.0.1/cgi-bin/scripts/util/srt_xml.php?file=".urlencode($srt);
    $h=file_get_contents($l_srt);
@@ -1879,8 +1941,42 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
   }
   $link=str_replace("\/","/",$t2[0]);
 } elseif (strpos($filelink,"allvid.ch") !==false) {
-  $h=file_get_contents($filelink);
-  $link=str_between($h,'[{file:"','"');
+  $filelink=str_replace("embed-","",$filelink);
+  $filelink=str_replace(".html","",$filelink);
+  //$filelink="http://allvid.ch/z7tguqv0tafy";
+  //echo $filelink;
+  //$cookie=$base_cookie."allvid.dat";
+   $ch = curl_init();
+   curl_setopt($ch, CURLOPT_URL, $filelink);
+   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0');
+   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+   //curl_setopt($ch, CURLOPT_REFERER, $filelink);
+   //curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
+   //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+   $h = curl_exec($ch);
+   curl_close($ch);
+   $h1=unpack_allmyvideos(1,$h);
+   //echo $h1;
+
+   $x1=explode('sources:[',$h1);
+   $x2=explode(']',$x1[1]);
+   //echo $x2[0];
+  //echo $r;
+   $y1=explode('file:"',$x2[0]);
+   $n=count($y1);
+   /*
+   for ($k=1;$k<$n;$k++) {
+   $y2=explode('"',$y1[$k]);
+   //print $y2[0]."<BR>";
+  }
+  */
+  $y2=explode('"',$y1[1]);
+  $link=$y2[0];
+  if (strpos($link,"m3u8") !== false) {
+  $y2=explode('"',$y1[2]);
+  $link=$y2[0];
+  }
 }
 
 //////////////////////////////////////////////////////////////////

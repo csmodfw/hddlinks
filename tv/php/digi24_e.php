@@ -4,7 +4,7 @@ $host = "http://127.0.0.1/cgi-bin";
 $query = $_GET["file"];
 if($query) {
    $queryArr = explode(',', $query);
-   $link = $queryArr[0];
+   $link = urldecode($queryArr[0]);
    $link=str_replace(" ","+",$link);
    $tit= urldecode($queryArr[1]);
 }
@@ -200,22 +200,24 @@ $title="";
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt($ch, CURLOPT_REFERER, "http://www.digi24.ro");
+  curl_setopt($ch, CURLOPT_REFERER, "http://www.digi-online.ro");
   $html = curl_exec($ch);
   curl_close($ch);
 
-$videos = explode('<a class="anchor', $html);
+$videos = explode('class="episode"', $html);
 unset($videos[0]);
 $videos = array_values($videos);
 foreach($videos as $video) {
-    $t=explode('href="',$video);
+    $t=explode('data-source="',$video);
 if ( sizeof($t)>1 ) {
     $t1=explode('"',$t[1]);
-    $link="http://www.digi24.ro".$t1[0];
-    $t1=explode('data-src="',$video);
+    $link=$t1[0];
+    $t1=explode('src="',$video);
     $t2=explode('"',$t1[1]);
-    $image="http://www.digi24.ro".$t2[0];
-  	$title=fix_s(str_between($video,'title image heading">','<'));
+    $image=$t2[0];
+  	$t1=explode('class="transp_text">',$video);
+  	$t2=explode('<',$t1[1]);
+  	$title=$t2[0];
     $link=$host."/scripts/tv/php/digi24e_link.php?file=".$link;
     }
     if ($title) {

@@ -1,45 +1,37 @@
 #!/usr/local/bin/Resource/www/cgi-bin/php
 <?php echo "<?xml version='1.0' encoding='UTF8' ?>";
-error_reporting(0);
+//error_reporting(0);
 $host = "http://127.0.0.1/cgi-bin";
 function str_between($string, $start, $end){
 	$string = " ".$string; $ini = strpos($string,$start);
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini;
 	return substr($string,$ini,$len);
 }
-//http://balancer.digi24.ro/?scope=digi24&type=rtmp&quality=hq&t=1355201126707
-$l="http://www.digi24.ro/balancer.new/?scope=digi24&type=rtmp&quality=hq&t=";
-$l="http://balancer.digi24.ro/?scope=digi24&type=rtmp&quality=hq&t=";
-$h=file_get_contents($l);
-$h=str_replace("\\","",$h);
-$digi_rtmp=str_between($h,'streamer":"','"');
-$digi_file=str_between($h,'file":"','"');
-$l="http://www.digi24.ro/balancer.new/?scope=digisport1desk&type=rtmp&quality=hq&t=";
-$l="http://balancer.digi24.ro/?scope=digisport1desk&type=rtmp&quality=hq&t=";
-$h=file_get_contents($l);
-$h=str_replace("\\","",$h);
-$digi1_rtmp=str_between($h,'streamer":"','"');
-$digi1_file=str_between($h,'file":"','"');
-$l="http://www.digi24.ro/balancer.new/?scope=digisport2desk&type=rtmp&quality=hq&t=";
-$l="http://balancer.digi24.ro/?scope=digisport2desk&type=rtmp&quality=hq&t=";
-$h=file_get_contents($l);
-$h=str_replace("\\","",$h);
-$digi2_rtmp=str_between($h,'streamer":"','"');
-$digi2_file=str_between($h,'file":"','"');
 ?>
 <rss version="2.0">
 <onEnter>
+  storagePath = getStoragePath("tmp");
+  storagePath_stream = storagePath + "stream.dat";
+  optionsPath = cachePath + "digi_s.dat";
+  optionsArray = readStringFromFile(optionsPath);
+  if(optionsArray == null)
+  {
+    buf = "1";
+  }
+  else
+  {
+    buf = getStringArrayAt(optionsArray, 0);
+  }
   startitem = "middle";
   setRefreshTime(1);
-  <?php
-  echo 'digi_rtmp="'.$digi_rtmp.'";';
-  echo 'digi_file="'.$digi_file.'";';
-  echo 'digi1_rtmp="'.$digi1_rtmp.'";';
-  echo 'digi1_file="'.$digi1_file.'";';
-  echo 'digi2_rtmp="'.$digi2_rtmp.'";';
-  echo 'digi2_file="'.$digi2_file.'";';
-  ?>
 </onEnter>
+ <onExit>
+  arr = null;
+  arr = pushBackStringArray(arr, buf);
+  print("arr=",arr);
+
+  writeStringToFile(optionsPath, arr);
+</onExit>
 
 <onRefresh>
   setRefreshTime(-1);
@@ -57,11 +49,11 @@ $digi2_file=str_between($h,'file":"','"');
 	itemImageWidthPC="0"
 	itemXPC="8"
 	itemYPC="25"
-	itemWidthPC="50"
+	itemWidthPC="20"
 	itemHeightPC="8"
 	capXPC="8"
 	capYPC="25"
-	capWidthPC="50"
+	capWidthPC="20"
 	capHeightPC="64"
 	itemBackgroundColor="0:0:0"
 	itemPerPage="8"
@@ -76,15 +68,19 @@ $digi2_file=str_between($h,'file":"','"');
 >
 
   	<text align="center" offsetXPC="0" offsetYPC="0" widthPC="100" heightPC="20" fontSize="30" backgroundColor="10:105:150" foregroundColor="100:200:255">
-		  <script>getPageInfo("pageTitle");</script>
+		  <script>getPageInfo("pageTitle") + " (" + sprintf("%s / ", focus-(-1))+itemCount + ")";</script>
 		</text>
 
-  	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
-		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
+  	<text align="left" redraw="yes" offsetXPC="8" offsetYPC="15" widthPC="92" heightPC="4" fontSize="16" backgroundColor="10:105:150" foregroundColor="100:200:255">
+    <script>"Apasati > pentru program, 2 pentru modificare server. Server curent: " + buf;</script>
 		</text>
-		<image  redraw="yes" offsetXPC=60 offsetYPC=35 widthPC=30 heightPC=30>
-  image/tv_radio.png
-		</image>
+
+		<text align="left" redraw="yes"
+          lines="18" fontSize=15
+		      offsetXPC=30 offsetYPC=25 widthPC=70 heightPC=65
+		      backgroundColor=0:0:0 foregroundColor=200:200:200>
+              <script>print(annotation); annotation;</script>
+		</text>
         <idleImage>image/POPUP_LOADING_01.png</idleImage>
         <idleImage>image/POPUP_LOADING_02.png</idleImage>
         <idleImage>image/POPUP_LOADING_03.png</idleImage>
@@ -102,7 +98,6 @@ $digi2_file=str_between($h,'file":"','"');
 					if(focus==idx)
 					{
 					  location = getItemInfo(idx, "location");
-					  annotation = getItemInfo(idx, "annotation");
 					}
 					getItemInfo(idx, "title");
 				</script>
@@ -135,7 +130,7 @@ $digi2_file=str_between($h,'file":"','"');
 <script>
 ret = "false";
 userInput = currentUserInput();
-
+server = "";
 if (userInput == "pagedown" || userInput == "pageup")
 {
   idx = Integer(getFocusItemIndex());
@@ -158,12 +153,41 @@ if (userInput == "pagedown" || userInput == "pageup")
   redrawDisplay();
   "true";
 }
+else if (userInput == "two" || userInput == "2")
+{
+		if (buf == "1")
+           buf = "2";
+		else if (buf == "2")
+           buf = "3";
+        else if (buf == "3")
+          buf = "1";
+        else
+		 buf = "1";
+  redrawDisplay();
+  ret = "true";
+}
+else if(userInput == "right" || userInput == "R")
+{
+showIdle();
+idx = Integer(getFocusItemIndex());
+url_canal = "http://127.0.0.1/cgi-bin/scripts/tv/php/prog.php?file=" + getItemInfo(idx,"id");
+annotation = getURL(url_canal);
+cancelIdle();
+redrawDisplay();
+ret = "true";
+}
+else
+{
+annotation = " ";
+redrawDisplay();
+ret = "false";
+}
 ret;
 </script>
 </onUserInput>
-		
+
 	</mediaDisplay>
-	
+
 	<item_template>
 		<mediaDisplay  name="threePartsView" idleImageXPC="5" idleImageYPC="5" idleImageWidthPC="8" idleImageHeightPC="10">
         <idleImage>image/POPUP_LOADING_01.png</idleImage>
@@ -179,75 +203,62 @@ ret;
 
 <channel>
   <title>Digi TV</title>
-
-	<item>
-	<title>Digi24</title>
-	<onClick>
-	<script>
-    movie = "http://127.0.0.1/cgi-bin/translate?stream,Rtmp-options:-W%20http://www.digi24.ro/static_dev/public_theme_v3/mediaplayer/player.swf%20-p%20http://www.digi24.ro%20-y%20" + digi_file + "," + digi_rtmp;
-    playitemurl(movie,10);
-    </script>
-    </onClick>
-	</item>
-
-	<item>
-	<title>Digi24 Iasi</title>
-	<onClick>
-	<script>
-    movie = "http://127.0.0.1/cgi-bin/translate?stream,Rtmp-options:-W%20http://www.digi24.ro/static_dev/public_theme_v3/mediaplayer/player.swf%20-p%20http://www.digi24.ro%20-y%20" + "digi24iasilive" + "," + digi_rtmp;
-    playitemurl(movie,10);
-    </script>
-    </onClick>
-	</item>
-	
-	<item>
-	<title>Digi24 Timisoara</title>
-	<onClick>
-	<script>
-    movie = "http://127.0.0.1/cgi-bin/translate?stream,Rtmp-options:-W%20http://www.digi24.ro/static_dev/public_theme_v3/mediaplayer/player.swf%20-p%20http://www.digi24.ro%20-y%20" + "digi24timislive" + "," + digi_rtmp;
-    playitemurl(movie,10);
-    </script>
-    </onClick>
-	</item>
-	
-	<item>
-	<title>Digi24 Oradea</title>
-	<onClick>
-	<script>
-    movie = "http://127.0.0.1/cgi-bin/translate?stream,Rtmp-options:-W%20http://www.digi24.ro/static_dev/public_theme_v3/mediaplayer/player.swf%20-p%20http://www.digi24.ro%20-y%20" + "digi24oradealive" + "," + digi_rtmp;
-    playitemurl(movie,10);
-    </script>
-    </onClick>
-	</item>
-	<item>
-	<title>DigiSport 1 (numai in reteaua RDS)</title>
-	<onClick>
-	<script>
-    movie = "http://127.0.0.1/cgi-bin/translate?stream,Rtmp-options:-W%20http://www.digi24.ro/static_dev/public_theme_v3/mediaplayer/player.swf%20-p%20http://www.digi24.ro%20-y%20" + digi1_file + "," + digi1_rtmp;
-    playitemurl(movie,10);
-    </script>
-    </onClick>
-	</item>
-<!--
-	<item>
-	<title>DigiSport 1 (proxy)</title>
-	<onClick>
-	<script>
-    movie = "http://127.0.0.1/cgi-bin/translate?stream,Rtmp-options:-S%2086.123.226.93:80%20-W%20http://www.digi24.ro/static_dev/public_theme_v3/mediaplayer/player.swf%20-p%20http://www.digi24.ro%20-y%20" + digi1_file + "," + digi1_rtmp;
-    playitemurl(movie,10);
-    </script>
-    </onClick>
-	</item>
--->
-	<item>
-	<title>DigiSport 2 (numai in reteaua RDS)</title>
-	<onClick>
-	<script>
-    movie = "http://127.0.0.1/cgi-bin/translate?stream,Rtmp-options:-W%20http://www.digi24.ro/static_dev/public_theme_v3/mediaplayer/player.swf%20-p%20http://www.digi24.ro%20-y%20" + digi2_file + "," + digi2_rtmp;
-    playitemurl(movie,10);
-    </script>
-    </onClick>
-	</item>
+<?php
+$l="http://www.digi-online.ro/";
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch,CURLOPT_REFERER,"http://www.digi-online.ro/");
+  //curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Linux; U; Android 2.1-update1; ru-ru; GT-I9000 Build/ECLAIR) AppleWebKit/530.17 (KHTML, like Gecko) Version/4.0 Mobile Safari/530.17');
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  $html=curl_exec($ch);
+  curl_close($ch);
+$videos = explode('<li data-channel', $html);
+unset($videos[0]);
+$n=0;
+$videos = array_values($videos);
+  foreach($videos as $video) {
+  $t1=explode('data-channel-name="',$video);
+  $t2=explode('"',$t1[1]);
+  $title=$t2[0];
+    $title1=strtolower($title);
+    $t1=explode("(",$title1);
+    $title1=trim($t1[0]);
+    $title1=str_replace(" ","-",$title1);
+    $title=ucwords($title);
+  $t1=explode("tv/",$video);
+  $t2=explode("/",$t1[1]);
+  $file=strtolower($title);
+  $file=str_replace(" ","",$file);
+  
+  echo '
+     <item>
+     <title>'.$title.'</title>
+     <onClick>
+     <script>
+     showIdle();
+     url="http://127.0.0.1/cgi-bin/scripts/tv/php/digi_tv_link.php?file='.$file.'," + buf;
+     url1=getUrl(url);
+     movie="http://127.0.0.1/cgi-bin/scripts/util/translate.cgi?stream," + url1;
+     cancelIdle();
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/mp4);
+    streamArray = pushBackStringArray(streamArray, "'.$title.'");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
+     </script>
+     </onClick>
+    <id>'.$title1.'</id>
+     </item>
+    ';
+}
+?>
 
 </channel>
 </rss>
