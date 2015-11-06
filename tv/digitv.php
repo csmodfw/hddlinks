@@ -204,7 +204,7 @@ ret;
 <channel>
   <title>Digi TV</title>
 <?php
-$l="http://www.digi-online.ro/";
+$l="http://www.digi-online.ro/tv/";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -214,12 +214,12 @@ $l="http://www.digi-online.ro/";
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   $html=curl_exec($ch);
   curl_close($ch);
-$videos = explode('<li data-channel', $html);
+$videos = explode('<li><a href="/tv', $html);
 unset($videos[0]);
 $n=0;
 $videos = array_values($videos);
   foreach($videos as $video) {
-  $t1=explode('data-channel-name="',$video);
+  $t1=explode('title="',$video);
   $t2=explode('"',$t1[1]);
   $title=$t2[0];
     $title1=strtolower($title);
@@ -227,7 +227,7 @@ $videos = array_values($videos);
     $title1=trim($t1[0]);
     $title1=str_replace(" ","-",$title1);
     $title=ucwords($title);
-  $t1=explode("tv/",$video);
+  $t1=explode("/",$video);
   $t2=explode("/",$t1[1]);
   $file=strtolower($title);
   $file=str_replace(" ","",$file);

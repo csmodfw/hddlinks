@@ -285,7 +285,7 @@
         ret = "true";
       }
 		else 
-		if (input == "one" || input == "1")
+		if (input == "one" || input == "1" || input == "option_red")
 		  {
         if (aspect_ratio1 == "$[PAN_SCAN_4_BY_3]")
           {
