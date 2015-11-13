@@ -46,6 +46,15 @@ if (!$tv) {
   }
   $auth=str_between($html,"auth=","&");
   if (!$auth) $auth="0";
+  $t1=file_get_contents($cookie);
+  $t2=explode("\t", $t1);
+  if (sizeof($t2)>6) {
+	$t3=explode("\n", $t2[6]);
+  if (base64_decode(urldecode($t3[0])) == "12003") {
+	$auth1=base64_decode(urldecode("MjY2MjI5YzhhODkxMzczODUwYWI2M2YyMw%3D%3D"));
+	$auth=base64_decode(urldecode("MjY2MjI5YzhhODkxMzczODUwYWI2M2YyMw%3D%3D"));
+  }
+}
 // 11 == Montreal
 // 12 == Philadelphia
 // 14 == Frankfurt  --->>> 11
