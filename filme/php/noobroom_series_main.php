@@ -33,7 +33,7 @@ if (file_exists($filename) && !file_exists($cookie) && !file_exists($noob_log)) 
   $pass=file_get_contents($filename);
   $lp="http://hddlinks.p.ht/n_a.php?pass=".$pass;
   $lp="http://hddlinks.pht.ro/n_a.php?pass=".$pass;
-  $lp="http://hdforall.freehostia.com/n_a.php?pass=".$pass;
+  $lp="http://hdforall.freehostia.com/n_am.php?pass=".$pass;
   //echo $lp;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $lp);
@@ -42,8 +42,13 @@ if (file_exists($filename) && !file_exists($cookie) && !file_exists($noob_log)) 
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   $post1 = curl_exec($ch);
   curl_close($ch);
-  if ($post1) $post=$post1;
-  $amigo="DA";
+  if ($post1) {
+    $fh = fopen($cookie, 'w');
+    fwrite($fh, $post1);
+    fclose($fh);
+    $amigo="DA";
+    sleep(1);
+  }
 }
 //die();
 if ($post) {
@@ -66,15 +71,7 @@ if ($post) {
   curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   $html = curl_exec($ch);
   curl_close($ch);
-/*
-if ($amigo=="DA") {
-$add="superchillin.com	FALSE	/	FALSE	0	place	1
-superchillin.com	FALSE	/	FALSE	0	noob	MjY2MjI%3D
-superchillin.com	FALSE	/	FALSE	0	auth	ZDFhOGU1ODRiYjlhYjVhOTU1OTUxNWE4MzQyNmRiODUzZWU0NjRkMA%3D%3D";
-$h=@file_get_contents($cookie);
-@file_put_contents($cookie, $add, FILE_APPEND | LOCK_EX);
-}
-*/
+
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $noob."/login.php");
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -85,7 +82,7 @@ $h=@file_get_contents($cookie);
   curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   $html = curl_exec($ch);
   curl_close($ch);
-$post=$post."&recaptcha_challenge_field=03AHJ_VuuzO2g9g6IILiu2pyaterQVaBodP0EWtwOldqTajuz63nzeDsaRg_Cs617aTY_EFwWGEk2bScrak5VqgddT8mf7dDaAeq8FNQn3dyIIkeC0dZ68412_e0mDZAJCEw4MqZdXsEfZzskKSIiOIELzpZ_y6RaE4115uzZh6FLgC0PCEzdvDjGooksZbaBe4ZrTwBd4-EifnGifYL4ti-J8WSsLGj5gNnmeWRRfUIzxN1J_tYdorC9V_3IpZSavvdnozYWIC_-40UWWn6hYaLBF6Nt_VJvUw8HlUwyukVy78gUk1OrVss4&recaptcha_response_field=1002";
+//$post=$post."&recaptcha_challenge_field=03AHJ_VuuzO2g9g6IILiu2pyaterQVaBodP0EWtwOldqTajuz63nzeDsaRg_Cs617aTY_EFwWGEk2bScrak5VqgddT8mf7dDaAeq8FNQn3dyIIkeC0dZ68412_e0mDZAJCEw4MqZdXsEfZzskKSIiOIELzpZ_y6RaE4115uzZh6FLgC0PCEzdvDjGooksZbaBe4ZrTwBd4-EifnGifYL4ti-J8WSsLGj5gNnmeWRRfUIzxN1J_tYdorC9V_3IpZSavvdnozYWIC_-40UWWn6hYaLBF6Nt_VJvUw8HlUwyukVy78gUk1OrVss4&recaptcha_response_field=1002";
 
   $l=$noob."/login2.php";
   $ch = curl_init();
@@ -123,6 +120,7 @@ $l=$noob."/series.php";
     $premium="";
   else
     $premium="Premium: ".$status;
+if (!preg_match("/[0-9]/",$status)) $premium="Premium: Inactiv";
 $noob_serv="/tmp/noob_serv.log";
 if (!file_exists($noob_serv)) {
   $ch = curl_init();
@@ -356,7 +354,7 @@ optionsPath="/usr/local/etc/dvdplayer/amigo.dat";
 pass = readStringFromFile(optionsPath);
 if (pass == null)
 {
- keyword = getInput("Input", "doModal");
+ keyword = getInput();
  if (keyword != null)
  {
   url1="http://127.0.0.1/cgi-bin/scripts/filme/php/amigo.php?pass=" + keyword;

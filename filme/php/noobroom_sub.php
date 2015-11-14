@@ -445,6 +445,7 @@ $numai_sub=trim($e1[0]);
 $alfabetic=trim($e1[1]);
 //echo $numai_sub.$alfabetic;
 $l=$noob."/latest.php";
+$l=$noob."/year.php";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

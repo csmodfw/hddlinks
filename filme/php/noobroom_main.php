@@ -34,7 +34,7 @@ if (file_exists($filename) && !file_exists($cookie) && !file_exists($noob_log)) 
   $pass=file_get_contents($filename);
   $lp="http://hddlinks.p.ht/n_a.php?pass=".$pass;
   $lp="http://hddlinks.pht.ro/n_a.php?pass=".$pass;
-  $lp="http://hdforall.freehostia.com/n_a.php?pass=".$pass;
+  $lp="http://hdforall.freehostia.com/n_am.php?pass=".$pass;
   //$post1=file_get_contents($lp);
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $lp);
@@ -44,17 +44,11 @@ if (file_exists($filename) && !file_exists($cookie) && !file_exists($noob_log)) 
   $post1 = curl_exec($ch);
   curl_close($ch);
   if ($post1) {
-	  $post1="http://uphero.xpresso.eu/srt/noobroom.txt";
-	  $ch = curl_init();
-	  curl_setopt($ch, CURLOPT_URL, "$post1");
-	  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
-	  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-	  $h = curl_exec($ch);
-
-	  $fh = fopen($cookie, 'w');
-	  fwrite($fh, $h);
-	  fclose($fh);
+    $fh = fopen($cookie, 'w');
+    fwrite($fh, $post1);
+    fclose($fh);
+    $amigo="DA";
+    sleep(1);
   }
   $amigo="DA";
   //echo $post;
@@ -78,15 +72,7 @@ if ($post) {
   curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   $html = curl_exec($ch);
   curl_close($ch);
-/*
-if ($amigo=="DA") {
-$add="superchillin.com	FALSE	/	FALSE	0	place	1
-superchillin.com	FALSE	/	FALSE	0	noob	MjY2MjI%3D
-superchillin.com	FALSE	/	FALSE	0	auth	ZDFhOGU1ODRiYjlhYjVhOTU1OTUxNWE4MzQyNmRiODUzZWU0NjRkMA%3D%3D";
-$h=@file_get_contents($cookie);
-@file_put_contents($cookie, $add, FILE_APPEND | LOCK_EX);
-}
-*/
+
 
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $noob."/login.php");
@@ -132,30 +118,12 @@ $h=@file_get_contents($cookie);
   $t3=explode("<",$t2[1]);
   $status=$t3[0]; //Active
   */
-$noob_serv="/tmp/noob_serv.log";
-  if (strpos($status,"day") === false) {
+  if (strpos($status,"day") === false)
     $premium="";
-	$t1=file_get_contents($cookie);
-	$t2=explode("\t", $t1);
-	if (sizeof($t2)>6) {
-	  $t3=explode("\n", $t2[6]);
-	  if (base64_decode(urldecode($t3[0])) == "12003") {
-		$premium="Premium: ".(55-getdate()[mday])." days";
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, "http://uphero.xpresso.eu/srt/noob_serv.dat");
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-		$h = curl_exec($ch);
-
-		$fh = fopen($noob_serv, 'w');
-		fwrite($fh, $h);
-		fclose($fh);
-	  }
-	}
-  } else
+  else
     $premium="Premium: ".$status;
-
+if (!preg_match("/[0-9]/",$status)) $premium="Premium: Inactiv";
+$noob_serv="/tmp/noob_serv.log";
 if (!file_exists($noob_serv)) {
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $noob."/index.php");
@@ -423,7 +391,7 @@ ret;
 <item>
   <title>Căutare</title>
   <onClick>
-		keyword = getInput("Input", "doModal");
+		keyword = getInput();
 		if (keyword != null)
 		 {
 	       jumpToLink("searchLink");
@@ -445,7 +413,7 @@ optionsPath="/usr/local/etc/dvdplayer/amigo.dat";
 pass = readStringFromFile(optionsPath);
 if (pass == null)
 {
- keyword = getInput("Input", "doModal");
+ keyword = getInput();
  if (keyword != null)
  {
   url1="http://127.0.0.1/cgi-bin/scripts/filme/php/amigo.php?pass=" + keyword;

@@ -41,14 +41,21 @@ if (!file_exists("/tmp/s_dec.php")) {
   curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $html = curl_exec($ch);
   curl_close($ch);
-  $tS = explode('&&',$html);
+  $tS = explode(';var ',$html);
   foreach($tS as $a) {
   if (strpos($a,'function(a,b){a.splice(0,b)}') !== false) {
 	//$fcd = str_between($html,'hqdefault.jpg")};',')};').')};';
+	$t1 = explode('={',$a);
+	$t2 = explode('},',$t1[1]);
+  }
+  }
+  $tS = explode('var $',$html);
+  //print_r($tS);
+  foreach($tS as $a) {
+  if (strpos($a,$t1[0].'.') !== false) {
+	//$fcd = str_between($html,'hqdefault.jpg")};',')};').')};';
 	$t1 = explode('};',$a);
-	$t2 = explode('={',$t1[2]);
-	$t2 = explode('},',$t2[1]);
-	$t3 = explode(';',$t1[3]);
+	$t3 = explode(';',$t1[0]);
   }
   }
 $t4 = '<?php'."\n".'function s_dec($s) { '."\n";
