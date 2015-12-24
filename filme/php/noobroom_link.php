@@ -68,7 +68,7 @@ function get_movie($noob1,$s,$id1,$auth1,$hd1,$tv1,$id1) {
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   //curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   curl_setopt($ch, CURLOPT_HEADER, 1);
-  curl_setopt($ch, CURLOPT_NOBODY, 1);
+  //curl_setopt($ch, CURLOPT_NOBODY, 1);
   curl_setopt($ch, CURLOPT_COOKIEFILE, "/tmp/noobroom.txt");
   curl_setopt($ch, CURLOPT_REFERER,$noob1."/player.swf");
   curl_setopt($ch, CURLOPT_HTTPHEADER, array("Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8","Accept-Language: ro-ro,ro;q=0.8,en-us;q=0.6,en-gb;q=0.4,en;q=0.2","Accept-Encoding: gzip, deflate"));
@@ -114,7 +114,7 @@ else
   curl_setopt($ch, CURLOPT_URL, $movie);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_HEADER, 1);
-  curl_setopt($ch, CURLOPT_NOBODY, 1);
+  //curl_setopt($ch, CURLOPT_NOBODY, 1);
   curl_setopt($ch, CURLOPT_COOKIEFILE, "/tmp/noobroom.txt");
   curl_setopt($ch, CURLOPT_REFERER,$noob."/?".$id);
   curl_setopt($ch, CURLOPT_HTTPHEADER, array("Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8","Accept-Language: ro-ro,ro;q=0.8,en-us;q=0.6,en-gb;q=0.4,en;q=0.2","Accept-Encoding: gzip, deflate"));
