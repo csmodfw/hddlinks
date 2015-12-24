@@ -274,9 +274,9 @@ echo '
 
 
 <item>
-<title>topvideohd</title>
-<link><?php echo $host; ?>/scripts/filme/php/topvideohd_main.php</link>
-<annotation>http://www.topvideohd.com</annotation>
+<title>zfilme-online</title>
+<link><?php echo $host; ?>/scripts/filme/php/zfilme_main.php</link>
+<annotation>http://www.zfilme-online.com/</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
 

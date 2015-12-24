@@ -58,6 +58,9 @@
 		<image  redraw="yes" offsetXPC=58 offsetYPC=22.5 widthPC=15 heightPC=30>
 		<script>print(img); img;</script>
 		</image>
+	<text  redraw="yes" align="center" offsetXPC="0" offsetYPC="90" widthPC="100" heightPC="8" fontSize="14" backgroundColor="10:105:150" foregroundColor="100:200:255">
+    <script>print(location); location;</script>
+		</text>
         <idleImage>image/POPUP_LOADING_01.png</idleImage>
         <idleImage>image/POPUP_LOADING_02.png</idleImage>
         <idleImage>image/POPUP_LOADING_03.png</idleImage>
@@ -241,6 +244,7 @@ foreach($videos as $video) {
 		<title>'.$titlu.'</title>
 		<link>'.$link.'</link> 
 	  <annotation>'.$descriere.'</annotation>
+	  <location>'.$titlu.'</location>
 	  <image>'.$image.'</image>
 	  <media:thumbnail url="image/movies.png" />
 	  <mediaDisplay name="threePartsView"/>

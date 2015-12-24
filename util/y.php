@@ -33,6 +33,7 @@ if (!file_exists("/tmp/s_dec.php")) {
   $html = str_between($html,'ytplayer.config = ',';ytplayer.load');
   $parts = json_decode($html,1);
   $l = "https:".$parts[assets][js];
+  //echo $l;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -49,11 +50,13 @@ if (!file_exists("/tmp/s_dec.php")) {
 	$t2 = explode('},',$t1[1]);
   }
   }
-  $tS = explode('var $',$html);
+  $tS = explode('var ',$html);
   //print_r($tS);
   foreach($tS as $a) {
   if (strpos($a,$t1[0].'.') !== false) {
 	//$fcd = str_between($html,'hqdefault.jpg")};',')};').')};';
+	$t0 = explode('},',$a);
+	foreach($t0 as $a) if (strpos($a,'split("")') !== false)
 	$t1 = explode('};',$a);
 	$t3 = explode(';',$t1[0]);
   }

@@ -1,5 +1,7 @@
 #!/usr/local/bin/Resource/www/cgi-bin/php
-<?php echo "<?xml version='1.0' encoding='UTF8' ?>"; ?>
+<?php echo "<?xml version='1.0' encoding='UTF8' ?>";
+$host = "http://127.0.0.1/cgi-bin";
+?>
 <rss version="2.0">
 <onEnter>
   startitem = "middle";
@@ -23,11 +25,11 @@
 	itemImageWidthPC="0"
 	itemXPC="8"
 	itemYPC="25"
-	itemWidthPC="45"
+	itemWidthPC="50"
 	itemHeightPC="8"
 	capXPC="8"
 	capYPC="25"
-	capWidthPC="45"
+	capWidthPC="50"
 	capHeightPC="64"
 	itemBackgroundColor="0:0:0"
 	itemPerPage="8"
@@ -48,13 +50,11 @@
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
 		</text>
-
-	<text  redraw="yes" align="center" offsetXPC="0" offsetYPC="90" widthPC="100" heightPC="8" fontSize="14" backgroundColor="10:105:150" foregroundColor="100:200:255">
-    <script>print(annotation); annotation;</script>
+  	<text  redraw="yes" align="center" offsetXPC="0" offsetYPC="90" widthPC="100" heightPC="8" fontSize="17" backgroundColor="10:105:150" foregroundColor="100:200:255">
+		  <script>print(annotation); annotation;</script>
 		</text>
-
-  <image  redraw="yes" offsetXPC=60 offsetYPC=25 widthPC=30 heightPC=60>
-		<script>print(img); img;</script>
+		<image  redraw="yes" offsetXPC=60 offsetYPC=35 widthPC=30 heightPC=30>
+		image/movies.png
 		</image>
         <idleImage>image/POPUP_LOADING_01.png</idleImage>
         <idleImage>image/POPUP_LOADING_02.png</idleImage>
@@ -74,7 +74,6 @@
 					{
 					  location = getItemInfo(idx, "location");
 					  annotation = getItemInfo(idx, "annotation");
-					  img = getItemInfo(idx,"image");
 					}
 					getItemInfo(idx, "title");
 				</script>
@@ -82,7 +81,7 @@
   				<script>
   					idx = getQueryItemIndex();
   					focus = getFocusItemIndex();
-  			    if(focus==idx) "14"; else "14";
+  			    if(focus==idx) "16"; else "14";
   				</script>
 				</fontSize>
 			  <backgroundColor>
@@ -127,9 +126,9 @@ if (userInput == "pagedown" || userInput == "pageup")
   print("new idx: "+idx);
   setFocusItemIndex(idx);
 	setItemFocus(0);
+  redrawDisplay();
   "true";
 }
-redrawDisplay();
 ret;
 </script>
 </onUserInput>
@@ -147,115 +146,61 @@ ret;
         <idleImage>image/POPUP_LOADING_07.png</idleImage>
         <idleImage>image/POPUP_LOADING_08.png</idleImage>
 		</mediaDisplay>
+
 	</item_template>
 <channel>
-	<title>voxfilmeonline</title>
+	<title>zfilme - categorii</title>
 	<menu>main menu</menu>
-
-
 <?php
 include ("../../common.php");
-$query = $_GET["query"];
-if($query) {
-   $queryArr = explode(',', $query);
-   $page = $queryArr[0];
-   $search = $queryArr[1];
-}
-//http://voxfilmeonline.com/page/2/
-if($page) {
-	$html = file_get_contents($search."page/".$page."/");
-} else {
-	$page = 1;
-  $html = file_get_contents($search);
-}
-
-if($page > 1) { ?>
-
-<item>
-<?php
-$sThisFile = 'http://127.0.0.1'.$_SERVER['SCRIPT_NAME'];
-$url = $sThisFile."?query=".($page-1).",";
-if($search) { 
-  $url = $url.$search; 
-}
-?>
-<title>Previous Page</title>
-<link><?php echo $url;?></link>
-<annotation>Pagina anterioară</annotation>
-<image>image/left.jpg</image>
-<mediaDisplay name="threePartsView"/>
-</item>
-
-
-<?php } ?>
-
-<?php
 function str_between($string, $start, $end){ 
 	$string = " ".$string; $ini = strpos($string,$start); 
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
-$videos = explode('<div class="moviefilm"', $html);
+$host = "http://127.0.0.1/cgi-bin";
+echo '
+	<item>
+	<title>Toate</title>
+	<link>http://127.0.0.1/cgi-bin/scripts/filme/php/zfilme.php?query=1,http://www.zfilme-online.com</link>
+	<annotation>Toate</annotation>
 
+	<mediaDisplay name="threePartsView"/>
+	</item>
+';
+$l="http://www.zfilme-online.com/";
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+  $html = curl_exec($ch);
+  curl_close($ch);
+//echo $html;
+$videos = explode('li class="cat-item', $html);
 unset($videos[0]);
 $videos = array_values($videos);
 
 foreach($videos as $video) {
-  $t1 = explode('href="', $video);
-  $t2 = explode('"', $t1[1]);
-  $link = $t2[0];
-
-  $t1=explode('class="movief">',$video);
-  $t2=explode('>',$t1[1]);
-  $t2_0=explode('<',$t2[1]);
-  $t3=str_replace("Vizioneaza Film Online","",$t2_0[0]);
-  $t4=explode("&#8211;",$t3);
-  $title=trim($t4[0]);
-  $t1=explode('src="',$video);
-  $t2=explode('"',$t1[1]);
-  $image=$t2[0];
-//  descriere
-
-  $v1 = explode('<p>', $video);
-  $v2 = explode('</p>', $v1[3]);
-  $v3=explode("in limba romana",$v2[0]);
-  $v4=trim(str_replace('"',"",$v3[1]));
-  $descriere = $v4;
-
-
-  $descriere = preg_replace("/(<\/?)([^>]*>)/e","",$descriere);
-  $descriere=fix_s($descriere);
-	if ($link <> "") {
-		$link = 'http://127.0.0.1/cgi-bin/scripts/filme/php/filme_link.php?file='.$link.','.urlencode($title);
-	echo'
+    $t0 = explode('href="',$video);
+    $t1 = explode('"', $t0[1]);
+    $link = $t1[0];
+    $t2 = explode('>', $t1[1]);
+    $t3 = explode('<', $t2[1]);
+    $title = $t3[0];
+	$link = $host."/scripts/filme/php/zfilme.php?query=1,".urlencode($link);
+	
+	
+	echo '
 	<item>
 	<title>'.$title.'</title>
-	<link>'.$link.'</link> 
-  <annotation>'.$title.'</annotation>
-  <image>'.$image.'</image>
-  <media:thumbnail url="'.$image.'" />
-  <mediaDisplay name="threePartsView"/>
+	<link>'.$link.'</link>
+	<annotation>'.$title.'</annotation>
+	<mediaDisplay name="threePartsView"/>
 	</item>
 	';
 }
-}
-
 ?>
-
-<item>
-<?php
-$sThisFile = 'http://127.0.0.1'.$_SERVER['SCRIPT_NAME'];
-$url = $sThisFile."?query=".($page+1).",";
-if($search) { 
-  $url = $url.$search; 
-}
-?>
-<title>Next Page</title>
-<link><?php echo $url;?></link>
-<annotation>Pagina urmatoare</annotation>
-<image>image/right.jpg</image>
-<mediaDisplay name="threePartsView"/>
-</item>
-
 </channel>
 </rss>

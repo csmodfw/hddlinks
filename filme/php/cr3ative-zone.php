@@ -188,7 +188,7 @@ if($search) {
 
 <?php } ?>
 <?php
-$videos = explode('span class="mod-custom3-poster', $html);
+$videos = explode('<div id="entry', $html);
 unset($videos[0]);
 $videos = array_values($videos);
 //print_r($videos);
@@ -202,8 +202,8 @@ foreach($videos as $video) {
 
 //  titlu
 
-  $v3 = explode('span title="',$v1[1]);
-  $v4 = explode('"',$v3[1]);
+  $v3 = explode('>',$v1[2]);
+  $v4 = explode('<',$v3[1]);
   //$v5 = explode("Online",$v4[0]);
   $titlu = trim($v4[0]);
 

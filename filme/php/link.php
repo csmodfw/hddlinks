@@ -144,6 +144,8 @@ function unpack_DivXBrowserPlugin($n_func,$html_cod,$sub=false) {
     $ret_val = str_between($r,"playlist=","&");  //nosvideo
   if ($ret_val == "")
     $ret_val=str_between($r,'file:"','"');
+  if ($ret_val=="")
+    $ret_val=str_between($r,'attr("src","','"');
   if ($sub==true) {
     $srt=str_between($r,"captions.file','","'");
     $srt = str_replace(" ","%20",$srt);
@@ -470,7 +472,178 @@ return $r;
 }
 //***************Here we start**************************************
 $filelink=str_prep($filelink);
-if ((strpos($filelink,"vidxden") !==false) || (strpos($filelink,"divxden") !==false)) {
+$filelink_990="";
+$base_sub="/tmp/";
+if (strpos($filelink,"player-serial") !== false) { //990 seriale
+  $filelink_990=$filelink;
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $filelink);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  $h_990 = curl_exec($ch);
+  curl_close($ch);
+  $t1=explode("<div class='player",$h_990);
+  $t2=explode("href='",$t1[1]);
+  $t3=explode("'",$t2[1]);
+  $t4=explode("http",$t3[0]);
+  $filelink="http".$t4[2];
+  //echo $filelink;
+  //die();
+}
+if (strpos($filelink,"gorillavid.in") !== false || strpos($filelink,"daclips.in") !== false || strpos($filelink,"movpod.in") !== false) {
+  $ch = curl_init($filelink);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, $filelink);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+  $h = curl_exec($ch);
+  $id=str_between($h,'"id" value="','"');
+  $fname=str_between($h,'"fname" value="','"');
+  $post="op=download1&usr_login=&id=".$id."&fname=".$fname."&referer=&channel=&method_free=Free+Download";
+  sleep(5);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, $filelink);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+  curl_setopt ($ch, CURLOPT_POST, 1);
+  curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
+  $h = curl_exec($ch);
+  $link=str_between($h,'file: "','"');
+  if (strpos($filelink,"movpod.in") !== false) $link=str_between($h,"file: '","'");
+  if ($filelink_990 && file_exists($base_sub."990.dat")) $srt=$base_sub."990.dat";
+} elseif (strpos($filelink,"vodlocker.com") !== false) {
+  $ch = curl_init($filelink);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, $filelink);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+  $h = curl_exec($ch);
+  $id=str_between($h,'"id" value="','"');
+  $fname=str_between($h,'"fname" value="','"');
+  $hash=str_between($h,'hash" value="','"');
+  $post="op=download1&usr_login=&id=".$id."&fname=".$fname."&referer=&hash=".$hash."&imhuman=Proceed+to+video";
+  sleep(1);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, $filelink);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+  curl_setopt ($ch, CURLOPT_POST, 1);
+  curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
+  $h = curl_exec($ch);
+  $link=str_between($h,'file: "','"');
+  if ($filelink_990 && file_exists($base_sub."990.dat")) $srt=$base_sub."990.dat";
+} elseif (strpos($filelink,"filehoot.com") !== false) {
+  $ch = curl_init($filelink);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, $filelink);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+  $h = curl_exec($ch);
+  $id=str_between($h,'"id" value="','"');
+  $fname=str_between($h,'"fname" value="','"');
+  $post="op=download1&usr_login=&id=".$id."&fname=".$fname."&referer=&method_free=Continue+to+watch+your+Video";
+  //sleep(1);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, $filelink);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+  curl_setopt ($ch, CURLOPT_POST, 1);
+  curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
+  $h = curl_exec($ch);
+  $link=str_between($h,'file: "','"');
+  if ($filelink_990 && file_exists($base_sub."990.dat")) $srt=$base_sub."990.dat";
+} elseif (strpos($filelink,"thevideo.me") !== false) {
+  $ch = curl_init($filelink);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, $filelink);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+  $h = curl_exec($ch);
+  $id=str_between($h,'"id" value="','"');
+  $fname=str_between($h,'"fname" value="','"');
+  $hash=str_between($h,'hash" value="','"');
+  $vhash=str_between($h,"_vhash', value: '","'");
+  $gfk=str_between($h,"gfk', value: '","'");
+  $post="_vhash=".$vhash."&gfk=".$gfk."&op=download1&usr_login=&id=".$id."&fname=".$fname."&referer=&hash=".$hash."&inhu=foff&imhuman=";
+  //sleep(1);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, $filelink);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+  curl_setopt ($ch, CURLOPT_POST, 1);
+  curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
+  $h = curl_exec($ch);
+  $link=str_between($h,"label: '480p', file: '","'");
+  if (!$link) $link=str_between($h,"label: '360p', file: '","'");
+  if (!$link) $link=str_between($h,"label: '240p', file: '","'");
+  if ($filelink_990 && file_exists($base_sub."990.dat")) $srt=$base_sub."990.dat";
+} elseif (strpos($filelink,"bestreams.net") !== false) {
+  $ch = curl_init($filelink);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, $filelink);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Linux; Android 4.4; Nexus 7 Build/KOT24) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.105 Safari/537.36');
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+  $h = curl_exec($ch);
+  $id=str_between($h,'"id" value="','"');
+  $fname=str_between($h,'"fname" value="','"');
+  $hash=str_between($h,'hash" value="','"');
+  //$vhash=str_between($h,"_vhash', value: '","'");
+  //$gfk=str_between($h,"gfk', value: '","'");
+  $post="op=download1&usr_login=&id=".$id."&fname=".$fname."&referer=&hash=".$hash."&imhuman=Proceed+to+video";
+  sleep(1);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, $filelink);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+  curl_setopt ($ch, CURLOPT_POST, 1);
+  curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
+  $h = curl_exec($ch);
+
+  $t1=explode('div id="main"',$h);
+  $h = $t1[1];
+  //echo $h;
+  $link=str_between($h,'a href="','"');
+  if ($filelink_990 && file_exists($base_sub."990.dat")) $srt=$base_sub."990.dat";
+} elseif (strpos($filelink,"vidto.me") !== false) {
+  $ch = curl_init($filelink);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, $filelink);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+  $h = curl_exec($ch);
+  $id=str_between($h,'"id" value="','"');
+  $fname=str_between($h,'"fname" value="','"');
+  $hash=str_between($h,'hash" value="','"');
+  $post="op=download1&usr_login=&id=".$id."&fname=".$fname."&referer=&hash=".$hash."&imhuman=Proceed+to+video";
+  sleep(6);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, $filelink);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+  curl_setopt ($ch, CURLOPT_POST, 1);
+  curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
+  $h = curl_exec($ch);
+  $link=unpack_DivXBrowserPlugin(1,$h);
+  if ($filelink_990 && file_exists($base_sub."990.dat")) $srt=$base_sub."990.dat";
+} elseif (strpos($filelink,"cloudyvideos.com") !== false) {
+  $ch = curl_init($filelink);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, $filelink);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+  $h = curl_exec($ch);
+  $id=str_between($h,'"id" value="','"');
+  $rand=str_between($h,'rand" value="','"');
+  //$hash=str_between($h,'hash" value="','"');
+  $post="op=download2&id=".$id."&rand=".$rand."&referer=&method_free=&method_premium=&down_direct=1";
+  sleep(2);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, $filelink);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+  curl_setopt ($ch, CURLOPT_POST, 1);
+  curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
+  $h = curl_exec($ch);
+  $link=str_between($h,"file: '","'");
+  if ($filelink_990 && file_exists($base_sub."990.dat")) $srt=$base_sub."990.dat";
+} elseif ((strpos($filelink,"vidxden") !==false) || (strpos($filelink,"divxden") !==false)) {
 
   if (strpos($filelink,"embed") !== false) {
     //http://www.vidxden.com/embed-ob69210omp0y-width-653-height-362.html
@@ -1597,7 +1770,7 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
   if (strpos($filelink,"validatehash") !== false) {
    $ch = curl_init($filelink);
    curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36');
    curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
    curl_setopt($ch, CURLOPT_REFERER, "http://filmehd.net");
    //curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
@@ -1615,7 +1788,7 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
    $cookie="/tmp/videomega.txt";
    $ch = curl_init($filelink);
    curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36');
    curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
    curl_setopt($ch, CURLOPT_REFERER, "http://filmehd.net");
    curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
@@ -1651,25 +1824,17 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
       break;
      }
    }
-$out='#!/bin/sh
-cat <<EOF
-Content-type: video/mp4
+$link=unpack_DivXBrowserPlugin(1,$h);
 
-EOF
-exec /opt/bin/curl -H "Cookie: __cfduid='.$c.';  _ga=GA1.2.12345678.12345678; _gat=1" -H "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"  "'.$link.'"';
-$fp = fopen('/usr/local/etc/www/cgi-bin/scripts/util/m.cgi', 'w');
-fwrite($fp, $out);
-fclose($fp);
-exec("chmod +x /usr/local/etc/www/cgi-bin/scripts/util/m.cgi");
-sleep (2);
-$link1="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
    exec ("rm -f /tmp/test.xml");
    if ($srt) {
    //echo $srt;
    $l_srt="http://127.0.0.1/cgi-bin/scripts/util/srt_xml.php?file=".urlencode($srt);
    $h=file_get_contents($l_srt);
    }
+
 } elseif (strpos($filelink,"openload.co") !==false) {
+   $filelink=str_replace(".mp4","",$filelink);
    $filelink=str_replace("openload.co/f/","openload.co/embed/",$filelink);
    //echo $filelink;
       $ch = curl_init();
@@ -1733,6 +1898,7 @@ $link1="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
 } elseif (strpos($filelink,"ok.ru") !==false) {
   $filelink=str_replace("videoembed/","video/",$filelink);
   $filelink=str_replace("ok.ru","m.ok.ru",$filelink);
+  $filelink=str_replace("www.","",$filelink);
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $filelink);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -1941,11 +2107,17 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
   }
   $link=str_replace("\/","/",$t2[0]);
 } elseif (strpos($filelink,"allvid.ch") !==false) {
-  $filelink=str_replace("embed-","",$filelink);
-  $filelink=str_replace(".html","",$filelink);
+  if (strpos($filelink,"embed") === false) {
+   $t1=explode("/",$filelink);
+   $id=$t1[3];
+   $filelink="http://allvid.ch/embed-".$id.".html";
+  }
+  //$filelink=str_replace("embed-","",$filelink);
+  //$filelink=str_replace(".html","",$filelink);
   //$filelink="http://allvid.ch/z7tguqv0tafy";
+  //http://allvid.ch/embed-n9t3sxx691nz.html
   //echo $filelink;
-  //$cookie=$base_cookie."allvid.dat";
+  $cookie=$base_cookie."allvid.dat";
    $ch = curl_init();
    curl_setopt($ch, CURLOPT_URL, $filelink);
    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -1956,10 +2128,13 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
    //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
    $h = curl_exec($ch);
    curl_close($ch);
-   $h1=unpack_allmyvideos(1,$h);
+   if (strpos($h,"return p}") !== false)
+    $h1=unpack_allmyvideos(1,$h);
+   else
+    $h1=$h;
    //echo $h1;
-
-   $x1=explode('sources:[',$h1);
+   //die();
+   $x1=explode('sources:',$h1);
    $x2=explode(']',$x1[1]);
    //echo $x2[0];
   //echo $r;

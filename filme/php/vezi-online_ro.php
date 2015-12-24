@@ -200,14 +200,14 @@ function str_between($string, $start, $end){
 }
 $host = "http://127.0.0.1/cgi-bin";
 include ("../../common.php");
-$videos = explode('li><a href="', $html);
+$videos = explode('class="lista-episoade-subtitrat">', $html);
 
 unset($videos[0]);
 //$videos = array_values($videos);
 $videos = array_reverse($videos);
 foreach($videos as $video) {
-    //$t1=explode('href="',$video);
-    $t2=explode('"',$video);
+    $t1=explode('href="',$video);
+    $t2=explode('"',$t1[1]);
     $link=$t2[0];
 
     $t1 = explode('title="', $video);

@@ -49,13 +49,11 @@
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
 		</text>
 
-		<text align="center" redraw="yes"
-          lines="10" fontSize=17
-		      offsetXPC=55 offsetYPC=55 widthPC=40 heightPC=42 
-		      backgroundColor=0:0:0 foregroundColor=200:200:200>
-			<script>print(annotation); annotation;</script>
+	<text  redraw="yes" align="center" offsetXPC="0" offsetYPC="90" widthPC="100" heightPC="8" fontSize="14" backgroundColor="10:105:150" foregroundColor="100:200:255">
+    <script>print(annotation); annotation;</script>
 		</text>
-		<image  redraw="yes" offsetXPC=56 offsetYPC=22.5 widthPC=25 heightPC=30>
+
+  <image  redraw="yes" offsetXPC=60 offsetYPC=25 widthPC=30 heightPC=60>
 		<script>print(img); img;</script>
 		</image>
         <idleImage>image/POPUP_LOADING_01.png</idleImage>

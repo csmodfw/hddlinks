@@ -592,8 +592,8 @@ $link = "/usr/local/etc/www/cgi-bin/scripts/filme/php/noobroom.rss";
   </item>
   ';
 $link="http://uphero.xpresso.eu/srt/m/glob.php";
-$html=file_get_contents($link);
-$videos = explode(",", $html);
+$h=file_get_contents($link);
+$videos = explode(",", $h);
 
 unset($videos[0]);
 $videos = array_values($videos);

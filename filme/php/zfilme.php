@@ -82,7 +82,7 @@
   				<script>
   					idx = getQueryItemIndex();
   					focus = getFocusItemIndex();
-  			    if(focus==idx) "14"; else "14";
+  			    if(focus==idx) "16"; else "14";
   				</script>
 				</fontSize>
 			  <backgroundColor>
@@ -127,9 +127,9 @@ if (userInput == "pagedown" || userInput == "pageup")
   print("new idx: "+idx);
   setFocusItemIndex(idx);
 	setItemFocus(0);
+  redrawDisplay();
   "true";
 }
-redrawDisplay();
 ret;
 </script>
 </onUserInput>
@@ -149,11 +149,15 @@ ret;
 		</mediaDisplay>
 	</item_template>
 <channel>
-	<title>voxfilmeonline</title>
+	<title>zfilme</title>
 	<menu>main menu</menu>
-
-
 <?php
+$host = "http://127.0.0.1/cgi-bin";
+function str_between($string, $start, $end){ 
+	$string = " ".$string; $ini = strpos($string,$start); 
+	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
+	return substr($string,$ini,$len); 
+}
 include ("../../common.php");
 $query = $_GET["query"];
 if($query) {
@@ -161,13 +165,20 @@ if($query) {
    $page = $queryArr[0];
    $search = $queryArr[1];
 }
-//http://voxfilmeonline.com/page/2/
 if($page) {
-	$html = file_get_contents($search."page/".$page."/");
+	$l=$search."/page/".$page."/";
 } else {
 	$page = 1;
-  $html = file_get_contents($search);
+  $l=$search;
 }
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+  $html = curl_exec($ch);
+  curl_close($ch);
 
 if($page > 1) { ?>
 
@@ -176,7 +187,7 @@ if($page > 1) { ?>
 $sThisFile = 'http://127.0.0.1'.$_SERVER['SCRIPT_NAME'];
 $url = $sThisFile."?query=".($page-1).",";
 if($search) { 
-  $url = $url.$search; 
+  $url = $url.urlencode($search);
 }
 ?>
 <title>Previous Page</title>
@@ -186,73 +197,55 @@ if($search) {
 <mediaDisplay name="threePartsView"/>
 </item>
 
-
 <?php } ?>
-
 <?php
-function str_between($string, $start, $end){ 
-	$string = " ".$string; $ini = strpos($string,$start); 
-	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
-	return substr($string,$ini,$len); 
-}
-$videos = explode('<div class="moviefilm"', $html);
-
+ $videos = explode('div class="kutresim', $html);
 unset($videos[0]);
 $videos = array_values($videos);
-
 foreach($videos as $video) {
+
   $t1 = explode('href="', $video);
   $t2 = explode('"', $t1[1]);
   $link = $t2[0];
 
-  $t1=explode('class="movief">',$video);
-  $t2=explode('>',$t1[1]);
-  $t2_0=explode('<',$t2[1]);
-  $t3=str_replace("Vizioneaza Film Online","",$t2_0[0]);
-  $t4=explode("&#8211;",$t3);
-  $title=trim($t4[0]);
-  $t1=explode('src="',$video);
-  $t2=explode('"',$t1[1]);
-  $image=$t2[0];
-//  descriere
+  $t3 = explode(">",$t1[1]);
+  $t4 = explode("<",$t3[1]);
+  $title = $t4[0];
 
-  $v1 = explode('<p>', $video);
-  $v2 = explode('</p>', $v1[3]);
-  $v3=explode("in limba romana",$v2[0]);
-  $v4=trim(str_replace('"',"",$v3[1]));
-  $descriere = $v4;
-
-
-  $descriere = preg_replace("/(<\/?)([^>]*>)/e","",$descriere);
-  $descriere=fix_s($descriere);
-	if ($link <> "") {
-		$link = 'http://127.0.0.1/cgi-bin/scripts/filme/php/filme_link.php?file='.$link.','.urlencode($title);
-	echo'
-	<item>
-	<title>'.$title.'</title>
-	<link>'.$link.'</link> 
-  <annotation>'.$title.'</annotation>
-  <image>'.$image.'</image>
-  <media:thumbnail url="'.$image.'" />
-  <mediaDisplay name="threePartsView"/>
-	</item>
-	';
-}
+  $title=trim(preg_replace("/- filme online subtitrate/i","",$title));
+  $t1 = explode('src="', $video);
+  $t2 = explode('"', $t1[1]);
+  $image = $t2[0];
+    //if (strpos($titlu,"Kill") === false) {
+	if($link!="") {
+		//$link = "http://127.0.0.1/cgi-bin/scripts/filme/php/onlinemoca_link.php?file=".$link.",".urlencode($titlu);
+		$link = "http://127.0.0.1/cgi-bin/scripts/filme/php/filme_link.php?file=".$link.",".urlencode($title);
+		echo'
+		<item>
+		<title>'.$title.'</title>
+		<link>'.$link.'</link> 
+	  <annotation>'.$title.'</annotation>
+	  <image>'.$image.'</image>
+	  <media:thumbnail url="image/movies.png" />
+	  <mediaDisplay name="threePartsView"/>
+		</item>
+		';
+	}
+	//}
 }
 
 ?>
-
 <item>
 <?php
 $sThisFile = 'http://127.0.0.1'.$_SERVER['SCRIPT_NAME'];
 $url = $sThisFile."?query=".($page+1).",";
 if($search) { 
-  $url = $url.$search; 
+  $url = $url.urlencode($search);
 }
 ?>
 <title>Next Page</title>
 <link><?php echo $url;?></link>
-<annotation>Pagina urmatoare</annotation>
+<annotation>Pagina următoare</annotation>
 <image>image/right.jpg</image>
 <mediaDisplay name="threePartsView"/>
 </item>

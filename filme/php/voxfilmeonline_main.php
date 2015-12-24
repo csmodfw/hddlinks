@@ -159,9 +159,9 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
-$html = file_get_contents("http://voxfilmeonline.com/");
+$html = file_get_contents("http://voxfilmeonline.net/");
 //$html = str_between($html,"ul class='children'","</ul>" );
-$link = $host."/scripts/filme/php/voxfilmeonline.php?query=,http://voxfilmeonline.com/";
+$link = $host."/scripts/filme/php/voxfilmeonline.php?query=,http://voxfilmeonline.net/";
     	echo '
     	<item>
     		<title>Filme Noi</title>

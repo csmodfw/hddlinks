@@ -52,7 +52,7 @@ $host = "http://127.0.0.1/cgi-bin";
   	<text  redraw="yes" align="center" offsetXPC="0" offsetYPC="90" widthPC="100" heightPC="8" fontSize="17" backgroundColor="10:105:150" foregroundColor="100:200:255">
 		  <script>print(annotation); annotation;</script>
 		</text>
-		<image  redraw="yes" offsetXPC=66 offsetYPC=35 widthPC=20 heightPC=40>
+  <image  redraw="yes" offsetXPC=60 offsetYPC=25 widthPC=30 heightPC=60>
 		<script>print(img); img;</script>
 		</image>
         <idleImage>image/POPUP_LOADING_01.png</idleImage>

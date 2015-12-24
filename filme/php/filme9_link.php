@@ -5,6 +5,14 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini;
 	return substr($string,$ini,$len);
 }
+function round_fix($s) {
+ $i=(int)($s);
+ if (($s-$i) < 1/2)
+   $r=$i;
+ else
+   $r=$i+1;
+ return $r;
+}
 function prep($b) {
 $c=urlencode($b);
 $c=str_replace("%C3%83%C2%A2","â",$c);
@@ -100,8 +108,8 @@ if($file_array = file($srt))
     [9] => .
     [10] => 869
 */
-          $begin = round(3600 * $match[1] + 60 * $match[2] + $match[3] + $match[5]/1000);
-          $end   = round(3600 *$match[6] + 60 * $match[7] + $match[8] + $match[10]/1000);
+          $begin = round_fix(3600 * $match[1] + 60 * $match[2] + $match[3] + $match[5]/1000);
+          $end   = round_fix(3600 *$match[6] + 60 * $match[7] + $match[8] + $match[10]/1000);
           $line1 = '';
           $line2 = '';
           $line3 = '';
