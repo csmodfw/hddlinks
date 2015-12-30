@@ -392,7 +392,7 @@ print_ch("Informatia TV", "http://94.60.44.130:8014/stream.flv",$a["Informatia T
 print_ch("PRO TV News", "http://127.0.0.1/cgi-bin/scripts/util/translate.cgi?stream,Rtmp-options:-y%20mp4:live1.mp4%20-W%20http://d1.a4w.ro/customFlow/flowplayer-3.2.12.swf%20-p%20http://stirileprotv.ro/protvnews,rtmp://live.protv.ro/news/",$a["PRO TV News"]);
 print_ch("6TV", "http://89.149.7.178:8800/flv-audio-video/",$a["6TV"]);
 print_ch("RTV", "http://rtvflash.smcmobile.ro:8010/rtv.flv",$a["RTV"]);
-print_ch("Moldova 1", "http://127.0.0.1/cgi-bin/scripts/util/translate.cgi?stream,,rtmp://212.0.211.109/live/livestream",$a["Moldova 1"]);
+print_ch("Moldova 1", "http://127.0.0.1/cgi-bin/scripts/util/translate.cgi?stream,,rtmp://212.0.209.209:1935/live/MoldovaUnu1",$a["Moldova 1"]);
 print_ch("BUSUIOC", "http://127.0.0.1/cgi-bin/scripts/util/translate.cgi?stream,,rtmp://46.55.25.186/live/direct",$a["BUSUIOC"]);
 print_ch("Oltenia TV", "http://127.0.0.1/cgi-bin/translate?stream,,http://77.36.61.158:7081",$a["Oltenia TV"]);
 print_ch("TV KIT", "http://127.0.0.1/cgi-bin/translate?stream,,http://86.126.136.126:8061",$a["TV KIT"]);
@@ -405,7 +405,7 @@ print_ch("TvM", "http://tvm.ambra.ro",$a["TvM"]);
 print_ch("Salajeanul TV", "http://94.52.213.67:8084/stream.flv",$a["Salajeanul TV"]);
 print_ch("Tele M", "http://127.0.0.1/cgi-bin/translate?stream,,http://telem.telem.ro:8780/telem_live.flv",$a["Tele M"]);
 print_ch("Prahova TV", "http://127.0.0.1/cgi-bin/translate?stream,Rtmp-options:-W%20http://www.prahovatv.ro/player/player.swf%20-T%206c69766568642e747620657374652063656c206d616920746172652121%20http://www.infopescar.tv/yyy/player.swf%20-p%20http://www.prahovatv.ro/,rtmp://89.45.186.26:1935/live/prahovatv",$a["Prahova TV"]);
-print_ch("Jurnal TV", "http://127.0.0.1/cgi-bin/translate?stream,,http://ch0.jurnaltv.md/channel0.flv",$a["Jurnal TV"]);
+print_ch("Jurnal TV", "http://flux.jtv.md/jtv-540p.flv",$a["Jurnal TV"]);
 print_ch("Muscel TV", "http://127.0.0.1/cgi-bin/translate?stream,,http://musceltvlive.muscel.ro:8080/",$a["Muscel TV"]);
 print_ch("eMARAMURES", "http://127.0.0.1/cgi-bin/translate?stream,,http://195.28.2.42:8083/stream.flv",$a["eMARAMURES"]);
 print_ch("Orizont tv", "http://94.60.44.130:8016/stream.flv",$a["Orizont tv"]);

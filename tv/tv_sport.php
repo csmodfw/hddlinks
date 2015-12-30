@@ -308,6 +308,7 @@ columnCount=5
 <annotation>Notizie sportive, informazioni, highlights video e tabelle comparative delle squadre di calcio. Tutti i calendari dei campionati di calcio con le quote dei bookmakers ed aggiornamenti sugli incontri di calcio</annotation>
 </item>
 -->
+<!--
 <item>
 <title>RedmystSports</title>
 <link><?php echo $host; ?>/scripts/php1/youtube_user.php?query=1,UCV58U9zsnFwrrVgGWmADTCA,,,RedmystSports</link>
@@ -316,6 +317,7 @@ columnCount=5
 <location>youtube</location>
 <annotation>Liga 1</annotation>
 </item>
+-->
 <!--
 <item>
 <title>www.footytube.com</title>
@@ -373,7 +375,7 @@ columnCount=5
 <location>http://www.digisport.ro/video</location>
 <annotation>Digi Sport</annotation>
 </item>
-
+<!--
 <item>
 <title>GSPTV</title>
 <link><?php echo $host; ?>/scripts/tv/sport/gsp.php</link>
@@ -382,7 +384,7 @@ columnCount=5
 <location>http://tv.gsp.ro/</location>
 <annotation>GSPTV - Golurile si fazele video din Liga I:</annotation>
 </item>
-
+-->
 <!--
 <item>
 <title>DigiSport - youtube</title>

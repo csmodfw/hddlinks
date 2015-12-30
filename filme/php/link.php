@@ -878,16 +878,19 @@ if (strpos($filelink,"gorillavid.in") !== false || strpos($filelink,"daclips.in"
   //echo $l1."<BR>";
   //$l1="http://player.vimeo.com/video/98321920/config?autoplay=0&byline=0&bypass_privacy=1&context=clip.main&default_to_hd=1&portrait=0&title=0&s=ee2f825e1cdcdacd5fd9264a39a56e45a0b44c45";
   //echo $l1."<BR>";
+  //echo $l1;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l1);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  curl_setopt($ch, CURLOPT_HEADER,1);
   curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   $h1 = curl_exec($ch);
   curl_close($ch);
   //echo $h1;
+  /*
   if (strpos($h1,'hd":') !== false) {
     $t1=explode('hd":',$h1);
     $link=str_between($t1[1],'url":"','"');
@@ -895,7 +898,13 @@ if (strpos($filelink,"gorillavid.in") !== false || strpos($filelink,"daclips.in"
     $t1=explode('sd":',$h1);
     $link=str_between($t1[1],'url":"','"');
   }
-  $link=str_replace("https","http",$link);
+  */
+  $a1=explode('mime":"video/mp4"',$h1);
+  $n=count($a1);
+  $a2=explode('url":"',$a1[$n-1]);
+  $a3=explode('"',$a2[1]);
+  $link=str_replace("https","http",$a3[0]);
+  //$link=str_replace("https","http",$link);
   /*
   $l1=str_between($html,'data-config-url="','"');
   $l1=str_replace("&amp;","&",$l1);
@@ -1020,7 +1029,7 @@ if (strpos($filelink,"gorillavid.in") !== false || strpos($filelink,"daclips.in"
    $t3=explode('"',$t2[1]);
    $mysrt=$t3[1];
    if (!$mysrt) $mysrt=str_between($h,"captions.file': '","'");
-   $l_srt="http://127.0.0.1/cgi-bin/scripts/util/srt_xml.php?file=".urlencode($mysrt);
+   $l_srt="http://127.0.0.1/cgi-bin/scripts/util/srt_fast_xml.php?file=".urlencode($mysrt);
    $h=file_get_contents($l_srt);
 } elseif (strpos($filelink, 'zetshare.net') !== false) {
    $h = file_get_contents($filelink);

@@ -309,7 +309,20 @@ columnCount=5
 <annotation>Ultimele stiri despre telenovele, vedete, moda, frumusete, dieta si  familie</annotation>
 </item>
 -->
-
+<item>
+<title>Stiri din Republica Moldova</title>
+<onClick>
+<script>
+showIdle();
+"<?php echo $host; ?>/scripts/tv/moldova.php";
+</script>
+</onClick>
+<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/image/moldova_focus.png" />
+<image>/usr/local/etc/www/cgi-bin/scripts/image/moldova_focus.png</image>
+<location>Stiri de peste Prut</location>
+<annotation>Stiri de peste Prut</annotation>
+<mediaDisplay name="photoView"/>
+</item>
 <item>
 <title>TVR Stiri</title>
 <link><?php echo $host; ?>/scripts/tv/php/tvrstiri.php</link>

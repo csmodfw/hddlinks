@@ -17,9 +17,9 @@ $link = $_GET["file"];
   curl_close($ch);
   //echo $html;
     //$t0 = explode('<iframe width="', $html);
-    $t0=explode('loadIframe.defer',$html);
+    $t0=explode('<div class="trailer',$html);
     //$t1 = explode('src="',$t0[1]);
-    $t1=explode('src":"',$t0[1]);
+    $t1=explode('src="',$t0[1]);
     $t2 = explode('"', $t1[1]);
     $link1 = $t2[0];
     $link1=str_replace("\/","/",$link1);
@@ -32,13 +32,16 @@ $link = $_GET["file"];
   curl_setopt($ch, CURLOPT_COOKIEFILE, '/tmp/cookies.txt');
   $html = curl_exec($ch);
   curl_close($ch);
-  $t1=explode("hd.file=",$html);
-  $t2=explode("&",$t1[1]);
-  $link2=urldecode($t2[0]);
+  //echo $html;
+  $t1=explode('data-res="720"',$html);
+  $t2=explode("src='",$t1[2]);
+  $t3=explode("'",$t2[1]);
+  $link2=urldecode($t3[0]);
   if (!$link2) {
-    $t1=explode("file=",$html);
-    $t2=explode("&",$t1[1]);
-    $link2=urldecode($t2[0]);
+  $t1=explode('data-res="360"',$html);
+  $t2=explode("src='",$t1[2]);
+  $t3=explode("'",$t2[1]);
+  $link2=urldecode($t3[0]);
   }
 print $link2;
 ?>

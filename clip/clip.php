@@ -372,6 +372,7 @@ columnCount=5
 	<annotation>Pastila ta de bună dispoziţie</annotation>
 </item>
 -->
+<!--
 <item>
 <title>myvideo</title>
 	<link><?php echo $host; ?>/scripts/clip/php/myvideo.php</link>
@@ -380,7 +381,7 @@ columnCount=5
 	<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/clip/image/myvideo.gif" />
 	<annotation>Iubim filmuleţele haioase!</annotation>
 </item>
-
+-->
 <item>
 <title>bzi</title>
 	<link><?php echo $host; ?>/scripts/clip/php/bzi.php?query=1,</link>

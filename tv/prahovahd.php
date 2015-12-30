@@ -55,9 +55,9 @@ function get_remote_time($location, $switch){
 }
 
 function get_local_time_zone () {
-	$link = "http://www.ip2location.com";
-	$string = str_between(g_file($link), ">Time Zone</label></td>", "</tr>");
-    $string = str_between($string, '<label for="chkTimeZone">', "</label>");
+	$link = "http://www.ipligence.com";
+	$string = str_between(g_file($link), "Time Zone: ", ";");
+    $string = str_between($string, 'GMT', "&nbsp");
 	return $string;
 }
 

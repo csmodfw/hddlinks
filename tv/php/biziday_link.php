@@ -27,9 +27,13 @@ if (strpos($l,"vimeo") !== false) {
   $t1=explode('url":"',$h);
   $t2=explode($t1[2],'"');
   $mobile=$t2[2];
-  $t3=explode('"',$t1[3]);
-  $link=$t3[0];
-  $link=str_replace("https","http",$link);
+  //$t3=explode('"',$t1[3]);
+  //$link=$t3[0];
+  $a1=explode('mime":"video/mp4"',$h);
+  $n=count($a1);
+  $a2=explode('url":"',$a1[$n-1]);
+  $a3=explode('"',$a2[1]);
+  $link=str_replace("https","http",$a3[0]);
 } elseif (strpos($l,"digi24") !== false) {
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);

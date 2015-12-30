@@ -207,7 +207,7 @@ $url = $sThisFile."?query=".($page-1).",";
 <?php } ?>
 
 <?php
-
+$f = "/usr/local/bin/home_menu";
 $videos = explode('div class="thumb"', $html);
 
 unset($videos[0]);
@@ -229,25 +229,72 @@ foreach($videos as $video) {
     //$link = $host."/scripts/trailer/php/cinemarx_link.php?file=".$link;
     $name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".flv";
 
-    echo '
-    <item>
-    <title>'.$title.'</title>
+
+    $link=$host.'/scripts/trailer/php/cinemarx_link.php?file='.$link;
+
+    if (file_exists($f)) {
+	echo'
+	<item>
+	<title>'.$title.'</title>
     <onClick>
     <script>
     showIdle();
-    url="'.$host.'/scripts/trailer/php/cinemarx_link.php?file='.$link.'";
-    movie=getUrl(url);
-    movie1="'.$baseurl.'" + movie;
+    url1="'.$link.'";
+    url=getURL(url1);
     cancelIdle();
-    playItemUrl(movie1,10);
+    storagePath = getStoragePath("tmp");
+    storagePath_stream = storagePath + "stream.dat";
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, url);
+    streamArray = pushBackStringArray(streamArray, url);
+    streamArray = pushBackStringArray(streamArray, video/mp4);
+    streamArray = pushBackStringArray(streamArray, "'.$tit.'");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer2.rss");
     </script>
     </onClick>
-    <download>'.$link.'</download>
     <name>'.$name.'</name>
     <image>'.$image.'</image>
+    <download>'.$link.'</download>
+    <name>'.$name.'</name>
     <media:thumbnail url="'.$image.'" />
-    </item>
-    ';
+  </item>
+  ';
+  } else {
+	echo'
+	<item>
+	<title>'.$title.'</title>
+    <onClick>
+    <script>
+    showIdle();
+    url1="'.$link.'";
+    url=getURL(url1);
+    cancelIdle();
+    storagePath = getStoragePath("tmp");
+    storagePath_stream = storagePath + "stream.dat";
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, url);
+    streamArray = pushBackStringArray(streamArray, url);
+    streamArray = pushBackStringArray(streamArray, video/mp4);
+    streamArray = pushBackStringArray(streamArray, "'.$tit.'");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer1.rss");
+    </script>
+    </onClick>
+    <name>'.$name.'</name>
+    <image>'.$image.'</image>
+    <download>'.$link.'</download>
+    <name>'.$name.'</name>
+    <media:thumbnail url="'.$image.'" />
+  </item>
+  ';
+  }
 }
 
 

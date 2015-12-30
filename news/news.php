@@ -259,7 +259,7 @@ columnCount=4
   <channel>
 
     <title>Ştiri şi alte informaţii</title>
-
+<!--
 <item>
 <title>TvBlog: orarul serialelor</title>
 <link><?php echo $host; ?>/scripts/news/php/tvblog.php</link>
@@ -269,7 +269,7 @@ columnCount=4
 <annotation>TvBlog, blogul iubitorilor de seriale TV</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <item>
 <title>Vremea în România</title>
 <link><?php echo $host; ?>/scripts/news/php/weather.php</link>

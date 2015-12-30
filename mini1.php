@@ -406,16 +406,16 @@ showIdle();
 
 <!-- 5 -->
 <item>
-<title>Muzica youtube</title>
+<title>OneHD</title>
 <onClick>
 <script>
 showIdle();
-"<?php echo $host; ?>/scripts/user/youtube.php";
+"<?php echo $host; ?>/scripts/tv/prahovahd.php";
 </script>
 </onClick>
-<focus>/usr/local/etc/www/cgi-bin/scripts/image/music_focus.png</focus>
-<unfocus>/usr/local/etc/www/cgi-bin/scripts/image/music_unfocus.png</unfocus>
-<annotation>Canale de muzica disponibile pe youtube</annotation>
+<focus>/usr/local/etc/www/cgi-bin/scripts/image/onehd_focus.png</focus>
+<unfocus>/usr/local/etc/www/cgi-bin/scripts/image/onehd_unfocus.png</unfocus>
+<annotation>One HD: concerte, divertisment, business, turism, experimente, disponibile în High Definition atât live cât şi on-demand (VOD)</annotation>
 </item>
 
 <!-- 6 -->
@@ -448,16 +448,16 @@ showIdle();
 
 <!-- 8 -->
 <item>
-<title>Stiri din Republica Moldova</title>
+<title>Muzica youtube</title>
 <onClick>
 <script>
 showIdle();
-"<?php echo $host; ?>/scripts/tv/moldova.php";
+"<?php echo $host; ?>/scripts/user/youtube.php";
 </script>
 </onClick>
-<focus>/usr/local/etc/www/cgi-bin/scripts/image/moldova_focus.png</focus>
-<unfocus>/usr/local/etc/www/cgi-bin/scripts/image/moldova_unfocus.png</unfocus>
-<annotation>Stiri de peste Prut</annotation>
+<focus>/usr/local/etc/www/cgi-bin/scripts/image/music_focus.png</focus>
+<unfocus>/usr/local/etc/www/cgi-bin/scripts/image/music_unfocus.png</unfocus>
+<annotation>Canale de muzica disponibile pe youtube</annotation>
 </item>
 
 <!-- 9 -->
