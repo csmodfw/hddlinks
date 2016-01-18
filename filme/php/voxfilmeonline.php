@@ -207,7 +207,7 @@ foreach($videos as $video) {
 
   $t1=explode('class="movief">',$video);
   $t2=explode('>',$t1[1]);
-  $t2_0=explode('<',$t2[1]);
+  $t2_0=explode('<',$t2[2]);
   $t3=str_replace("Vizioneaza Film Online","",$t2_0[0]);
   $t4=explode("&#8211;",$t3);
   $title=trim($t4[0]);

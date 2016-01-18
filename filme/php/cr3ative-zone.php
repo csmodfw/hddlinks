@@ -167,8 +167,14 @@ if($query) {
    $page = $queryArr[0];
    $search = $queryArr[1];
 }
-$html=file_get_contents("http://cr3ative-zone.ucoz.ro".urldecode($search)."-".$page);
+//$html=file_get_contents("http://cr3ative-zone.ucoz.ro".urldecode($search)."-".$page);
+//http://cr3ative-zone.ucoz.ro/?page2
+if ($page > 1)
+$l="http://cr3ative-zone.ucoz.ro/?page".$page;
+else
+$l="http://cr3ative-zone.ucoz.ro";
 
+$html=file_get_contents($l);
 if($page > 1) { ?>
 
 <item>
@@ -188,7 +194,7 @@ if($search) {
 
 <?php } ?>
 <?php
-$videos = explode('<div id="entry', $html);
+$videos = explode('class="cell-news-l">', $html);
 unset($videos[0]);
 $videos = array_values($videos);
 //print_r($videos);
@@ -197,12 +203,12 @@ foreach($videos as $video) {
 
 //  link
   $v1 = explode('href="', $video);
-  $v2 = explode('"', $v1[1]);
+  $v2 = explode('"', $v1[3]);
   $link = $v2[0];
 
 //  titlu
 
-  $v3 = explode('>',$v1[2]);
+  $v3 = explode('>',$v1[3]);
   $v4 = explode('<',$v3[1]);
   //$v5 = explode("Online",$v4[0]);
   $titlu = trim($v4[0]);
@@ -210,7 +216,7 @@ foreach($videos as $video) {
 //  imagine
   //$v0=explode("images--",$video);
   $v1 = explode('src="', $video);
-  $v2 = explode('"', $v1[1]);
+  $v2 = explode('"', $v1[3]);
   $image = $v2[0];
 //  descriere
 

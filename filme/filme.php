@@ -196,22 +196,22 @@ ret;
 <annotation>http://www.movie-inn.com</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-<!--
+
 <item>
-<title>popcornered</title>
-<link><?php echo $host; ?>/scripts/filme/php/popcornered_main.php</link>
-<annotation>http://popcornered.com/</annotation>
+<title>123movies</title>
+<link><?php echo $host; ?>/scripts/filme/php/123movies_main.php</link>
+<annotation>http://123movies.to/</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
--->
-<!--
+
+
 <item>
 <title>movietv</title>
 <link><?php echo $host; ?>/scripts/filme/php/movietv_main.php</link>
 <annotation>http://movietv.to</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+<!--
 <item>
 <title>filmbox</title>
 <link><?php echo $host; ?>/scripts/filme/php/filmbox_main.php</link>
@@ -447,7 +447,7 @@ echo '
 
 <item>
 <title>cr3ative-zone</title>
-<link><?php echo $host; ?>/scripts/filme/php/cr3ative-zone_main.php</link>
+<link><?php echo $host; ?>/scripts/filme/php/cr3ative-zone.php?query=1,</link>
 <annotation>http://cr3ative-zone.ucoz.ro</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
