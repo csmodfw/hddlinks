@@ -389,6 +389,7 @@ print_ch("Antena 3", "http://127.0.0.1/cgi-bin/translate?stream,,rtmp://93.115.8
 print_ch("EST TV", "http://127.0.0.1/cgi-bin/translate?stream,,rtmp://81.12.152.250/live/esttv",$a["EST TV"]);
 print_ch("WEST TV", "http://127.0.0.1/cgi-bin/translate?stream,,rtmp://86.106.82.47/westtv_live/livestream.flv",$a["WESt TV"]);
 print_ch("Informatia TV", "http://94.60.44.130:8014/stream.flv",$a["Informatia TV"]);
+print_ch("PRO TV MD", "http://127.0.0.1/cgi-bin/scripts/util/translate.cgi?stream,Rtmp-options:-y%20512_direct%20%20-p%20http://live.protv.md,rtmp://185.28.104.2/live/",$a["PRO TV MD"]);
 print_ch("PRO TV News", "http://127.0.0.1/cgi-bin/scripts/util/translate.cgi?stream,Rtmp-options:-y%20mp4:live1.mp4%20-W%20http://d1.a4w.ro/customFlow/flowplayer-3.2.12.swf%20-p%20http://stirileprotv.ro/protvnews,rtmp://live.protv.ro/news/",$a["PRO TV News"]);
 print_ch("6TV", "http://89.149.7.178:8800/flv-audio-video/",$a["6TV"]);
 print_ch("RTV", "http://rtvflash.smcmobile.ro:8010/rtv.flv",$a["RTV"]);

@@ -322,12 +322,15 @@ $videos = explode('<div class="item"', $html);
 unset($videos[0]);
 $videos = array_values($videos);
 foreach($videos as $video) {
-  $title11=str_between($video,'movie-title">','<');
+  $title11=trim(str_between($video,'movie-title">','<'));
   $image=str_between($video,'src="','"');;
   $link1= str_between($video,'href="','"');
   $link1=str_replace(",","*",$link1);
-  $id1= str_between($video,"addWatchlist('","'");
-  $year=str_between($video,'movie-date">','<');
+  //$id1= str_between($video,"addWatchlist('","'");
+  $t1=explode("movies/",$link1);
+  $t2=explode("-",$t1[1]);
+  $id1=$t2[0];
+  $year=trim(str_between($video,'movie-date">','<'));
   $title=$title11." (".$year.")";
   //$id_t=$id1;
   $id_t="";
