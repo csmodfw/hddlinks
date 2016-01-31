@@ -51,7 +51,7 @@ $host = "http://127.0.0.1/cgi-bin";
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
 		</text>
-	<image  redraw="yes" offsetXPC=60 offsetYPC=25 widthPC=30 heightPC=50>
+	<image  redraw="yes" offsetXPC=60 offsetYPC=25 widthPC=30 heightPC=60>
          <script>print(image); image;</script>
 		</image>
   	<text  redraw="yes" align="center" offsetXPC="0" offsetYPC="90" widthPC="100" heightPC="8" fontSize="17" backgroundColor="10:105:150" foregroundColor="100:200:255">
@@ -239,6 +239,7 @@ foreach ($arr as $key => $val) {
   if (!array_key_exists($id, $srt)) {
      $tt=str_replace("/","\/",$title);
      $tt=str_replace("?","\?",$tt);
+     $tt=str_replace(".","\.",$tt);
      $s="/\|".$tt."\|\d+\|\d+\|\d+/";
      if (preg_match($s,$h,$m)) {
        $t1=explode("|",$m[0]);

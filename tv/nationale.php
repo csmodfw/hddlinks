@@ -405,7 +405,7 @@ showIdle();
 <location>http://www.realitatea.net/tv</location>
 <annotation>Site-ul de stiri nr. 1 in Romania iti ofera informatia proaspata corecta obiectiva si documentata despre stirile de ultima ora.</annotation>
 </item>
-
+<!--
 <item>
 <title>RealitateaTV - emisiuni</title>
 <link><?php echo $host; ?>/scripts/tv/php/seenow_e.php?query=1,http://www.seenow.ro/realitatea-tv-2698-pagina-,RealitateaTV</link>
@@ -414,7 +414,7 @@ showIdle();
 <location>http://www.seenow.ro/</location>
 <annotation>Inregistrari emisiuni</annotation>
 </item>
-
+-->
 <item>
 <title>Romania TV</title>
 <link><?php echo $host; ?>/scripts/tv/php/rtv_main.php</link>

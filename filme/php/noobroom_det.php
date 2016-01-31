@@ -38,8 +38,13 @@ $t1=explode('id="img_primary">',$html);
 $t2=explode('src="',$t1[1]);
 $t3=explode('"',$t2[1]);
 $img=$t3[0];
-
-$t1=explode('<h1 class="header"',$html);
+if (!$img) {
+$t1=explode('div class="poster">',$html);
+$t2=explode('src="',$t1[1]);
+$t3=explode('"',$t2[1]);
+$img=$t3[0];
+}
+$t1=explode('class="title_wrapper">',$html);
 $t2=explode('>',$t1[1]);
 $t3=explode('<',$t2[1]);
 $year=str_between($html,'span class="nobr">','</span');
@@ -48,6 +53,49 @@ $year=str_replace(")","",$year);
 $year=trim(preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$year));
 $year="Year: ".$year;
 $tit=trim($t3[0]);
+
+$imdb="IMDB: ".trim(str_between($html,'span itemprop="ratingValue">','<'));
+$a1=explode('div class="titleBar">',$html);
+//$gen1=str_between($html,'div class="titleBar">','</div>');
+$gen1=$a1[1];
+$t1=explode('itemprop="duration"',$gen1);
+$t2=explode('>',$t1[1]);
+$t3=explode('<',$t2[1]);
+$durata="Duration: ".trim($t3[0]);
+
+//$gen = trim(preg_replace("/<(.*)>|(\{(.*)\})/e","",$gen));
+$videos = explode('href="/genre', $gen1);
+unset($videos[0]);
+$videos = array_values($videos);
+$gen="";
+foreach($videos as $video) {
+  $t1=explode('itemprop="genre">',$video);
+  $t2=explode("<",$t1[1]);
+  $a=trim($t2[0]);
+  if ($a) $gen .=trim($a)." | ";
+}
+$gen=substr($gen, 0, -2);
+$gen = trim(preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$gen));
+$gen=str_replace("&nbsp;","",$gen);
+$gen=str_replace("\n","",$gen);
+$gen=str_replace("\t","",$gen);
+$gen=str_replace("  ","",$gen);
+$gen="Genre: ".$gen;
+$videos=explode('itemprop="actor"',$html);
+unset($videos[0]);
+$videos = array_values($videos);
+$cast="";
+foreach($videos as $video) {
+ $t=explode('itemprop="name">',$video);
+ $t1=explode("<",$t[1]);
+ $cast=$cast.$t1[0]." | ";
+}
+$cast="Cast: ".$cast;
+$cast=substr($cast, 0, -2);
+//$gen="Gen: ".$gen;
+//echo $gen;
+$desc=trim(str_between($html,'itemprop="description">',"<"));
+//$desc = trim(preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$desc));
 $tit=str_replace("&#x27;","'",$tit);
 $tit=str_replace("&nbsp;"," ",$tit);
 $tit=str_replace("&raquo;",">>",$tit);
@@ -56,31 +104,6 @@ $tit=str_replace("&#xCE;","I",$tit);
 $tit=str_replace("&#xEE;","i",$tit);
 $tit=str_replace("&#xE2;","a",$tit);
 
-$imdb="IMDB: ".trim(str_between($html,'span itemprop="ratingValue">','<'));
-$gen1=str_between($html,'div class="infobar">','</div>');
-$t1=explode('itemprop="duration"',$gen1);
-$t2=explode('>',$t1[1]);
-$t3=explode('<',$t2[1]);
-$durata="Duration: ".trim($t3[0]);
-$gen="Genre: ";
-//$gen = trim(preg_replace("/<(.*)>|(\{(.*)\})/e","",$gen));
-$videos = explode('href="/genre', $gen1);
-unset($videos[0]);
-$videos = array_values($videos);
-foreach($videos as $video) {
-  $t1=explode('itemprop="genre">',$video);
-  $t2=explode("<",$t1[1]);
-  $gen .=trim($t2[0])." | ";
-}
-$gen=substr($gen, 0, -2);
-$gen = trim(preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$gen));
-$gen=str_replace("&nbsp;","",$gen);
-$gen=str_replace("\n","",$gen);
-$gen=str_replace("\t","",$gen);
-$gen=str_replace("  ","",$gen);
-//$gen="Gen: ".$gen;
-//echo $gen;
-$desc=trim(str_between($html,'<p itemprop="description">',"</p>"));
 $desc=str_replace("&#x27;","'",$desc);
 $desc=str_replace("&nbsp;"," ",$desc);
 $desc=str_replace("&raquo;",">>",$desc);
@@ -95,7 +118,7 @@ $ttxml .=$img."\n"; //image
 $ttxml .=$gen."\n"; //gen
 $ttxml .=$durata."\n"; //regie
 $ttxml .=$imdb."\n"; //imdb
-$ttxml .="\n"; //actori
+$ttxml .=$cast."\n"; //actori
 $ttxml .=$desc."\n"; //descriere
 //echo $ttxml;
 $new_file = "/tmp/movie.dat";

@@ -85,7 +85,7 @@ if($query) {
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
 		</text>
-	<image  redraw="yes" offsetXPC=60 offsetYPC=25 widthPC=30 heightPC=50>
+	<image  redraw="yes" offsetXPC=60 offsetYPC=25 widthPC=30 heightPC=60>
          <script>print(image); image;</script>
 		</image>
   	<text  redraw="yes" align="center" offsetXPC="0" offsetYPC="90" widthPC="100" heightPC="8" fontSize="17" backgroundColor="10:105:150" foregroundColor="100:200:255">
@@ -227,9 +227,13 @@ foreach($videos as $video) {
 
 $k=count($mmm);
 foreach($mmm as $key=>$value) {
+    if (strpos($value,"123movies") !== false)
+      $k=$key." (d)";
+    else
+      $k=$key;
      echo '
      <item>
-     <title>'.$key.'</title>
+     <title>'.$k.'</title>
      <onClick>
      <script>
      showIdle();

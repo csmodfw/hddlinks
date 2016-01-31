@@ -90,7 +90,7 @@ if($query) {
 		  <script>getPageInfo("pageTitle");</script>
 		</text>
   	<text align="left" offsetXPC="6" offsetYPC="15" widthPC="80" heightPC="4" fontSize="16" backgroundColor="10:105:150" foregroundColor="100:200:255">
-      1=adauga la favorite
+      1=adauga la favorite, right for more
 		</text>
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
@@ -201,6 +201,17 @@ id=getItemInfo(getFocusItemIndex(),"id");
  cancelIdle();
  redrawDisplay();
  ret="true";
+}
+else if (userInput == "right" || userInput == "R")
+{
+movie=getItemInfo(getFocusItemIndex(),"movie");
+tit=getItemInfo(getFocusItemIndex(),"tit");
+showIdle();
+movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/movietv_det.php?file=" + movie+ "," + urlEncode(tit);
+dummy = getURL(movie_info);
+cancelIdle();
+ret_val=doModalRss("/usr/local/etc/www/cgi-bin/scripts/filme/php/movie_detail.rss");
+ret="true";
 }
 ret;
 </script>
@@ -337,6 +348,7 @@ foreach($videos as $video) {
   if (!$srt[$id1]) {
      $tt=str_replace("/","\/",$title11);
      $tt=str_replace("?","\?",$tt);
+     $tt=str_replace(".","\.",$tt);
      $tt="".$tt."\|".$year."";
      $s="/\|".$tt."\|\d+\|\d+/i";
 

@@ -387,6 +387,9 @@ print_ch("Antena 3", "http://127.0.0.1/cgi-bin/translate?stream,,rtmp://93.115.8
 //print_ch("Banat TV", "http://127.0.0.1/cgi-bin/translate?stream,,rtmp://81.18.66.155/live/banat-tv",$a["Banat TV"]);
 //print_ch("LOOK TV", "http://127.0.0.1/cgi-bin/translate?stream,,rtmp://193.239.252.30/LookTV/ll3",$a["LOOK TV"]);
 print_ch("EST TV", "http://127.0.0.1/cgi-bin/translate?stream,,rtmp://81.12.152.250/live/esttv",$a["EST TV"]);
+print_ch("Realitatea MD", "http://127.0.0.1/cgi-bin/scripts/util/translate.cgi?stream,Rtmp-options:-y%20mp4:tv.mp4%20-W%20http://www.realitatea.md/flowplayer-3.2.18/flowplayer.cluster.swf%20-p%20http://www.realitatea.md/tv,rtmp://92.115.237.172/realitatea",$a["Realitatea MD"]);
+print_ch("TV7 MD", "http://127.0.0.1/cgi-bin/scripts/util/translate.cgi?stream,Rtmp-options:-y%20livestream%20-W%20http://storage.privesc.eu/jw61/jwplayer.flash.swf%20-p%20http://www.privesc.eu/home/tv7,rtmp://ro.privesc.eu/tv7live/",$a["TV7 MD"]);
+print_ch("TV7 MD", "http://127.0.0.1/cgi-bin/scripts/util/translate.cgi?stream,Rtmp-options:-y%20livestream%20-W%20http://tv7.md/swf/vplayer_rtmp.swf%20-p%20http://tv7.md/ro/live/,rtmp://178.168.67.14/live",$a["TV7 MD"]);
 print_ch("WEST TV", "http://127.0.0.1/cgi-bin/translate?stream,,rtmp://86.106.82.47/westtv_live/livestream.flv",$a["WESt TV"]);
 print_ch("Informatia TV", "http://94.60.44.130:8014/stream.flv",$a["Informatia TV"]);
 print_ch("PRO TV MD", "http://127.0.0.1/cgi-bin/scripts/util/translate.cgi?stream,Rtmp-options:-y%20512_direct%20%20-p%20http://live.protv.md,rtmp://185.28.104.2/live/",$a["PRO TV MD"]);

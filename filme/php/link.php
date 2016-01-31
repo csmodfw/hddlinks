@@ -857,110 +857,43 @@ if (strpos($filelink,"gorillavid.in") !== false || strpos($filelink,"daclips.in"
   }
   $cookie="/tmp/cookie.txt";
   //$l="https://player.vimeo.com/video/".$id;
+  /*
   $l="https://vimeo.com/".$id;
-  //echo $l;
+  echo $l;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt($ch,CURLOPT_REFERER,"http://www.biziday.ro");
   curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
   curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $html = curl_exec($ch);
+  //echo $html;
   curl_close($ch);
   $l1=str_between($html,'data-config-url="','"');
   $l1=str_replace("&amp;","&",$l1);
-  //echo $html;
+  */
   //$l1=str_replace("https","http",$l1);
   //$l1="http://player.vimeo.com/config/".$id."?type=moogaloop&referrer=vimeo.com&cdn_server=a.vimeocdn.com&player_server=player.vimeo.com&clip_id=".$id;
   //echo $l1."<BR>";
   //$l1="http://player.vimeo.com/video/98321920/config?autoplay=0&byline=0&bypass_privacy=1&context=clip.main&default_to_hd=1&portrait=0&title=0&s=ee2f825e1cdcdacd5fd9264a39a56e45a0b44c45";
   //echo $l1."<BR>";
-  //echo $l1;
+  $l1="https://player.vimeo.com/video/".$id;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l1);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-  curl_setopt($ch, CURLOPT_HEADER,1);
   curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   $h1 = curl_exec($ch);
   curl_close($ch);
-  //echo $h1;
-  /*
-  if (strpos($h1,'hd":') !== false) {
-    $t1=explode('hd":',$h1);
-    $link=str_between($t1[1],'url":"','"');
-  } else {
-    $t1=explode('sd":',$h1);
-    $link=str_between($t1[1],'url":"','"');
-  }
-  */
-  $a1=explode('mime":"video/mp4"',$h1);
-  $n=count($a1);
-  $a2=explode('url":"',$a1[$n-1]);
-  $a3=explode('"',$a2[1]);
-  $link=str_replace("https","http",$a3[0]);
-  //$link=str_replace("https","http",$link);
-  /*
-  $l1=str_between($html,'data-config-url="','"');
-  $l1=str_replace("&amp;","&",$l1);
-  $l1=str_replace("https","http",$l1);
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $l1);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
-  $h1 = curl_exec($ch);
-  curl_close($ch);
-  //echo $h1;
-  if (strpos($h1,'hd":') !== false) {
-    $t1=explode('hd":',$h1);
-    $link=str_between($t1[1],'url":"','"');
-  } else {
-    $t1=explode('sd":',$h1);
-    $link=str_between($t1[1],'url":"','"');
-  }
-  */
-/*
-  $l1="http://player.vimeo.com/config/".$id."?type=moogaloop&referrer=vimeo.com&cdn_server=a.vimeocdn.com&player_server=player.vimeo.com&clip_id=".$id;
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $l1);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
-  $h1 = curl_exec($ch);
-  curl_close($ch);
-
-  $sig_param=str_between($h1,'signature":"','"');
-  $player_url=str_between($h1,'player_url":"','"');
-  $time_param=str_between($h1,'"timestamp":',',');
-  if (strpos($h1,'hd":0') !== false)
-    $hd="sd";
-  else
-    $hd="hd";
-  $stream_url="http://".$player_url."/play_redirect?clip_id=".$id."&sig=".$sig_param."&time=".$time_param."&quality=".$hd."&codecs=H264,VP8,VP6&type=moogaloop&embed_location=&seek=0";
-
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $stream_url);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt($ch,CURLOPT_REFERER,"http://a.vimeocdn.com/p/flash/moogaloop/5.2.49/moogaloop.swf?v=1.0.0");
-  curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
-  curl_setopt($ch, CURLOPT_NOBODY, true);
-  curl_setopt($ch, CURLOPT_HEADER  ,1);
-  $html = curl_exec($ch);
-  curl_close($ch);
-  $t1=explode("Location:",$html);
-  $t2=explode("\n",$t1[1]);
-  $link=trim($t2[0]);
-*/
+  $t1=explode('mime":"video/mp4',$h1);
+  $t2=explode('url":"',$t1[1]);
+  $t3=explode('"',$t2[1]);
+  $link=$t3[0];
+  $link=str_replace("https","http",$link);
 } elseif (strpos($filelink, 'googleplayer.swf') !== false) {
   $t1 = explode("docid=", $filelink);
   $t2 = explode("&",$t1[1]);
@@ -1947,17 +1880,7 @@ $link=unpack_DivXBrowserPlugin(1,$h);
    $ch = curl_init($filelink);
    curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
-   curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
-   curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-   //curl_setopt($ch, CURLOPT_REFERER, "http://my9.imgsmail.ru/r/video2/uvpv3.swf?3");
-   //curl_setopt($ch, CURLOPT_COOKIEJAR, '/tmp/cookies.txt');
-   //curl_setopt($ch, CURLOPT_COOKIEFILE, '/tmp/cookies.txt');
-   $h = curl_exec($ch);
-   curl_close($ch);
-   $t1=str_between($h,'fmt_stream_map":"35|',',');
-   $t1=str_replace("\/","/",$t1);
-   $link=$t1;
-   $t2=str_between($h,'itag=35&url=',',');
+   curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // REr_between($h,'itag=35&url=',',');
    $link=urldecode($t2);
    if (!$link) {
    $t2=str_between($h,'itag=34&url=',',');
@@ -2090,6 +2013,7 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
    $h = curl_exec($ch);
    curl_close($ch);
    $link=str_between($h,'<source src="','"');
+   $link= unpack_DivXBrowserPlugin(1,$h);
    $srt=str_between($h,'servevtta.php?s=','"');
    if (!$srt) $srt=str_between($h,'captions" src="','"');
    if ($srt) {

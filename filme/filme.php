@@ -444,14 +444,14 @@ echo '
 <mediaDisplay name="threePartsView"/>
 </item>
 
-
+<!--
 <item>
 <title>cr3ative-zone</title>
 <link><?php echo $host; ?>/scripts/filme/php/cr3ative-zone.php?query=1,</link>
 <annotation>http://cr3ative-zone.ucoz.ro</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <!--
 <item>
 <title>peţeavă</title>

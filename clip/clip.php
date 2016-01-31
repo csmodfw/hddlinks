@@ -503,6 +503,7 @@ columnCount=5
 	<annotation>Dailymotion is about finding new ways to see, share and engage your world through the power of online video. You can find or upload videos.</annotation>
 </item>
 -->
+<!--
 <item>
 <title>Metacafe</title>
 	<link><?php echo $host; ?>/scripts/clip/php/metacafe.php?query=1</link>
@@ -511,6 +512,7 @@ columnCount=5
 	<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/clip/image/metacafe.png" />
 	<annotation>Metacafe - Best Videos & Funny Movies:</annotation>
 </item>
+-->
 <!--
 <item>
 <title>Discover Germany</title>
