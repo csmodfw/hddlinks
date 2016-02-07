@@ -206,7 +206,7 @@ ret;
 
 
 <item>
-<title>movietv</title>
+<title>movietv (premium only)</title>
 <link><?php echo $host; ?>/scripts/filme/php/movietv_main.php</link>
 <annotation>http://movietv.to</annotation>
 <mediaDisplay name="threePartsView"/>

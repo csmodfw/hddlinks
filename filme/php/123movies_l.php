@@ -215,9 +215,11 @@ $videos = array_values($videos);
 foreach($videos as $video) {
   $server=trim(str_between($video,'<strong>','</strong>'));
   $calitate=str_between($video,'a title="','"');
+  $hash=str_between($video,'hash="','"');
   $server=$server." ".$calitate;
   $id_l=str_between($video,'episode-id="','"');
-  $l="http://123movies.to/movie/load_episode/".$id_l;
+  //$l="http://123movies.to/movie/load_episode/".$id_l;
+  $l="http://123movies.to/movie/load_episode/".$id_l."/".$hash;
   $h=file_get_contents($l);
   $mm=str_between($h,'file="','"');
   if (strpos($mm,"http://123movies.to") === false) {

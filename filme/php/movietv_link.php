@@ -137,7 +137,7 @@ $link="http://movietv.to".$link;
   $h2 = curl_exec($ch);
   curl_close($ch);
 $movie=str_between($h2,'source src="','"');
-$t1=explode("end=",$movie);
-$movie=$t1[0]."end=9999";
+//$t1=explode("end=",$movie);
+//$movie=$t1[0]."end=9999";
 print $movie;
 ?>

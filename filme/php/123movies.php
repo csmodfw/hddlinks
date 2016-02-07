@@ -280,7 +280,7 @@ $videos = explode('<div class="ml-item">', $html);
 unset($videos[0]);
 $videos = array_values($videos);
 foreach($videos as $video) {
-	$t1 = explode('data-url="http://123movies.to/movie/loadinfo/', $video);
+	$t1 = explode('http://123movies.to/ajax/movie_load_info/', $video);
     $t2 = explode('"', $t1[1]);
     //$link = $t2[0];
 	$id = $t2[0];
