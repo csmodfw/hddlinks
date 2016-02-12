@@ -230,10 +230,16 @@ ret;
 <item>
 <title>Noobroom</title>
 <link><?php echo $host; ?>/scripts/filme/php/noobroom_main.php</link>
-<annotation>http://noobroom.com</annotation>
+<annotation>http://superchillin.com</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
 
+<item>
+<title>Noobroom (free)</title>
+<link><?php echo $host; ?>/scripts/filme/php/noob_free_main.php</link>
+<annotation>http://superchillin.com</annotation>
+<media:thumbnail url="image/movies.png" />
+</item>
 <item>
 <title>vplus</title>
 <link><?php echo $host; ?>/scripts/filme/php/vplay_main_filme.php</link>
