@@ -254,6 +254,13 @@ ret;
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
+
+<item>
+<title>România - Orange TV</title>
+<link><?php echo $host; ?>/scripts/tv/orange.php</link>
+<media:thumbnail url="image/tv_radio.png" />
+<mediaDisplay name="threePartsView"/>
+</item>
 <!--
 <item>
 <title>România - VideosapTv</title>
@@ -389,14 +396,14 @@ echo '
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
-<!--
+
 <item>
-<title>TV Live - Other</title>
-<link><?php echo $host; ?>/scripts/tv/tv_new.php</link>
+<title>WEBTV MD</title>
+<link><?php echo $host; ?>/scripts/tv/webtv_md.php</link>
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
--->
+
 <!--
 <item>
 <title>TV Live - IPTV Player</title>

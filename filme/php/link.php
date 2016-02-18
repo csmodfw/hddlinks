@@ -668,16 +668,29 @@ if (strpos($filelink,"gorillavid.in") !== false || strpos($filelink,"daclips.in"
   $link=str_between($h,'a href="','"');
   if ($filelink_990 && file_exists($base_sub."990.dat")) $srt=$base_sub."990.dat";
 } elseif (strpos($filelink,"vidto.me") !== false) {
+  //http://vidto.me/59gv3qpxt3xi.html
+  //http://vidto.me/embed-59gv3qpxt3xi-600x360.html
+  if (strpos($filelink,"embed") !== false) {
+    $filelink=str_replace("embed-","",$filelink);
+    $t1=explode("-",$filelink);
+    $filelink=$t1[0].".html";
+  }
   $ch = curl_init($filelink);
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   curl_setopt($ch, CURLOPT_REFERER, $filelink);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
   curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
   $h = curl_exec($ch);
-  $id=str_between($h,'"id" value="','"');
-  $fname=str_between($h,'"fname" value="','"');
+  //echo $filelink."<BR>".$h1;
+  //die();
+  //echo $h;
+  $id=str_between($h,'id" value="','"');
+  $fname=urlencode(str_between($h,'fname" value="','"'));
   $hash=str_between($h,'hash" value="','"');
   $post="op=download1&usr_login=&id=".$id."&fname=".$fname."&referer=&hash=".$hash."&imhuman=Proceed+to+video";
+  //op=download1&usr_login=&id=59gv3qpxt3xi&fname=inainte_de_cr%C4%83ciun.mp4&referer=&hash=lnrsqdgj2syvvwlun66f4g7fcr3xjzp3&imhuman=Proceed+to+video
+  //echo $post;
+  //die();
   sleep(6);
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   curl_setopt($ch, CURLOPT_REFERER, $filelink);
@@ -686,6 +699,8 @@ if (strpos($filelink,"gorillavid.in") !== false || strpos($filelink,"daclips.in"
   curl_setopt ($ch, CURLOPT_POST, 1);
   curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
   $h = curl_exec($ch);
+
+  //echo $h;
   $link=unpack_DivXBrowserPlugin(1,$h);
   if ($filelink_990 && file_exists($base_sub."990.dat")) $srt=$base_sub."990.dat";
 } elseif (strpos($filelink,"cloudyvideos.com") !== false) {
