@@ -232,13 +232,14 @@ echo '
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
+<!--
 <item>
 <title>vplus</title>
 <link><?php echo $host; ?>/scripts/filme/php/vplay_main_main.php</link>
 <annotation>http://vplus.ro/shows</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <item>
 <title>movie-inn</title>
 <link><?php echo $host; ?>/scripts/filme/php/movie-inn_s.php</link>
@@ -287,13 +288,13 @@ echo '
 <link><?php echo $host; ?>/scripts/filme/php/990_seriale_main1.php</link>
 <media:thumbnail url="image/movies.png" />
 </item>
-
+<!--
 <item>
 <title>filme9</title>
 <link><?php echo $host; ?>/scripts/filme/php/filme9s.php?query=1,</link>
 <media:thumbnail url="image/movies.png" />
 </item>
-
+-->
 <item>
 <title>vtube</title>
 <link><?php echo $host; ?>/scripts/filme/php/vtube.php</link>

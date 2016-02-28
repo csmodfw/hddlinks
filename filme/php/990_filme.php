@@ -191,20 +191,20 @@ foreach($videos as $video) {
     $t2 = explode("'", $t1[1]);
     $link = $t2[0];
     $link = trim("http://www.990.ro/".$link);
-    $link = str_replace("filme","player-film",$link);
+    //$link = str_replace("filme","player-film",$link);
 
     
     $t3 = explode('>',$t1[2]);
     $t4 = explode('<',$t3[1]);
     $title = trim($t4[0]);
 
-    $t1=explode("-",$link);
-    $link=$t1[0]."-".$t1[1]."-".$t1[2]."-sfast.html";
+    //$t1=explode("-",$link);
+    //$link=$t1[0]."-".$t1[1]."-".$t1[2]."-sfast.html";
     
     $t1 = explode("src='..", $video);
     $t2 = explode("'", $t1[1]);
     $image = "http://www.990.ro".$t2[0];
-    $link = 'http://127.0.0.1/cgi-bin/scripts/filme/php/filme_link.php?file='.urlencode($link).",".urlencode($title);
+    $link = 'http://127.0.0.1/cgi-bin/scripts/filme/php/990_seriale_sec.php?file='.urlencode($link).",".urlencode($title);
    if ($title) {
     echo '
     <item>

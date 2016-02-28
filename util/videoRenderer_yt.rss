@@ -34,6 +34,7 @@
     fontsize = "20";
     fontoffset = "0";
     fontn = "1";
+	fix = "1";
   }
   else
   {
@@ -42,6 +43,7 @@
     fontsize = getStringArrayAt(optionsArray, 2);
     fontoffset = getStringArrayAt(optionsArray, 3);
     fontn = getStringArrayAt(optionsArray, 4);
+	fix = getStringArrayAt(optionsArray, 5);
   }
 
 if (fontsize &lt; 22)
@@ -181,6 +183,12 @@ else
         stream_elapsed1 = stream_elapsed + " / " + stream_total;
         tline2=stream_title;
      }
+	     if (fix != "2")
+    {
+    ref +=  1;
+    if (ref &gt; 200) postMessage("edit");
+	  if (ref &gt; 200) ref = 0;    
+    }
 		if (play_total &gt; 0 &amp;&amp; play_total &lt; 1000000 &amp;&amp; nTotSubs &gt; 2 &amp;&amp; nCurSub &lt; nTotSubs)
 		{
 		tline1="";

@@ -249,6 +249,7 @@ ret;
 </mediaDisplay>
 </item>
 -->
+<!--
 <item>
 <title>Gametrailers</title>
 <link><?php echo $host; ?>/scripts/trailer/gt.php</link>
@@ -257,6 +258,6 @@ ret;
 <location>http://www.gametrailers.com/</location>
 <annotation>Watch new video game trailers, read reviews and previews of upcoming video games at GameTrailers.com. Video game demos, online gameplay, game cheats or view movies and media on the GameTrailers website.</annotation>
 </item>
-
+-->
 </channel>
 </rss>

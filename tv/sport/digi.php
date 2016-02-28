@@ -238,7 +238,7 @@ function str_between($string, $start, $end){
 	return substr($string,$ini,$len); 
 }
 include ("../../common.php");
-$videos = explode('digi-widget blue layout-type-4 socialize', $html);
+$videos = explode('div class="col-lg-', $html);
 
 unset($videos[0]);
 $videos = array_values($videos);
@@ -248,23 +248,23 @@ foreach($videos as $video) {
     $t2 = explode('"', $t1[1]);
     $link = "http://www.digisport.ro".$t2[0];
     
-    $t3=explode("span>",$video);
+    $t3=explode('alt="',$video);
     //echo $t3[3];
-    $t4=explode("<",$t3[3]);
+    $t4=explode('"',$t3[1]);
     $title=c(trim($t4[0]));
-    $t="<h2".str_between($video,"<h2","</h2>");
-    $title = preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$t);
+    //$t="<h2".str_between($video,"<h2","</h2>");
+    $title = preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$title);
     $title=fix_s($title);
 
     $t1 = explode('src="', $video);
     $t2 = explode('"', $t1[1]);
-    $image = "http://www.digisport.ro".trim($t2[0]);
-    $l1=explode("picture:",$image);
-    $id=$l1[1];
+    $image = "http://www.digisport.ro/".trim($t2[0]);
+    //$l1=explode("picture:",$image);
+    //$id=$l1[1];
 
 
     $name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".mp4";
-
+    if ($title) {
     echo '
     <item>
     <title>'.$title.'</title>
@@ -284,6 +284,7 @@ foreach($videos as $video) {
     <media:thumbnail url="'.$image.'" />
     </item>
     ';
+    }
 }
 
 ?>

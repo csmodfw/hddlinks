@@ -21,6 +21,7 @@ $filelink = urldecode($t1[0]);
 $filelink = str_replace("*",",",$filelink);
 $filelink = str_replace("@","&",$filelink); //seriale.subtitrate.info
 //echo $filelink;
+if (strpos($filelink,"player-serial") === false) exec("rm -f /tmp/990.dat");
 $pg = urldecode($t1[1]);
 $pg=fix_s($pg);
 if ($pg == "") {
@@ -253,15 +254,6 @@ else if (userInput == "five" || userInput == "5")
     jumpToLink("sub");
     ret="true";
 }
-else if (userInput == "six" || userInput == "6")
-   {
-    showidle();
-    topUrl = "http://127.0.0.1/cgi-bin/scripts/filme/php/captcha.php?file=" + getItemInfo(getFocusItemIndex(),"download");
-    dummy = getUrl(topUrl);
-    cancelIdle();
-    jumpToLink("captcha");
-    ret="true";
-}
 else
 {
 info_serial="";
@@ -419,6 +411,21 @@ if (strpos($filelink,"filmeonlinesubtitrate") !== false) {
 
   $link1=str_replace(urldecode("%0D"),"",$link1);
   $filelink=$link1;
+  if (strpos($html,"mastervid") !== false) {
+    $t1=explode("mastervid",$html);
+    $t2=explode("'",$t1[1]);
+    $link1="http://mastervid".$t2[0];
+    //echo $link1;
+    $ch = curl_init($link1);
+    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+    curl_setopt($ch,CURLOPT_REFERER,$filelink);
+    //curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+    $html = curl_exec($ch);
+    curl_close ($ch);
+    //$html=$html." ".$html22;
+    //echo $html;
+  }
 //} elseif (strpos($filelink,"filmedivix") !== false) {
 //  $html=file_get_contents($filelink);
 //  $filelink="http://filmedivix.com/filmeonline/".str_between($html,"filmedivix.com/filmeonline/",'"');
@@ -561,7 +568,7 @@ $s=$s."|trilulilu|proplayer\/playlist-controller.php|viki\.com|modovideo\.com|ro
 $s=$s."filebox\.com|glumbouploads\.com|uploadc\.com|sharefiles4u\.com|zixshare\.com|uploadboost\.com";
 $s=$s."|nowvideo\.eu|nowvideo\.co|vreer\.com|180upload\.com|dailymotion\.com|nosvideo\.com|vidbull\.com|purevid\.com|videobam\.com|streamcloud\.eu|donevideo\.com|upafile\.com|docs\.google|mail\.ru|superweb|moviki\.ru|entervideos\.com";
 $s=$s."|indavideo\.hu|redfly\.us|videa\.hu|videakid\.hu|mooshare\.biz|streamin\.to|kodik\.biz|videomega\.tv|ok\.ru|realvid\.net|up2stream\.com|openload\.co|allvid\.ch|";
-$s=$s."gorillavid\.in|daclips\.in|movpod\.in|vodlocker\.com|filehoot\.com|thevideo\.me|bestreams\.net|vidto\.me|cloudyvideos\.com/i";
+$s=$s."gorillavid\.in|daclips\.in|movpod\.in|vodlocker\.com|filehoot\.com|thevideo\.me|bestreams\.net|vidto\.me|cloudyvideos\.com|allmyvideos\.net/i";
 for ($i=0;$i<count($links);$i++) {
   if (strpos($links[$i],"http") !== false) {
     $t1=explode("http:",$links[$i]);
@@ -629,6 +636,7 @@ for ($i=0;$i<count($links);$i++) {
         }
         if (strpos($cur_link, 'videomega') !== false || strpos($cur_link, 'up2stream.com') !== false || strpos($cur_link, 'openload.co') !== false)
           $mysrt_roshare="asasas";
+        $mysrt="asasas"; // IMPORTANT PENTRU TOATE LINK-URILE 990 !!!!!!!!!!!!!!!!!!!!
           //echo $cur_link;
           /*
           $ch = curl_init($cur_link);
@@ -838,7 +846,7 @@ for ($i=0;$i<count($links);$i++) {
         ';
         }
         if ($mysrt || $mysrt_google || $viki_id || $mysrt_roshare){
-        if (strpos($server,"openload") !== false) $server=$server." (apasati 6 pentru captcha)";
+        //if (strpos($server,"openload") !== false) $server=$server." (apasati 6 pentru captcha)";
         $f = "/usr/local/bin/home_menu";
 	    echo'
 	    <item>

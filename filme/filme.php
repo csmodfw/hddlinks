@@ -241,12 +241,14 @@ ret;
 <media:thumbnail url="image/movies.png" />
 </item>
 -->
+<!--
 <item>
 <title>vplus</title>
 <link><?php echo $host; ?>/scripts/filme/php/vplay_main_filme.php</link>
 <annotation>http://vplus.ro/movies/</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
+-->
 <!--
 <item>
 <title>Seenow avantaj (abonament)</title>

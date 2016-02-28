@@ -296,7 +296,7 @@ columnCount=5
 	<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/clip/image/220.jpg" />
 	<annotation>Te ţine în priză!</annotation>
 </item>
-
+<!--
 <item>
 <title>vplay</title>
 	<link><?php echo $host; ?>/scripts/clip/php/vplay_main.php</link>
@@ -305,7 +305,7 @@ columnCount=5
 	<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/clip/image/vplay.jpg" />
 	<annotation>Videoclipuri HD Online</annotation>
 </item>
-
+-->
 
 <item>
 <title>trilulilu</title>

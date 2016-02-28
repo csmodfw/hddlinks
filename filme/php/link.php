@@ -538,7 +538,7 @@ return $r;
 }
 //***************Here we start**************************************
 $filelink=str_prep($filelink);
-$filelink_990="";
+$filelink_990="da";
 $base_sub="/tmp/";
 if (strpos($filelink,"player-serial") !== false) { //990 seriale
   $filelink_990=$filelink;
@@ -557,6 +557,7 @@ if (strpos($filelink,"player-serial") !== false) { //990 seriale
   //echo $filelink;
   //die();
 }
+//http://allmyvideos.net/70qfg347g2ro
 if (strpos($filelink,"gorillavid.in") !== false || strpos($filelink,"daclips.in") !== false || strpos($filelink,"movpod.in") !== false) {
   $ch = curl_init($filelink);
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
@@ -576,7 +577,29 @@ if (strpos($filelink,"gorillavid.in") !== false || strpos($filelink,"daclips.in"
   $h = curl_exec($ch);
   $link=str_between($h,'file: "','"');
   if (strpos($filelink,"movpod.in") !== false) $link=str_between($h,"file: '","'");
-  if ($filelink_990 && file_exists($base_sub."990.dat")) $srt=$base_sub."990.dat";
+  if ($filelink_990 && file_exists($base_sub."990.dat")) copy("/tmp/990.dat", "/tmp/test.xml");
+} elseif (strpos($filelink,"allmyvideos.net") !== false) {
+  $ch = curl_init($filelink);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, $filelink);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+  $h = curl_exec($ch);
+  $id=str_between($h,'id" value="','"');
+  $fname=str_between($h,'fname" value="','"');
+  //$hash=str_between($h,'hash" value="','"');
+  //$post="op=download1&usr_login=&id=".$id."&fname=".$fname."&referer=&hash=".$hash."&imhuman=Proceed+to+video";
+  $post="op=download1&usr_login=&id=".$id."&fname=".urlencode($fname)."&referer=&method_free=1";
+  sleep(1);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, $filelink);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+  curl_setopt ($ch, CURLOPT_POST, 1);
+  curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
+  $h = curl_exec($ch);
+  $link=str_between($h,'file" : "','"');
+  if ($filelink_990 && file_exists($base_sub."990.dat")) copy("/tmp/990.dat", "/tmp/test.xml");
 } elseif (strpos($filelink,"vodlocker.com") !== false) {
   $ch = curl_init($filelink);
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
@@ -597,7 +620,7 @@ if (strpos($filelink,"gorillavid.in") !== false || strpos($filelink,"daclips.in"
   curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
   $h = curl_exec($ch);
   $link=str_between($h,'file: "','"');
-  if ($filelink_990 && file_exists($base_sub."990.dat")) $srt=$base_sub."990.dat";
+  if ($filelink_990 && file_exists($base_sub."990.dat")) copy("/tmp/990.dat", "/tmp/test.xml");
 } elseif (strpos($filelink,"filehoot.com") !== false) {
   $ch = curl_init($filelink);
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
@@ -616,7 +639,7 @@ if (strpos($filelink,"gorillavid.in") !== false || strpos($filelink,"daclips.in"
   curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
   $h = curl_exec($ch);
   $link=str_between($h,'file: "','"');
-  if ($filelink_990 && file_exists($base_sub."990.dat")) $srt=$base_sub."990.dat";
+  if ($filelink_990 && file_exists($base_sub."990.dat")) copy("/tmp/990.dat", "/tmp/test.xml");
 } elseif (strpos($filelink,"thevideo.me") !== false) {
   $ch = curl_init($filelink);
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
@@ -637,10 +660,46 @@ if (strpos($filelink,"gorillavid.in") !== false || strpos($filelink,"daclips.in"
   curl_setopt ($ch, CURLOPT_POST, 1);
   curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
   $h = curl_exec($ch);
-  $link=str_between($h,"label: '480p', file: '","'");
-  if (!$link) $link=str_between($h,"label: '360p', file: '","'");
-  if (!$link) $link=str_between($h,"label: '240p', file: '","'");
-  if ($filelink_990 && file_exists($base_sub."990.dat")) $srt=$base_sub."990.dat";
+  //echo $h;
+  //die();
+   $t1=explode("sources:",$h);
+   $t5=explode("]",$t1[1]);
+   //echo $t1[1];
+   $t2=explode("file: '",$t5[0]);
+   //print_r ($t2);
+   $n=count($t2);
+   $t3=explode("'",$t2[$n-1]);
+   $link=$t3[0];
+   
+  $t1=explode('file: "',$h);
+  $t2=explode('"',$t1[2]);
+  if (strpos($t2[0],".srt") !== false) $srt=$t2[0];
+   if ($srt) {
+   $l_srt="http://127.0.0.1/cgi-bin/scripts/util/srt_xml.php?file=".urlencode($srt);
+   //echo $l_srt;
+   $h=file_get_contents($l_srt);
+   //echo $h;
+   if ($filelink_990 && !file_exists($base_sub."990.dat")) copy("/tmp/test.xml", "/tmp/990.dat");
+   }
+
+  //$link=str_between($h,"label: '480p', file: '","'");
+  //if (!$link) $link=str_between($h,"label: '360p', file: '","'");
+  //if (!$link) $link=str_between($h,"label: '240p', file: '","'");
+  //echo $link;
+  //die();
+$out='#!/bin/sh
+cat <<EOF
+Content-type: video/mp4
+
+EOF
+exec /usr/local/bin/Resource/www/cgi-bin/scripts/curl -k -s -A "Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0" "'.$link.'"';
+$fp = fopen('/usr/local/etc/www/cgi-bin/scripts/util/m.cgi', 'w');
+fwrite($fp, $out);
+fclose($fp);
+exec("chmod +x /usr/local/etc/www/cgi-bin/scripts/util/m.cgi");
+sleep (1);
+$link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
+  if ($filelink_990 && file_exists($base_sub."990.dat")) copy("/tmp/990.dat", "/tmp/test.xml");
 } elseif (strpos($filelink,"bestreams.net") !== false) {
   $ch = curl_init($filelink);
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
@@ -666,7 +725,7 @@ if (strpos($filelink,"gorillavid.in") !== false || strpos($filelink,"daclips.in"
   $h = $t1[1];
   //echo $h;
   $link=str_between($h,'a href="','"');
-  if ($filelink_990 && file_exists($base_sub."990.dat")) $srt=$base_sub."990.dat";
+  if ($filelink_990 && file_exists($base_sub."990.dat")) copy("/tmp/990.dat", "/tmp/test.xml");
 } elseif (strpos($filelink,"vidto.me") !== false) {
   //http://vidto.me/59gv3qpxt3xi.html
   //http://vidto.me/embed-59gv3qpxt3xi-600x360.html
@@ -702,7 +761,7 @@ if (strpos($filelink,"gorillavid.in") !== false || strpos($filelink,"daclips.in"
 
   //echo $h;
   $link=unpack_DivXBrowserPlugin(1,$h);
-  if ($filelink_990 && file_exists($base_sub."990.dat")) $srt=$base_sub."990.dat";
+  if ($filelink_990 && file_exists($base_sub."990.dat")) copy("/tmp/990.dat", "/tmp/test.xml");
 } elseif (strpos($filelink,"cloudyvideos.com") !== false) {
   $ch = curl_init($filelink);
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
@@ -723,7 +782,7 @@ if (strpos($filelink,"gorillavid.in") !== false || strpos($filelink,"daclips.in"
   curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
   $h = curl_exec($ch);
   $link=str_between($h,"file: '","'");
-  if ($filelink_990 && file_exists($base_sub."990.dat")) $srt=$base_sub."990.dat";
+  if ($filelink_990 && file_exists($base_sub."990.dat")) copy("/tmp/990.dat", "/tmp/test.xml");
 } elseif ((strpos($filelink,"vidxden") !==false) || (strpos($filelink,"divxden") !==false)) {
 
   if (strpos($filelink,"embed") !== false) {
@@ -1152,6 +1211,7 @@ if (strpos($filelink,"gorillavid.in") !== false || strpos($filelink,"daclips.in"
 } elseif (strpos($filelink, 'roshare.info') !==false || strpos($filelink, 'rosharing.com') !==false ||strpos($filelink, 'rosharing.net') !==false) {
    //http://roshare.info/embedx-huwehn7cr7tx.html#
   //op=download2&id=g74g97qqkzz1&rand=nopnu7b7og43gtuzyh73eofno6odcr66cjkugrq&referer=&method_free=&method_premium=&down_direct=1
+  $filelink=str_replace("www.","",$filelink);
   $referer=$filelink;
   //$filelink=str_replace("rosharing.com","roshare.info",$filelink);
   if (strpos($filelink,"embed") !== false) {
@@ -1857,6 +1917,7 @@ $link=unpack_DivXBrowserPlugin1(1,$h);
    }
 
 } elseif (strpos($filelink,"openload.co") !==false) {
+   //include ("openload.php");
    $filelink=str_replace(".mp4","",$filelink);
    $filelink=str_replace("openload.co/f/","openload.co/embed/",$filelink);
    //echo $filelink;
@@ -1871,8 +1932,79 @@ $link=unpack_DivXBrowserPlugin1(1,$h);
    $t1=explode('kind="captions"',$h1);
    $t2=explode('src="',$t1[1]);
    $t3=explode('"',$t2[1]);
-   if ($t3[0]) $srt="https://openload.co".$t3[0];
    //echo $h1;
+   if ($t3[0]) {
+    if (strpos($t3[0],"openload") === false)
+     $srt="https://openload.co".$t3[0];
+    else
+     $srt=$t3[0];
+   }
+$h=urlencode(str_between($h1,"<video","</script"));
+
+
+$s = str_replace("%28%28%EF%BE%9F%EF%BD%B0%EF%BE%9F%29+%2B+%28%EF%BE%9F%EF%BD%B0%EF%BE%9F%29+%2B+%28%EF%BE%9F%CE%98%EF%BE%9F%29%29", "9",$h);
+$s = str_replace("%28%28%EF%BE%9F%EF%BD%B0%EF%BE%9F%29+%2B+%28%EF%BE%9F%EF%BD%B0%EF%BE%9F%29%29", "8",$s);
+$s = str_replace("%28%28%EF%BE%9F%EF%BD%B0%EF%BE%9F%29+%2B+%28o%5E_%5Eo%29%29", "7",$s);
+$s = str_replace("%28%28o%5E_%5Eo%29+%2B%28o%5E_%5Eo%29%29", "6",$s);
+$s = str_replace("%28%28%EF%BE%9F%EF%BD%B0%EF%BE%9F%29+%2B+%28%EF%BE%9F%CE%98%EF%BE%9F%29%29", "5",$s);
+$s = str_replace("%28%EF%BE%9F%EF%BD%B0%EF%BE%9F%29", "4",$s);
+$s = str_replace("%28%28o%5E_%5Eo%29+-+%28%EF%BE%9F%CE%98%EF%BE%9F%29%29", "2",$s);
+
+$s = str_replace("%28o%5E_%5Eo%29", "3",$s);
+$s = str_replace("%28%EF%BE%9F%CE%98%EF%BE%9F%29", "1",$s);
+$s = str_replace("%28%2B%21%2B%5B%5D%29", "1",$s);
+$s = str_replace("%28c%5E_%5Eo%29", "0",$s);
+$s = str_replace("%280%2B0%29", "0",$s);
+$s = str_replace("%28%EF%BE%9F%D0%94%EF%BE%9F%29%5B%EF%BE%9F%CE%B5%EF%BE%9F%5D", "\\",$s);
+$s = str_replace("%283+%2B3+%2B0%29", "6",$s);
+$s = str_replace("%283+-+1+%2B0%29", "2",$s);
+$s = str_replace("%28%21%2B%5B%5D%2B%21%2B%5B%5D%29", "2",$s);
+$s = str_replace("%28-%7E-%7E2%29", "4",$s);
+$s = str_replace("%28-%7E-%7E1%29", "3",$s);
+
+$s= urldecode($s);
+$s=str_replace("+","",$s);
+$s=str_replace(" ","",$s);
+$s=str_replace("\\/","/",$s);
+
+preg_match_all("/(\d{2,3})/",$s,$m);
+//print_r ($m[0]);
+$n=count($m[0]);
+
+$out="";
+for ($k=0; $k<$n; $k++) {
+$out=$out.chr(intval($m[0][$k],8));
+}
+$link=str_between($out,"window.vr='","'");
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, $link);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+      curl_setopt($ch, CURLOPT_NOBOBY,1);
+      curl_setopt($ch, CURLOPT_HEADER,1);
+      $ret = curl_exec($ch);
+      curl_close($ch);
+      $t1=explode("Location:",$ret);
+      $t2=explode("?",$t1[1]);
+      $link=trim($t2[0]);
+      $link=str_replace("https","http",$link).".mp4";
+
+ //$link="http://17wy0pi.oloadcdn.net/dl/l/msvdwI30pLY/XCETobEOexU/neunocsut.mp4";
+ //sleep(2);
+ //$link=file_get_contens($new_file);
+      //$link=mb_convert_encoding($link,"ISO-8859-2","UTF-8");
+//$link="https://openload.co/stream/XCETobEOexU~1456674460~82.210.0.0~AkRRhQCp?mime=true";
+  //https://17wy0pi.oloadcdn.net/dl/l/CqDRKVpDSDw/XCETobEOexU/neunocsut?mime=true
+   //$t1=explode("openload",$link);
+   //$l22="http://uphero.xpresso.eu/dec.php?file=".$filelink;
+   //$link=file_get_contens($l22);
+//$link = mb_convert_encoding($link, "UTF-8","ASCII");
+   //echo $l22;
+   //$link=file_get_contents($l22);
+   //$link=utf8_decode($link);
+   //echo $h1;
+/*
    preg_match('/openload\.co\/(v\/|watch\?v=|embed\/)([\w\-]+)/', $filelink, $match);
    $file = $match[2];
    $key="UebmYlZN";
@@ -1912,11 +2044,13 @@ $link=unpack_DivXBrowserPlugin1(1,$h);
   $link=str_replace("\/","/",$link);
   $link=str_replace("https","http",$link);
   //echo $srt;
+*/
    if ($srt) {
    $l_srt="http://127.0.0.1/cgi-bin/scripts/util/srt_xml.php?file=".urlencode($srt);
    //echo $l_srt;
    $h=file_get_contents($l_srt);
    //echo $h;
+   if ($filelink_990 && !file_exists($base_sub."990.dat")) copy("/tmp/test.xml", "/tmp/990.dat");
    }
 } elseif (strpos($filelink,"ok.ru") !==false) {
   $filelink=str_replace("videoembed/","video/",$filelink);
@@ -2448,5 +2582,6 @@ fclose($fh);
 }
 }
 } // end seriale.filmesubtitrate.info
+if (strpos($link,"http") === false) $link="http:".$link;
 print $link;
 ?>

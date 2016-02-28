@@ -3,10 +3,12 @@
 $query = $_GET["file"];
 if($query) {
    $queryArr = explode(',', $query);
-   $link = $queryArr[0];
+   $link22 = $queryArr[0];
    $tit = urldecode($queryArr[1]);
 }
-$html = file_get_contents($link);
+exec ("rm -f /tmp/990.dat");
+$html = file_get_contents($link22);
+//echo $html;
 $image = "http://www.990.ro/".str_between($html,"src='..","'");
 ?>
 <?php echo "<?xml version='1.0' encoding='UTF8' ?>";
@@ -194,17 +196,20 @@ function str_between($string, $start, $end){
 //http://www.990.ro/seriale2-10140-10393-Hell-on-wheels--online-Pilot-download.html
 //http://www.990.ro/player-seriale-10140-10393-Hell-on-wheels--online-Pilot-.html
 //$html = str_between($html,"<table border='0' cellpadding='0' cellspacing='0' width='100%'>","</table>");
-$videos = explode("div style='position:relative; float:left; border:0px solid #000;'", $html);
+if (strpos($link22,"filme-")=== false)
+  $videos = explode("position:relative; float:left; width:190px; margin-left:20px; margin-top:5px;", $html);
+else
+  $videos=explode("position:relative; float:left; width:200px; margin-left:40px; margin-top:5px;",$html);
 unset($videos[0]);
 $videos = array_values($videos);
 $n=0;
 foreach($videos as $video) {
-    $t1 = explode("a href='", $video);
+    $t1 = explode("href='", $video);
     $t2 = explode("'", $t1[1]);
     $link = $t2[0];    
-    $t3 = explode(">",$t1[1]);
+    $t3 = explode(">",$video);
     $t4 = explode("<",$t3[1]);
-    $title1 = trim($t4[0]);
+    $title = trim($t4[0]);
     //$link = str_replace("download","sfast",$link);
     /*
     $link = str_replace("seriale2","player-serial",$link);
@@ -216,18 +221,19 @@ foreach($videos as $video) {
     //http://www.990.ro/player-seriale-redirect-serial.php?id=88&idul=7216&v=1
     //http://www.990.ro/player-seriale-redirect-serial.php?id=88&idul=7217&v=1
     //$link = ltrim($link,"player-seriale-");
-    $t1=explode("<div",$video);
-    $t2=explode(">",$t1[1]);
-    $t3=explode("<",$t2[1]);
-    $title2=trim(str_replace(",","",$t3[0]));
+    //$t1=explode("<div",$video);
+    //$t2=explode(">",$t1[1]);
+    //$t3=explode("<",$t2[1]);
+    //$title2=trim(str_replace(",","",$t3[0]));
 
     //$link="player-seriale-redirect-serial.php?id=".$id."@idul=".$idul."@v=1";
 
       $link = "http://www.990.ro/".$link;
       $link=str_replace(",","%2C",$link);
-      $title=$title2." - ".$title1;
-      $link = 'http://127.0.0.1/cgi-bin/scripts/filme/php/990_seriale_sec.php?file='.urlencode($link).",".urlencode($title);
-   if ($title2) {
+      //$title=$title2." - ".$title1;
+      $link = 'http://127.0.0.1/cgi-bin/scripts/filme/php/filme_link.php?file='.urlencode($link).",".urlencode($tit);
+   //if ((strpos($title,"Master") === false || strpos($link22,"filme-")!== false) && $title) {
+   if ($title) {
     echo '
     <item>
     <title>'.$title.'</title>
