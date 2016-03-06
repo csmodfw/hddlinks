@@ -647,6 +647,7 @@ if (strpos($filelink,"gorillavid.in") !== false || strpos($filelink,"daclips.in"
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
   curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
   $h = curl_exec($ch);
+  if (strpos($filelink,"embed") === false) {
   $id=str_between($h,'"id" value="','"');
   $fname=str_between($h,'"fname" value="','"');
   $hash=str_between($h,'hash" value="','"');
@@ -660,6 +661,7 @@ if (strpos($filelink,"gorillavid.in") !== false || strpos($filelink,"daclips.in"
   curl_setopt ($ch, CURLOPT_POST, 1);
   curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
   $h = curl_exec($ch);
+  }
   //echo $h;
   //die();
    $t1=explode("sources:",$h);
@@ -1917,6 +1919,51 @@ $link=unpack_DivXBrowserPlugin1(1,$h);
    }
 
 } elseif (strpos($filelink,"openload.co") !==false) {
+function base10toN($num, $n){
+    $num_rep = array(
+               '10' => 'a',
+               '11' => 'b',
+               '12' => 'c',
+               '13' => 'd',
+               '14' => 'e',
+               '15' => 'f',
+               '16' => 'g',
+               '17' => 'h',
+               '18' => 'i',
+               '19' => 'j',
+               '20' => 'k',
+               '21' => 'l',
+               '22' => 'm',
+               '23' => 'n',
+               '24' => 'o',
+               '25' => 'p',
+               '26' => 'q',
+               '27' => 'r',
+               '28' => 's',
+               '29' => 't',
+               '30' => 'u',
+               '31' => 'v',
+               '32' => 'w',
+               '33' => 'x',
+               '34' => 'y',
+               '35' => 'z');
+    $new_num_string = '';
+    $current = $num;
+    while ($current != 0) {
+        $remainder = $current % $n ;
+        //echo $remainder."<BR>";
+        if ($remainder < 36 && $remainder > 9)
+            $remainder_string = $num_rep[$remainder];
+        elseif ($remainder >= 36)
+            $remainder_string = '(' .$remainder. ')';
+        else
+            $remainder_string = $remainder;
+        $new_num_string = $remainder_string . $new_num_string;
+        $current = (int)($current / $n);
+        //echo $current;
+    }
+    return $new_num_string;
+}
    //include ("openload.php");
    $filelink=str_replace(".mp4","",$filelink);
    $filelink=str_replace("openload.co/f/","openload.co/embed/",$filelink);
@@ -1940,8 +1987,8 @@ $link=unpack_DivXBrowserPlugin1(1,$h);
      $srt=$t3[0];
    }
 $h=urlencode(str_between($h1,"<video","</script"));
-
-
+$h = str_replace("%EF%BE%9F%D0%94%EF%BE%9F%29%5B%EF%BE%9F%CE%B5%EF%BE%9F%5D%2B%28o%EF%BE%9F%EF%BD%B0%EF%BE%9Fo%29%2B+%28%28c%5E_%5Eo%29-%28c%5E_%5Eo%29%29%2B+%28-%7E0%29%2B+%28%EF%BE%9F%D0%94%EF%BE%9F%29+%5B%27c%27%5D%2B+%28-%7E-%7E1%29%2B","",$h);
+       //$h = str_replace("(\xef\xbe\x9f\xd0\x94\xef\xbe\x9f)[\xef\xbe\x9f\xce\xb5\xef\xbe\x9f]+(o\xef\xbe\x9f\xef\xbd\xb0\xef\xbe\x9fo)+ ((c^_^o)-(c^_^o))+ (-~0)+ (\xef\xbe\x9f\xd0\x94\xef\xbe\x9f) ['c']+ (-~-~1)+","",$h);
 $s = str_replace("%28%28%EF%BE%9F%EF%BD%B0%EF%BE%9F%29+%2B+%28%EF%BE%9F%EF%BD%B0%EF%BE%9F%29+%2B+%28%EF%BE%9F%CE%98%EF%BE%9F%29%29", "9",$h);
 $s = str_replace("%28%28%EF%BE%9F%EF%BD%B0%EF%BE%9F%29+%2B+%28%EF%BE%9F%EF%BD%B0%EF%BE%9F%29%29", "8",$s);
 $s = str_replace("%28%28%EF%BE%9F%EF%BD%B0%EF%BE%9F%29+%2B+%28o%5E_%5Eo%29%29", "7",$s);
@@ -1962,11 +2009,17 @@ $s = str_replace("%28%21%2B%5B%5D%2B%21%2B%5B%5D%29", "2",$s);
 $s = str_replace("%28-%7E-%7E2%29", "4",$s);
 $s = str_replace("%28-%7E-%7E1%29", "3",$s);
 
+$s=str_replace("%28-%7E0%29", "1",$s);
+$s=str_replace("%28-%7E1%29", "2",$s);
+$s=str_replace("%28-%7E3%29", "4",$s);
+$s=str_replace("%280-0%29", "0",$s);
+
 $s= urldecode($s);
+
 $s=str_replace("+","",$s);
 $s=str_replace(" ","",$s);
 $s=str_replace("\\/","/",$s);
-
+//echo $s;
 preg_match_all("/(\d{2,3})/",$s,$m);
 //print_r ($m[0]);
 $n=count($m[0]);
@@ -1975,7 +2028,29 @@ $out="";
 for ($k=0; $k<$n; $k++) {
 $out=$out.chr(intval($m[0][$k],8));
 }
-$link=str_between($out,"window.vr='","'");
+//echo $out;
+if (strpos($out,"toString") !== false) {
+preg_match('/toString\\(a\\+(\\d+)/',$out,$m);
+$base=$m[1];
+preg_match_all('/(\\(\\d[^)]+\\))/',$out,$m);
+//print_r ($m);
+preg_match_all('/(\\d+),(\\d+)/',$out,$m1);
+//print_r ($m1);
+//die();
+$p=count($m[0]);
+for ($k=0; $k<$p;$k++) {
+  $base1=$base + $m1[1][$k];
+  $rep = base10toN($m1[2][$k],$base1);
+  $out=str_replace($m[0][$k],$rep,$out);
+}
+$out=str_replace("+","",$out);
+$out=str_replace('"',"",$out);
+//$out=str_replace("0","",$out);
+preg_match('(http[^\\}]+)',$out,$l);
+$link = $l[0];
+} else {
+  $link=str_between($out,"vr='","'");
+}
       $ch = curl_init();
       curl_setopt($ch, CURLOPT_URL, $link);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -2229,6 +2304,7 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
   //echo $h;
   $link=str_between($h,'file: "','"');
 } elseif (strpos($filelink,"up2stream.com") !==false) {
+   $filelink=str_replace("&#038;","&",$filelink);
    $ch = curl_init();
    curl_setopt($ch, CURLOPT_URL, $filelink);
    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -2238,8 +2314,10 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
    $h = curl_exec($ch);
    curl_close($ch);
    $link=str_between($h,'<source src="','"');
-   $link= unpack_DivXBrowserPlugin(1,$h);
+   //$link= unpack_DivXBrowserPlugin(1,$h);
    $srt=str_between($h,'servevtta.php?s=','"');
+   $t1=explode('source src="',$h);
+   $link= unpack_DivXBrowserPlugin1(1,$t1[1]);
    if (!$srt) $srt=str_between($h,'captions" src="','"');
    if ($srt) {
    $l_srt="http://127.0.0.1/cgi-bin/scripts/util/srt_xml.php?file=".urlencode($srt);

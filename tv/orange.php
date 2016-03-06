@@ -14,6 +14,7 @@ function str_between($string, $start, $end){
   setRefreshTime(1);
   storagePath = getStoragePath("tmp");
   storagePath_stream = storagePath + "stream.dat";
+  adn_act = "false";
 </onEnter>
 
 <onRefresh>
@@ -32,11 +33,11 @@ function str_between($string, $start, $end){
 	itemImageWidthPC="0"
 	itemXPC="8"
 	itemYPC="25"
-	itemWidthPC="20"
+	itemWidthPC="25"
 	itemHeightPC="8"
 	capXPC="8"
 	capYPC="25"
-	capWidthPC="20"
+	capWidthPC="25"
 	capHeightPC="64"
 	itemBackgroundColor="0:0:0"
 	itemPerPage="8"
@@ -61,10 +62,22 @@ function str_between($string, $start, $end){
 		</text>
 		<text align="left" redraw="yes"
           lines="20" fontSize=15
-		      offsetXPC=30 offsetYPC=25 widthPC=70 heightPC=75
-		      backgroundColor=0:0:0 foregroundColor=200:200:200>
+		      offsetXPC=35 offsetYPC=25 widthPC=65 heightPC=75
+		      backgroundColor=0:0:0 foregroundColor=200:200:200 >
               <script>print(annotation); annotation;</script>
 		</text>
+		<image  redraw="yes" offsetXPC=10 offsetYPC=4.5 widthPC=10 heightPC=10>
+		<script>print(img); img;</script>
+		</image>
+	<image  redraw="yes" offsetXPC=45 offsetYPC=25 widthPC=40 heightPC=40>
+			<script>
+				adn_image = "";
+				if (adn_act == "false") {
+					adn_image = image;
+				}
+				adn_image ;
+			</script>
+		</image>
         <idleImage>image/POPUP_LOADING_01.png</idleImage>
         <idleImage>image/POPUP_LOADING_02.png</idleImage>
         <idleImage>image/POPUP_LOADING_03.png</idleImage>
@@ -82,6 +95,8 @@ function str_between($string, $start, $end){
 					if(focus==idx)
 					{
 					  adn = getItemInfo(idx, "adn");
+					  img = getItemInfo(idx, "img");
+					  image = getItemInfo(idx, "image");
 					}
 					getItemInfo(idx, "title");
 				</script>
@@ -142,6 +157,7 @@ showIdle();
 idx = Integer(getFocusItemIndex());
 url_canal = "http://127.0.0.1/cgi-bin/scripts/tv/php/prog.php?file=" + getItemInfo(idx,"id");
 annotation = getURL(url_canal);
+adn_act = "true";
 cancelIdle();
 redrawDisplay();
 ret = "true";
@@ -149,6 +165,7 @@ ret = "true";
 else
 {
 annotation = " ";
+adn_act = "false";
 ret = "false";
 }
 redrawDisplay();
@@ -175,6 +192,7 @@ ret;
 <?php
 
 $link="http://www.alltv.96.lt/live/orange.txt";
+$link="http://uphero.xpresso.eu/live/orange.txt";
 //$link="http://streams.magazinmixt.ro/channels/filter?filterCountry=&filterProtocol=1&offline=1&searchTxt=&page=".$p;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $link);
@@ -189,9 +207,13 @@ foreach($videos as $video) {
     $t1=explode('"pin":"',$video);
     $t2=explode('"',$t1[1]);
     $pin=trim($t2[0]);
+	$thumbnail='http://static-origin.dmcloud.net/'.$pin.'/jpeg_thumbnail_medium.jpeg';
 	$t1=explode('"name":"',$video);
     $t2=explode('"',$t1[1]);
     $title=trim($t2[0]);
+	$logo='http://oro.solocoo.tv/oroiphone/mmchan/channelicons/'.str_replace(' ','%20',$title).'_w84.png';
+	if (strpos($logo,"Docubox") !== false) $logo=str_replace('Docubox','DokuBox',$logo);
+	if (strpos($logo,"Deutsche Welle") !== false) $logo=str_replace('Deutsche Welle','DW',$logo);
 	$t1=explode('"serv":"',$video);
     $t2=explode('"',$t1[1]);
     $serv=trim($t2[0]);
@@ -222,6 +244,8 @@ foreach($videos as $video) {
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image>'.$thumbnail.'</image>
+    <img>'.$logo.'</img>
     <id>'.$title1.'</id>
      </item>
     ';

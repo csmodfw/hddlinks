@@ -261,6 +261,12 @@ ret;
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
+<item>
+<title>România - Telekom TV</title>
+<link>/usr/local/etc/www/cgi-bin/scripts/tv/telekom.rss</link>
+<media:thumbnail url="image/tv_radio.png" />
+<mediaDisplay name="threePartsView"/>
+</item>
 <!--
 <item>
 <title>România - VideosapTv</title>

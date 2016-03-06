@@ -14,8 +14,49 @@ if($query) {
    $srv = $queryArr[1];
    if (sizeof($queryArr)>2)$title = $queryArr[2];
 }
-$link="http://stream-01.vty.dailymotion.com/".$srv."/dc/1/".$pin."/live.isml/manifest";
-$html=file_get_contents($link);
+$offline=0;
+$s=mt_rand(1,9);
+$link="http://stream-0".$s.".vty.dailymotion.com/".$srv."/dc/1/".$pin."/live.isml/manifest";
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $link);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_HEADER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:14.0) Gecko/20100101 Firefox/14.0.1');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  $html = curl_exec($ch);
+  curl_close($ch);
+
+
+if (strpos($html,'HTTP/1.1 404') !== false) {
+
+for( $n=29; $n>=20; $n-- ) {
+$srv=$n;
+$link="http://stream-0".$s.".vty.dailymotion.com/".$srv."/dc/1/".$pin."/live.isml/manifest";
+
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $link);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_HEADER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:14.0) Gecko/20100101 Firefox/14.0.1');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  $html = curl_exec($ch);
+  curl_close($ch);
+
+if (strpos($html,'HTTP/1.1 200') !== false) {
+$n=0;
+$offline=0;
+} else {
+$offline=1;
+}
+
+}
+}
+if ($offline != 0) {
+echo "Channel offline ".$title."\n\r";
+die();
+}
 //$n=0;
 $aud = str_between($html,'<!-- Created with Unified Streaming Platform(version=1.5.6) -->','</SmoothStreamingMedia>');
 $vid = str_between($html,'Type="video"','</SmoothStreamingMedia>');
@@ -29,7 +70,7 @@ $audio=trim(str_between($aud,'Bitrate="','"'));
 $video=trim(str_between($vid,'Bitrate="','"'));
 
 
-$out="http://stream-01.vty.dailymotion.com/".$srv."/dc/1/".$pin."/live.isml/events(live-".$live.")/live-audio%3D".$audio."-video%3D".$video.".m3u8";
+$out="http://stream-0".$s.".vty.dailymotion.com/".$srv."/dc/1/".$pin."/live.isml/events(live-".$live.")/live-audio%3D".$audio."-video%3D".$video.".m3u8";	
 
 if ($title) {
 header('Content-type: application/vnd.apple.mpegURL');

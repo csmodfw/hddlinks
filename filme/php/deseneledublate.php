@@ -240,6 +240,7 @@ foreach($videos as $video) {
   $t1 = explode('src="', $video);
   $t2 = explode('"', $t1[1]);
   $image = $t2[0];
+  $image=str_replace("https","http",$image);
 	if($link!="") {
 		//$link = "http://127.0.0.1/cgi-bin/scripts/filme/php/onlinemoca_link.php?file=".$link.",".urlencode($titlu);
 		$link = "http://127.0.0.1/cgi-bin/scripts/filme/php/filme_link.php?file=".$link.",".urlencode($title);
