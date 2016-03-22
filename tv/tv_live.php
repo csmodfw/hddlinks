@@ -173,14 +173,14 @@ ret;
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
-<!--
+
 <item>
-<title>Dolce TV</title>
-<link><?php echo $host; ?>/scripts/tv/dolce.php</link>
+<title>SimpleTV (iptv)</title>
+<link><?php echo $host; ?>/scripts/tv/tv_iptv.php</link>
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
- -->
+
 <!--
 <item>
 <title>Voyo TV</title>

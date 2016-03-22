@@ -196,7 +196,7 @@ function str_between($string, $start, $end){
 	return substr($string,$ini,$len); 
 }
 
-$videos = explode('id="post-', $html);
+$videos = explode('<article class="article', $html);
 
 unset($videos[0]);
 $videos = array_values($videos);

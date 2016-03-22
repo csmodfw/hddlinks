@@ -220,7 +220,12 @@ foreach($videos as $video) {
   $id_l=str_between($video,'episode-id="','"');
   //$l="http://123movies.to/movie/load_episode/".$id_l;
   $l="http://123movies.to/movie/load_episode/".$id_l."/".$hash;
-  $h=file_get_contents($l);
+$ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:14.0) Gecko/20100101 Firefox/14.0.1');
+  $h=curl_exec($ch);
+  curl_close($ch);
   $mm=str_between($h,'file="','"');
   if (strpos($mm,"http://123movies.to") === false) {
    $mmm[$server]=$mm;

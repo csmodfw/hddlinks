@@ -4,6 +4,7 @@
   setRefreshTime(1);
   storagePath = getStoragePath("tmp");
   storagePath_stream = storagePath + "stream.dat";
+  adn_act = "false";
 </onEnter>
 
 <onRefresh>
@@ -46,15 +47,27 @@
   	<text align="left" offsetXPC="6" offsetYPC="15" widthPC="70" heightPC="4" fontSize="16" backgroundColor="10:105:150" foregroundColor="100:200:255">
     1=modifica aspect, dreapta pentru program
 		</text>
-  	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="20" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
+  	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="14" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
 		</text>
 		<text align="left" redraw="yes"
           lines="20" fontSize=15
-		      offsetXPC=30 offsetYPC=25 widthPC=70 heightPC=75
-		      backgroundColor=0:0:0 foregroundColor=200:200:200>
+		      offsetXPC=35 offsetYPC=25 widthPC=65 heightPC=75
+		      backgroundColor=0:0:0 foregroundColor=200:200:200 >
               <script>print(annotation); annotation;</script>
 		</text>
+		<image  redraw="yes" offsetXPC=10 offsetYPC=4.5 widthPC=15 heightPC=10>
+		<script>print(img); "http://apps.telekomtv.ro/RTEFacade_RIGHTV/images/data/logos/channels_144x65/" + img;</script>
+		</image>
+	<!-- image  redraw="yes" offsetXPC=45 offsetYPC=25 widthPC=40 heightPC=40>
+			<script>
+				adn_image = "";
+				if (adn_act == "false") {
+					adn_image = "http://apps.telekomtv.ro/RTEFacade_RIGHTV/images/data/logos/channels_144x65/" + img;
+				}
+				adn_image ;
+			</script>
+		</image  -->
         <idleImage>image/POPUP_LOADING_01.png</idleImage>
         <idleImage>image/POPUP_LOADING_02.png</idleImage>
         <idleImage>image/POPUP_LOADING_03.png</idleImage>
@@ -72,6 +85,8 @@
 					if(focus==idx)
 					{
 					  adn = getItemInfo(idx, "adn");
+					  img = getItemInfo(idx, "img");
+					  image = getItemInfo(idx, "image");
 					}
 					getItemInfo(idx, "title");
 				</script>
@@ -132,6 +147,7 @@ showIdle();
 idx = Integer(getFocusItemIndex());
 url_canal = "http://127.0.0.1/cgi-bin/scripts/tv/php/prog.php?file=" + getItemInfo(idx,"id");
 annotation = getURL(url_canal);
+adn_act = "true";
 cancelIdle();
 redrawDisplay();
 ret = "true";
@@ -139,6 +155,7 @@ ret = "true";
 else
 {
 annotation = " ";
+adn_act = "false";
 ret = "false";
 }
 redrawDisplay();
@@ -168,7 +185,7 @@ ret;
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=DolceInfo";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=DolceInfo";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -183,15 +200,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>dolce_info.png</img>
     <id>dolce-info</id>
      </item>
-
+	
      <item>
-     <title>Dolce Sport</title>
+     <title>Dolce Sport 1</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=DolceSport";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=DolceSport";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -200,21 +219,23 @@ ret;
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, video/mp4);
-    streamArray = pushBackStringArray(streamArray, "Dolce Sport");
+    streamArray = pushBackStringArray(streamArray, "Dolce Sport 1");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
-    <id>dolce-sport</id>
+    <image></image>
+    <img>DS1_blue.png</img>
+    <id>dolce-sport-1</id>
      </item>
-
+	
      <item>
      <title>Dolce Sport 2</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=DolceSport2";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=DolceSport2";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -229,15 +250,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>DS2_blue.png</img>
     <id>dolce-sport-2</id>
      </item>
-
+	
      <item>
      <title>Dolce Sport 3</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=DolceSport3";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=DolceSport3";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -252,15 +275,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>DS3_blue.png</img>
     <id>dolce-sport-3</id>
      </item>
-
+	
      <item>
      <title>Dolce Sport 4</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=DolceSport4";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=DolceSport4";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -275,15 +300,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>DS4_blue.png</img>
     <id>dolce-sport-4</id>
      </item>
-
+	
      <item>
-     <title>Dolce Sport HD</title>
+     <title>Dolce Sport 1 HD</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=DolceSportHD";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=DolceSportHD";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -292,21 +319,23 @@ ret;
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, video/mp4);
-    streamArray = pushBackStringArray(streamArray, "Dolce Sport HD");
+    streamArray = pushBackStringArray(streamArray, "Dolce Sport 1 HD");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
-    <id>dolce-sport-hd</id>
+    <image></image>
+    <img>DS1HD_rgb.png</img>
+    <id>dolce-sport-1-hd</id>
      </item>
-
+	
      <item>
      <title>Dolce Sport 2 HD</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=DolceSport2HD";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=DolceSport2HD";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -321,15 +350,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>DS2HD_rgb.png</img>
     <id>dolce-sport-2-hd</id>
      </item>
-
+	
      <item>
-     <title>Mooz RO</title>
+     <title>Mooz Ro</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=MoozRoSD";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=MoozRoSD";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -338,21 +369,23 @@ ret;
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, video/mp4);
-    streamArray = pushBackStringArray(streamArray, "Mooz RO");
+    streamArray = pushBackStringArray(streamArray, "Mooz Ro");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>mooz_ro.png</img>
     <id>mooz-ro</id>
      </item>
-
+	
      <item>
      <title>Mooz Hits</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=MoozHitsSD";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=MoozHitsSD";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -367,15 +400,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>mooz_hits.png</img>
     <id>mooz-hits</id>
      </item>
-
+	
      <item>
-     <title>Mooz HD</title>
+     <title>Mooz  HD</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=MoozHD";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=MoozHD";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -384,21 +419,23 @@ ret;
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, video/mp4);
-    streamArray = pushBackStringArray(streamArray, "Mooz HD");
+    streamArray = pushBackStringArray(streamArray, "Mooz  HD");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
-    <id>mooz-hd</id>
+    <image></image>
+    <img>mooz_hd.png</img>
+    <id>mooz--hd</id>
      </item>
-
+	
      <item>
      <title>Mooz Dance HD</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=MoozDanceHD";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=MoozDanceHD";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -413,15 +450,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>mooz_dance.png</img>
     <id>mooz-dance-hd</id>
      </item>
-
+	
      <item>
      <title>B1 TV</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=B1TV";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=B1TV";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -436,15 +475,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>b1.png</img>
     <id>b1-tv</id>
      </item>
-
+	
      <item>
      <title>TV 5 Monde</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=TV5Monde";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=TV5Monde";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -459,15 +500,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>tv5monde.png</img>
     <id>tv-5-monde</id>
      </item>
-
+	
      <item>
      <title>TVE</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=TVE";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=TVE";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -482,15 +525,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>tve.png</img>
     <id>tve</id>
      </item>
-
+	
      <item>
      <title>Trinitas</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=Trinitas";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=Trinitas";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -505,15 +550,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>Trinitastv.png</img>
     <id>trinitas</id>
      </item>
-
+	
      <item>
      <title>Neptun TV</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=NeptunTV";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=NeptunTV";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -528,15 +575,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>sigNTV.png</img>
     <id>neptun-tv</id>
      </item>
-
+	
      <item>
      <title>Alfa Omega TV</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=AlfaOmegaTV";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=AlfaOmegaTV";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -551,15 +600,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>alfa_omega.png</img>
     <id>alfa-omega-tv</id>
      </item>
-
+	
      <item>
      <title>Speranta TV</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=SperantaTV";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=SperantaTV";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -574,15 +625,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>speranta.png</img>
     <id>speranta-tv</id>
      </item>
-
+	
      <item>
-     <title>AgroTV</title>
+     <title>Agro TV</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=AgroTV";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=AgroTV";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -591,21 +644,23 @@ ret;
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, video/mp4);
-    streamArray = pushBackStringArray(streamArray, "AgroTV");
+    streamArray = pushBackStringArray(streamArray, "Agro TV");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
-    <id>agrotv</id>
+    <image></image>
+    <img>AgroTV.png</img>
+    <id>agro-tv</id>
      </item>
-
+	
      <item>
      <title>TVH</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=TVH";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=TVH";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -620,15 +675,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>tvh_n.png</img>
     <id>tvh</id>
      </item>
-
+	
      <item>
      <title>6TV</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=6TV";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=6TV";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -643,15 +700,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>6tv.png</img>
     <id>6tv</id>
      </item>
-
+	
      <item>
      <title>Credo TV</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=CredoTV";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=CredoTV";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -666,15 +725,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>credo.png</img>
     <id>credo-tv</id>
      </item>
-
+		
      <item>
      <title>Look TV HD</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=LookTVHD";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=LookTVHD";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -689,15 +750,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>looktvhd.png</img>
     <id>look-tv-hd</id>
      </item>
-
+	
      <item>
      <title>Cartoon Network</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=CartoonNetwork";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=CartoonNetwork";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -712,15 +775,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>cartoon-network_g.png</img>
     <id>cartoon-network</id>
      </item>
-
+	
      <item>
      <title>Boomerang</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=Boomerang";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=Boomerang";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -735,15 +800,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>Boomerang_n.png</img>
     <id>boomerang</id>
      </item>
-
+	
      <item>
-     <title>Nick Jr.</title>
+     <title>Nick JR</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=NickJR";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=NickJR";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -752,21 +819,23 @@ ret;
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, video/mp4);
-    streamArray = pushBackStringArray(streamArray, "Nick Jr.");
+    streamArray = pushBackStringArray(streamArray, "Nick JR");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
-    <id>nick-jr.</id>
+    <image></image>
+    <img>nick_jr.png</img>
+    <id>nick-jr</id>
      </item>
-
+	
      <item>
      <title>Disney Junior</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=DisneyJunior";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=DisneyJunior";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -781,15 +850,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>disney_junior.png</img>
     <id>disney-junior</id>
      </item>
-
+	
      <item>
      <title>Baby TV</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=BabyTV";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=BabyTV";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -804,15 +875,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>baby_tv.png</img>
     <id>baby-tv</id>
      </item>
-
+	
      <item>
-     <title>GINX</title>
+     <title>Ginx</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=GINX";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=GINX";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -821,21 +894,23 @@ ret;
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, video/mp4);
-    streamArray = pushBackStringArray(streamArray, "GINX");
+    streamArray = pushBackStringArray(streamArray, "Ginx");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>ginx.png</img>
     <id>ginx</id>
      </item>
-
+	
      <item>
      <title>Disney Channel</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=DisneyChannel";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=DisneyChannel";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -850,15 +925,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>disney.png</img>
     <id>disney-channel</id>
      </item>
-
+	
      <item>
      <title>Nickelodeon</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=Nickelodeon";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=Nickelodeon";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -873,15 +950,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>nickelodeon.png</img>
     <id>nickelodeon</id>
      </item>
-
+	
      <item>
      <title>Comedy Central</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=ComedyCentral";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=ComedyCentral";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -896,15 +975,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>comedycentral_n.png</img>
     <id>comedy-central</id>
      </item>
-
+	
      <item>
-     <title>Shorts</title>
+     <title>Shorts TV</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=Shorts";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=Shorts";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -913,21 +994,23 @@ ret;
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, video/mp4);
-    streamArray = pushBackStringArray(streamArray, "Shorts");
+    streamArray = pushBackStringArray(streamArray, "Shorts TV");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
-    <id>shorts</id>
+    <image></image>
+    <img>shortstvhd_n.png</img>
+    <id>shorts-tv</id>
      </item>
-
+	
      <item>
      <title>TV 1000</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=TV1000";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=TV1000";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -942,15 +1025,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>tv1000.png</img>
     <id>tv-1000</id>
      </item>
-
+	
      <item>
      <title>AXN HD</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=AXNHD";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=AXNHD";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -965,15 +1050,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>axn_hd.png</img>
     <id>axn-hd</id>
      </item>
-
+	
      <item>
      <title>AXN SPIN</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=AXNSPIN";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=AXNSPIN";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -988,15 +1075,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>axn_spin.png</img>
     <id>axn-spin</id>
      </item>
-
+	
      <item>
      <title>AXN</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=AXN";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=AXN";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1011,15 +1100,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>axn.png</img>
     <id>axn</id>
      </item>
-
+	
      <item>
      <title>AXN Black</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=AXNBlack";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=AXNBlack";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1034,15 +1125,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>AXN_Black.png</img>
     <id>axn-black</id>
      </item>
-
+	
      <item>
      <title>AXN White</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=AXNWhite";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=AXNWhite";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1057,15 +1150,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>AXN_White.png</img>
     <id>axn-white</id>
      </item>
-
+	
      <item>
      <title>Sundance HD</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=SundanceHD";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=SundanceHD";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1080,15 +1175,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>sundance_hd.png</img>
     <id>sundance-hd</id>
      </item>
-
+	
      <item>
      <title>Paramount</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=Paramount";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=Paramount";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1103,15 +1200,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>paramount_channel_blue.png</img>
     <id>paramount</id>
      </item>
-
+	
      <item>
-     <title>TCM</title>
+     <title>TNT</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=TCM";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=TCM";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1120,21 +1219,23 @@ ret;
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, video/mp4);
-    streamArray = pushBackStringArray(streamArray, "TCM");
+    streamArray = pushBackStringArray(streamArray, "TNT");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
-    <id>tcm</id>
+    <image></image>
+    <img>TNT.png</img>
+    <id>tnt</id>
      </item>
-
+	
      <item>
      <title>HBO HD</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=HBOHD";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=HBOHD";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1149,15 +1250,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>hbo_hdtv.png</img>
     <id>hbo-hd</id>
      </item>
-
+	
      <item>
      <title>HBO Comedy HD</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=HBOComedyHD";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=HBOComedyHD";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1172,15 +1275,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>hbo_comedy_hd.png</img>
     <id>hbo-comedy-hd</id>
      </item>
-
+	
      <item>
-     <title>FilmBox HD</title>
+     <title>FilmBox Extra HD</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=FilmBoxHD";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=FilmBoxHD";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1189,21 +1294,23 @@ ret;
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, video/mp4);
-    streamArray = pushBackStringArray(streamArray, "FilmBox HD");
+    streamArray = pushBackStringArray(streamArray, "FilmBox Extra HD");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
-    <id>filmbox-hd</id>
+    <image></image>
+    <img>FILMBOX_EXTRA.png</img>
+    <id>filmbox-extra-hd</id>
      </item>
-
+	
      <item>
      <title>FilmBox</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=FilmBox";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=FilmBox";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1218,15 +1325,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>filmbox_n.png</img>
     <id>filmbox</id>
      </item>
-
+	
      <item>
      <title>FilmBox Plus</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=FilmBoxPlus";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=FilmBoxPlus";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1241,15 +1350,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>filmbox_plus_n.png</img>
     <id>filmbox-plus</id>
      </item>
-
+	
      <item>
-     <title>Bollywood TV/Film</title>
+     <title>Bollywood TV</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=BollywoodTVFilm";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=BollywoodTVFilm";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1258,21 +1369,23 @@ ret;
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, video/mp4);
-    streamArray = pushBackStringArray(streamArray, "Bollywood TV/Film");
+    streamArray = pushBackStringArray(streamArray, "Bollywood TV");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
-    <id>bollywood-tv/film</id>
+    <image></image>
+    <img>BOTV.png</img>
+    <id>bollywood-tv</id>
      </item>
-
+	
      <item>
      <title>Bollywood Classic</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=BollywoodClassic";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=BollywoodClassic";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1287,15 +1400,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>BOCL.png</img>
     <id>bollywood-classic</id>
      </item>
-
+	
      <item>
      <title>CNN</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=CNN";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=CNN";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1310,15 +1425,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>cnn.png</img>
     <id>cnn</id>
      </item>
-
+	
      <item>
      <title>Romania TV</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=RomaniaTV";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=RomaniaTV";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1333,15 +1450,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>romania_tv.png</img>
     <id>romania-tv</id>
      </item>
-
+	
      <item>
-     <title>NasulTV</title>
+     <title>Nasul TV</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=NasulTV";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=NasulTV";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1350,21 +1469,23 @@ ret;
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, video/mp4);
-    streamArray = pushBackStringArray(streamArray, "NasulTV");
+    streamArray = pushBackStringArray(streamArray, "Nasul TV");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
-    <id>nasultv</id>
+    <image></image>
+    <img>nasul_tv.png</img>
+    <id>nasul-tv</id>
      </item>
-
+	
      <item>
-     <title>TV City</title>
+     <title>TV CITY</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=TVCITY";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=TVCITY";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1373,21 +1494,23 @@ ret;
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, video/mp4);
-    streamArray = pushBackStringArray(streamArray, "TV City");
+    streamArray = pushBackStringArray(streamArray, "TV CITY");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>tv-city.png</img>
     <id>tv-city</id>
      </item>
-
+	
      <item>
      <title>CCTV</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=CCTV";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=CCTV";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1402,15 +1525,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>cctv.png</img>
     <id>cctv</id>
      </item>
-
+	
      <item>
      <title>France 24</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=France24";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=France24";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1425,15 +1550,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>france-24.png</img>
     <id>france-24</id>
      </item>
-
+	
      <item>
      <title>BBC World News HD</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=BBCWorldNewsHD";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=BBCWorldNewsHD";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1448,15 +1575,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>bbcworld.png</img>
     <id>bbc-world-news-hd</id>
      </item>
-
+	
      <item>
      <title>Eurosport</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=Eurosport";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=Eurosport";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1471,15 +1600,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>Eurosport-1.png</img>
     <id>eurosport</id>
      </item>
-
+	
      <item>
      <title>Eurosport HD</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=EurosportHD";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=EurosportHD";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1494,15 +1625,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>Eurosport-1-HD.png</img>
     <id>eurosport-hd</id>
      </item>
-
+	
      <item>
      <title>Eurosport 2</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=Eurosport2";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=Eurosport2";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1517,15 +1650,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>Eurosport-2.png</img>
     <id>eurosport-2</id>
      </item>
-
+	
      <item>
      <title>Eurosport 2 HD</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=EurosportHD2";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=EurosportHD2";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1540,15 +1675,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>Eurosport-2-HD.png</img>
     <id>eurosport-2-hd</id>
      </item>
-
+	
      <item>
      <title>PVTV</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=PVTV";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=PVTV";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1563,15 +1700,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>fandh.png</img>
     <id>pvtv</id>
      </item>
-
+	
      <item>
      <title>Auto Motor Sport</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=AMS";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=AMS";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1586,15 +1725,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>automotorsport.png</img>
     <id>auto-motor-sport</id>
      </item>
-
+	
      <item>
      <title>Eurosport 360 1</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=Eurosport3601";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=Eurosport3601";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1609,15 +1750,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>Eurosport-360.png</img>
     <id>eurosport-360-1</id>
      </item>
-
+	
      <item>
      <title>Eurosport 360 2</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=Eurosport3602";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=Eurosport3602";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1632,15 +1775,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>Eurosport-360.png</img>
     <id>eurosport-360-2</id>
      </item>
-
+	
      <item>
      <title>Eurosport 360 3</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=Eurosport3603";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=Eurosport3603";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1655,15 +1800,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>Eurosport-360.png</img>
     <id>eurosport-360-3</id>
      </item>
-
+	
      <item>
      <title>National Geographic HD</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=NationalGeographicHD";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=NationalGeographicHD";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1678,15 +1825,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>NatGeoHD_n.png</img>
     <id>national-geographic-hd</id>
      </item>
-
+	
      <item>
-     <title>National Geographic Wild</title>
+     <title>Nat Geo Wild</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=NationalGeographicWild";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=NationalGeographicWild";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1695,21 +1844,23 @@ ret;
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, video/mp4);
-    streamArray = pushBackStringArray(streamArray, "National Geographic Wild");
+    streamArray = pushBackStringArray(streamArray, "Nat Geo Wild");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
-    <id>national-geographic-wild</id>
+    <image></image>
+    <img>ngw.png</img>
+    <id>nat-geo-wild</id>
      </item>
-
+	
      <item>
-     <title>NatGeoWild HD</title>
+     <title>Nat Geo Wild HD</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=NatGeoWildHD";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=NatGeoWildHD";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1718,21 +1869,23 @@ ret;
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, video/mp4);
-    streamArray = pushBackStringArray(streamArray, "NatGeoWild HD");
+    streamArray = pushBackStringArray(streamArray, "Nat Geo Wild HD");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
-    <id>natgeowild-hd</id>
+    <image></image>
+    <img>Nat-Geo-Wild-HD.png</img>
+    <id>nat-geo-wild-hd</id>
      </item>
-
+	
      <item>
-     <title>NatGeo People HD</title>
+     <title>Nat Geo People HD</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=NatGeoPeopleHD";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=NatGeoPeopleHD";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1741,21 +1894,23 @@ ret;
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, video/mp4);
-    streamArray = pushBackStringArray(streamArray, "NatGeo People HD");
+    streamArray = pushBackStringArray(streamArray, "Nat Geo People HD");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
-    <id>natgeo-people-hd</id>
+    <image></image>
+    <img>NGP_logo_HD_gray.png</img>
+    <id>nat-geo-people-hd</id>
      </item>
-
+	
      <item>
      <title>Discovery Showcase HD</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=DiscoveryShowcaseHD";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=DiscoveryShowcaseHD";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1770,15 +1925,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>DiscoveryshowcaseHD_n.png</img>
     <id>discovery-showcase-hd</id>
      </item>
-
+	
      <item>
      <title>Animal Planet HD</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=AnimalPlanetHD";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=AnimalPlanetHD";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1793,15 +1950,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>animalplanethd.png</img>
     <id>animal-planet-hd</id>
      </item>
-
+	
      <item>
      <title>Discovery</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=Discovery";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=Discovery";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1816,15 +1975,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>discovery-channel.png</img>
     <id>discovery</id>
      </item>
-
+	
      <item>
      <title>Animal Planet</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=AnimalPlanet";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=AnimalPlanet";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1839,15 +2000,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>animal_planet.png</img>
     <id>animal-planet</id>
      </item>
-
+	
      <item>
      <title>Discovery Investigations</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=DiscoveryInvestigations";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=DiscoveryInvestigations";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1862,15 +2025,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>ID.png</img>
     <id>discovery-investigations</id>
      </item>
-
+	
      <item>
      <title>Discovery World</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=DiscoveryWorld";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=DiscoveryWorld";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1885,15 +2050,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>discovery-world.png</img>
     <id>discovery-world</id>
      </item>
-
+	
      <item>
      <title>Discovery Science</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=DiscoveryScience";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=DiscoveryScience";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1908,15 +2075,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>discovery-science.png</img>
     <id>discovery-science</id>
      </item>
-
+	
      <item>
      <title>Discovery ID Xtra</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=DiscoveryIDXtra";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=DiscoveryIDXtra";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1931,15 +2100,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>ID_XTRA.png</img>
     <id>discovery-id-xtra</id>
      </item>
-
+	
      <item>
      <title>Discovery Science HD</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=DiscoveryScienceHD";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=DiscoveryScienceHD";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1954,15 +2125,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>discoverysciencehd.png</img>
     <id>discovery-science-hd</id>
      </item>
-
+	
      <item>
      <title>Viasat HD</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=ViasatHD";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=ViasatHD";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -1977,15 +2150,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>viasat_hd.png</img>
     <id>viasat-hd</id>
      </item>
-
+	
      <item>
      <title>Viasat History</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=ViasatHistory";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=ViasatHistory";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -2000,15 +2175,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>viasat_hist.png</img>
     <id>viasat-history</id>
      </item>
-
+	
      <item>
      <title>Viasat Explorer</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=ViasatExplorer";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=ViasatExplorer";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -2023,15 +2200,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>viasat_expl.png</img>
     <id>viasat-explorer</id>
      </item>
-
+	
      <item>
      <title>Viasat Nature</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=ViasatNature";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=ViasatNature";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -2046,15 +2225,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>viasat_nat.png</img>
     <id>viasat-nature</id>
      </item>
-
+	
      <item>
-     <title>History Channel</title>
+     <title>Crime and Investigation</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=TheHistoryChannel";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=CrimeandInvestigation";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -2063,21 +2244,48 @@ ret;
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, video/mp4);
-    streamArray = pushBackStringArray(streamArray, "History Channel");
+    streamArray = pushBackStringArray(streamArray, "Crime and Investigation");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
-    <id>history-channel</id>
+    <image></image>
+    <img>ci_new.png</img>
+    <id>crime-and-investigation</id>
      </item>
-
+	
+     <item>
+     <title>History</title>
+     <onClick>
+     <script>
+     showIdle();
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=TheHistoryChannel";
+     movie=getUrl(url);
+     cancelIdle();
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/mp4);
+    streamArray = pushBackStringArray(streamArray, "History");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
+     </script>
+     </onClick>
+    <image></image>
+    <img>history_logo.png</img>
+    <id>history</id>
+     </item>
+	
      <item>
      <title>Da Vinci Learning</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=DaVinci";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=DaVinci";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -2092,15 +2300,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>da_vinci_.png</img>
     <id>da-vinci-learning</id>
      </item>
-
+	
      <item>
      <title>BBC Earth HD</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=BBCEarthHD";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=BBCEarthHD";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -2115,15 +2325,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>BBCEarthHD.png</img>
     <id>bbc-earth-hd</id>
      </item>
-
+	
      <item>
      <title>Travel Channel HD</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=TravelChannelHD";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=TravelChannelHD";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -2138,15 +2350,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>travelhd.png</img>
     <id>travel-channel-hd</id>
      </item>
-
+	
      <item>
      <title>Travel Channel</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=TravelChannel";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=TravelChannel";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -2161,15 +2375,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>travelchannel.png</img>
     <id>travel-channel</id>
      </item>
-
+	
      <item>
      <title>Travel Mix</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=TravelMix";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=TravelMix";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -2184,15 +2400,42 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>travelmix.png</img>
     <id>travel-mix</id>
      </item>
-
+	
+     <item>
+     <title>TLC</title>
+     <onClick>
+     <script>
+     showIdle();
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=TLC";
+     movie=getUrl(url);
+     cancelIdle();
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/mp4);
+    streamArray = pushBackStringArray(streamArray, "TLC");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
+     </script>
+     </onClick>
+    <image></image>
+    <img>tlc.png</img>
+    <id>tlc</id>
+     </item>
+	
      <item>
      <title>Fine Living Network</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=FineLivingNetwork";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=FineLivingNetwork";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -2207,15 +2450,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>fineliving.png</img>
     <id>fine-living-network</id>
      </item>
-
+	
      <item>
      <title>TV Paprika</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=TVPaprika";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=TVPaprika";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -2230,15 +2475,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>tv_paprika.png</img>
     <id>tv-paprika</id>
      </item>
-
+	
      <item>
      <title>Fashion TV</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=FashionTV";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=FashionTV";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -2253,15 +2500,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>f1.png</img>
     <id>fashion-tv</id>
      </item>
-
+	
      <item>
      <title>Food Network</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=FoodNetwork";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=FoodNetwork";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -2276,15 +2525,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>Food_Network.png</img>
     <id>food-network</id>
      </item>
-
+	
      <item>
      <title>iConcerts HD</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=iConcertsHD";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=iConcertsHD";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -2299,15 +2550,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>iconcerts_hd.png</img>
     <id>iconcerts-hd</id>
      </item>
-
+	
      <item>
-     <title>VH1</title>
+     <title>VH 1</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=VH1";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=VH1";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -2316,21 +2569,23 @@ ret;
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, video/mp4);
-    streamArray = pushBackStringArray(streamArray, "VH1");
+    streamArray = pushBackStringArray(streamArray, "VH 1");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
-    <id>vh1</id>
+    <image></image>
+    <img>VH1_new.png</img>
+    <id>vh-1</id>
      </item>
-
+	
      <item>
      <title>MTV Rocks</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=MTVRocks";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=MTVRocks";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -2345,15 +2600,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>mtv_rocks_rgb_r2_c3.png</img>
     <id>mtv-rocks</id>
      </item>
-
+	
      <item>
      <title>VH1 Classic</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=VH1Classic";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=VH1Classic";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -2368,15 +2625,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>vh1-clasic.png</img>
     <id>vh1-classic</id>
      </item>
-
+	
      <item>
      <title>Kiss TV</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=KissTV";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=KissTV";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -2391,15 +2650,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>kiss_tv.png</img>
     <id>kiss-tv</id>
      </item>
-
+	
      <item>
      <title>UTV</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=UTV";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=UTV";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -2414,15 +2675,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>utv.png</img>
     <id>utv</id>
      </item>
-
+	
      <item>
-     <title>Etno TV</title>
+     <title>Etno</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=Etno";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=Etno";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -2431,21 +2694,23 @@ ret;
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, video/mp4);
-    streamArray = pushBackStringArray(streamArray, "Etno TV");
+    streamArray = pushBackStringArray(streamArray, "Etno");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
-    <id>etno-tv</id>
+    <image></image>
+    <img>etno.png</img>
+    <id>etno</id>
      </item>
-
+	
      <item>
      <title>Taraf TV</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=TarafTV";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=TarafTV";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -2460,15 +2725,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>taraf.png</img>
     <id>taraf-tv</id>
      </item>
-
+	
      <item>
      <title>Inedit TV</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=IneditTV";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=IneditTV";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -2483,15 +2750,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>inedit_tv.png</img>
     <id>inedit-tv</id>
      </item>
-
+	
      <item>
      <title>Balkanika TV</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=BalkanikaTV";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=BalkanikaTV";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -2506,15 +2775,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>balkanika.png</img>
     <id>balkanika-tv</id>
      </item>
-
+	
      <item>
      <title>Hit Music Channel</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=HitMusicChannel";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=HitMusicChannel";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -2529,15 +2800,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>hit_m_c.png</img>
     <id>hit-music-channel</id>
      </item>
-
+	
      <item>
      <title>Erdely TV</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=ErdelyTV";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=ErdelyTV";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -2552,15 +2825,17 @@ ret;
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+    <image></image>
+    <img>ederlytv.png</img>
     <id>erdely-tv</id>
      </item>
-
+	
      <item>
-     <title>UEFA1</title>
+     <title>Fotbal Online 1</title>
      <onClick>
      <script>
      showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=UEFA1";
+	 url="http://127.0.0.1/cgi-bin/scripts/tv/php/telekom_link.php?file=UEFA1";
      movie=getUrl(url);
      cancelIdle();
     streamArray = null;
@@ -2569,13 +2844,15 @@ ret;
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, video/mp4);
-    streamArray = pushBackStringArray(streamArray, "UEFA1");
+    streamArray = pushBackStringArray(streamArray, "Fotbal Online 1");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
-    <id>uefa1</id>
+    <image></image>
+    <img>FotbalOnline.png</img>
+    <id>fotbal-online-1</id>
      </item>
 
 	 </channel>

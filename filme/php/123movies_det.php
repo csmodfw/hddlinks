@@ -15,7 +15,12 @@ if($query) {
    $tit=str_replace("/",",",$tit);
 }
 $link="http://123movies.to/movie/loadinfo/".$id;
-$html=file_get_contents($link);
+$ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $link);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:14.0) Gecko/20100101 Firefox/14.0.1');
+  $html=curl_exec($ch);
+  curl_close($ch);
 $ttxml="";
 exec ("rm -f /tmp/movie.dat");
 $t1=explode('class="jt-info">',$html);

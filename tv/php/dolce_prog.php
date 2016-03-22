@@ -26,7 +26,9 @@ function c($title) {
 $n=0;
 $first=0;
 $link = $_GET["file"];
-$link="http://port.ro/pls/w/tv.channel?i_ch=".$link."&i_xday=5";
+//$link="http://port.ro/pls/w/tv.channel?i_ch=".$link."&i_xday=5";
+//http://port.ro/tv/pls/tv/oldtv.channel?i_date=2016-03-21&i_ch=10007&i_xday=5
+$link="http://port.ro/tv/pls/tv/oldtv.channel?i_ch=".$link."&i_xday=5";
 $html = file_get_contents($link);
 $p1=explode('http://media.port-network.com/page_elements/line.gif',$html);
 $p2=explode('check_page();',$p1[1]);

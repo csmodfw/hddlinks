@@ -227,6 +227,7 @@ function c($title) {
 }
 $id = $_GET["file"];
 $link="http://port.ro/pls/tv/tv.prog";
+$link="http://port.ro/tv/pls/tv/oldtv.prog";
 $html = file_get_contents($link);
 $t1=explode('chNumberCombo',$html);
 $t2=explode('<optgroup',$t1[0]);
