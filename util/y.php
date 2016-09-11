@@ -47,18 +47,22 @@ if (!file_exists("/tmp/s_dec.php")) {
   if (strpos($a,'function(a,b){a.splice(0,b)}') !== false) {
 	//$fcd = str_between($html,'hqdefault.jpg")};',')};').')};';
 	$t1 = explode('={',$a);
-	$t2 = explode('},',$t1[1]);
+	foreach($t1 as $a) if (strpos($a,'function(a,b){a.splice(0,b)}') !== false)
+		$t2 = explode('};',$a);
+	foreach($t2 as $a) if (strpos($a,'function(a,b){a.splice(0,b)}') !== false)
+		$t2 = explode('},',$a);
   }
   }
-  $tS = explode('var ',$html);
+  $tS = explode(';var ',$html);
   //print_r($tS);
   foreach($tS as $a) {
   if (strpos($a,$t1[0].'.') !== false) {
 	//$fcd = str_between($html,'hqdefault.jpg")};',')};').')};';
 	$t0 = explode('},',$a);
 	foreach($t0 as $a) if (strpos($a,'split("")') !== false)
-	$t1 = explode('};',$a);
-	$t3 = explode(';',$t1[0]);
+	  $t1 = explode('};',$a);
+	foreach($t1 as $a) if (strpos($a,'split("")') !== false)
+	  $t3 = explode(';',$a);
   }
   }
 $t4 = '<?php'."\n".'function s_dec($s) { '."\n";

@@ -25,11 +25,11 @@ $host = "http://127.0.0.1/cgi-bin";
 	itemImageWidthPC="0"
 	itemXPC="8"
 	itemYPC="25"
-	itemWidthPC="50"
+	itemWidthPC="35"
 	itemHeightPC="8"
 	capXPC="8"
-	capYPC="25"
-	capWidthPC="50"
+	capYPC="40"
+	capWidthPC="35"
 	capHeightPC="64"
 	itemBackgroundColor="0:0:0"
 	itemPerPage="8"
@@ -45,9 +45,6 @@ $host = "http://127.0.0.1/cgi-bin";
 
   	<text align="center" offsetXPC="0" offsetYPC="0" widthPC="100" heightPC="20" fontSize="30" backgroundColor="10:105:150" foregroundColor="100:200:255">
 		  <script>getPageInfo("pageTitle");</script>
-		</text>
-  	<text align="left" offsetXPC="6" offsetYPC="15" widthPC="70" heightPC="4" fontSize="16" backgroundColor="10:105:150" foregroundColor="100:200:255">
-	*** TEST - Necesar HDD/Flash conectat pe USB cu 2GB liberi - TEST ***
 		</text>
 
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
@@ -172,6 +169,13 @@ ret;
 <item>
 <title>T12V TV</title>
 <link><?php echo $host; ?>/scripts/tv/tv_t12v.php</link>
+<media:thumbnail url="image/tv_radio.png" />
+<mediaDisplay name="threePartsView"/>
+</item>
+
+<item>
+<title>Media IPTV</title>
+<link><?php echo $host; ?>/scripts/tv/tv_media-iptv.php</link>
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>

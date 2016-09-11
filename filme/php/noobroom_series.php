@@ -126,11 +126,11 @@ setRefreshTime(1);
   	<text align="center" offsetXPC="0" offsetYPC="0" widthPC="100" heightPC="20" fontSize="30" backgroundColor="10:105:150" foregroundColor="100:200:255">
 		  <script>getPageInfo("pageTitle");</script>
 		</text>
-  	<text align="left" offsetXPC="8" offsetYPC="3" widthPC="47" heightPC="4" fontSize="14" backgroundColor="10:105:150" foregroundColor="100:200:255">
-    5=Setare subtitrare, info=server load
+  	<text align="left" offsetXPC="8" offsetYPC="3" widthPC="90" heightPC="4" fontSize="14" backgroundColor="10:105:150" foregroundColor="100:200:255">
+    5=Setare subtitrare, info=server load , 0 (blue) = folositi alta subtitrare
 		</text>
   	<text align="left" offsetXPC="6" offsetYPC="15" widthPC="70" heightPC="4" fontSize="14" backgroundColor="10:105:150" foregroundColor="100:200:255">
-    2= download,0=dl. manager,4/6= jump -+50
+    2= download,4/6= jump -+50
 		</text>
   	<text redraw="yes" align="left" offsetXPC="80" offsetYPC="12" widthPC="20" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
@@ -239,9 +239,14 @@ cancelIdle();
 ret_val=doModalRss("/usr/local/etc/www/cgi-bin/scripts/filme/php/noob_serv_load.rss");
 ret="true";
 }
-else if (userInput == "zero" || userInput == "0")
+else if (userInput == "zero" || userInput == "0" || userInput == "option_blue")
    {
-    jumpToLink("destination");
+  t = getItemInfo(getFocusItemIndex(),"title2");
+  l = getItemInfo(getFocusItemIndex(),"link1");
+  movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/fs_det.php?file=" + t + "," + l + "," + subtitle + "," + server + "," + hhd + ",1";
+  dummy = getURL(movie_info);
+
+    jumpToLink("fs");
     "true";
 }
 else if (userInput == "five" || userInput == "5")
@@ -370,6 +375,9 @@ echo '
 ';
 }
 ?>
+<fs>
+<link>http://127.0.0.1/cgi-bin/scripts/filme/php/fs.php</link>
+</fs>
 <channel>
 	<title><?php echo $tit; ?></title>
 	<menu>main menu</menu>
@@ -465,6 +473,7 @@ foreach($videos as $video) {
      </onClick>
     <download>'.$link1.'</download>
     <title1>'.urlencode($title).'</title1>
+    <title2>'.urlencode($tit."|".$title).'</title2>
     <link1>'.urlencode($link).'</link1>
     <name>'.$name.'</name>
     <movie>'.$link.'</movie>

@@ -1,6 +1,12 @@
 #!/usr/local/bin/Resource/www/cgi-bin/php
 <?php echo "<?xml version='1.0' encoding='UTF8' ?>";
 $host = "http://127.0.0.1/cgi-bin";
+$query = $_GET["query"];
+if($query) {
+   $queryArr = explode(',', $query);
+   $page = $queryArr[0];
+   $search = $queryArr[1];
+}
 ?>
 <rss version="2.0">
 <onEnter>
@@ -16,7 +22,7 @@ $host = "http://127.0.0.1/cgi-bin";
 <mediaDisplay name="threePartsView"
 	sideLeftWidthPC="0"
 	sideRightWidthPC="0"
-
+	
 	headerImageWidthPC="0"
 	selectMenuOnRight="no"
 	autoSelectMenu="no"
@@ -25,11 +31,11 @@ $host = "http://127.0.0.1/cgi-bin";
 	itemImageWidthPC="0"
 	itemXPC="8"
 	itemYPC="25"
-	itemWidthPC="50"
+	itemWidthPC="45"
 	itemHeightPC="8"
 	capXPC="8"
 	capYPC="25"
-	capWidthPC="50"
+	capWidthPC="45"
 	capHeightPC="64"
 	itemBackgroundColor="0:0:0"
 	itemPerPage="8"
@@ -39,23 +45,24 @@ $host = "http://127.0.0.1/cgi-bin";
 	showHeader="no"
 	showDefaultInfo="no"
 	imageFocus=""
-	sliding="no" idleImageXPC="5" idleImageYPC="5" idleImageWidthPC="8" idleImageHeightPC="10"
+	sliding="no"
+	idleImageXPC="5" idleImageYPC="5" idleImageWidthPC="8" idleImageHeightPC="10"
 >
-
+		
   	<text align="center" offsetXPC="0" offsetYPC="0" widthPC="100" heightPC="20" fontSize="30" backgroundColor="10:105:150" foregroundColor="100:200:255">
 		  <script>getPageInfo("pageTitle");</script>
 		</text>
-		<!--<image offsetXPC=5 offsetYPC=2 widthPC=20 heightPC=16>
-		  <script>channelImage;</script>
-		</image>-->
+  	<text align="left" offsetXPC="6" offsetYPC="15" widthPC="75" heightPC="4" fontSize="16" backgroundColor="10:105:150" foregroundColor="100:200:255">
+    2= adauga la favorite
+		</text>
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
 		</text>
   	<text  redraw="yes" align="center" offsetXPC="0" offsetYPC="90" widthPC="100" heightPC="8" fontSize="17" backgroundColor="10:105:150" foregroundColor="100:200:255">
 		  <script>print(annotation); annotation;</script>
 		</text>
-		<image  redraw="yes" offsetXPC=60 offsetYPC=35 widthPC=30 heightPC=30>
-  <script>channelImage;</script>
+  <image  redraw="yes" offsetXPC=60 offsetYPC=25 widthPC=30 heightPC=60>
+		<script>print(img); img;</script>
 		</image>
         <idleImage>image/POPUP_LOADING_01.png</idleImage>
         <idleImage>image/POPUP_LOADING_02.png</idleImage>
@@ -65,16 +72,16 @@ $host = "http://127.0.0.1/cgi-bin";
         <idleImage>image/POPUP_LOADING_06.png</idleImage>
         <idleImage>image/POPUP_LOADING_07.png</idleImage>
         <idleImage>image/POPUP_LOADING_08.png</idleImage>
-
 		<itemDisplay>
 			<text align="left" lines="1" offsetXPC=0 offsetYPC=0 widthPC=100 heightPC=100>
 				<script>
 					idx = getQueryItemIndex();
 					focus = getFocusItemIndex();
-					if(focus==idx)
+					if(focus==idx) 
 					{
 					  location = getItemInfo(idx, "location");
 					  annotation = getItemInfo(idx, "title");
+					  img = getItemInfo(idx,"image");
 					}
 					getItemInfo(idx, "title");
 				</script>
@@ -102,7 +109,7 @@ $host = "http://127.0.0.1/cgi-bin";
 			</text>
 
 		</itemDisplay>
-
+		
 <onUserInput>
 <script>
 ret = "false";
@@ -130,12 +137,21 @@ if (userInput == "pagedown" || userInput == "pageup")
   redrawDisplay();
   "true";
 }
+else if (userInput == "two" || userInput == "2")
+{
+ showIdle();
+ url="http://127.0.0.1/cgi-bin/scripts/filme/php/filmeseriale_add.php?mod=add*" + getItemInfo(getFocusItemIndex(),"link1") + "*" + getItemInfo(getFocusItemIndex(),"title1");
+ dummy=getUrl(url);
+ cancelIdle();
+ redrawDisplay();
+ ret="true";
+}
 ret;
 </script>
 </onUserInput>
-
+		
 	</mediaDisplay>
-
+	
 	<item_template>
 		<mediaDisplay  name="threePartsView" idleImageXPC="5" idleImageYPC="5" idleImageWidthPC="8" idleImageHeightPC="10">
         <idleImage>image/POPUP_LOADING_01.png</idleImage>
@@ -149,50 +165,132 @@ ret;
 		</mediaDisplay>
 
 	</item_template>
-
-<script>
-    channelImage = "/usr/local/etc/www/cgi-bin/scripts/adult/image/empflix.gif";
-  </script>
+	<searchLink>
+	  <link>
+	    <script>"<?php echo $host."/scripts/filme/php/filmeseriale_s.php?query=,"; ?>" + urlEncode(keyword);</script>
+	  </link>
+	</searchLink>
 <channel>
-	<title>empflix.com</title>
+	<title>filmeseriale - seriale</title>
 	<menu>main menu</menu>
 <?php
-function str_between($string, $start, $end){ 
-	$string = " ".$string; $ini = strpos($string,$start); 
-	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
-	return substr($string,$ini,$len); 
-}
-  	$link=$host."/scripts/adult/php/empflix.php?query=1,http://www.empflix.com/browse.php?category=mr&page=";
-  	echo '
-  	<item>
-  		<title>New</title>
-  		<link>'.$link.'</link>
-  	</item>';
-$html = file_get_contents("http://www.empflix.com/");
-$html = str_between($html,'List of tags','</ul>');
-$videos = explode('<li>', $html);
-unset($videos[0]);
-$videos = array_values($videos);
-foreach($videos as $video) {
-    $t=explode('href="',$video);
-    $t1=explode('"',$t[1]);
-    $link=$t1[0];
-    //http://www.empflix.com/channels/new-amateur-1.html
-    $t4=explode("-1",$link);
-    $link=$t4[0]."-";
-    $t2=explode(">",$t[1]);
-    $t3=explode("<",$t2[1]);
-  	$title=$t3[0];
+$query = $_GET["query"];
 
-  	$link=$host."/scripts/adult/php/empflix.php?query=1,".$link;
-  	if ($title <> "All") {
-  	echo '
-  	<item>
-  		<title>'.$title.'</title>
-  		<link>'.$link.'</link>
-  	</item>';
-  	}
+if($page > 1) { ?>
+
+<item>
+<?php
+$sThisFile = 'http://127.0.0.1'.$_SERVER['SCRIPT_NAME'];
+$url = $sThisFile."?query=".($page-1).",";
+if($search) {
+  $url = $url.$search;
 }
 ?>
+<title>Previous Page</title>
+<link><?php echo $url;?></link>
+<annotation>Pagina anterioară</annotation>
+<image>image/left.jpg</image>
+<mediaDisplay name="threePartsView"/>
+</item>
+
+
+<?php } ?>
+
+<?php
+if($page) {
+  $l =$search."/page/".$page."/";
+} else {
+	$page = 1;
+  $l=$search;
+}
+if ($page == 1) {
+  $title="Lista serialelor favorite";
+  $link = $host."/scripts/filme/php/filmeseriale_fav.php";
+  echo '
+  <item>
+  <title>'.$title.'</title>
+  <link>'.$link.'</link>
+  <image></image>
+  </item>
+  ';
+echo '
+<item>
+  <title>Căutare</title>
+  <onClick>
+     keyword = getInput("Input", "doModal");
+		if (keyword != null)
+		 {
+	       jumpToLink("searchLink");
+		  }
+   </onClick>
+</item>
+';
+}
+
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, "https://filmeseriale.online");
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  $html = curl_exec($ch);
+  curl_close($ch);
+$host = "http://127.0.0.1/cgi-bin";
+$videos = explode('<li class="item"', $html);
+unset($videos[0]);
+$videos = array_values($videos);
+
+foreach($videos as $video) {
+    $t1 = explode('href="', $video);
+    $t2 = explode('"', $t1[1]);
+    $link = $t2[0];
+	$link1 = $link;
+
+
+    $t3 = explode('title="',$video);
+    $t4 = explode('"',$t3[1]);
+    $title = trim($t4[0]);
+
+    $t1 = explode('src="', $video);
+    $t2 = explode('"', $t1[1]);
+    $image=$t2[0];
+    $image=str_replace("https","http",$image);
+    //if (strpos($titlu,"Kill") === false) {
+	if($link!="") {
+		//$link = "http://127.0.0.1/cgi-bin/scripts/filme/php/onlinemoca_link.php?file=".$link.",".urlencode($titlu);
+		//$link = "http://127.0.0.1/cgi-bin/scripts/filme/php/fs.php?query=".$link.",".urlencode($title).",movie";
+		$link = 'http://127.0.0.1/cgi-bin/scripts/filme/php/filmeseriale.php?file='.$link.','.urlencode($title);
+		echo'
+		<item>
+		<title>'.$title.'</title>
+		<link>'.$link.'</link>
+	  <annotation>'.$title.'</annotation>
+	  <image>'.$image.'</image>
+    <title1>'.urlencode($title).'</title1>
+    <link1>'.urlencode($link1).'</link1>
+	  <media:thumbnail url="image/movies.png" />
+	  <mediaDisplay name="threePartsView"/>
+		</item>
+		';
+	}
+	//}
+}
+
+?>
+<item>
+<?php
+$sThisFile = 'http://127.0.0.1'.$_SERVER['SCRIPT_NAME'];
+$url = $sThisFile."?query=".($page+1).",";
+if($search) {
+  $url = $url.$search;
+}
+?>
+<title>Next Page</title>
+<link><?php echo $url;?></link>
+<annotation>Pagina următoare</annotation>
+<image>image/right.jpg</image>
+<mediaDisplay name="threePartsView"/>
+</item>
 </channel>
 </rss>

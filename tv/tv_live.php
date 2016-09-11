@@ -173,14 +173,14 @@ ret;
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
-
+<!--
 <item>
-<title>SimpleTV (iptv)</title>
-<link><?php echo $host; ?>/scripts/tv/tv_iptv.php</link>
+<title>Dolce TV</title>
+<link><?php echo $host; ?>/scripts/tv/dolce.php</link>
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
-
+ -->
 <!--
 <item>
 <title>Voyo TV</title>
@@ -261,12 +261,6 @@ ret;
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
-<item>
-<title>România - Telekom TV</title>
-<link>/usr/local/etc/www/cgi-bin/scripts/tv/telekom.rss</link>
-<media:thumbnail url="image/tv_radio.png" />
-<mediaDisplay name="threePartsView"/>
-</item>
 <!--
 <item>
 <title>România - VideosapTv</title>
@@ -322,6 +316,7 @@ else
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
+<!--
 <item>
 <title>PBX România</title>
 <link><?php echo $host; ?>/scripts/tv/pbx.php</link>
@@ -342,10 +337,10 @@ else
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <?php
 error_reporting(0);
-$f="/usr/local/etc/dvdplayer/seenow_p.txt";
+$f="/usr/local/etc/dvdplayer/astra.m3u";
 if (file_exists($f)) {
 echo '
 <item>

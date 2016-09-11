@@ -189,7 +189,7 @@ ret;
 </item>
 -->
 
-
+<!--
 <item>
 <title>movie-inn</title>
 <link><?php echo $host; ?>/scripts/filme/php/movie-inn_m.php?page=1</link>
@@ -211,6 +211,7 @@ ret;
 <annotation>http://movietv.to</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
+-->
 <!--
 <item>
 <title>filmbox</title>
@@ -233,6 +234,13 @@ ret;
 <annotation>http://superchillin.com</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
+
+<item>
+<title>vumoo</title>
+<link><?php echo $host; ?>/scripts/filme/php/vumoo_f_main.php</link>
+<annotation>http://vumoo.at</annotation>
+<mediaDisplay name="threePartsView"/>
+</item>
 <!--
 <item>
 <title>Noobroom (free)</title>
@@ -249,28 +257,16 @@ ret;
 <media:thumbnail url="image/movies.png" />
 </item>
 -->
-<!--
+
 <item>
-<title>Seenow avantaj (abonament)</title>
-<link><?php echo $host; ?>/scripts/tv/php/seenow_e.php?query=1,http://www.seenow.ro/ro/avantaj-61-pagina-,Seenow+Avantaj</link>
-<annotation>http://seenow.ro</annotation>
+<title>filmeseriale.online</title>
+<link><?php echo $host; ?>/scripts/filme/php/filmeseriale_filme.php?query=,https://filmeseriale.online/filme</link>
+<annotation>https://filmeseriale.online</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
--->
+
 <!--
-<?php
-$f="/usr/local/etc/dvdplayer/seenow_p.txt";
-if (file_exists($f)) {
-echo '
-<item>
-<title>Seenow filme premium (Pay per view)</title>
-<link>'.$host.'/scripts/tv/php/seenow_e.php?query=1,http://www.seenow.ro/pay-per-view-27-pagina-,Seenow+Premium</link>
-<annotation>http://seenow.ro</annotation>
-<media:thumbnail url="image/movies.png" />
-</item>
-';
-}
-?>
+
 -->
 <!--
 <item>
@@ -305,23 +301,37 @@ echo '
 
 <!--
 <item>
-<title>totul-hd</title>
-<link><?php echo $host; ?>/scripts/filme/php/totul-hd_main.php</link>
-<annotation>http://www.totul-hd.info/</annotation>
-<mediaDisplay name="threePartsView"/>
-</item>
--->
-<item>
 <title>divxonline</title>
 <link><?php echo $host; ?>/scripts/filme/php/divxonline_main.php</link>
 <annotation>http://divxonline.biz</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <item>
 <title>filmehd</title>
 <link><?php echo $host; ?>/scripts/filme/php/filmehd_main.php</link>
 <annotation>http://filmehd.net/</annotation>
+<mediaDisplay name="threePartsView"/>
+</item>
+
+<item>
+<title>f-hd</title>
+<link><?php echo $host; ?>/scripts/filme/php/f-hd_main.php</link>
+<annotation>http://f-hd.net/</annotation>
+<mediaDisplay name="threePartsView"/>
+</item>
+
+<item>
+<title>pefilme</title>
+<link><?php echo $host; ?>/scripts/filme/php/pefilme_main.php</link>
+<annotation>http://pefilme.com/</annotation>
+<mediaDisplay name="threePartsView"/>
+</item>
+
+<item>
+<title>filmeserialeonline</title>
+<link><?php echo $host; ?>/scripts/filme/php/filmeserialeonline_main.php</link>
+<annotation>http://www.filmeserialeonline.org</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
 <!--
@@ -355,20 +365,22 @@ echo '
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
-
+<!--
 <item>
 <title>seriale.filmesubtitrate</title>
 <link><?php echo $host; ?>/scripts/filme/php/filmesubtitrate.php?query=,http://www.fsplay.net/filme-online-subtitrate</link>
 <annotation>http://www.seriale.filmesubtitrate.info/filme-online-subtitrate</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
+<!--
 <item>
 <title>990</title>
 <link><?php echo $host; ?>/scripts/filme/php/990_filme_main.php</link>
 <annotation>http://www.990.ro</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
+-->
 <!--
 <item>
 <title>radioarad</title>
@@ -398,6 +410,12 @@ echo '
 <mediaDisplay name="threePartsView"/>
 </item>
 
+<item>
+<title>movietv (premium only)</title>
+<link><?php echo $host; ?>/scripts/filme/php/movietv_main.php</link>
+<annotation>http://movietv.to</annotation>
+<mediaDisplay name="threePartsView"/>
+</item>
 <!--
 <item>
 <title>vezi-online</title>
@@ -649,7 +667,13 @@ echo '
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
-
-
+<!--
+<item>
+<title>ful3d (turcesti)</title>
+<link><?php echo $host; ?>/scripts/filme/php/ful3d.php?page=1,,ful3d</link>
+<annotation>http://ful3d.blogspot.ro/</annotation>
+<mediaDisplay name="threePartsView"/>
+</item>
+-->
 </channel>
 </rss>

@@ -195,31 +195,34 @@ function dec($string) {
     return $v;
 }
 $title="";
+$cookie="/tmp/digi1.dat";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $link);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt($ch, CURLOPT_REFERER, "http://www.digi-online.ro");
+  curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
+  curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+  //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   $html = curl_exec($ch);
   curl_close($ch);
+  //echo $html;
+  //die();
+//$html=str_between($html,'<section','</section');
+//echo $html;
+$videos = explode(' <article class="card', $html);
 
-$videos = explode('class="episode"', $html);
 unset($videos[0]);
 $videos = array_values($videos);
+
 foreach($videos as $video) {
-    $t=explode('data-source="',$video);
-if ( sizeof($t)>1 ) {
-    $t1=explode('"',$t[1]);
-    $link=$t1[0];
-    $t1=explode('src="',$video);
-    $t2=explode('"',$t1[1]);
-    $image=$t2[0];
-  	$t1=explode('class="transp_text">',$video);
-  	$t2=explode('<',$t1[1]);
-  	$title=$t2[0];
-    $link=$host."/scripts/tv/php/digi24e_link.php?file=".$link;
-    }
+ $video=html_entity_decode($video);
+ $title=str_between($video,'title="','"');
+ $descriere=$title;
+ $image=urldecode(str_between($video,'src="','"'));
+ $link="http://www.digi24.ro".str_between($video,'href="','"');
+    $link=$host."/scripts/tv/php/digi24_link.php?file=".$link;
+   // }
     if ($title) {
     echo '
     <item>
@@ -238,13 +241,13 @@ if ( sizeof($t)>1 ) {
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, video/x-flv);
-    streamArray = pushBackStringArray(streamArray, "'.$s_title.'");
+    streamArray = pushBackStringArray(streamArray, "'.$title.'");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer.rss");
     </script>
     </onClick>
-    <annotation>'.$s_desc.'</annotation>
+    <annotation>'.$title.'</annotation>
     <titlu>'.$title.'</titlu>
     <image>'.$image.'</image>
     <media:thumbnail url="'.$image.'" />

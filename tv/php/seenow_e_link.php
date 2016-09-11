@@ -210,6 +210,8 @@ $t1=explode('|',$l);
 $l=$t1[0];
 }
 }
+//print_r ($p);
+//die();
 $f="/usr/local/etc/dvdplayer/seenow_p.txt";
 if (!$token && file_exists($f)) {
 //print_r ($p);
@@ -272,6 +274,8 @@ $out=str_replace("playlist",$title,$out);
 //$out=str_replace("|COMPONENT=HLS","",$out);
 $out=str_replace("seenow-smart/_definst_/","seenow/_definst_/mp4:",$out);
 */
+//print_r ($p);
+//echo $l;
 $out=str_replace("[%server_name%]",$serv,$l);
 $out=str_replace("playlist",$title,$out);
 $out=str_replace("seenow-smart/_definst_/","seenow/_definst_/mp4:",$out);

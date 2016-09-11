@@ -317,6 +317,7 @@ else if (input == "six" || input == "6" || input == "option_blue")
 }
  else if (input == "video_completed" || input == "video_stop")
 {
+	writeStringToFile("/tmp/streaming", null);
     playItemURL(-1, 1);
     postMessage("return");
 }

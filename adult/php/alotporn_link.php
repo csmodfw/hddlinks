@@ -26,7 +26,7 @@ die();
 //$link1=str_replace("&amp;","&",$link1);
 $out=$link1;
 $out=str_between($html,"video_url: '","'");
-
+//echo $out;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $out);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -38,8 +38,8 @@ $out=str_between($html,"video_url: '","'");
   $html = curl_exec($ch);
   curl_close($ch);
   $t1=explode("Location:",$html);
-  $t2=explode("mp4",$t1[3]);
-  $out=trim($t2[0])."mp4";
+  $t2=explode("\n",$t1[2]);
+  $out=trim($t2[0]);
 
 print $out;
 ?>

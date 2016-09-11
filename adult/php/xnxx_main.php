@@ -168,18 +168,26 @@ function str_between($string, $start, $end){
   		<title>New</title>
   		<link>'.$link.'</link>
   	</item>';
-$html = file_get_contents("http://www.xnxx.com/");
-$html = str_between($html,'ALL SEX VIDEOS:','XXX Porn Tube:');
-$videos = explode('href=', $html);
+$l="http://www.xnxx.com/";
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, "http://www.xnxx.com/");
+  $html = curl_exec($ch);
+  curl_close($ch);
+//$html = str_between($html,'ALL SEX VIDEOS:','XXX Porn Tube:');
+$videos = explode('url":"', $html);
 unset($videos[0]);
 $videos = array_values($videos);
 foreach($videos as $video) {
     $t=explode('"',$video);
-    $t1=explode('"',$t[1]);
-    $link=$t1[0];
+    //$t1=explode('"',$t[1]);
+    $link="http://www.xnxx.com".str_replace("\/","/",$t[0]);
 
-    $t2=explode(">",$video);
-    $t3=explode("<",$t2[1]);
+    $t2=explode('label":"',$video);
+    $t3=explode('"',$t2[1]);
   	$title=$t3[0];
 
   	$link=$host."/scripts/adult/php/xnxx.php?query=1,".$link;

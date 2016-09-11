@@ -9,8 +9,13 @@ function str_between($string, $start, $end){
 //error_reporting(0);
 $ff="/tmp/n.txt";
 $cookie="/tmp/noobroom.txt";
-
-
+$noob_cookie="/usr/local/etc/dvdplayer/noob_cookie.dat";
+/*
+if (file_exists($noob_cookie) && !file_exists($cookie)) {
+exec ("cp -f /usr/local/etc/dvdplayer/noob_cookie.dat  /tmp/noobroom.txt");
+sleep(1);
+}
+*/
 $noob="http://superchillin.com";
 $fh = fopen($ff, 'w');
 fwrite($fh, $noob);
@@ -28,11 +33,12 @@ if (file_exists($noob_log) && !file_exists($cookie)) {
   $user=urlencode($a1);
   $user=str_replace("@","%40",$user);
   $pass=trim($a[1]);
-  $post="email=".$user."&password=".$pass;
+  $post="email=".$user."&password=".$pass."&x=40&y=19&echo=echo";
 }
 if (file_exists($filename) && !file_exists($cookie) && !file_exists($noob_log)) {
   $pass=file_get_contents($filename);
   $lp="http://hdforall.freehostia.com/n_am.php?pass=".$pass;
+  $lp="http://uphero.xpresso.eu/srt/n_am.php?pass=".$pass;
   //$lp="http://hddlinks.pht.ro/n_a.php?pass=".$pass;
   //echo $lp;
   $ch = curl_init();
@@ -42,8 +48,30 @@ if (file_exists($filename) && !file_exists($cookie) && !file_exists($noob_log)) 
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   $post1 = curl_exec($ch);
   curl_close($ch);
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $noob."/");
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt ($ch, CURLOPT_REFERER, $noob."/");
+  curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
+  curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+  $html = curl_exec($ch);
+  curl_close($ch);
+
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $noob."/login.php");
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt ($ch, CURLOPT_REFERER, $noob."/");
+  curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
+  curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+  $html = curl_exec($ch);
+  curl_close($ch);
+  sleep (1);
   if ($post1) {
-    $fh = fopen($cookie, 'w');
+    $fh = fopen($cookie, 'a');
     fwrite($fh, $post1);
     fclose($fh);
     $amigo="DA";
@@ -99,6 +127,12 @@ if ($post) {
   $html = curl_exec($ch);
   curl_close($ch);
 }
+/*
+if (!file_exists($noob_cookie) && file_exists($cookie)) {
+sleep(1);
+exec ("cp -f /tmp/noobroom.txt /usr/local/etc/dvdplayer/noob_cookie.dat");
+}
+*/
 $l=$noob."/kids.php";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
@@ -267,17 +301,17 @@ setRefreshTime(1);
   	<text align="center" offsetXPC="0" offsetYPC="0" widthPC="100" heightPC="20" fontSize="30" backgroundColor="10:105:150" foregroundColor="100:200:255">
     <script>getPageInfo("pageTitle") + " (" + itemCount + ")";</script>
 		</text>
-  	<text align="left" offsetXPC="8" offsetYPC="3" widthPC="40" heightPC="4" fontSize="14" backgroundColor="10:105:150" foregroundColor="100:200:255">
-    info=server load
+  	<text align="left" offsetXPC="8" offsetYPC="3" widthPC="50" heightPC="4" fontSize="14" backgroundColor="10:105:150" foregroundColor="100:200:255">
+    info=server load,0 (blue) = folositi alta subtitrare
 		</text>
-  	<text align="right" offsetXPC="55" offsetYPC="3" widthPC="40" heightPC="4" fontSize="14" backgroundColor="10:105:150" foregroundColor="100:200:255">
+  	<text align="right" offsetXPC="58" offsetYPC="3" widthPC="40" heightPC="4" fontSize="14" backgroundColor="10:105:150" foregroundColor="100:200:255">
     <script>"<?php echo $premium; ?>" + sprintf("%s "," ");</script>
 		</text>
   	<text redraw="yes" offsetXPC="86" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s", focus-(-1));</script>
 		</text>
   	<text align="left" offsetXPC="6" offsetYPC="15" widthPC="80" heightPC="4" fontSize="16" backgroundColor="10:105:150" foregroundColor="100:200:255">
-    1=favorite, 2= download,0=dl. manager,4/6= jump -+100,5=Setare subtitrare
+    1=favorite, 2= download,4/6= jump -+100,5=Setare subtitrare
 		</text>
 	<text  redraw="yes" align="center" offsetXPC="0" offsetYPC="90" widthPC="100" heightPC="8" fontSize="14" backgroundColor="10:105:150" foregroundColor="100:200:255">
     <script>"3= Subtitrare: " + subtitle + " 7=Server: " + sserver + " 9=SD/HD/MP4/HMP4:" + shd;</script>
@@ -378,9 +412,14 @@ else if (userInput == "two" || userInput == "2")
 	 dlok = loadXMLFile(topUrl);
 	 "true";
 }
-else if (userInput == "zero" || userInput == "0")
+else if (userInput == "zero" || userInput == "0" || userInput == "option_blue")
    {
-    jumpToLink("destination");
+  t = getItemInfo(getFocusItemIndex(),"title1");
+  l = getItemInfo(getFocusItemIndex(),"link1");
+  movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/fs_det.php?file=" + t + "," + l + "," + subtitle + "," + server + "," + hhd + ",0";
+  dummy = getURL(movie_info);
+
+    jumpToLink("fs");
     "true";
 }
 else if (userInput == "five" || userInput == "5")
@@ -537,6 +576,9 @@ echo '
 ';
 }
 ?>
+<fs>
+<link>http://127.0.0.1/cgi-bin/scripts/filme/php/fs.php</link>
+</fs>
 <channel>
 	<title>Kids</title>
 	<menu>main menu</menu>
@@ -571,6 +613,7 @@ if (pass == null)
  </item>
  ';
 }
+
 if (strpos($status,"day") === false && !file_exists($cookie)) {
 $link = "/usr/local/etc/www/cgi-bin/scripts/filme/php/noobroom.rss";
 
@@ -626,6 +669,7 @@ foreach($videos as $video) {
     $img=$noob."/".$t2[0];
   else
     $img=$t2[0];
+  $img=str_replace("https","http",$img);
    if (!$srt[$link])
       $title1=$title." (*)";
    else

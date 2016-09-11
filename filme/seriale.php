@@ -196,11 +196,20 @@ echo '
 <mediaDisplay name="photoView"/>
 </item>
 -->
+
+
 <item>
-<title>filmesubtitrate.info</title>
-<link><?php echo $host; ?>/scripts/filme/php/fsplay_main.php</link>
-<annotation>http://www.playfs.com/lista-noua-seriale-online-subtitrate.html</annotation>
-<mediaDisplay name="threePartsView"/>
+<title>filmeseriale.online</title>
+<link><?php echo $host; ?>/scripts/filme/php/filmeseriale_main.php?query=,https://filmeseriale.online/seriale</link>
+<annotation>https://filmeseriale.online</annotation>
+<media:thumbnail url="image/movies.png" />
+</item>
+
+<item>
+<title>filmeserialeonline</title>
+<link><?php echo $host; ?>/scripts/filme/php/filmeserialeonline_seriale_main.php?query=,http://www.filmeserialeonline.org/seriale</link>
+<annotation>http://www.filmeserialeonline.org/seriale/</annotation>
+<media:thumbnail url="image/movies.png" />
 </item>
 
 <item>
@@ -240,12 +249,14 @@ echo '
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
+<!--
 <item>
 <title>movie-inn</title>
 <link><?php echo $host; ?>/scripts/filme/php/movie-inn_s.php</link>
 <annotation>http://www.movie-inn.com</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
+-->
 <!--
 <item>
 <title>iPlay - seriale HD (abonament)</title>
@@ -268,6 +279,13 @@ echo '
 <annotation>http://noobroom.com</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
+
+<item>
+<title>vumoo - seriale</title>
+<link><?php echo $host; ?>/scripts/filme/php/vumoo_s.php?page=1,release,,seriale</link>
+<annotation>http://vumoo.at</annotation>
+<media:thumbnail url="image/movies.png" />
+</item>
 <!--
 <item>
 <title>inviatapenet</title>
@@ -283,11 +301,13 @@ echo '
 <media:thumbnail url="image/movies.png" />
 </item>
 -->
+<!--
 <item>
 <title>990</title>
 <link><?php echo $host; ?>/scripts/filme/php/990_seriale_main1.php</link>
 <media:thumbnail url="image/movies.png" />
 </item>
+-->
 <!--
 <item>
 <title>filme9</title>
@@ -295,12 +315,13 @@ echo '
 <media:thumbnail url="image/movies.png" />
 </item>
 -->
+<!--
 <item>
 <title>vtube</title>
 <link><?php echo $host; ?>/scripts/filme/php/vtube.php</link>
 <media:thumbnail url="image/movies.png" />
 </item>
-
+-->
 <item>
 <title>vezi-online.ro</title>
 <link><?php echo $host; ?>/scripts/filme/php/vezi-online_ro_main.php</link>
@@ -325,6 +346,13 @@ echo '
 <title>serialetv</title>
 <link><?php echo $host; ?>/scripts/filme/php/serialetv_main.php</link>
 <annotation>http://serialetv.net/seriale-online-subtitrate-in-romana</annotation>
+<mediaDisplay name="threePartsView"/>
+</item>
+
+<item>
+<title>hindilover (turcesti)</title>
+<link><?php echo $host; ?>/scripts/filme/php/hindilover_main_main.php</link>
+<annotation>http://hindilover.com/</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
 <!--
@@ -480,6 +508,14 @@ echo '
 <title>tinymkv</title>
 <link><?php echo $host; ?>/scripts/filme/php/tinymkv_main.php</link>
 <annotation>http://www.tinymkv.com/</annotation>
+<mediaDisplay name="threePartsView"/>
+</item>
+-->
+<!--
+<item>
+<title>filmesubtitrate.info</title>
+<link><?php echo $host; ?>/scripts/filme/php/fsplay_main.php</link>
+<annotation>http://www.playfs.com/lista-noua-seriale-online-subtitrate.html</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
 -->

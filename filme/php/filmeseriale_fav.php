@@ -25,11 +25,11 @@ $host = "http://127.0.0.1/cgi-bin";
 	itemImageWidthPC="0"
 	itemXPC="8"
 	itemYPC="25"
-	itemWidthPC="50"
+	itemWidthPC="80"
 	itemHeightPC="8"
 	capXPC="8"
 	capYPC="25"
-	capWidthPC="50"
+	capWidthPC="80"
 	capHeightPC="64"
 	itemBackgroundColor="0:0:0"
 	itemPerPage="8"
@@ -45,26 +45,23 @@ $host = "http://127.0.0.1/cgi-bin";
   	<text align="center" offsetXPC="0" offsetYPC="0" widthPC="100" heightPC="20" fontSize="30" backgroundColor="10:105:150" foregroundColor="100:200:255">
 		  <script>getPageInfo("pageTitle");</script>
 		</text>
-		<!--<image offsetXPC=5 offsetYPC=2 widthPC=20 heightPC=16>
-		  <script>channelImage;</script>
-		</image>-->
+  	<text align="left" offsetXPC="6" offsetYPC="15" widthPC="75" heightPC="4" fontSize="16" backgroundColor="10:105:150" foregroundColor="100:200:255">
+    2 = sterge de la favorite. Reincarcati pagina pentru a vedea rezultatul
+		</text>
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
 		</text>
   	<text  redraw="yes" align="center" offsetXPC="0" offsetYPC="90" widthPC="100" heightPC="8" fontSize="17" backgroundColor="10:105:150" foregroundColor="100:200:255">
 		  <script>print(annotation); annotation;</script>
 		</text>
-		<image  redraw="yes" offsetXPC=60 offsetYPC=35 widthPC=30 heightPC=30>
-  <script>channelImage;</script>
-		</image>
-        <idleImage>image/POPUP_LOADING_01.png</idleImage>
-        <idleImage>image/POPUP_LOADING_02.png</idleImage>
-        <idleImage>image/POPUP_LOADING_03.png</idleImage>
-        <idleImage>image/POPUP_LOADING_04.png</idleImage>
-        <idleImage>image/POPUP_LOADING_05.png</idleImage>
-        <idleImage>image/POPUP_LOADING_06.png</idleImage>
-        <idleImage>image/POPUP_LOADING_07.png</idleImage>
-        <idleImage>image/POPUP_LOADING_08.png</idleImage>
+		<idleImage> image/POPUP_LOADING_01.png </idleImage>
+		<idleImage> image/POPUP_LOADING_02.png </idleImage>
+		<idleImage> image/POPUP_LOADING_03.png </idleImage>
+		<idleImage> image/POPUP_LOADING_04.png </idleImage>
+		<idleImage> image/POPUP_LOADING_05.png </idleImage>
+		<idleImage> image/POPUP_LOADING_06.png </idleImage>
+		<idleImage> image/POPUP_LOADING_07.png </idleImage>
+		<idleImage> image/POPUP_LOADING_08.png </idleImage>
 
 		<itemDisplay>
 			<text align="left" lines="1" offsetXPC=0 offsetYPC=0 widthPC=100 heightPC=100>
@@ -73,7 +70,6 @@ $host = "http://127.0.0.1/cgi-bin";
 					focus = getFocusItemIndex();
 					if(focus==idx)
 					{
-					  location = getItemInfo(idx, "location");
 					  annotation = getItemInfo(idx, "title");
 					}
 					getItemInfo(idx, "title");
@@ -128,7 +124,16 @@ if (userInput == "pagedown" || userInput == "pageup")
   setFocusItemIndex(idx);
 	setItemFocus(0);
   redrawDisplay();
-  "true";
+  ret="true";
+}
+else if (userInput == "two" || userInput == "2")
+{
+ showIdle();
+ url="http://127.0.0.1/cgi-bin/scripts/filme/php/filmeseriale_add.php?mod=delete*" + getItemInfo(getFocusItemIndex(),"link1") + "*" + getItemInfo(getFocusItemIndex(),"title1");
+ dummy=getUrl(url);
+ cancelIdle();
+ redrawDisplay();
+ ret="true";
 }
 ret;
 </script>
@@ -149,50 +154,49 @@ ret;
 		</mediaDisplay>
 
 	</item_template>
-<script>
-    channelImage = "/usr/local/etc/www/cgi-bin/scripts/adult/image/xhamster.jpg";
-  </script>
+  <channel>
 
+    <title>filmeseriale - seriale favorite</title>
 
-<channel>
-	<title>xhamster.com</title>
-	<menu>main menu</menu>
 <?php
-function str_between($string, $start, $end){ 
-	$string = " ".$string; $ini = strpos($string,$start); 
-	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
-	return substr($string,$ini,$len); 
+function str_between($string, $start, $end){
+	$string = " ".$string; $ini = strpos($string,$start);
+	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini;
+	return substr($string,$ini,$len);
 }
-  	$link=$host."/scripts/adult/php/xhamster.php?query=1,http://xhamster.com/new/";
-  	echo '
-  	<item>
-  		<title>New</title>
-  		<link>'.$link.'</link>
-  	</item>';
-$html = file_get_contents("http://xhamster.com");
-$html = str_between($html,'Categories</div>','<div class="head"');
-$videos = explode("href='", $html);
+if (file_exists("/data"))
+  $f= "/data/filmeseriale.dat";
+else
+  $f="/usr/local/etc/filmeseriale.dat";
+if (file_exists($f)) {
+$html=file_get_contents($f);
+$videos=explode("<item>",$html);
 unset($videos[0]);
 $videos = array_values($videos);
 foreach($videos as $video) {
-
-    $t1=explode("'",$video);
-    $link=$t1[0];
-    //http://xhamster.com/channels/new-upskirts-1.html
-    $link=substr($link, 0, -6);
-  	$t1=explode(">",$video);
-  	$t2=explode("<",$t1[1]);
-  	$title=$t2[0];
-
-  	$link=$host."/scripts/adult/php/xhamster.php?query=1,".$link;
-  	if ($title) {
-  	echo '
-  	<item>
-  		<title>'.$title.'</title>
-  		<link>'.$link.'</link>
-  	</item>';
-  	}
+  $l=str_between($video,"<link>","</link>");
+  $title=urldecode(str_between($video,"<title>","</title>"));
+  $arr[]=array($title, $l);
+}
+asort($arr);
+foreach ($arr as $key => $val) {
+  $l=$arr[$key][1];
+  $title=$arr[$key][0];
+  //filmeseriale.php?file='.$link.','.urlencode($title);
+  $link = $host."/scripts/filme/php/filmeseriale.php?file=".$l.",".urlencode($title);
+    echo '
+    <item>
+    <title>'.$title.'</title>
+    <annotation>'.$title.'</annotation>
+    <link>'.$link.'</link>
+    <title1>'.urlencode($title).'</title1>
+    <link1>'.$l.'</link1>
+    </item>
+    ';
+}
 }
 ?>
+
+
 </channel>
-</rss>
+</rss>                                                                                                                             

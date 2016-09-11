@@ -9,7 +9,13 @@ function str_between($string, $start, $end){
 error_reporting(0);
 $ff="/tmp/n.txt";
 $cookie="/tmp/noobroom.txt";
-
+$noob_cookie="/usr/local/etc/dvdplayer/noob_cookie.dat";
+/*
+if (file_exists($noob_cookie) && !file_exists($cookie)) {
+exec ("cp -f /usr/local/etc/dvdplayer/noob_cookie.dat  /tmp/noobroom.txt");
+sleep(1);
+}
+*/
 $noob="http://superchillin.com";
 $fh = fopen($ff, 'w');
 fwrite($fh, $noob);
@@ -27,13 +33,14 @@ if (file_exists($noob_log) && !file_exists($cookie)) {
   $user=urlencode($a1);
   $user=str_replace("@","%40",$user);
   $pass=trim($a[1]);
-  $post="email=".$user."&password=".$pass;
+  $post="email=".$user."&password=".$pass."&x=40&y=19&echo=echo";
 }
 if (file_exists($filename) && !file_exists($cookie) && !file_exists($noob_log)) {
   $pass=file_get_contents($filename);
   $lp="http://hddlinks.p.ht/n_a.php?pass=".$pass;
   $lp="http://hddlinks.pht.ro/n_a.php?pass=".$pass;
   $lp="http://hdforall.freehostia.com/n_am.php?pass=".$pass;
+  $lp="http://uphero.xpresso.eu/srt/n_am.php?pass=".$pass;
   //echo $lp;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $lp);
@@ -42,8 +49,30 @@ if (file_exists($filename) && !file_exists($cookie) && !file_exists($noob_log)) 
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   $post1 = curl_exec($ch);
   curl_close($ch);
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $noob."/");
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt ($ch, CURLOPT_REFERER, $noob."/");
+  curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
+  curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+  $html = curl_exec($ch);
+  curl_close($ch);
+
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $noob."/login.php");
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt ($ch, CURLOPT_REFERER, $noob."/");
+  curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
+  curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+  $html = curl_exec($ch);
+  curl_close($ch);
+  sleep (1);
   if ($post1) {
-    $fh = fopen($cookie, 'w');
+    $fh = fopen($cookie, 'a');
     fwrite($fh, $post1);
     fclose($fh);
     $amigo="DA";
@@ -97,7 +126,14 @@ if ($post) {
   curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   $html = curl_exec($ch);
   curl_close($ch);
+
 }
+/*
+if (!file_exists($noob_cookie) && file_exists($cookie)) {
+sleep(1);
+exec ("cp -f /tmp/noobroom.txt /usr/local/etc/dvdplayer/noob_cookie.dat");
+}
+*/
 $l=$noob."/series.php";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
@@ -423,6 +459,7 @@ foreach($videos as $video) {
     $img=$noob."/".$t2[0];
   else
     $img=$t2[0];
+  $img=str_replace("https","http",$img);
   if (strpos($link,"episodes") !==false) $arr[]=array($title, $link1,$img);
 }
 if ($arr) {
@@ -471,6 +508,7 @@ foreach($videos as $video) {
     $img=$noob."/".$t2[0];
   else
     $img=$t2[0];
+  $img=str_replace("https","http",$img);
   if (strpos($link,"episodes") !==false) {
    $link=$noob.$link1;
    $link=$host."/scripts/filme/php/noobroom_series.php?query=".urlencode($link).",".urlencode($title);

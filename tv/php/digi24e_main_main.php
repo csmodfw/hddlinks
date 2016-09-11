@@ -159,29 +159,52 @@ function str_between($string, $start, $end){
 	return substr($string,$ini,$len); 
 }
 $host = "http://127.0.0.1/cgi-bin";
-
-$l="http://www.digi-online.ro/shows/";
+$title="In Fata Ta";
+$link=$host."/scripts/tv/php/digi24e_fata.php";
+	echo '
+	<item>
+	<title>'.$title.'</title>
+	<link>'.$link.'</link>
+	<annotation>'.$title.'</annotation>
+	<mediaDisplay name="threePartsView"/>
+	</item>
+	';
+$title="Starea Natiei";
+$link=$host."/scripts/tv/php/digi24e_starea.php";
+	echo '
+	<item>
+	<title>'.$title.'</title>
+	<link>'.$link.'</link>
+	<annotation>'.$title.'</annotation>
+	<mediaDisplay name="threePartsView"/>
+	</item>
+	';
+$l="http://www.digi24.ro/emisiuni";
+$cookie="/tmp/digi1.dat";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
+  curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   $html = curl_exec($ch);
   curl_close($ch);
+  //echo $html;
+$html=str_between($html,'<section','</section');
+//echo $html;
+$videos = explode('<figure class="card', $html);
 
-$html = str_between($html,'<ul id="shows-tree"',"</ul>" );
-$videos = explode("<li>", $html);
 unset($videos[0]);
 $videos = array_values($videos);
 
 foreach($videos as $video) {
-    $t1 = explode('href="#', $video);
-    $t4=explode('"',$t1[1]);
-    $link = $t4[0];
-    $t2 = explode('>', $video);
-    $t3 = explode('<', $t2[1]);
-    $title = $t3[0];
+ $video=html_entity_decode($video);
+ $title=str_between($video,'title="','"');
+ $descriere=$title;
+ $image=urldecode(str_between($video,'data-src="','"'));
+ $link="http://www.digi24.ro".str_between($video,'href="','"');
     $link=$host."/scripts/tv/php/digi24e_main.php?file=".urlencode($link).",".urlencode($title);
 	if ($title) {
 	echo '

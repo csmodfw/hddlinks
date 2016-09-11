@@ -23,8 +23,8 @@ $noob_serv="/tmp/noob_serv_load.log";
   unset($videos[0]);
   $videos = array_values($videos);
   foreach($videos as $video) {
-    $t1=explode(">",$video);
-    $t2=explode("<",$t1[4]);
+    $t1=explode("try a different location!'>",$video);
+    $t2=explode("<",$t1[1]);
     $serv=$t2[0];
     $t1=explode(">",$video);
     //print_r ($t1);

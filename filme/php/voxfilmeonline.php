@@ -163,12 +163,19 @@ if($query) {
 }
 //http://voxfilmeonline.com/page/2/
 if($page) {
-	$html = file_get_contents($search."page/".$page."/");
+	$l = $search."page/".$page."/";
 } else {
 	$page = 1;
-  $html = file_get_contents($search);
+  $l = $search;
 }
-
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+  $html = curl_exec($ch);
+  curl_close($ch);
 if($page > 1) { ?>
 
 <item>

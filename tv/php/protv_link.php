@@ -32,18 +32,26 @@ if($query) {
    $image = $queryArr[1];
 }
 $h = file_get_contents("http://protvplus.ro".urldecode($link));
+//echo $h;
 $serv = str_between($h,"rtmp:","'");
 //$t1 = str_between($h,'$.ajax(','$f(');
 $t1=explode("$.ajax({",$h);
 $linkajax=str_between($t1[1],'url: "','"');
 //$linkajax="/lbin/ajax/config1.php?site=94000&realSite=94000&subsite=753&section=20720&media=61288956&jsVar=fltfm&mute=0&size=&pWidth=700&pHeight=435";
-$h = file_get_contents("http://protvplus.ro/".$linkajax);
-$h = str_replace("\\","",$h);
+//$h = file_get_contents("http://protvplus.ro/".$linkajax);
+
+//$h = str_replace("\\","",$h);
 //echo $h;
-$id = str_between($h,'url":"','"');
+$id = str_between($h,'"url": "','"');
 //$id=str_replace("x","_HD",$id);
 $title =  str_between($h,'title":"','"');
-$y = $id."-HD-1.mp4";
+//$y = $id."-HD-1.mp4";
+//$y="172873-HD-1.mp4";
+//$y="RGT_160514-HD-1.mp4";
+$y=str_between($h,'"url": "','"');
+//$t1=explode('"url": "',$h);
+//$t2=explode('"',$t1[2]);
+//$y=$t2[0];
 $rtmp = "rtmp:".$serv."/";
      $w="http://d1.a4w.ro/tfm/flowplayer.commercial-3.2.15.swf";
      $p="http://protvplus.ro";

@@ -165,42 +165,64 @@ function str_between($string, $start, $end){
 	return substr($string,$ini,$len); 
 }
 $title="";
-$l="http://www.digi-online.ro/xhr-shows.php?keyword=".$link;
-//echo $l;
+$cookie="/tmp/digi1.dat";
   $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_URL, $link);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt($ch, CURLOPT_REFERER, "http://www.digi-online.ro");
+  curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
+  curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+  //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   $html = curl_exec($ch);
   curl_close($ch);
+  //echo $html;
+  //die();
+//$html=str_between($html,'<section','</section');
 //echo $html;
-$videos = explode('class="picture">', $html);
+$videos = explode('<article class="card', $html);
+
 unset($videos[0]);
 $videos = array_values($videos);
+
 foreach($videos as $video) {
-    $t=explode('href="',$video);
-if ( sizeof($t)>1 ) {
-    $t1=explode('"',$t[1]);
-    $link="http://www.digi-online.ro".$t1[0];
-    $t1=explode('src="',$video);
-    $t2=explode('"',$t1[1]);
-    $image="http://www.digi-online.ro/".$t2[0];
-  	//$title=str_between($video,'title image heading">','<');
-  	$t1=explode('class="title">',$video);
-  	$t2=explode('>',$t1[1]);
-  	$t3=explode('<',$t2[1]);
-  	$title=$t3[0];
-    $link=$host."/scripts/tv/php/digi24_e.php?file=".$link.",".urlencode($title);
-}
+ $video=html_entity_decode($video);
+ $title=str_between($video,'title="','"');
+ $descriere=$title;
+ $image=urldecode(str_between($video,'humb.php?src=','&'));
+ $link="http://www.digi24.ro".str_between($video,'href="','"');
+    $link=$host."/scripts/tv/php/digi24e_fata_link.php?file=".$link;
+//}
     if ($title) {
-  	echo '
-  	<item>
-  		<title>'.$title.'</title>
-  		<link>'.$link.'</link>
-  		<image>'.$image.'</image>
-  	</item>';
+    echo '
+    <item>
+    <title>'.$title.'</title>
+    <onClick>
+    <script>
+    showIdle();
+    url="'.$link.'";
+    movie=getUrl(url);
+    cancelIdle();
+    storagePath = getStoragePath("tmp");
+    storagePath_stream = storagePath + "stream.dat";
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/x-flv);
+    streamArray = pushBackStringArray(streamArray, "'.$title.'");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer.rss");
+    </script>
+    </onClick>
+    <annotation>'.$title.'</annotation>
+    <titlu>'.$title.'</titlu>
+    <image>'.$image.'</image>
+    <media:thumbnail url="'.$image.'" />
+    </item>
+    ';
  }
 }
 ?>

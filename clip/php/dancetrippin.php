@@ -212,24 +212,32 @@ function xml_fix($string) {
 //http://player.dancetrippin.tv/video/list/dj/
 $link="http://new.dancetrippin.tv/video/list/";
 $link="http://player.dancetrippin.tv/video/list/dj/";
-$html=file_get_contents($link);
-$html=xml_fix($html);
-$videos = explode('venue":', $html);
+$link="http://www.dancetrippin.tv/videos/dj-sets/";
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $link);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  //curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Linux; U; Android 0.5; en-us) AppleWebKit/522+ (KHTML, like Gecko) Safari/419.3');
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  $html = curl_exec($ch);
+  curl_close($ch);
+//$html=xml_fix($html);
+$videos = explode('<div class="single"', $html);
 
 unset($videos[0]);
 $videos = array_values($videos);
 
 foreach($videos as $video) {
-
-    $link="http://player.dancetrippin.tv/video/".str_between($video,'slug": "','"');
-    $title=str_between($video,'title": "','",');
+    $t1=explode('href="',$video);
+    $t2=explode('"',$t1[1]);
+    $link="http://www.dancetrippin.tv".$t2[0];
+    //$link="http://player.dancetrippin.tv/video/".str_between($video,'slug": "','"');
+    $title=str_between($video,'title="','"');
     //http://player.dancetrippin.tv/media/video_thumbs/6082.jpg
-    $image="http://player.dancetrippin.tv/media/".str_between($video,'image": "','"');
+    $image=str_between($video,'url(',')');
     $image=str_replace(" ","%20",$image);
-    $description=str_between($video,'description": "','",');
-    $description = preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$description);
-    $location=str_between($video,'location": "','",');
-    $dj="DJ: ".str_between($video,'dj": "','",');
+    if (strpos($image,"http") === false) $image="http://www.dancetrippin.tv".$image;
     //$pub = trim(preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$t2[0]));
 
     $name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".mp4";
@@ -239,7 +247,7 @@ foreach($videos as $video) {
     <onClick>
     <script>
     showIdle();
-    url="'.$host.'/scripts/clip/php/dancetrippin_link.php?file='.$link.'";
+    url="'.$host.'/scripts/clip/php/dancetrippin_link.php?file='.urlencode($link).'";
     movie=getUrl(url);
     cancelIdle();
     playItemUrl(movie,10);
@@ -247,10 +255,10 @@ foreach($videos as $video) {
     </onClick>
     <download>'.$link.'</download>
     <name>'.$name.'</name>
-    <annotation>'.$description.'</annotation>
+    <annotation>'.$title.'</annotation>
     <image>'.$image.'</image>
-    <location>'.$location.'</location>
-    <dj>'.$dj.'</dj>
+    <location></location>
+    <dj></dj>
     <media:thumbnail url="'.$image.'" />
     </item>
     ';

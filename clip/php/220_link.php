@@ -29,6 +29,7 @@ if (!$link1) {
 $t2 = explode('&preview', $t1[1]);
 $link1 = urldecode($t2[0]);
 }
+$link=str_between($html,"videoSrc:'","'");
 /*
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $link1);
@@ -54,6 +55,7 @@ $l=$h[3];
 $t1=explode("Location:",$l);
 $link1=trim($t1[1]);
 */
+/*
 $t0=explode("var Player",$html);
 
 $t1=explode("url",$t0[1]);
@@ -61,5 +63,6 @@ $t1=explode("url",$t0[1]);
 $t2=explode("'",$t1[1]);
 //print_r($t2);
 $link1=urldecode($t2[1]);
-print $link1;
+*/
+print $link;
 ?>

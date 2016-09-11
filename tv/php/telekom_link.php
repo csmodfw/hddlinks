@@ -53,7 +53,7 @@ $link = "http://restrictions.directone.ro/timestamp.php";
   $time = curl_exec($ch);
   curl_close($ch);
 
-$link = "http://www.alltv.96.lt/tk/extkk.php?id=".$id;
+$link = "http://127.0.0.1/cgi-bin/scripts/tv/extk.php?id=".$id;
 //$out=file_get_contents($link);
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $link);

@@ -13,15 +13,22 @@ function str_between($string, $start, $end){
 $link = $_GET["file"];
 $link=str_replace(" ","+",$link);
 //echo $link;
+$cookie="/tmp/digi.dat";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $link);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Linux; U; Android 0.5; en-us) AppleWebKit/522+ (KHTML, like Gecko) Safari/419.3');
+  //curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  $h=curl_exec($ch);
+  curl_setopt($ch, CURLOPT_REFERER, "http://www.digi-online.ro");
+  curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
+  curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+  $html = curl_exec($ch);
   curl_close($ch);
-$id=str_between($h,'data-src="','"');
-$id=str_replace("onedb","onedb:transcode",$id);
-$movie= "http://s1.digi24.ro//" .$id.".480p.mp4";
+  //echo $html;
+  //die();
+//http://s1.digi24.ro/onedb/transcode/5794a369682ccfd2588b4567.480p.mp4
+
+$movie=str_replace("\\","",str_between($html,'480p.mp4":"','"'));
 print $movie;
 ?>

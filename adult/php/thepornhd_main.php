@@ -4,9 +4,6 @@ $host = "http://127.0.0.1/cgi-bin";
 ?>
 <rss version="2.0">
 <onEnter>
-    storagePath             = getStoragePath("tmp");
-    storagePath_stream      = storagePath + "stream.dat";
-    storagePath_playlist    = storagePath + "playlist.dat";
   startitem = "middle";
   setRefreshTime(1);
 </onEnter>
@@ -28,11 +25,11 @@ $host = "http://127.0.0.1/cgi-bin";
 	itemImageWidthPC="0"
 	itemXPC="8"
 	itemYPC="25"
-	itemWidthPC="45"
+	itemWidthPC="50"
 	itemHeightPC="8"
 	capXPC="8"
 	capYPC="25"
-	capWidthPC="45"
+	capWidthPC="50"
 	capHeightPC="64"
 	itemBackgroundColor="0:0:0"
 	itemPerPage="8"
@@ -48,24 +45,17 @@ $host = "http://127.0.0.1/cgi-bin";
   	<text align="center" offsetXPC="0" offsetYPC="0" widthPC="100" heightPC="20" fontSize="30" backgroundColor="10:105:150" foregroundColor="100:200:255">
 		  <script>getPageInfo("pageTitle");</script>
 		</text>
-  	<text align="left" offsetXPC="6" offsetYPC="15" widthPC="100" heightPC="4" fontSize="16" backgroundColor="10:105:150" foregroundColor="100:200:255">
-    Press 2 for download, 3 for download manager
-		</text>
+		<!--<image offsetXPC=5 offsetYPC=2 widthPC=20 heightPC=16>
+		  <script>channelImage;</script>
+		</image>-->
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
 		</text>
-
-		<text align="center" redraw="yes"
-          lines="10" fontSize=17
-		      offsetXPC=55 offsetYPC=55 widthPC=40 heightPC=42
-		      backgroundColor=0:0:0 foregroundColor=200:200:200>
-			<script>print(annotation); annotation;</script>
-		</text>
   	<text  redraw="yes" align="center" offsetXPC="0" offsetYPC="90" widthPC="100" heightPC="8" fontSize="17" backgroundColor="10:105:150" foregroundColor="100:200:255">
-		  <script>print(location); location;</script>
+		  <script>print(annotation); annotation;</script>
 		</text>
-		<image  redraw="yes" offsetXPC=60 offsetYPC=22.5 widthPC=30 heightPC=25>
-		<script>print(img); img;</script>
+		<image  redraw="yes" offsetXPC=60 offsetYPC=35 widthPC=30 heightPC=30>
+  <script>channelImage;</script>
 		</image>
         <idleImage>image/POPUP_LOADING_01.png</idleImage>
         <idleImage>image/POPUP_LOADING_02.png</idleImage>
@@ -84,8 +74,7 @@ $host = "http://127.0.0.1/cgi-bin";
 					if(focus==idx)
 					{
 					  location = getItemInfo(idx, "location");
-					  annotation = getItemInfo(idx, "annotation");
-					  img = getItemInfo(idx,"image");
+					  annotation = getItemInfo(idx, "title");
 					}
 					getItemInfo(idx, "title");
 				</script>
@@ -93,7 +82,7 @@ $host = "http://127.0.0.1/cgi-bin";
   				<script>
   					idx = getQueryItemIndex();
   					focus = getFocusItemIndex();
-  			    if(focus==idx) "14"; else "14";
+  			    if(focus==idx) "16"; else "14";
   				</script>
 				</fontSize>
 			  <backgroundColor>
@@ -141,21 +130,6 @@ if (userInput == "pagedown" || userInput == "pageup")
   redrawDisplay();
   "true";
 }
-if (userInput == "two" || userInput == "2")
-	{
-     showIdle();
-     url=getItemInfo(getFocusItemIndex(),"download");
-     movie=getUrl(url);
-     cancelIdle();
-	 topUrl = "http://127.0.0.1/cgi-bin/scripts/util/download.cgi?link=" + movie + ";name=" + getItemInfo(getFocusItemIndex(),"name");
-	 dlok = loadXMLFile(topUrl);
-	 "true";
-}
-if (userInput == "three" || userInput == "3")
-   {
-    jumpToLink("destination");
-    "true";
-}
 ret;
 </script>
 </onUserInput>
@@ -175,127 +149,51 @@ ret;
 		</mediaDisplay>
 
 	</item_template>
-<destination>
-	<link>http://127.0.0.1/cgi-bin/scripts/util/level.php
-	</link>
-</destination>
+
+<script>
+    channelImage = "/usr/local/etc/www/cgi-bin/scripts/adult/image/xnxx.gif";
+  </script>
 <channel>
-	<title>empflix.com</title>
-
-<?php
-$query = $_GET["query"];
-if($query) {
-   $queryArr = explode(',', $query);
-   $page = $queryArr[0];
-   $search = $queryArr[1];
-   $search = str_replace(" ","%20",$search);
-}
-if (strpos($search,"php") !==false) {
-  $link=$search.$page;
-} else {
-  $link=$search.$page.".html";
-}
-$html = file_get_contents($link);
-
-if($page > 1) { ?>
-
-<item>
-<?php
-$sThisFile = 'http://127.0.0.1'.$_SERVER['SCRIPT_NAME'];
-$url = $sThisFile."?query=".($page-1).",";
-if($search) { 
-  $url = $url.$search; 
-}
-?>
-<title>Previous Page</title>
-<link><?php echo $url;?></link>
-<annotation>Previous Page</annotation>
-<image>image/left.jpg</image>
-<mediaDisplay name="threePartsView"/>
-</item>
-
-
-<?php } ?>
-
+	<title>thepornhd</title>
+	<menu>main menu</menu>
 <?php
 function str_between($string, $start, $end){ 
 	$string = " ".$string; $ini = strpos($string,$start); 
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
-$videos = explode('<div id="remove', $html);
-
+$l="http://thepornhd.com/videos";
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, "http://thepornhd.com/");
+  $html = curl_exec($ch);
+  curl_close($ch);
+$html=str_between($html,'<div class="list-group">','<div class="well ad-body">');
+$videos = explode('<a href="', $html);
 unset($videos[0]);
 $videos = array_values($videos);
-
 foreach($videos as $video) {
-    $t1=explode('href="',$video);
-    $t2 = explode('"', $t1[1]);
-    $link = $t2[0];
-    if (strpos($link,"http") === false) $link="http:".$link;
-    $title=str_between($video,'<h2>','</h2>');
-    $link = $host."/scripts/adult/php/empflix_link.php?file=".$link;
+    //$t=explode('href="',$video);
+    $t1=explode('"',$video);
+    $link="http://thepornhd.com".$t1[0];
+    //$link=str_replace("recent/","",$link);
+    //echo $t[1];
+    $t2=explode(">",$video);
+    $t3=explode("<",$t2[1]);
+  	$title=trim($t3[0]);
 
-    $t1 = explode('src="', $video);
-    $t2 = explode('"', $t1[1]);
-    $image = $t2[0];
-    if (strpos($image,"http") === false) $image="http:".$image;
-
-    $data = trim(str_between($video,'duringTime">','<'));
-    $data = preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$data);
-
-    $data = "Duration: ".$data;
-    $name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".flv";
-
-    echo '
-    <item>
-    <title>'.$title.'</title>
-    <onClick>
-    <script>
-    showIdle();
-    url="'.$link.'";
-    movie=getUrl(url);
-    cancelIdle();
-    streamArray = null;
-    streamArray = pushBackStringArray(streamArray, "");
-    streamArray = pushBackStringArray(streamArray, "");
-    streamArray = pushBackStringArray(streamArray, movie);
-    streamArray = pushBackStringArray(streamArray, movie);
-    streamArray = pushBackStringArray(streamArray, video/x-flv);
-    streamArray = pushBackStringArray(streamArray, "'.$title.'");
-    streamArray = pushBackStringArray(streamArray, "1");
-    writeStringToFile(storagePath_stream, streamArray);
-    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer.rss");
-    </script>
-    </onClick>
-    <download>'.$link.'</download>
-    <name>'.$name.'</name>
-  <image>'.$image.'</image>
-  <annotation>'.$data.'</annotation>
-  <location>'.$title.'</location>
-  <media:thumbnail url="'.$image.'" />
-  <mediaDisplay name="threePartsView"/>
-  </item>
-  ';
-}
-
-
-?>
-
-<item>
-<?php
-$sThisFile = 'http://127.0.0.1'.$_SERVER['SCRIPT_NAME'];
-$url = $sThisFile."?query=".($page+1).",";
-if($search) { 
-  $url = $url.$search; 
+  	$link=$host."/scripts/adult/php/thepornhd.php?query=1,".$link;
+  	if ($title <> "All1") {
+  	echo '
+  	<item>
+  		<title>'.$title.'</title>
+  		<link>'.$link.'</link>
+  	</item>';
+  	}
 }
 ?>
-<title>Next Page</title>
-<link><?php echo $url;?></link>
-<annotation>Next Page</annotation>
-<image>image/right.jpg</image>
-<mediaDisplay name="threePartsView"/>
-</item>
-
 </channel>
 </rss>

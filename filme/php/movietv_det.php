@@ -14,7 +14,7 @@ if($query) {
 }
 $cookie="/tmp/movietv.txt";
 
-$link="http://movietv.to".$link;
+$link="http://sit2play.com".$link;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $link);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

@@ -225,7 +225,7 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
-$videos = explode('<li>', $html);
+$videos = explode('div id="video', $html);
 
 unset($videos[0]);
 $videos = array_values($videos);
@@ -233,17 +233,17 @@ $videos = array_values($videos);
 foreach($videos as $video) {
     $t1=explode('href="',$video);
     $t2 = explode('"', $t1[1]);
-    $link = $t2[0];
+    $link = "http://www.xnxx.com".$t2[0];
 
-    //$title=str_between($video,'text-decoration:underline; text-color: #FFFFFF; color: #FFFFFF;">','<');
     $title=str_between($video,'title="','"');
-    $link = $host."/scripts/adult/php/xnxx_link.php?file=".$link;
 
     $t1 = explode('src="', $video);
     $t2 = explode('"', $t1[1]);
     $image = $t2[0];
+    $link = $host."/scripts/adult/php/xnxx_link.php?file=".$link;
 
-    $data = trim(str_between($video,'font color="#5C99FE">','<'));
+
+    $data = $title." ".trim(str_between($video,'class="duration">','<'));
     $data = preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$data);
 
     //$data = "Duration: ".$data;

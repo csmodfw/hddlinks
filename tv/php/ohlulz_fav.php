@@ -4,6 +4,9 @@ $host = "http://127.0.0.1/cgi-bin";
 ?>
 <rss version="2.0">
 <onEnter>
+  storagePath             = getStoragePath("tmp");
+  storagePath_stream      = storagePath + "stream.dat";
+  storagePath_playlist    = storagePath + "playlist.dat";
   startitem = "middle";
   setRefreshTime(1);
 </onEnter>
@@ -189,6 +192,8 @@ foreach($videos as $video) {
 }
 asort($arr);
 foreach ($arr as $key => $val) {
+  $ll= urlencode($arr[$key][1]);
+  if (strpos($ll,"openload") === false) {
     echo '
     <item>
     <title>'.$arr[$key][0].'</title>
@@ -207,6 +212,34 @@ foreach ($arr as $key => $val) {
     <media:thumbnail url="'.$image.'" />
     </item>
     ';
+  } else {
+  $link="http://127.0.0.1/cgi-bin/scripts/filme/php/link.php?file=".urlencode($ll);
+	    echo'
+	    <item>
+	    <title>'.$arr[$key][0].'</title>
+        <onClick>
+        <script>
+        showIdle();
+        movie="'.$link.'";
+        url=getUrl(movie);
+        cancelIdle();
+        streamArray = null;
+        streamArray = pushBackStringArray(streamArray, "");
+        streamArray = pushBackStringArray(streamArray, "");
+        streamArray = pushBackStringArray(streamArray, url);
+        streamArray = pushBackStringArray(streamArray, url);
+        streamArray = pushBackStringArray(streamArray, video/x-flv);
+        streamArray = pushBackStringArray(streamArray, "'.$arr[$key][0].'");
+        streamArray = pushBackStringArray(streamArray, "1");
+        writeStringToFile(storagePath_stream, streamArray);
+        doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer.rss");
+        </script>
+        </onClick>
+        <annotation>'.$arr[$key][1].'</annotation>
+        <image>'.$image.'</image>
+        </item>
+        ';
+  }
 }
 }
 ?>

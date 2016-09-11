@@ -90,7 +90,7 @@ if($query) {
 		  <script>getPageInfo("pageTitle");</script>
 		</text>
   	<text align="left" offsetXPC="6" offsetYPC="15" widthPC="80" heightPC="4" fontSize="16" backgroundColor="10:105:150" foregroundColor="100:200:255">
-      1=adauga la favorite, right for more
+      1=adauga la favorite, right for more, 0 (blue) folositi alta subtitrare
 		</text>
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
@@ -213,6 +213,18 @@ cancelIdle();
 ret_val=doModalRss("/usr/local/etc/www/cgi-bin/scripts/filme/php/movie_detail.rss");
 ret="true";
 }
+else if (userInput == "zero" || userInput == "0" || userInput == "option_blue")
+   {
+  t = getItemInfo(getFocusItemIndex(),"tit1");
+  l = getItemInfo(getFocusItemIndex(),"movie1");
+  id=getItemInfo(getFocusItemIndex(),"id");
+  hhd="0";
+  idt=getItemInfo(getFocusItemIndex(),"idt");
+    movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/fs_det.php?file=" + t + "," + l + "," + id + "," + idt + "," + hhd + ",0";
+    dummy = getURL(movie_info);
+    jumpToLink("fs");
+    "true";
+}
 ret;
 </script>
 </onUserInput>
@@ -231,6 +243,9 @@ ret;
 		</mediaDisplay>
 
 	</item_template>
+<fs>
+<link>http://127.0.0.1/cgi-bin/scripts/filme/php/fs1.php</link>
+</fs>
 <channel>
 	<title><?php echo $page_title; ?></title>
 	<menu>main menu</menu>
@@ -295,7 +310,7 @@ $post="loadmovies=showData&page=".$page."&abc=All&genres=&sortby=".$link."&quali
 elseif ($tip=="search")
 $post="loadmovies=showData&page=".$page."&abc=All&genres=&sortby=Recent&quality=All&type=movie&q=".$link."&token=".$token;
 
-$l="http://movietv.to/index/loadmovies";
+$l="http://sit2play.com/index/loadmovies";
 //echo $l;
 //echo $post;
 $h1=file_get_contents($cookie);
@@ -312,7 +327,7 @@ $announcement=trim($t2[0]);
 $head=array('Accept: */*','Accept-Language: ro-ro,ro;q=0.8,en-us;q=0.6,en-gb;q=0.4,en;q=0.2','Accept-Encoding: deflate','Content-Type: application/x-www-form-urlencoded; charset=UTF-8','X-Requested-With: XMLHttpRequest','Content-Length: '.strlen($post),'Cookie: __cfduid='.$cfduid.'; announcement='.$announcement.'; notice=true; _gat=1; PHPSESSID='.$phpsessid.'');
 
 //$post="loadmovies=showData&page=1&abc=All&genres=&sortby=Recent&quality=All&type=movie&q=&token=7a782c9902aabbce5924af61d724bd22";
-//$l="http://movietv.to/titles/paginate?_token=qmsTyuUNZpPt9YXlYvdYI2Oj8zFTMiaMXPDZ5DtS&perPage=16&page=1&order=&type=movie";
+//$l="http://sit2play.com/titles/paginate?_token=qmsTyuUNZpPt9YXlYvdYI2Oj8zFTMiaMXPDZ5DtS&perPage=16&page=1&order=&type=movie";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -325,7 +340,7 @@ $head=array('Accept: */*','Accept-Language: ro-ro,ro;q=0.8,en-us;q=0.6,en-gb;q=0
   curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
   //curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
   //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
-  curl_setopt ($ch, CURLOPT_REFERER, "http://movietv.to/");
+  curl_setopt ($ch, CURLOPT_REFERER, "http://sit2play.com/");
   $html = curl_exec($ch);
   curl_close($ch);
 $h=file_get_contents($noob_sub);
@@ -400,15 +415,18 @@ foreach($videos as $video) {
      </script>
      </onClick>
     <image>'.$image.'</image>
-    <tit>'.$title2.'</tit>
+    <tit>'.trim($title2).'</tit>
+    <tit1>'.urlencode(trim($title2)).'</tit1>
     <an>'.$year.'</an>
     <id>'.$id1.'</id>
-    <movie>'.$link1.'</movie>
+    <idt>'.$id_t.'</idt>
+    <movie>'.trim($link1).'</movie>
+    <movie1>'.urlencode(trim($link1)).'</movie1>
      </item>
      ';
    }
 }
-//http://movietv.to/movies/901259-My-Love,-My-Bride
+//http://sit2play.com/movies/901259-My-Love,-My-Bride
 //url="http://127.0.0.1/cgi-bin/scripts/filme/php/movietv_add.php?mod=add," + urlEncode(movie) + "," + urlEncode(tit) + "," + urlEncode(img) + "," + urlEncode(year) + "," + urlEncode(id);
 //echo "http://192.168.0.25/cgi-bin/scripts/filme/php/movietv_add.php?mod=add,".urlencode($link1).",".urlencode($title).",".urlencode($image).",".urlencode($year).",".urlencode($id1);
 ?>

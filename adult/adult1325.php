@@ -248,13 +248,14 @@ $host = "http://127.0.0.1/cgi-bin";
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
+<!--
 <item>
 <title>moviesand</title>
   <link><?php echo $host; ?>/scripts/adult/moviesand.php</link>
 <image>/usr/local/etc/www/cgi-bin/scripts/adult/image/moviesand.gif</image>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <item>
 <title>freepornvs</title>
   <link><?php echo $host; ?>/scripts/adult/php/freepornvs_main.php</link>
@@ -301,12 +302,14 @@ $host = "http://127.0.0.1/cgi-bin";
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
+<!--
 <item>
 <title>pornomovies</title>
   <link><?php echo $host; ?>/scripts/adult/pornomovies.php</link>
 <image>/usr/local/etc/www/cgi-bin/scripts/adult/image/pornomovies.jpg</image>
 <mediaDisplay name="threePartsView"/>
 </item>
+-->
 <!--
 <item>
 <title>sexbot</title>
@@ -355,13 +358,14 @@ $host = "http://127.0.0.1/cgi-bin";
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
+<!--
 <item>
 <title>xhamster</title>
   <link><?php echo $host; ?>/scripts/adult/php/xhamster_main.php</link>
 <image>/usr/local/etc/www/cgi-bin/scripts/adult/image/xhamster.jpg</image>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <item>
 <title>redtube</title>
   <link><?php echo $host; ?>/scripts/adult/php/redtube_main.php</link>
@@ -445,14 +449,14 @@ French Maid TV
 <image>/usr/local/etc/www/cgi-bin/scripts/adult/image/spankwire.gif</image>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+<!--
   <item>
 <title>empflix</title>
 <link><?php echo $host; ?>/scripts/adult/php/empflix_main.php</link>
 <image>/usr/local/etc/www/cgi-bin/scripts/adult/image/empflix.gif</image>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
   <item>
 <title>alotporn</title>
 <link><?php echo $host; ?>/scripts/adult/php/alotporn_main.php</link>
@@ -462,6 +466,13 @@ French Maid TV
   <item>
 <title>xnxx</title>
 <link><?php echo $host; ?>/scripts/adult/php/xnxx_main.php</link>
+<image>/usr/local/etc/www/cgi-bin/scripts/adult/image/xnxx.gif</image>
+<mediaDisplay name="threePartsView"/>
+</item>
+
+<item>
+<title>thepornhd</title>
+<link><?php echo $host; ?>/scripts/adult/php/thepornhd_main.php</link>
 <image>/usr/local/etc/www/cgi-bin/scripts/adult/image/xnxx.gif</image>
 <mediaDisplay name="threePartsView"/>
 </item>

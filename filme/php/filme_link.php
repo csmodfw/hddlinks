@@ -362,7 +362,29 @@ function unpack_DivXBrowserPlugin($n_func,$html_cod,$sub=false) {
 /** Here we start.......**/
 $last_link = "";
 //if (strpos($filelink,"onlinemoca") === false) {
-if (strpos($filelink,"filmeonlinesubtitrate") !== false) {
+if (strpos($filelink,"voxfilmeonline1") !== false) {
+//echo $filelink;
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $filelink);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+  $html = curl_exec($ch);
+  curl_close($ch);
+  $a=str_between($html,'"filmcontent">','</script');
+  //echo $a;
+  $t1=explode("'",$a);
+  $k=count($t1);
+  $html="";
+  //print_r ($t1);
+  for ($p=1;$p<$k;$p++) {
+   if (strlen($t1[$p]) > 20) $html=$html." ".base64_decode($t1[$p]);
+  }
+//echo $html;
+//die();
+}
+elseif (strpos($filelink,"filmeonlinesubtitrate") !== false) {
 
   $post="pageviewnr=1";
   $ch = curl_init($filelink);
@@ -477,6 +499,7 @@ $filelink=str_replace(" ","%20",$filelink);
   //curl_setopt($ch,CURLOPT_REFERER,"http://www.topvideohd.com/");
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:14.0) Gecko/20100101 Firefox/14.0.1');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $html=curl_exec($ch);
   curl_close($ch);
   //echo $html;
@@ -568,7 +591,8 @@ $s=$s."|trilulilu|proplayer\/playlist-controller.php|viki\.com|modovideo\.com|ro
 $s=$s."filebox\.com|glumbouploads\.com|uploadc\.com|sharefiles4u\.com|zixshare\.com|uploadboost\.com";
 $s=$s."|nowvideo\.eu|nowvideo\.co|vreer\.com|180upload\.com|dailymotion\.com|nosvideo\.com|vidbull\.com|purevid\.com|videobam\.com|streamcloud\.eu|donevideo\.com|upafile\.com|docs\.google|mail\.ru|superweb|moviki\.ru|entervideos\.com";
 $s=$s."|indavideo\.hu|redfly\.us|videa\.hu|videakid\.hu|mooshare\.biz|streamin\.to|kodik\.biz|videomega\.tv|ok\.ru|realvid\.net|up2stream\.com|openload\.co|allvid\.ch|";
-$s=$s."gorillavid\.in|daclips\.in|movpod\.in|vodlocker\.com|filehoot\.com|thevideo\.me|bestreams\.net|vidto\.me|cloudyvideos\.com|allmyvideos\.net/i";
+$s=$s."gorillavid\.in|daclips\.in|movpod\.in|vodlocker\.com|filehoot\.com|thevideo\.me|bestreams\.net|vidto\.me|cloudyvideos\.com|allmyvideos\.net|goo\.gl|cloudy\.ec|rapidvideo\.com|megavideo\.pro/i";
+
 for ($i=0;$i<count($links);$i++) {
   if (strpos($links[$i],"http") !== false) {
     $t1=explode("http:",$links[$i]);
@@ -576,6 +600,25 @@ for ($i=0;$i<count($links);$i++) {
     $cur_link="http:".$t1[$p-1];
   } else {
   $cur_link="http:".$links[$i];
+  }
+  if (strpos($links[$i],"goo.gl") !== false) {
+  $l="https:".$links[$i];
+  //echo $l;
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  curl_setopt($ch, CURLOPT_HEADER,1);
+  curl_setopt($ch, CURLOPT_NOBODY,1);
+  $h2 = curl_exec($ch);
+  curl_close($ch);
+  //echo $h2;
+  $t1=explode("Location:",$h2);
+  $t2=explode("\n",$t1[1]);
+  $cur_link=trim($t2[0]);
+  
   }
   $t1=explode(" ",$cur_link);     //vezi-online
   $cur_link=$t1[0];
@@ -615,6 +658,7 @@ for ($i=0;$i<count($links);$i++) {
            $server=$a3[0];
         } else {
           $server = str_between($cur_link,"http://","/");
+          if (!$server) $server = str_between($cur_link,"https://","/");
         }
         $last_link=$cur_link;
         //echo $cur_link;

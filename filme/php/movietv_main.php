@@ -13,13 +13,13 @@ $pop="/usr/local/etc/dvdplayer/movietv.txt";
 
 if (file_exists($pop) && !file_exists($cookie)) {
 
-  $l="http://movietv.to/";
+  $l="http://sit2play.com/";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt ($ch, CURLOPT_REFERER, "http://movietv.to/");
+  curl_setopt ($ch, CURLOPT_REFERER, "http://sit2play.com/");
   curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
   curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   //curl_setopt($ch, CURLOPT_HEADER,1);
@@ -35,7 +35,7 @@ if (file_exists($pop) && !file_exists($cookie)) {
   $user=str_replace("@","%40",$user);
   $pass=trim($a[1]);
 
-  $l="http://movietv.to/session/login";
+  $l="http://sit2play.com/session/login";
   $post="&username=".$user."&password=".$pass;
 
   $head=array('Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8','Accept-Language: ro-ro,ro;q=0.8,en-us;q=0.6,en-gb;q=0.4,en;q=0.2','Accept-Encoding: gzip, deflate','Content-Type: application/x-www-form-urlencoded','Content-Length: '.strlen($post));
@@ -45,7 +45,7 @@ if (file_exists($pop) && !file_exists($cookie)) {
   //curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0');
   //curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt ($ch, CURLOPT_REFERER, "http://movietv.to/session/login");
+  curl_setopt ($ch, CURLOPT_REFERER, "http://sit2play.com/session/login");
   curl_setopt($ch,CURLOPT_HTTPHEADER,$head);
   curl_setopt ($ch, CURLOPT_POST, 1);
   //curl_setopt($ch, CURLOPT_HEADER,1);
@@ -55,7 +55,7 @@ if (file_exists($pop) && !file_exists($cookie)) {
   $html = curl_exec($ch);
   curl_close($ch);
 }
-$l="http://movietv.to";
+$l="http://sit2play.com";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

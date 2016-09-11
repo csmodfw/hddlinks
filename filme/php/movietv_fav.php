@@ -45,8 +45,8 @@ $host = "http://127.0.0.1/cgi-bin";
   	<text align="center" offsetXPC="0" offsetYPC="0" widthPC="100" heightPC="20" fontSize="30" backgroundColor="10:105:150" foregroundColor="100:200:255">
 		  <script>getPageInfo("pageTitle");</script>
 		</text>
-  	<text align="left" offsetXPC="6" offsetYPC="15" widthPC="75" heightPC="4" fontSize="16" backgroundColor="10:105:150" foregroundColor="100:200:255">
-    2 = sterge de la favorite, right for more
+  	<text align="left" offsetXPC="6" offsetYPC="15" widthPC="80" heightPC="4" fontSize="16" backgroundColor="10:105:150" foregroundColor="100:200:255">
+    2 = sterge de la favorite, right for more, 0 (blue) folositi alta subtitrare
 		</text>
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
@@ -165,6 +165,18 @@ cancelIdle();
 ret_val=doModalRss("/usr/local/etc/www/cgi-bin/scripts/filme/php/movie_detail.rss");
 ret="true";
 }
+else if (userInput == "zero" || userInput == "0" || userInput == "option_blue")
+   {
+  t = getItemInfo(getFocusItemIndex(),"tit1");
+  l = getItemInfo(getFocusItemIndex(),"movie1");
+  id=getItemInfo(getFocusItemIndex(),"id");
+  hhd="0";
+  idt=getItemInfo(getFocusItemIndex(),"idt");
+    movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/fs_det.php?file=" + t + "," + l + "," + id + "," + idt + "," + hhd + ",0";
+    dummy = getURL(movie_info);
+    jumpToLink("fs");
+    "true";
+}
 ret;
 </script>
 </onUserInput>
@@ -184,6 +196,9 @@ ret;
 		</mediaDisplay>
 
 	</item_template>
+<fs>
+<link>http://127.0.0.1/cgi-bin/scripts/filme/php/fs1.php</link>
+</fs>
   <channel>
 
     <title>movietv - favorite</title>
@@ -306,9 +321,12 @@ foreach ($arr as $key => $val) {
      </onClick>
     <image>'.$image.'</image>
     <tit>'.$title2.'</tit>
+    <tit1>'.urlencode(trim($title2)).'</tit1>
     <an>'.$year.'</an>
     <id>'.$id.'</id>
+    <idt>'.$id_t.'</idt>
     <movie>'.$link.'</movie>
+    <movie1>'.urlencode($link).'</movie1>
      </item>
      ';
    }

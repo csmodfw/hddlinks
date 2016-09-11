@@ -331,7 +331,7 @@ showIdle();
 <location>http://stiri.tvr.ro/top-video.html</location>
 <annotation>Site-ul de stiri al Televiziunii Române</annotation>
 </item>
-
+<!--
 <item>
 <title>Biziday</title>
 <link><?php echo $host; ?>/scripts/tv/php/biziday.php?query=1,</link>
@@ -340,7 +340,7 @@ showIdle();
 <location>http://www.biziday.ro/</location>
 <annotation>Blogul lui Moise Guran si al echipei de la Biziday si Ora de Business</annotation>
 </item>
-
+-->
 <item>
 <title>TVR Plus</title>
 <link><?php echo $host; ?>/scripts/tv/php/tvrplus_main.php</link>
@@ -349,7 +349,7 @@ showIdle();
 <location>http://tvrplus.ro</location>
 <annotation>Inregistrari emisiuni TVR</annotation>
 </item>
-
+<!--
 <item>
 <title>Starea Natiei</title>
 <link><?php echo $host; ?>/scripts/tv/php/tvrplus.php?query=http://www.tvrplus.ro/emisiune-starea-natiei-7972,Starea+na%C5%A3iei</link>
@@ -358,6 +358,7 @@ showIdle();
 <location>http://tvrplus.ro</location>
 <annotation>Starea Natiei - TVR Plus</annotation>
 </item>
+-->
 <!--
 <item>
 <title>National 24 Plus</title>

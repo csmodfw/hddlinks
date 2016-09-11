@@ -192,6 +192,7 @@ ret;
 <channel>
   <title>Astra TV</title>
 <?php
+/*
 $link="http://www.alltv.96.lt/live/json.php";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $link);
@@ -215,7 +216,20 @@ unset($videos[0]);
     $t2 = explode('"', $t1[1]);
     $link = $t2[0];
 	$link = xorIt(base64_decode($link), $xor_key, 1);
-  echo '
+*/
+//http://www.cgi.somee.com/cgi-bin?ch=Viasat
+//http://www.cgi.somee.com/dbx.php?id=B1
+$m3uFile="/usr/local/etc/dvdplayer/astra.m3u";
+$m3uFile = file($m3uFile);
+foreach($m3uFile as $key => $line) {
+  if(strtoupper(substr($line, 0, 7)) === "#EXTINF") {
+   $t1=explode(",",$line);
+   $title=trim($t1[1]);
+   $title1=$title;
+   $title1=strtolower(str_replace(" ","-",$title1));
+   $link = $m3uFile[$key + 1];
+   $link=str_replace("http://www.cgi.somee.com/cgi-bin?ch=","http://www.cgi.somee.com/dbx.php?id=",$link);
+      echo '
      <item>
      <title>'.$title.'</title>
      <onClick>
@@ -239,6 +253,7 @@ unset($videos[0]);
      </item>
      ';
  }
+}
 ?>
 </channel>
 </rss>

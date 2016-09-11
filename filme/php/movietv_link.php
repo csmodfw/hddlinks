@@ -127,7 +127,7 @@ fclose($fh);
 }
 }
 $cookie="/tmp/movietv.txt";
-$link="http://movietv.to".$link;
+$link="http://sit2play.com".$link;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $link);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -136,8 +136,11 @@ $link="http://movietv.to".$link;
   curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   $h2 = curl_exec($ch);
   curl_close($ch);
-$movie=str_between($h2,'source src="','"');
-//$t1=explode("end=",$movie);
-//$movie=$t1[0]."end=9999";
+$t1=explode("webkit-playsinline",$h2);
+$movie=str_between($t1[1],'source src="','"');
+$t1=explode("end=",$movie);
+//$movie=$t1[0]."start=000&end=000";
+$movie=$t1[0]."start=0&end=0";
+$movie=str_replace("\'","'",$movie);
 print $movie;
 ?>

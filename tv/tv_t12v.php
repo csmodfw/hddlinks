@@ -26,11 +26,11 @@ $host = "http://127.0.0.1/cgi-bin";
 	itemImageWidthPC="0"
 	itemXPC="8"
 	itemYPC="25"
-	itemWidthPC="50"
+	itemWidthPC="35"
 	itemHeightPC="8"
 	capXPC="8"
-	capYPC="25"
-	capWidthPC="50"
+	capYPC="40"
+	capWidthPC="35"
 	capHeightPC="64"
 	itemBackgroundColor="0:0:0"
 	itemPerPage="8"
@@ -151,20 +151,11 @@ ret;
 		</mediaDisplay>
 
 	</item_template>
-<amigo>
-<link>
-  <script>
-  url2="http://hddlinks.p.ht/tv_rom2.php?pass=" + pass;
-  url2;
-</script>
-</link>
-</amigo>
 
   <channel>
 
 
 	<title>T12V TV</title>
-
 
 
 
