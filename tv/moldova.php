@@ -308,6 +308,15 @@ columnCount=5
 </item>
 
 <item>
+<title>Pahomi - Realitatea</title>
+<link><?php echo $host; ?>/scripts/tv/php/pahomi.php</link>
+<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/realitatea.png" />
+<image>/usr/local/etc/www/cgi-bin/scripts/tv/image/realitatea.png</image>
+<location>http://www.realitatea.md/emisiuni/pahomi.html</location>
+<annotation>O emisiune în care vom invita la un dialog sincer oamenii care fac politica în Republica Moldova si cei care o pot influenta.</annotation>
+</item>
+
+<item>
 <title>privesc.eu</title>
 <link><?php echo $host; ?>/scripts/tv/php/privesc_main.php</link>
 <media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/privesc.jpg" />

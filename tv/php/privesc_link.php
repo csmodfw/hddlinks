@@ -29,11 +29,13 @@ $link_mp4=trim(str_between($h,'mp4":"','"'));
 //$t1=explode("'file': '",$html);
 //$t2=explode("'",$t1[1]);
 //$y="mp4:".$t2[0];
-$rtmp=str_between($html,"streamer': '","'");
+//rtmp://videostar.privesc.eu/10tv/myStream
+
+$rtmp=str_between($h,'rtmp":"','"');
 //$rtmp="rtmp://ro.privesc.eu/storage/";
 $opt="Rtmp-options:-W http://storage.privesc.eu/flashplayer/player.swf -p http://www.privesc.eu";
 $opt=$opt." -y ".$y.",".$rtmp;
 $opt=str_replace(" ","%20",$opt);
-//print $opt;
-print $link_mp4;
+print $rtmp;
+//print $link_mp4;
 ?>

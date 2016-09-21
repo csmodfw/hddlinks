@@ -588,7 +588,7 @@ $s=$s."peteava\.ro\/embed|peteava\.ro\/id|content\.peteava\.ro|divxstage\.net|di
 $s=$s."|vimeo\.com|googleplayer\.swf|filebox\.ro\/get_video|vkontakte\.ru|megavideo\.com|videobam\.com";
 $s=$s."|fastupload|video\.rol\.ro|zetshare\.net\/embed|ufliq\.com|stagero\.eu|ovfile\.com|videofox\.net";
 $s=$s."|trilulilu|proplayer\/playlist-controller.php|viki\.com|modovideo\.com|roshare|rosharing|ishared\.eu|";
-$s=$s."filebox\.com|glumbouploads\.com|uploadc\.com|sharefiles4u\.com|zixshare\.com|uploadboost\.com";
+$s=$s."filebox\.com|glumbouploads\.com|uploadc\.com|sharefiles4u\.com|zixshare\.com|uploadboost\.com|hqq\.tv";
 $s=$s."|nowvideo\.eu|nowvideo\.co|vreer\.com|180upload\.com|dailymotion\.com|nosvideo\.com|vidbull\.com|purevid\.com|videobam\.com|streamcloud\.eu|donevideo\.com|upafile\.com|docs\.google|mail\.ru|superweb|moviki\.ru|entervideos\.com";
 $s=$s."|indavideo\.hu|redfly\.us|videa\.hu|videakid\.hu|mooshare\.biz|streamin\.to|kodik\.biz|videomega\.tv|ok\.ru|realvid\.net|up2stream\.com|openload\.co|allvid\.ch|";
 $s=$s."gorillavid\.in|daclips\.in|movpod\.in|vodlocker\.com|filehoot\.com|thevideo\.me|bestreams\.net|vidto\.me|cloudyvideos\.com|allmyvideos\.net|goo\.gl|cloudy\.ec|rapidvideo\.com|megavideo\.pro/i";
@@ -636,7 +636,9 @@ for ($i=0;$i<count($links);$i++) {
        $t2=explode("&",$t1[1]);
        $cur_link=trim($t2[0]);
      }
-      if (!preg_match("/facebook|twitter|player\.swf|img\.youtube|youtube\.com\/user|radioarad|\.jpg|\.png|\.gif|jq\/(js|css)|fsplay\.net\?s|top\.mail\.ru|changejplayer\.js/i",$cur_link)) {
+      $cur_link=str_replace("&amp;","&",$cur_link);
+
+      if (!preg_match("/hqq\.tv\/player\/script\.php|facebook|twitter|player\.swf|img\.youtube|youtube\.com\/user|radioarad|\.jpg|\.png|\.gif|jq\/(js|css)|fsplay\.net\?s|top\.mail\.ru|changejplayer\.js/i",$cur_link)) {
         $t1=explode("proxy.link=",$cur_link); //filmeonline.org
         if ($t1[1] <> "") {
         $cur_link=$t1[1];
@@ -650,6 +652,7 @@ for ($i=0;$i<count($links);$i++) {
         }
         $cur_link=$a[0];
         }
+        //echo $cur_link;
         $link="http://127.0.0.1/cgi-bin/scripts/filme/php/link.php?file=".urlencode($cur_link);
         if (strpos($cur_link,"adf.ly") !==false) { //onlinemoca
            $a1=explode($cur_link,$html);
@@ -662,6 +665,9 @@ for ($i=0;$i<count($links);$i++) {
         }
         $last_link=$cur_link;
         //echo $cur_link;
+        $mysrt_google="";
+        $mysrt_roshare="";
+        $mysrt="";
         if (strpos($cur_link,"google") !==false) {
           $t1=explode("docid=",$cur_link);
           $t2=explode("&",$t1[1]);
@@ -681,6 +687,7 @@ for ($i=0;$i<count($links);$i++) {
         if (strpos($cur_link, 'videomega') !== false || strpos($cur_link, 'up2stream.com') !== false || strpos($cur_link, 'openload.co') !== false)
           $mysrt_roshare="asasas";
         $mysrt="asasas"; // IMPORTANT PENTRU TOATE LINK-URILE 990 !!!!!!!!!!!!!!!!!!!!
+        if (strpos($cur_link,"hqq.tv") !== false) $mysrt="";
           //echo $cur_link;
           /*
           $ch = curl_init($cur_link);
@@ -703,6 +710,7 @@ for ($i=0;$i<count($links);$i++) {
           $mysrt=$ret1[1];
           */
         //}
+        //echo "mysrt=".$mysrt;
         if (!$server) $server = "LINK";
         $title=$server;
         if (preg_match("/vk\.com/",$cur_link)) {

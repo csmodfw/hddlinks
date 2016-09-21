@@ -267,15 +267,15 @@ foreach($videos as $video) {
     showIdle();
     url="'.$host.'/scripts/tv/php/privesc_link.php?file='.$link.'";
     url1=getUrl(url);
-    movie1="http://127.0.0.1/cgi-bin/scripts/util/translate.cgi?stream," + url1;
+    movie1="http://127.0.0.1/cgi-bin/scripts/util/translate.cgi?stream,," + url1;
     cancelIdle();
     storagePath = getStoragePath("tmp");
     storagePath_stream = storagePath + "stream.dat";
     streamArray = null;
     streamArray = pushBackStringArray(streamArray, "");
     streamArray = pushBackStringArray(streamArray, "");
-    streamArray = pushBackStringArray(streamArray, url1);
-    streamArray = pushBackStringArray(streamArray, url1);
+    streamArray = pushBackStringArray(streamArray, movie1);
+    streamArray = pushBackStringArray(streamArray, movie1);
     streamArray = pushBackStringArray(streamArray, video/x-flv);
     streamArray = pushBackStringArray(streamArray, "'.$title.'");
     streamArray = pushBackStringArray(streamArray, "1");

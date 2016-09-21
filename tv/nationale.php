@@ -462,6 +462,8 @@ showIdle();
 <annotation>Stiri B1TV</annotation>
 </item>
 
+
+
 <item>
 <title>B1 TV - emisiuni</title>
 <link><?php echo $host; ?>/scripts/tv/php/seenow_e.php?query=1,http://www.seenow.ro/b1-tv-2699-pagina-,B1TV</link>
@@ -469,6 +471,15 @@ showIdle();
 <image>/usr/local/etc/www/cgi-bin/scripts/tv/image/b1.png</image>
 <location>http://www.seenow.ro/</location>
 <annotation>Inregistrari emisiuni</annotation>
+</item>
+
+<item>
+<title>Adevarul</title>
+<link><?php echo $host; ?>/scripts/tv/adevarul.php?query=1,http://adevarul.ro/arhiva-live/</link>
+<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/adevarul.png" />
+<image>/usr/local/etc/www/cgi-bin/scripts/tv/image/adevarul.png</image>
+<location>http://adevarul.ro</location>
+<annotation>Stiri, ultima ora, stiri locale, video, foto, comunitate | adevarul.ro:</annotation>
 </item>
 
 <item>

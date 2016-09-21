@@ -17,10 +17,11 @@ if($query) {
 if ($page==1)
   $l="http://deseneledublate.blogspot.ro/";
 else
-  $l="http://deseneledublate.blogspot.com/search?updated-max=".urlencode($search)."&max-results=20";
+  $l="http://deseneledublate.blogspot.ro/search?updated-max=".urlencode($search)."&max-results=32";
   //echo $l;
   //http://deseneledublate.blogspot.ro/search?updated-max=2015-03-26T18%3A47%3A00%2B02%3A00&max-results=20
   //http://deseneledublate.blogspot.ro/search?updated-max=2015-03-26T18:47:00+02:00&max-results=20
+  $l=str_replace("deseneledublate.blogspot.ro","desenele-dublate.blogspot.ro",$l);
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

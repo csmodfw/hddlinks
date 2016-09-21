@@ -235,24 +235,17 @@ if ($serv == "") {
   $serv="fms1.mediadirect.ro";
 }
 */
-$link="http://www.tastez.ro/tv.php?query=voyo";
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $link);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  //curl_setopt($ch,CURLOPT_REFERER,"http://www.dolcetv.ro");
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:14.0) Gecko/20100101 Firefox/14.0.1');
-  $html=curl_exec($ch);
-  curl_close($ch);
-$videos = explode('div class="line"', $html);
-
-unset($videos[0]);
-$videos = array_values($videos);
-
-foreach($videos as $video) {
-  $t0=explode('chn=',$video);
-  $t1=explode('"',$t0[1]);
-  $link=$t1[0];
-  $title=str_between($video,"<b>","</b>");
+$m3uFile="http://hd4all.co.nf/vlc/xtr.m3u";
+$m3uFile = file($m3uFile);
+foreach($m3uFile as $key => $line) {
+  if(strtoupper(substr($line, 0, 7)) === "#EXTINF") {
+   $t1=explode(",",$line);
+   $title=trim($t1[1]);
+   //$title1=$title;
+   $link = $m3uFile[$key + 1];
+   if (strpos($link,"rtmp://") !== false) {
+     $t1=explode("?",$link);
+     $link=$t1[0];
      echo '
      <item>
      <title>'.$title.'</title>
@@ -260,8 +253,7 @@ foreach($videos as $video) {
      <script>
      showIdle();
      url="'.$host.'/scripts/tv/php/voyo_link.php?file='.$link.'," + buf;
-     url1=getUrl(url);
-     movie="http://127.0.0.1/cgi-bin/scripts/tv/php/justin.cgi?" + "'.$link.'";
+     movie=getUrl(url);
      cancelIdle();
     streamArray = null;
     streamArray = pushBackStringArray(streamArray, "");
@@ -277,8 +269,9 @@ foreach($videos as $video) {
      </onClick>
      </item>
      ';
+    }
 }
-
+}
 ?>
 <!-- end Dolce TV -->
 </channel>

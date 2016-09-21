@@ -2079,6 +2079,229 @@ fclose($fp);
 exec("chmod +x /usr/local/etc/www/cgi-bin/scripts/util/m.cgi");
 sleep (1);
 $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
+} elseif (strpos($filelink,"hqq.tv") !== false) {
+  if (preg_match("/(hqq|netu)\.tv\/player\/embed_player\.php\?vid=(?P<vid>[0-9A-Z]+)/",$filelink,$m))
+    $vid=$m["vid"];
+  elseif (preg_match("/(hqq|netu)\.tv\/player\/hash\.php\?hash=\d+/",$filelink)) {
+     $h1=urldecode(file_get_contents($filelink));
+     preg_match("/var\s+vid\s*=\s*\'(?P<vid>[^\']+)\'/",$h1,$m);
+     $vid=$m["vid"];
+     }
+$filelink="http://hqq.tv/player/embed_player.php?vid=".$vid;
+//echo $filelink;
+$type="m3u8";
+function indexOf($hack,$pos) {
+    $ret= strpos($hack,$pos);
+    return ($ret === FALSE) ? -1 : $ret;
+}
+function aa($data){
+   $OI="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+   //var o1,o2,o3,h1,h2,h3,h4,bits,i=0,
+   $i=0;
+   $c1="";
+   $c2="";
+   $c3="";
+   $h1="";
+   $h2="";
+   $h3="";
+   $h4="";
+   $bits="";
+   $enc="";
+   do {
+     $h1 = indexOf($OI,$data[$i]);
+     $i++;
+     $h2 = indexOf($OI,$data[$i]);
+     $i++;
+     $h3 = indexOf($OI,$data[$i]);
+     $i++;
+     $h4 = indexOf($OI,$data[$i]);
+     $i++;
+     //echo $h1." ".$h2." ".$h3." ".$h4."\n";
+     $bits=$h1<<18|$h2<<12|$h3<<6|$h4;
+     $c1=$bits>>16&0xff;
+     $c2=$bits>>8&0xff;
+     $c3=$bits&0xff;
+     //echo $c1." ".$c2." ".$c3."\n";
+     if($h3==64){
+       $enc .=chr($c1);
+     }
+     else
+     {
+       if($h4==64){
+         $enc .=chr($c1).chr($c2);
+       }
+       else {
+         $enc .=chr($c1).chr($c2).chr($c3);
+       }
+     }
+   }
+   while($i < strlen($data));
+return $enc;
+}
+
+function bb($s){
+  $ret="";
+  $i=0;
+  for($i=strlen($s)-1;$i>=0;$i--) {
+    $ret .=$s[$i];
+  }
+return $ret;
+}
+    function K12K($a, $typ) {
+        $codec_a = array("G", "L", "M", "N", "Z", "o", "I", "t", "V", "y", "x", "p", "R", "m", "z", "u",
+                   "D", "7", "W", "v", "Q", "n", "e", "0", "b", "=");
+        $codec_b = array("2", "6", "i", "k", "8", "X", "J", "B", "a", "s", "d", "H", "w", "f", "T", "3",
+                   "l", "c", "5", "Y", "g", "1", "4", "9", "U", "A");
+        if ('d' == $typ) {
+            $tmp = $codec_a;
+            $codec_a = $codec_b;
+            $codec_b = $tmp;
+        }
+        $idx = 0;
+        while ($idx < count($codec_a)) {
+            $a = str_replace($codec_a[$idx], "___",$a);
+            $a = str_replace($codec_b[$idx], $codec_a[$idx],$a);
+            $a = str_replace("___", $codec_b[$idx],$a);
+            $idx += 1;
+        }
+        return $a;
+    }
+
+    function xc13($arg1) {
+        $lg27 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+        $l2 = "";
+        $l3 = array(0, 0, 0, 0);
+        $l4 = array(0, 0, 0);
+        $l5 = 0;
+        while ($l5 < strlen($arg1)) {
+            $l6 = 0;
+            while ($l6 < 4 && ($l5 + $l6) < strlen($arg1)) {
+                $l3[$l6] = strpos($lg27,$arg1[$l5 + $l6]);
+                $l6 += 1;
+            }
+            $l4[0] = (($l3[0] << 2) + (($l3[1] & 48) >> 4));
+            $l4[1] = ((($l3[1] & 15) << 4) + (($l3[2] & 60) >> 2));
+            $l4[2] = ((($l3[2] & 3) << 6) + $l3[3]);
+
+            $l7 = 0;
+            while ($l7 < count($l4)) {
+                if ($l3[$l7 + 1] == 64)
+                    break;
+                $l2 .= chr($l4[$l7]);
+                $l7 += 1;
+            }
+            $l5 += 4;
+        }
+        return $l2;
+    }
+   $ua="Mozilla/5.0 (iPhone; CPU iPhone OS 5_0_1 like Mac OS X)";
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, $filelink);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+      curl_setopt($ch, CURLOPT_USERAGENT, $ua);
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+      curl_setopt($ch, CURLOPT_REFERER, "http://hqq.tv/");
+      $h = curl_exec($ch);
+      curl_close($ch);
+$h=str_between($h,'base64,','"');
+$h=base64_decode($h);
+preg_match("/\'([^']+)\'/",$h,$m);
+$cod=$m[1];
+$ret1=bb($cod);
+$ret2=aa($ret1);
+
+$r = preg_replace("/%u([0-9a-f]{1,4})/i", "&#x\\1;", $ret2);
+$r = html_entity_decode($r);
+//echo $r;
+//die();
+$l="http://hqq.tv/sec/player/embed_player.php";
+$vid=str_between($r,'name="vid" type="text" value="','"');
+$at=str_between($r,'name="at" type="text" value="','"');
+$http_referer=str_between($r,'name="http_referer" type="text" value="','"');
+$g="?iss=&iss_ip=&vid=".$vid."&at=".$at."&autoplayed=yes&referer=on&http_referer=".$http_referer."&pass=&embed_from=&need_captcha=0";
+$l=$l.$g;
+//echo $l;
+//echo base64_decode(urldecode("ODIuMjEwLjE3OC4xMjk%3D"));
+//$l="http://hqq.tv/sec/player/embed_player.php?iss=ODIuMjEwLjE3OC4xMjk%3D&vid=".$vid."&autoplayed=yes&referer=on&http_referer=".$http_referer."&pass=&embed_from=&need_captcha=0";
+//echo $l;
+
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, $l);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+      curl_setopt($ch, CURLOPT_USERAGENT, $ua);
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+      curl_setopt($ch, CURLOPT_REFERER, "http://hqq.tv/");
+      $h = curl_exec($ch);
+      curl_close($ch);
+      $h=urldecode(urldecode($h));
+//echo $h;
+$t1=explode("get_md5.php",$h);
+$vid=str_between($t1[1],'vid: "','"');
+preg_match("/server_1: ([^,]+)/",$t1[1],$m);
+
+$pat='/var\s*'.$m[1].'\s*=\s*"([^"]*?)"/';
+preg_match($pat,$h,$m);
+$vid_server=$m[1];
+preg_match("/link_1: ([^,]+)/",$t1[1],$m);
+$pat='/var\s*'.$m[1].'\s*=\s*"([^"]*?)"/';
+preg_match($pat,$h,$m);
+$vid_link=$m[1];
+//echo $vid_link;
+preg_match('/var\s*at\s*=\s*"([^"]*?)"/',$h,$m);
+$at=$m[1];
+//echo $r;
+//echo urldecode(urldecode($h));
+$l="http://hqq.tv/player/get_md5.php?at=".$at."&adb=0%2F&b=1&link_1=".$vid_link."&server_1=".$vid_server."&vid=".$vid;
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, $l);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+      curl_setopt($ch, CURLOPT_USERAGENT, $ua);
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+      curl_setopt($ch, CURLOPT_REFERER, "http://hqq.tv/");
+      $h = curl_exec($ch);
+      curl_close($ch);
+$file=str_between($h,'file":"','"');
+
+$ret1=K12K($file,"e");
+$ret=xc13($ret1);
+$ret2=str_replace("?socket","",$ret);
+$find = substr(strrchr($ret2, "/"), 1);
+$base=str_replace($find,"",$ret2);
+$ret=str_replace("?socket",".mp4.m3u8",$ret);
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, $ret);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+      curl_setopt($ch, CURLOPT_USERAGENT, $ua);
+      //curl_setopt($ch, CURLOPT_HEADER,1);
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+      curl_setopt($ch, CURLOPT_REFERER, "http://hqq.tv/");
+      $h = curl_exec($ch);
+      curl_close($ch);
+//$h=str_replace($find,$base.$find,$h);
+//echo $h;
+preg_match_all("/.*ts/",$h,$m);
+//print_r ($m);
+$out="";
+for ($k=0;$k<count($m[0]);$k++) {
+  $out .=$base.$m[0][$k]."\r\n";
+}
+file_put_contents("/tmp/list.txt",$out);
+$out='#!/bin/sh
+cat <<EOF
+Content-type: video/mp4
+
+EOF
+exec /usr/local/bin/Resource/www/cgi-bin/scripts/wget wget -q -U "Mozilla/5.0 (iPhone; CPU iPhone OS 5_0_1 like Mac OS X)" -i /tmp/list.txt -O -';
+$fp = fopen('/usr/local/etc/www/cgi-bin/scripts/util/m.cgi', 'w');
+fwrite($fp, $out);
+fclose($fp);
+exec("chmod +x /usr/local/etc/www/cgi-bin/scripts/util/m.cgi");
+sleep (1);
+$link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
 } elseif (strpos($filelink,"openload.co") !==false) {
 //require_once('AADecoder.php');
 include ("jj.php");
@@ -2221,7 +2444,37 @@ $ua="Mozilla/5.0 (Windows NT 10.0; WOW64; rv:46.0) Gecko/20100101 Firefox/46.0";
     else
      $srt=$t3[0];
    }
-
+function openload($c,$z) {
+return chr(($c<="Z" ? 90:122) >= ($c=ord($c)+$z) ? $c : $c-26);
+}
+preg_match_all("/}\s*\(\s*(.*?)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*\((.*?)\).split\((.*?)\)/",$h1,$m);
+//preg_match("/}\('(.*)', *(\d+), *(\d+), *'(.*?)'\.split\('\|\)/",$h1,$m);
+//print_r ($m);
+$pattern = "/=\"([^\"]+).*}\s*\((\d+)\)/";
+preg_match($pattern,$m[0][1],$a);
+//print_r ($a);
+$o="";
+for ($k=0;$k<strlen($a[1]);$k++) {
+  if (preg_match("/[a-zA-Z]/",$a[1][$k]))
+     $o .= openload($a[1][$k],$a[2]);
+  else
+     $o .= $a[1][$k];
+}
+$o=urldecode($o);
+$rep="j^_^__^___";
+$r=explode("'",$m[4][1]);
+$rep=$r[1];
+$t1=explode("^",$rep);
+$k=count($t1);
+//$out=str_replace("+","",$out);
+for ($i=0;$i<$k;$i++) {
+  $o=str_replace($i,$t1[$i],$o);
+}
+$out = jjdecode($o);
+$a1=explode("tmp.slice(-1).charCodeAt(0) +",$out);
+$a2=explode(")",$a1[1]);
+$index=trim($a2[0]);
+if (!$index) {
 $sPattern = '/<script type="text\/javascript">([a-z]=.+?\(\)\)\(\);)/';
 preg_match($sPattern,$h1,$m);
 $j=str_replace('<script type="text/javascript">',"",$m[0]);
@@ -2229,6 +2482,7 @@ $out = jjdecode($j);
 $a1=explode("tmp.slice(-1).charCodeAt(0) +",$out);
 $a2=explode(")",$a1[1]);
 $index=trim($a2[0]);
+}
 if (!$index) {
 $t1=explode('<script type="text/javascript">',$h1);
 $n=count($t1);
@@ -2365,7 +2619,18 @@ $link="https://openload.co/stream/".str_replace(",","",$linkData[7])."~".str_rep
 
 */
 $out="";
-$hiddenurl = str_between($h1,'hiddenurl">','<');
+$x1=explode('id="hiddenurl">',$h1);
+$x2=explode("<",$x1[1]);
+$hiddenurl1=$x2[0];
+$x3=explode("<span",$x1[1]);
+$x4=explode(">",$x3[1]);
+$x5=explode("<",$x4[1]);
+$hiddenurl2=$x5[0];
+//echo $hiddenurl1."\n".$hiddenurl2;
+if (substr($hiddenurl1, 0, -2) == substr($hiddenurl2, 0, -2))
+   $hiddenurl = $hiddenurl2;
+else
+   $hiddenurl = $hiddenurl1;
 //$hiddenurl = str_replace("&amp;","&",$hiddenurl); // ???????
 $hiddenurl = htmlspecialchars_decode($hiddenurl);
 $c=strlen($hiddenurl);

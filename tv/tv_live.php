@@ -181,14 +181,14 @@ ret;
 <mediaDisplay name="threePartsView"/>
 </item>
  -->
-<!--
+
 <item>
 <title>Voyo TV</title>
 <link><?php echo $host; ?>/scripts/tv/voyo.php</link>
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
--->
+
 <item>
 <title>Seenow TV (Freezone)</title>
 <link><?php echo $host; ?>/scripts/tv/php/seenow_e.php?query=1,http://www.seenow.ro/freezone-9-pagina-,Seenow+TV+(freezone)</link>
@@ -254,13 +254,22 @@ ret;
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
-
+<!--
 <item>
 <title>România - Orange TV</title>
 <link><?php echo $host; ?>/scripts/tv/orange.php</link>
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
+-->
+<!--
+<item>
+<title>România - Voyo TV</title>
+<link><?php echo $host; ?>/scripts/tv/voyo_tv.php</link>
+<media:thumbnail url="image/tv_radio.png" />
+<mediaDisplay name="threePartsView"/>
+</item>
+-->
 <!--
 <item>
 <title>România - VideosapTv</title>
@@ -391,13 +400,14 @@ echo '
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
+<!--
 <item>
 <title>Playlist from database.eu.pn</title>
 <link><?php echo $host; ?>/scripts/tv/simpletv.php</link>
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
-
+->>
 <item>
 <title>WEBTV MD</title>
 <link><?php echo $host; ?>/scripts/tv/webtv_md.php</link>

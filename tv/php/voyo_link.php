@@ -27,6 +27,7 @@ if($query) {
    $link = urldecode($queryArr[0]);
    $buf = $queryArr[1];
 }
+/*
 $s="http://www.tastez.ro/tv.php?query=voyo&chn=".$link;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $s);
@@ -45,7 +46,10 @@ $c3=" -C NS:1:".$t1[1];
 $c4=" -C NN:2:".$t1[2].".000000";
 $c5=" -C NS:3:".$t1[3];
 $c6=" -C O:0 ";
-
+*/
+// -v -x 15348 -w 2324d94075f150cad1ea0e09b5513924e7cc8b382656a1e38109e41237eb4373 -p http://voyo.ro -W http://voyo.ro/static/shared/app/flowplayer/13-flowplayer.cluster-3.2.1-01-004.swf
+// -r "rtmp://185.133.64.234/voyoro_ios_live10/_definst_/voyoro_ios_live10-3.stream?eyJtZWQiOjYwNjIyNTAyLCJsaWMiOiJkMGZjOTkzOTI5OWJkYjVhMzE5OTFlMGMxYzEzZmFkMSIsInByb2QiOjMxOTcsImRldiI6IjJkMWVmM2UyOTIxNGVkZjliMTEzODk5YmY2OTQ5OWI1IiwiYWlkIjoiIn0="
+/*
 $rtmp=str_between($html,"host&quot;:&quot;","&quot;");
 $w="http://voyo.ro/static/shared/app/flowplayer/13-flowplayer.cluster-3.2.1-01-004.swf";
 $y="linear3?".str_between($html,"{0}?","&quot;");
@@ -55,20 +59,28 @@ $exec=$l.' -q -v -x 15348 -w 2324d94075f150cad1ea0e09b5513924e7cc8b382656a1e3810
 $exec=$exec.'-W "'.$w.'" ';
 $exec=$exec.$c1.$c2.$c3.$c4.$c5.$c6;
 $exec=$exec.'-y "'.$y.'" -r '.$rtmp;
+*/
 //$exec=str_replace(" ","%20",$exec);
 //echo $exec;
+$html = file_get_contents("http://cgi.somee.com/vtok.php");
+$id_t = str_between($html,'##','##' );
+   $token =str_replace("\/","/",$id_t);
+$out=" -v -x 15348 -w 2324d94075f150cad1ea0e09b5513924e7cc8b382656a1e38109e41237eb4373 -p http://voyo.ro";
+$out .=" -W http://voyo.ro/static/shared/app/flowplayer/13-flowplayer.cluster-3.2.1-01-004.swf -r ".$link."?".$token;
 
 $out="#!/bin/sh
 cat <<EOF
 Content-type: video/mp4
 
 EOF
-exec /usr/local/etc/www/cgi-bin/scripts/rtmpdump ".$exec;
-$fp = fopen('/usr/local/etc/www/cgi-bin/scripts/tv/php/justin.cgi', 'w');
+exec /usr/local/etc/www/cgi-bin/scripts/rtmpdump ".$out;
+$fp = fopen('/usr/local/etc/www/cgi-bin/scripts/util/m.cgi', 'w');
 fwrite($fp, $out);
 fclose($fp);
-exec("chmod +x /usr/local/etc/www/cgi-bin/scripts/tv/php/justin.cgi");
-sleep(1);
+exec("chmod +x /usr/local/etc/www/cgi-bin/scripts/util/m.cgi");
+sleep (1);
+$link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
+print $link;
 
 //$l="Rtmp-options:-b ".$buf;
 //$l="Rtmp-options:";
