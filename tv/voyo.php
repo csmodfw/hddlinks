@@ -64,13 +64,18 @@ $host = "http://127.0.0.1/cgi-bin";
   	<text align="center" offsetXPC="0" offsetYPC="0" widthPC="100" heightPC="20" fontSize="30" backgroundColor="10:105:150" foregroundColor="100:200:255">
 		  <script>getPageInfo("pageTitle");</script>
 		</text>
-  	<text align="left" redraw="yes" offsetXPC="25" offsetYPC="15" widthPC="60" heightPC="4" fontSize="16" backgroundColor="10:105:150" foregroundColor="100:200:255">
-    <script>"Apăsaţi 2 pentru modificare buffer. Buffer curent: " + buf;</script>
+  	<text align="left" offsetXPC="6" offsetYPC="15" widthPC="70" heightPC="4" fontSize="16" backgroundColor="10:105:150" foregroundColor="100:200:255">
+    1=modifica aspect, dreapta pentru program
 		</text>
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
 		</text>
-
+		<text align="left" redraw="yes"
+          lines="20" fontSize=15
+		      offsetXPC=35 offsetYPC=25 widthPC=65 heightPC=75
+		      backgroundColor=0:0:0 foregroundColor=200:200:200 >
+              <script>print(annotation); annotation;</script>
+		</text>
         <idleImage>image/POPUP_LOADING_01.png</idleImage>
         <idleImage>image/POPUP_LOADING_02.png</idleImage>
         <idleImage>image/POPUP_LOADING_03.png</idleImage>
@@ -88,8 +93,6 @@ $host = "http://127.0.0.1/cgi-bin";
 					if(focus==idx) 
 					{
                       img = getItemInfo(idx,"image");
-                      acum = getItemInfo(idx,"acum");
-                      next = getItemInfo(idx,"next");
 					}
 					getItemInfo(idx, "title");
 				</script>
@@ -182,6 +185,23 @@ else if (userInput == "two" || userInput == "2")
 		 buf = "60000";
   ret = "true";
 }
+else if(userInput == "right" || userInput == "R")
+{
+showIdle();
+idx = Integer(getFocusItemIndex());
+url_canal = "http://127.0.0.1/cgi-bin/scripts/tv/php/prog_tastez.php?file=" + getItemInfo(idx,"id");
+annotation = getURL(url_canal);
+adn_act = "true";
+cancelIdle();
+redrawDisplay();
+ret = "true";
+}
+else
+{
+annotation = " ";
+adn_act = "false";
+ret = "false";
+}
       redrawDisplay();
       ret;
     </script>
@@ -242,6 +262,7 @@ foreach($m3uFile as $key => $line) {
    $t1=explode(",",$line);
    $title=trim($t1[1]);
    //$title1=$title;
+   $id=strtolower(str_replace(" ","-",$title));
    $link = $m3uFile[$key + 1];
    if (strpos($link,"rtmp://") !== false) {
      $t1=explode("?",$link);
@@ -267,6 +288,7 @@ foreach($m3uFile as $key => $line) {
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
      </script>
      </onClick>
+     <id>'.$id.'</id>
      </item>
      ';
     }

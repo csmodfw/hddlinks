@@ -188,10 +188,11 @@ foreach($videos as $video) {
   $t4= explode("<",$t3[1]);
   $titlu = $t4[0];
 
-  $titlue=trim(preg_replace("/online subtitrat HD|online subtitrat|filme online|online hd subtitrat|online hd/i","",$title));
+  $titlu=trim(preg_replace("/online subtitrat HD|online subtitrat|filme online|online hd subtitrat|online hd/i","",$titlu));
   $t1 = explode('src="', $video);
   $t2 = explode('"', $t1[1]);
   $image = $t2[0];
+  $image=str_replace("../","http://vezi-online.ro/",$image);
 //  descriere  
   $v1 = explode('class="descriere-serial">', $video);
   $v2 = explode('</div', $v1[1]);

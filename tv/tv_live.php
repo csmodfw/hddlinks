@@ -407,7 +407,7 @@ echo '
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
-->>
+-->
 <item>
 <title>WEBTV MD</title>
 <link><?php echo $host; ?>/scripts/tv/webtv_md.php</link>
