@@ -559,7 +559,7 @@ if (strpos($filelink,"player-serial") !== false) { //990 seriale
 }
 //http://allmyvideos.net/70qfg347g2ro
 if (strpos($filelink,"cloudy.ec") !== false) {
-  $filelink="https://www.cloudy.ec/embed.php?id=338825dd18014";
+  //$filelink="https://www.cloudy.ec/embed.php?id=338825dd18014";
   $filelink=str_replace("https:","http:",$filelink);
   //echo $filelink;
   $ch = curl_init();
@@ -604,7 +604,18 @@ if (strpos($filelink,"cloudy.ec") !== false) {
   //echo $link;
   //die();
   $link=urldecode(str_between($h2,"url=","&"));
-  
+} elseif (strpos($filelink,"stagevu.com") !== false) {
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $filelink);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  //curl_setopt($ch, CURLOPT_HEADER,1);
+  //curl_setopt($ch, CURLOPT_NOBODY,1);
+  $h2 = curl_exec($ch);
+  curl_close($ch);
+  $link=str_between($h2,'param name="src" value="','"');
 } elseif (strpos($filelink,"gorillavid.in") !== false || strpos($filelink,"daclips.in") !== false || strpos($filelink,"movpod.in") !== false) {
   $ch = curl_init($filelink);
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
@@ -614,7 +625,7 @@ if (strpos($filelink,"cloudy.ec") !== false) {
   $h = curl_exec($ch);
   $id=str_between($h,'"id" value="','"');
   $fname=str_between($h,'"fname" value="','"');
-  $post="op=download1&usr_login=&id=".$id."&fname=".$fname."&referer=&channel=&method_free=Free+Download";
+  $post="op=download1&usr_login=&id=".$id."&fname=".urlencode($fname)."&referer=&channel=&method_free=Free+Download";
   sleep(5);
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   curl_setopt($ch, CURLOPT_REFERER, $filelink);
@@ -647,6 +658,96 @@ if (strpos($filelink,"cloudy.ec") !== false) {
   $h = curl_exec($ch);
   $link=str_between($h,'file" : "','"');
   if ($filelink_990 && file_exists($base_sub."990.dat")) copy("/tmp/990.dat", "/tmp/test.xml");
+} elseif (strpos($filelink,"vidtodo.com") !== false) {
+  //http://vidtodo.com/rwfwx0jdymas
+  $ch = curl_init($filelink);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, $filelink);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+  $h = curl_exec($ch);
+  $id=str_between($h,'name="id" value="','"');
+  $fname=str_between($h,'name="fname" value="','"');
+  $hash=str_between($h,'name="hash" value="','"');
+  //$link_post=str_between($h,"method="POST" action='"
+  //op=download1&usr_login=&id=rwfwx0jdymas&fname=Insecure+%282016%E2%80%93+%29+S01E01.mkv&referer=http%3A%2F%2Fputlocker.is%2Fwatch-insecure-tvshow-season-1-episode-1-online-free-putlocker.html&hash=227666-82-210-1475052778-cd2dc1bd37c494120754b5f6200349f1&imhuman=Proceed+to+video
+  $post="op=download1&usr_login=&id=".$id."&fname=".urlencode($fname)."&referer=&hash=".$hash."&imhuman=Proceed+to+video";
+  sleep(1);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, $filelink);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+  curl_setopt ($ch, CURLOPT_POST, 1);
+  curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
+  $h = curl_exec($ch);
+  preg_match('/[file: "=]([http|https][\.\d\w\-\.\/\\\:\?\&\#\%\_\,]*(\.mp4))/', $h, $m);
+  $link=$m[1];
+} elseif (strpos($filelink,"vshare.eu") !== false) {
+  //http://vshare.eu/25td5yq2cd6k.htm
+  //http://vshare.eu/embed-25td5yq2cd6k-600x300.html
+  if (strpos($filelink,"embed") !== false) {
+     preg_match("/embed-(\w+)/",$filelink,$m);
+     //print_r ($m);
+     $id=$m[1];
+     $filelink="http://vshare.eu/".$id.".htm";
+  }
+  $ch = curl_init($filelink);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, $filelink);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+  $h = curl_exec($ch);
+  $id=str_between($h,'name="id" value="','"');
+  $fname=str_between($h,'name="fname" value="','"');
+  //$hash=str_between($h,'name="hash" value="','"');
+  //$link_post=str_between($h,"method="POST" action='"
+  //op=download1&usr_login=&id=rwfwx0jdymas&fname=Insecure+%282016%E2%80%93+%29+S01E01.mkv&referer=http%3A%2F%2Fputlocker.is%2Fwatch-insecure-tvshow-season-1-episode-1-online-free-putlocker.html&hash=227666-82-210-1475052778-cd2dc1bd37c494120754b5f6200349f1&imhuman=Proceed+to+video
+  $post="op=download1&usr_login=&id=".$id."&fname=".urlencode($fname)."&referer=&&method_free=Proceed+to+video";
+  //op=download1&usr_login=&id=25td5yq2cd6k&fname=nympho_aunt.mp4&referer=&method_free=Proceed+to+video
+  sleep(1);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, $filelink);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+  curl_setopt ($ch, CURLOPT_POST, 1);
+  curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
+  $h = curl_exec($ch);
+  preg_match('/[file: "]([http|https][\.\d\w\-\.\/\\\:\?\&\#\%\_\,]*(\.mp4))/', $h, $m);
+  $link=$m[1];
+} elseif (strpos($filelink,"vidup.me") !== false) {
+  //http://vidtodo.com/rwfwx0jdymas
+  $ch = curl_init($filelink);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, $filelink);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+  $h = curl_exec($ch);
+  $id=str_between($h,'name="id" value="','"');
+  $fname=str_between($h,'name="fname" value="','"');
+  $hash=str_between($h,'name="hash" value="','"');
+  $inhu=str_between($h,'name="inhu" value="','"');
+  $vhash=str_between($h,"_vhash', value: '","'");
+  $gfk=str_between($h,"gfk', value: '","'");
+  //$link_post=str_between($h,"method="POST" action='"
+  //op=download1&usr_login=&id=rwfwx0jdymas&fname=Insecure+%282016%E2%80%93+%29+S01E01.mkv&referer=http%3A%2F%2Fputlocker.is%2Fwatch-insecure-tvshow-season-1-episode-1-online-free-putlocker.html&hash=227666-82-210-1475052778-cd2dc1bd37c494120754b5f6200349f1&imhuman=Proceed+to+video
+  $post="_vhash=".$vhash."&gfk=".$gfk."&op=download1&usr_login=&id=".$id."&fname=".urlencode($fname)."&hash=".$hash."&inhu=".$inhu."&imhuman=";
+  //$post="op=download1&usr_login=&id=".$id."&fname=".urlencode($fname)."&referer=&hash=".$hash."&imhuman=Proceed+to+video";
+  //_vhash=i1102394cE&gfk=i22abd2449&op=download1&usr_login=&id=qbrctmkjhyf0&fname=Farscape.S01E02.DVDRip.XviD.mkv&referer=&hash=60281-82-210-1475071573-08dc1e0b641fdd6ddcd2f64f7ff80941&inhu=foff&imhuman=
+  //qbrctmkjhyf0
+  //echo $post;
+  sleep(1);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, $filelink);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+  curl_setopt ($ch, CURLOPT_POST, 1);
+  curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
+  $h = curl_exec($ch);
+  //echo $h;
+  $t1=explode("sources: [",$h);
+  preg_match('/[file: \'=]([http|https][\.\d\w\-\.\/\\\:\?\&\#\%\_\,]*(\.mp4))/', $h, $m);
+  //print_r ($m);
+  $link=$m[1];
 } elseif (strpos($filelink,"vodlocker.com") !== false) {
   $ch = curl_init($filelink);
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
@@ -657,7 +758,7 @@ if (strpos($filelink,"cloudy.ec") !== false) {
   $id=str_between($h,'"id" value="','"');
   $fname=str_between($h,'"fname" value="','"');
   $hash=str_between($h,'hash" value="','"');
-  $post="op=download1&usr_login=&id=".$id."&fname=".$fname."&referer=&hash=".$hash."&imhuman=Proceed+to+video";
+  $post="op=download1&usr_login=&id=".$id."&fname=".urlencode($fname)."&referer=&hash=".$hash."&imhuman=Proceed+to+video";
   sleep(1);
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   curl_setopt($ch, CURLOPT_REFERER, $filelink);
@@ -677,7 +778,7 @@ if (strpos($filelink,"cloudy.ec") !== false) {
   $h = curl_exec($ch);
   $id=str_between($h,'"id" value="','"');
   $fname=str_between($h,'"fname" value="','"');
-  $post="op=download1&usr_login=&id=".$id."&fname=".$fname."&referer=&method_free=Continue+to+watch+your+Video";
+  $post="op=download1&usr_login=&id=".$id."&fname=".urlencode($fname)."&referer=&method_free=Continue+to+watch+your+Video";
   //sleep(1);
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   curl_setopt($ch, CURLOPT_REFERER, $filelink);
@@ -700,8 +801,9 @@ if (strpos($filelink,"cloudy.ec") !== false) {
   $hash=str_between($h,'hash" value="','"');
   $vhash=str_between($h,"_vhash', value: '","'");
   $gfk=str_between($h,"gfk', value: '","'");
-  $post="_vhash=".$vhash."&gfk=".$gfk."&op=download1&usr_login=&id=".$id."&fname=".$fname."&referer=&hash=".$hash."&inhu=foff&imhuman=";
+  $post="_vhash=".$vhash."&gfk=".$gfk."&op=download1&usr_login=&id=".$id."&fname=".urlencode($fname)."&referer=&hash=".$hash."&inhu=foff&imhuman=";
   //sleep(1);
+  //echo $post;
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   curl_setopt($ch, CURLOPT_REFERER, $filelink);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
@@ -714,13 +816,13 @@ if (strpos($filelink,"cloudy.ec") !== false) {
    $t1=explode("sources:",$h);
    $t5=explode("]",$t1[1]);
    //echo $t1[1];
-   $t2=explode("file: '",$t5[0]);
+   $t2=explode('file":"',$t5[0]);
    //print_r ($t2);
    $n=count($t2);
-   $t3=explode("'",$t2[$n-1]);
+   $t3=explode('"',$t2[$n-1]);
    $link=$t3[0];
    
-  $t1=explode('file: "',$h);
+  $t1=explode('file":"',$h);
   $t2=explode('"',$t1[2]);
   if (strpos($t2[0],".srt") !== false) $srt=$t2[0];
    if ($srt) {
@@ -736,6 +838,7 @@ if (strpos($filelink,"cloudy.ec") !== false) {
   //if (!$link) $link=str_between($h,"label: '240p', file: '","'");
   //echo $link;
   //die();
+  //echo $link;
 $out='#!/bin/sh
 cat <<EOF
 Content-type: video/mp4
@@ -761,7 +864,7 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
   $hash=str_between($h,'hash" value="','"');
   //$vhash=str_between($h,"_vhash', value: '","'");
   //$gfk=str_between($h,"gfk', value: '","'");
-  $post="op=download1&usr_login=&id=".$id."&fname=".$fname."&referer=&hash=".$hash."&imhuman=Proceed+to+video";
+  $post="op=download1&usr_login=&id=".$id."&fname=".urlencode($fname)."&referer=&hash=".$hash."&imhuman=Proceed+to+video";
   sleep(1);
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   curl_setopt($ch, CURLOPT_REFERER, $filelink);
@@ -795,7 +898,7 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
   $id=str_between($h,'id" value="','"');
   $fname=urlencode(str_between($h,'fname" value="','"'));
   $hash=str_between($h,'hash" value="','"');
-  $post="op=download1&usr_login=&id=".$id."&fname=".$fname."&referer=&hash=".$hash."&imhuman=Proceed+to+video";
+  $post="op=download1&usr_login=&id=".$id."&fname=".urlencode($fname)."&referer=&hash=".$hash."&imhuman=Proceed+to+video";
   //op=download1&usr_login=&id=59gv3qpxt3xi&fname=inainte_de_cr%C4%83ciun.mp4&referer=&hash=lnrsqdgj2syvvwlun66f4g7fcr3xjzp3&imhuman=Proceed+to+video
   //echo $post;
   //die();
@@ -2471,9 +2574,16 @@ for ($i=0;$i<$k;$i++) {
   $o=str_replace($i,$t1[$i],$o);
 }
 $out = jjdecode($o);
+//echo $out;
+//echo $h1;
 $a1=explode("tmp.slice(-1).charCodeAt(0) +",$out);
 $a2=explode(")",$a1[1]);
 $index=trim($a2[0]);
+if (strpos($out,"y.length") === false)
+  $h_index=str_between($out,'var x = $("#','"');
+else
+  $h_index=str_between($out,'var y = $("#','"');
+//echo $h_index;
 if (!$index) {
 $sPattern = '/<script type="text\/javascript">([a-z]=.+?\(\)\)\(\);)/';
 preg_match($sPattern,$h1,$m);
@@ -2482,6 +2592,10 @@ $out = jjdecode($j);
 $a1=explode("tmp.slice(-1).charCodeAt(0) +",$out);
 $a2=explode(")",$a1[1]);
 $index=trim($a2[0]);
+if (strpos($out,"y.length") === false)
+  $h_index=str_between($out,'var x = $("#','"');
+else
+  $h_index=str_between($out,'var y = $("#','"');
 }
 if (!$index) {
 $t1=explode('<script type="text/javascript">',$h1);
@@ -2493,8 +2607,12 @@ $out=dec_text(urlencode($y[0]));
 $a1=explode("tmp.slice(-1).charCodeAt(0) +",$out);
 $a2=explode(")",$a1[1]);
 $index=trim($a2[0]);
+if (strpos($out,"y.length") === false)
+  $h_index=str_between($out,'var x = $("#','"');
+else
+  $h_index=str_between($out,'var y = $("#','"');
 }
-if (!$index) $index=3;
+if (!$index) $index=0;
 //echo $index;
 //$out=$out.AADecoder::decode($h1);
 //echo $out;
@@ -2619,19 +2737,38 @@ $link="https://openload.co/stream/".str_replace(",","",$linkData[7])."~".str_rep
 
 */
 $out="";
+if (!$h_index) {
 $x1=explode('id="hiddenurl">',$h1);
 $x2=explode("<",$x1[1]);
 $hiddenurl1=$x2[0];
+if ($hiddenurl1) {
 $x3=explode("<span",$x1[1]);
 $x4=explode(">",$x3[1]);
 $x5=explode("<",$x4[1]);
 $hiddenurl2=$x5[0];
+} else {
+$x1=explode('<span id=',$h1);
+$x3=explode(">",$x1[1]);
+$x2=explode("<",$x3[1]);
+$hiddenurl1=$x2[0];
+$x3=explode(">",$x1[2]);
+$x2=explode("<",$x3[1]);
+$hiddenurl2=$x2[0];
+}
+
 //echo $hiddenurl1."\n".$hiddenurl2;
 if (substr($hiddenurl1, 0, -2) == substr($hiddenurl2, 0, -2))
    $hiddenurl = $hiddenurl2;
 else
    $hiddenurl = $hiddenurl1;
 //$hiddenurl = str_replace("&amp;","&",$hiddenurl); // ???????
+$hiddenurl = $hiddenurl1;
+} else {
+$x1=explode('<span id="'.$h_index,$h1);
+$x3=explode(">",$x1[1]);
+$x2=explode("<",$x3[1]);
+$hiddenurl=$x2[0];
+}
 $hiddenurl = htmlspecialchars_decode($hiddenurl);
 $c=strlen($hiddenurl);
 for ($k=0;$k<$c;$k++) {
