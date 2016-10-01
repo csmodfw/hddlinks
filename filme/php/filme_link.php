@@ -303,6 +303,72 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini;
 	return substr($string,$ini,$len);
 }
+function unpack_DivXBrowserPlugin1($n_func,$html_cod,$sub=false) {
+  $f=explode("return p}",$html_cod);
+  $e=explode("'.split",$f[$n_func]);
+  $ls=$e[0];
+  //echo $ls;
+  $a=explode(",",$ls);
+  //print_r($a); //for debug only
+  $a1=explode("'",$a[count($a)-1]); //char list for replace
+  $b1=explode(",",$a1[1]);
+  $base_enc=$a1[1];
+
+  $base_enc=$a[count($a)-2];
+  //echo $base_enc;
+  $w=explode("|",$a1[1]);
+  //print_r ($w);
+  $ch="0123456789abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz";
+  $ch="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  $ch="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  $fl="";
+  for ($i=0;$i<count($a)-1;$i++) {
+    $fl=$fl.$a[$i];
+  }
+  $r="";
+  $x=strlen($fl);
+  //echo $fl;
+  for ($i=0;$i<strlen($fl);$i++) {
+    if (!preg_match('/[A-Za-z0-9]/',$fl[$i])) { //nu e alfanumeric
+       $r=$r.$fl[$i];
+    } elseif (($i<$x) && (preg_match('/[A-Za-z0-9]/',$fl[$i])) && (preg_match('/[A-Za-z0-9]/',$fl[$i+1]))) {
+       $pos=strpos($ch,$fl[$i+1]);
+       $pos=$base_enc*$fl[$i] + $pos;
+       if ($w[$pos] <> "")
+         $r=$r.$w[$pos];
+       else
+         $r=$r.$fl[$i].$fl[$i+1];
+     } elseif (($i>0) && (preg_match('/[A-Za-z0-9]/',$fl[$i])) && (preg_match('/[A-Za-z0-9]/',$fl[$i-1]))) {
+       // nothing
+     } else {
+       $pos=strpos($ch,$fl[$i]);
+        if ($w[$pos] <> "")
+          $r=$r.$w[$pos];
+        else
+          $r=$r.$fl[$i];
+     }
+  }
+  $r=str_replace("\\","",$r);
+  //echo $r;
+  $ret_val=str_between($r,'param name="src"value="','"');
+  if ($ret_val == "")
+    $ret_val = str_between($r,"file','","'");
+  if ($ret_val == "")
+    $ret_val = str_between($r,"playlist=","&");  //nosvideo
+  if ($ret_val == "")
+    $ret_val=str_between($r,'file:"','"');
+  if ($ret_val=="")
+    $ret_val=str_between($r,'attr("src","','"');
+  if ($ret_val=="")
+    $ret_val=str_between($r,'attr("src""','"');
+  if ($sub==true) {
+    $srt=str_between($r,"captions.file','","'");
+    $srt = str_replace(" ","%20",$srt);
+    $ret_val=$ret_val.",".$srt;
+  }
+  if ($ret_val == "") $ret_val=$r;
+  return $ret_val;
+}
 function unpack_DivXBrowserPlugin($n_func,$html_cod,$sub=false) {
   $f=explode("return p}",$html_cod);
   $e=explode("'.split",$f[$n_func]);
@@ -355,6 +421,7 @@ function unpack_DivXBrowserPlugin($n_func,$html_cod,$sub=false) {
     $srt = str_replace(" ","%20",$srt);
     $ret_val=$ret_val.",".$srt;
   }
+  if ($ret_val == "") $ret_val=$r;
   return $ret_val;
 }
 
@@ -466,23 +533,18 @@ elseif (strpos($filelink,"filmeonlinesubtitrate") !== false) {
 //  $filelink="http://filmedivix.com/filmeonline/".str_between($html,"filmedivix.com/filmeonline/",'"');
 //  $html = file_get_contents($filelink);
 } elseif (strpos($filelink,"http://filmehd.net") !== false) {
+  require_once("JavaScriptUnpacker.php");
   $html1=file_get_contents($filelink);
   $i1=str_between($html1,"js_content.php","'");
   $filelink="http://filmehd.net/js_content.php".$i1;
   $html=file_get_contents($filelink);
   //echo $html;
-  $f=explode("return p}",$html);
-  $e=explode("'.split",$f[1]);
-  $ls=$e[0];
-  //echo $ls;
-  $t1=explode("||",$ls);
-  if ($t1[2])
-  $t2=$t1[2];
-  else
-  $t2=$t1[1];
-
+  $jsu = new JavaScriptUnpacker();
+  $out = $jsu->Unpack($html);
+  $html .=" ".$out;
   //echo $t2;
   //$t2=$ls;
+  /*
   if (strpos($t2,"ok") !== false) {
   //echo $t2;
   preg_match_all("/\d+/",$t2,$m);
@@ -493,7 +555,7 @@ elseif (strpos($filelink,"filmeonlinesubtitrate") !== false) {
   $id=$m[0][3];
   //echo $id;
   $html=' "http://ok.ru/videoembed/'.$id.'" '.$html;
-}
+  */
 } elseif (strpos($filelink,"fsplay.net") !== false) {
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $filelink);
@@ -599,7 +661,7 @@ $s="/adf\.ly|vidxden\.c|divxden\.c|vidbux\.c|movreel\.c|videoweed\.(c|e)|novamov
 $s=$s."|movshare\.net|youtube\.com|youtube-nocookie\.com|flvz\.com|rapidmov\.net|putlocker\.com|mixturevideo\.com|played\.to|";
 $s=$s."peteava\.ro\/embed|peteava\.ro\/id|content\.peteava\.ro|divxstage\.net|divxstage\.eu";
 $s=$s."|vimeo\.com|googleplayer\.swf|filebox\.ro\/get_video|vkontakte\.ru|megavideo\.com|videobam\.com";
-$s=$s."|fastupload|video\.rol\.ro|zetshare\.net\/embed|ufliq\.com|stagero\.eu|ovfile\.com|videofox\.net";
+$s=$s."|fastupload|video\.rol\.ro|zetshare\.net\/embed|ufliq\.com|stagero\.eu|ovfile\.com|videofox\.net|fastplay\.cc|watchers\.to";
 $s=$s."|trilulilu|proplayer\/playlist-controller.php|viki\.com|modovideo\.com|roshare|rosharing|ishared\.eu|stagevu\.com|vidup\.me";
 $s=$s."filebox\.com|glumbouploads\.com|uploadc\.com|sharefiles4u\.com|zixshare\.com|uploadboost\.com|hqq\.tv|vidtodo\.com|vshare\.eu";
 $s=$s."|nowvideo\.eu|nowvideo\.co|vreer\.com|180upload\.com|dailymotion\.com|nosvideo\.com|vidbull\.com|purevid\.com|videobam\.com|streamcloud\.eu|donevideo\.com|upafile\.com|docs\.google|mail\.ru|superweb|moviki\.ru|entervideos\.com";

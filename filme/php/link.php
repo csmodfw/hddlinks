@@ -151,6 +151,7 @@ function unpack_DivXBrowserPlugin($n_func,$html_cod,$sub=false) {
     $srt = str_replace(" ","%20",$srt);
     $ret_val=$ret_val.",".$srt;
   }
+  if ($ret_val == "") $ret_val=$r;
   return $ret_val;
 }
 function unpack_DivXBrowserPlugin1($n_func,$html_cod,$sub=false) {
@@ -604,6 +605,46 @@ if (strpos($filelink,"cloudy.ec") !== false) {
   //echo $link;
   //die();
   $link=urldecode(str_between($h2,"url=","&"));
+} elseif (strpos($filelink,"fastplay.cc") !== false) {
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $filelink);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  //curl_setopt($ch, CURLOPT_HEADER,1);
+  //curl_setopt($ch, CURLOPT_NOBODY,1);
+  $h2 = curl_exec($ch);
+  curl_close($ch);
+  preg_match('/[file:"]([http|https][\.\d\w\-\.\/\\\:\?\&\#\%\_\,]*(\.mp4))/', $h2, $m);
+  $link=$m[1];
+} elseif (strpos($filelink,"watchers.to") !== false) {
+  //http://watchers.to/embed-4cbx3nkmjb7x.html
+  require_once("JavaScriptUnpacker.php");
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $filelink);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  //curl_setopt($ch, CURLOPT_HEADER,1);
+  //curl_setopt($ch, CURLOPT_NOBODY,1);
+  $h2 = curl_exec($ch);
+  curl_close($ch);
+  $jsu = new JavaScriptUnpacker();
+  $out = $jsu->Unpack($h2);
+  //echo $out;
+  preg_match('/[file:"]([http|https][\.\d\w\-\.\/\\\:\?\&\#\%\_\,]*(\.mp4))/', $out, $m);
+  $link=$m[1];
+  preg_match('/[file:"]([http|https][\.\d\w\-\.\/\\\:\?\&\#\%\_\,]*(\.srt))/', $out, $m);
+  $srt=$m[1];
+  if (strpos($srt,"empty.srt") !== false) $srt="";
+   if ($srt) {
+   $l_srt="http://127.0.0.1/cgi-bin/scripts/util/srt_xml.php?file=".urlencode($srt);
+   //echo $l_srt;
+   $h=file_get_contents($l_srt);
+   //echo $h;
+   }
 } elseif (strpos($filelink,"stagevu.com") !== false) {
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $filelink);
@@ -1830,13 +1871,16 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
    //$fname=str_between($h,'"fname" value="','"');
    $rand=str_between($h,'name="rand" value="','"');
    $post="op=download2&id=".$id."&rand=".$rand."&referer=&method_free=&method_premium=&down_direct=1";
+   //op=download2&id=q3juzdu7jqku&rand=6kvl6enzhn7xan2qi3aesxeqzojnpiluo5gjtaa&referer=http%3A%2F%2Fvidbull.com%2Fq3juzdu7jqku.html&method_free=&method_premium=&down_direct=1
    sleep(7);
+   echo $post;
    curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
    curl_setopt($ch, CURLOPT_REFERER, $string);
    curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
    curl_setopt ($ch, CURLOPT_POST, 1);
    curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
    $h = curl_exec($ch);
+   echo $h;
    $link=unpack_DivXBrowserPlugin(2,$h);
 } elseif (strpos($filelink,'videos.sapo.pt') !==false){
       //http://rd3.videos.sapo.pt/play?file=http://rd3.videos.sapo.pt/HMFMZuGlZ3DMa4Waupzq/mov/1
