@@ -286,13 +286,6 @@ echo '
 <annotation>http://vumoo.at</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
-
-<item>
-<title>putlocker</title>
-<link><?php echo $host; ?>/scripts/filme/php/putlocker_s.php?page=1,release,,seriale</link>
-<annotation>http://putlocker.is</annotation>
-<media:thumbnail url="image/movies.png" />
-</item>
 <!--
 <item>
 <title>inviatapenet</title>
@@ -518,13 +511,13 @@ echo '
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
-
+<!--
 <item>
 <title>filmesubtitrate.info</title>
 <link><?php echo $host; ?>/scripts/filme/php/fsplay_main.php</link>
 <annotation>http://www.playfs.com/lista-noua-seriale-online-subtitrate.html</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 </channel>
 </rss>

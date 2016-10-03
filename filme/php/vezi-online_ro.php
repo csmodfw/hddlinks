@@ -10,7 +10,6 @@ $t1=explode('banner-serial"',$html);
 $t2=explode('src="',$t1[1]);
 $t3=explode('"',$t2[1]);
 $img=$t3[0];
-$img=str_replace("../","http://vezi-online.ro/",$img);
 ?>
 <rss version="2.0">
 <onEnter>

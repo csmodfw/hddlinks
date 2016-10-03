@@ -5,7 +5,6 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
-error_reporting(0);
 $link = $_GET["file"];
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $link);
@@ -30,22 +29,19 @@ $link = $_GET["file"];
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  //curl_setopt($ch, CURLOPT_COOKIEFILE, '/tmp/cookies.txt');
+  curl_setopt($ch, CURLOPT_COOKIEFILE, '/tmp/cookies.txt');
   $html = curl_exec($ch);
   curl_close($ch);
   //echo $html;
   $t1=explode('data-res="720"',$html);
-
   $t2=explode("src='",$t1[2]);
   $t3=explode("'",$t2[1]);
   $link2=urldecode($t3[0]);
-
   if (!$link2) {
   $t1=explode('data-res="360"',$html);
   $t2=explode("src='",$t1[2]);
   $t3=explode("'",$t2[1]);
   $link2=urldecode($t3[0]);
   }
-$link2=str_replace("https","http",$link2);
 print $link2;
 ?>

@@ -384,19 +384,6 @@ if (strpos($filelink,"voxfilmeonline1") !== false) {
 //echo $html;
 //die();
 }
-elseif (strpos($filelink,"vezi-online.com") !== false) {
-  $ch = curl_init($filelink);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
-  curl_setopt($ch,CURLOPT_REFERER,$filelink);
-  //curl_setopt ($ch, CURLOPT_POST, 1);
-  //curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
-  //curl_setopt($ch, CURLOPT_HEADER, true);
-  $html = curl_exec($ch);
-  curl_close ($ch);
-  $html=html_entity_decode($html);
-}
 elseif (strpos($filelink,"filmeonlinesubtitrate") !== false) {
 
   $post="pageviewnr=1";
@@ -600,8 +587,8 @@ $s=$s."|movshare\.net|youtube\.com|youtube-nocookie\.com|flvz\.com|rapidmov\.net
 $s=$s."peteava\.ro\/embed|peteava\.ro\/id|content\.peteava\.ro|divxstage\.net|divxstage\.eu";
 $s=$s."|vimeo\.com|googleplayer\.swf|filebox\.ro\/get_video|vkontakte\.ru|megavideo\.com|videobam\.com";
 $s=$s."|fastupload|video\.rol\.ro|zetshare\.net\/embed|ufliq\.com|stagero\.eu|ovfile\.com|videofox\.net";
-$s=$s."|trilulilu|proplayer\/playlist-controller.php|viki\.com|modovideo\.com|roshare|rosharing|ishared\.eu|stagevu\.com|vidup\.me";
-$s=$s."filebox\.com|glumbouploads\.com|uploadc\.com|sharefiles4u\.com|zixshare\.com|uploadboost\.com|hqq\.tv|vidtodo\.com|vshare\.eu";
+$s=$s."|trilulilu|proplayer\/playlist-controller.php|viki\.com|modovideo\.com|roshare|rosharing|ishared\.eu|";
+$s=$s."filebox\.com|glumbouploads\.com|uploadc\.com|sharefiles4u\.com|zixshare\.com|uploadboost\.com|hqq\.tv";
 $s=$s."|nowvideo\.eu|nowvideo\.co|vreer\.com|180upload\.com|dailymotion\.com|nosvideo\.com|vidbull\.com|purevid\.com|videobam\.com|streamcloud\.eu|donevideo\.com|upafile\.com|docs\.google|mail\.ru|superweb|moviki\.ru|entervideos\.com";
 $s=$s."|indavideo\.hu|redfly\.us|videa\.hu|videakid\.hu|mooshare\.biz|streamin\.to|kodik\.biz|videomega\.tv|ok\.ru|realvid\.net|up2stream\.com|openload\.co|allvid\.ch|";
 $s=$s."gorillavid\.in|daclips\.in|movpod\.in|vodlocker\.com|filehoot\.com|thevideo\.me|bestreams\.net|vidto\.me|cloudyvideos\.com|allmyvideos\.net|goo\.gl|cloudy\.ec|rapidvideo\.com|megavideo\.pro/i";
