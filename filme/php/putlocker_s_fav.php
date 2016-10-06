@@ -220,10 +220,10 @@ foreach ($arr as $key => $val) {
 
   $t1=explode("<image>",$video);
   $year=$arr[$key][3];
-  $id=$arr[$key][4];
+  $id1=$arr[$key][4];
   $id_t="";
   //watch-narcos-87202
-  $id1=substr(strrchr($link, "-"), 1);
+  //$id1=substr(strrchr($link, "-"), 1);
   $image1=$image;
    $link2=$host."/scripts/filme/php/putlocker_s_ep.php?file=".urlencode($link).",".urlencode($title).",".$id1.",".$id_t.",series,".urlencode($image);
    //$link2=$host."/scripts/filme/php/vumoo_s_ep.php?file=".urlencode($link).",".urlencode($title).",".$id1.",".$id_t.",series,".urlencode($image);

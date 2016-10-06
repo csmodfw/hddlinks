@@ -140,7 +140,8 @@ $t1=explode("webkit-playsinline",$h2);
 $movie=str_between($t1[1],'source src="','"');
 $t1=explode("end=",$movie);
 //$movie=$t1[0]."start=000&end=000";
-$movie=$t1[0]."start=0&end=0";
+//$movie=$t1[0]."start=0&end=0";
+$movie=$t1[0]."start=1&end=001";
 $movie=str_replace("\'","'",$movie);
 print $movie;
 ?>

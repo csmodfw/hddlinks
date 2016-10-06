@@ -155,6 +155,30 @@ if (userInput == "pagedown" || userInput == "pageup")
 	setItemFocus(0);
   "true";
 }
+else if(userInput == "six" || userInput == "6")
+{
+    idx = Integer(getFocusItemIndex());
+    idx -= -50;
+    if(idx &gt;= itemCount)
+    idx = itemCount-1;
+
+  print("new idx: "+idx);
+  setFocusItemIndex(idx);
+	setItemFocus(0);
+  "true";
+}
+else if(userInput == "four" || userInput == "4")
+{
+    idx = Integer(getFocusItemIndex());
+    idx -= 50;
+    if(idx &lt; 0)
+      idx = 0;
+
+  print("new idx: "+idx);
+  setFocusItemIndex(idx);
+	setItemFocus(0);
+  "true";
+}
 else if(userInput == "right" || userInput == "R")
 {
 showIdle();
@@ -220,15 +244,32 @@ unset($videos[0]);
 //http://www.cgi.somee.com/cgi-bin?ch=Viasat
 //http://www.cgi.somee.com/dbx.php?id=B1
 $m3uFile="/usr/local/etc/dvdplayer/astra.m3u";
+$m3uFile="http://astra.yoo.ro:9876/playlist.m3u8";
 $m3uFile = file($m3uFile);
 foreach($m3uFile as $key => $line) {
   if(strtoupper(substr($line, 0, 7)) === "#EXTINF") {
    $t1=explode(",",$line);
    $title=trim($t1[1]);
-   $title1=$title;
-   $title1=strtolower(str_replace(" ","-",$title1));
-   $link = $m3uFile[$key + 1];
-   $link=str_replace("http://www.cgi.somee.com/cgi-bin?ch=","http://www.cgi.somee.com/dbx.php?id=",$link);
+   //$title1=$title;
+   //$title1=strtolower(str_replace(" ","-",$title1));
+   $link = trim($m3uFile[$key + 1]);
+   $arr[]=array($title, $link);
+   }
+}
+asort($arr);
+foreach ($arr as $key => $val) {
+  $link=$arr[$key][1];
+  $title=$arr[$key][0];
+  $title1=strtolower(str_replace(" ","-",$title));
+	$id_prog=urlencode($title1);
+	$id_prog=str_replace("-rom%C3%A2nia","",$id_prog);
+	$id_prog=str_replace("-romania","",$id_prog);
+	$id_prog=str_replace("%C5%A3","t",$id_prog);
+	$id_prog=str_replace("%C3%A2","a",$id_prog);
+	$id_prog=str_replace("%C5%9F","s",$id_prog);
+	$id_prog=str_replace("%C4%83","a",$id_prog);
+	$title1=urldecode($id_prog);
+   //$link=str_replace("http://www.cgi.somee.com/cgi-bin?ch=","http://www.cgi.somee.com/dbx.php?id=",$link);
       echo '
      <item>
      <title>'.$title.'</title>
@@ -253,7 +294,7 @@ foreach($m3uFile as $key => $line) {
      </item>
      ';
  }
-}
+//}
 ?>
 </channel>
 </rss>

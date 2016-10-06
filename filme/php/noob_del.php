@@ -11,4 +11,8 @@ $exec="rm -f /tmp/n.txt";
 exec ($exec);
 $exec="rm -f /usr/local/etc/dvdplayer/noob_save.txt";
 exec ($exec);
+$exec="rm -f /usr/local/etc/dvdplayer/noob_cookie.dat";
+exec ($exec);
+$exec="rm - f /usr/local/etc/dvdplayer/amigo.dat";
+exec ($exec);
 ?>

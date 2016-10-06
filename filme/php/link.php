@@ -697,7 +697,7 @@ if (strpos($filelink,"cloudy.ec") !== false) {
   curl_setopt ($ch, CURLOPT_POST, 1);
   curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
   $h = curl_exec($ch);
-  $link=str_between($h,'file" : "','"');
+  $link=str_between($h,'file" : "','"')."&direct=false&ua=false";
   if ($filelink_990 && file_exists($base_sub."990.dat")) copy("/tmp/990.dat", "/tmp/test.xml");
 } elseif (strpos($filelink,"vidtodo.com") !== false) {
   //http://vidtodo.com/rwfwx0jdymas
@@ -1873,14 +1873,14 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
    $post="op=download2&id=".$id."&rand=".$rand."&referer=&method_free=&method_premium=&down_direct=1";
    //op=download2&id=q3juzdu7jqku&rand=6kvl6enzhn7xan2qi3aesxeqzojnpiluo5gjtaa&referer=http%3A%2F%2Fvidbull.com%2Fq3juzdu7jqku.html&method_free=&method_premium=&down_direct=1
    sleep(7);
-   echo $post;
+   //echo $post;
    curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
    curl_setopt($ch, CURLOPT_REFERER, $string);
    curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
    curl_setopt ($ch, CURLOPT_POST, 1);
    curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
    $h = curl_exec($ch);
-   echo $h;
+   //echo $h;
    $link=unpack_DivXBrowserPlugin(2,$h);
 } elseif (strpos($filelink,'videos.sapo.pt') !==false){
       //http://rd3.videos.sapo.pt/play?file=http://rd3.videos.sapo.pt/HMFMZuGlZ3DMa4Waupzq/mov/1

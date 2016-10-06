@@ -3,4 +3,4 @@ cat <<EOF
 Content-type: video/mp4
 
 EOF
-exec /usr/local/bin/Resource/www/cgi-bin/scripts/curl -k -s -A "Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0" "https://d3747.thevideo.me:8777/ekjtbbkftooammfvg7evkg6sojjaqsmmzpenqj4kldxwuxyqneawkml3ycokck3hu3wiveaqh3stbnbip4jgihmauaxwf3yqs6efa6uvikzqrpqvwvj22k5jtbdzluowm7flkp6zbno2o7btqheclk462coqv6bk5il4pnxjhfdom5kdpbxzp3nsorcwhmoofrxpy2mhxizayq7yzn2ghmigkmjamvpwm66xam3pcbo7tklbxq7jjgqqqnv65chjdw2gskd7znbhi2w2cxxqsgoo25qq/v.mp4"
+exec /usr/local/etc/www/cgi-bin/scripts/rtmpdump  -v -x 15348 -w 2324d94075f150cad1ea0e09b5513924e7cc8b382656a1e38109e41237eb4373 -p http://voyo.ro -W http://voyo.ro/static/shared/app/flowplayer/13-flowplayer.cluster-3.2.1-01-004.swf -r rtmp://185.133.64.234/voyoro_ios_live5/_definst_/voyoro_ios_live5-3.stream?eyJtZWQiOjYwNjIyNTAyLCJsaWMiOiI1N2VjMDBlN2Q0MjI2ZTI2NjdjZGE3MzMxNTM0NzVkZiIsInByb2QiOjMxOTcsImRldiI6IjY1NzdiMmViOTk2ZjJhNjE1YmY2OGM0MGM2MjBkODYyIiwiYWlkIjoiIn0=
