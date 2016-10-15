@@ -11,6 +11,7 @@ curl_setopt($link, CURLOPT_URL, $file);
 curl_setopt($link, CURLOPT_REFERER, $file);
 curl_setopt($link, CURLOPT_HEADER, false);
 curl_setopt($link, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($link, CURLOPT_SSL_VERIFYPEER, false);
 $h=curl_exec($link);
 curl_close($link);
 if (strlen($h) > 5) {
@@ -18,6 +19,7 @@ $link = curl_init();
 curl_setopt($link, CURLOPT_URL, $file);
 curl_setopt($link, CURLOPT_REFERER, $file);
 curl_setopt($link, CURLOPT_HEADER, false);
+curl_setopt($link, CURLOPT_SSL_VERIFYPEER, false);
 //curl_setopt($link, CURLOPT_RETURNTRANSFER, 1);
 curl_exec($link);
 curl_close($link);

@@ -218,6 +218,13 @@ echo '
 <annotation>http://www.seriale-filme.net/tv-shows</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
+
+<item>
+<title>moviesplanet</title>
+<link><?php echo $host; ?>/scripts/filme/php/moviesplanet_seriale.php?query=,http://www.moviesplanet.is/tv-shows</link>
+<annotation>http://moviesplanet.is</annotation>
+<media:thumbnail url="image/movies.png" />
+</item>
 <!--
 <item>
 <title>serial-online</title>

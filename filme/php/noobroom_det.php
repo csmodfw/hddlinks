@@ -44,6 +44,8 @@ $t2=explode('src="',$t1[1]);
 $t3=explode('"',$t2[1]);
 $img=$t3[0];
 }
+//$img=str_replace("https","http",$img);
+$img="http://127.0.0.1/cgi-bin/scripts/filme/php/r.php?file=".$img;
 $t1=explode('class="title_wrapper">',$html);
 $t2=explode('>',$t1[1]);
 $t3=explode('<',$t2[1]);

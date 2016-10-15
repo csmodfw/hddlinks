@@ -55,7 +55,7 @@
 		      backgroundColor=0:0:0 foregroundColor=200:200:200>
 			<script>print(annotation); annotation;</script>
 		</text>
-		<image  redraw="yes" offsetXPC=58 offsetYPC=22.5 widthPC=15 heightPC=30>
+		<image  redraw="yes" offsetXPC=58 offsetYPC=22.5 widthPC=35 heightPC=30>
 		<script>print(img); img;</script>
 		</image>
         <idleImage>image/POPUP_LOADING_01.png</idleImage>
@@ -129,9 +129,10 @@ if (userInput == "pagedown" || userInput == "pageup")
   print("new idx: "+idx);
   setFocusItemIndex(idx);
 	setItemFocus(0);
-  redrawDisplay();
+
   "true";
 }
+redrawDisplay();
 ret;
 </script>
 </onUserInput>
@@ -213,6 +214,7 @@ foreach($videos as $video) {
   $v1 = explode('src="', $video);
   $v2 = explode('"', $v1[1]);
   $image = $v2[0];
+  //$image="http://127.0.0.1/cgi-bin/scripts/filme/php/r.php?file=".$image;
 //  descriere  
   $v1 = explode('class="entry">', $video);
   $v2 = explode('<a', $v1[1]);

@@ -203,7 +203,7 @@ function str_between($string, $start, $end){
 }
 
  $videos = explode('http://schema.org/Movie', $html);
-
+//echo $html;
 unset($videos[0]);
 $videos = array_values($videos);
 
@@ -211,7 +211,9 @@ foreach($videos as $video) {
   $link = trim(str_between($video,'itemprop="url">','<'));
   $title=str_between($video,'itemprop="name">','<');
   $title=trim(preg_replace("/Online Subtitrat in Romana|Filme Online Subtitrat HD 720p|Online HD 720p Subtitrat in Romana|Online Subtitrat Gratis|Online Subtitrat in HD Gratis|Film HD Online Subtitrat/i","",$title));
-  $t1 = explode('content="', $video);
+  $title=trim(preg_replace("/(onlin|film)(.*)/i","",$title));
+
+  $t1 = explode('image" content="', $video);
   $t2 = explode('"', $t1[1]);
   $image = $t2[0];
   $descriere=str_between($video,'<p>','<');

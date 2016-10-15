@@ -56,7 +56,7 @@ if (!file_exists("/tmp/s_dec.php")) {
   $tS = explode(';var ',$html);
   //print_r($tS);
   foreach($tS as $a) {
-  if (strpos($a,$t1[0].'.') !== false) {
+  if (strpos($a,';'.$t1[0].'.') !== false) {
 	//$fcd = str_between($html,'hqdefault.jpg")};',')};').')};';
 	$t0 = explode('},',$a);
 	foreach($t0 as $a) if (strpos($a,'split("")') !== false)

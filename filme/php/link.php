@@ -830,6 +830,9 @@ if (strpos($filelink,"cloudy.ec") !== false) {
   $link=str_between($h,'file: "','"');
   if ($filelink_990 && file_exists($base_sub."990.dat")) copy("/tmp/990.dat", "/tmp/test.xml");
 } elseif (strpos($filelink,"thevideo.me") !== false) {
+  $pattern = '/thevideo\.me\/(?:embed-|download\/)?([0-9a-zA-Z]+)/';
+  preg_match($pattern,$filelink,$m);
+  $file_id=$m[1];
   $ch = curl_init($filelink);
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   curl_setopt($ch, CURLOPT_REFERER, $filelink);
@@ -862,7 +865,19 @@ if (strpos($filelink,"cloudy.ec") !== false) {
    $n=count($t2);
    $t3=explode('"',$t2[$n-1]);
    $link=$t3[0];
-   
+   $l="https://thevideo.me/pair?file_code=".$file_id."&check";
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+  $h2 = curl_exec($ch);
+  curl_close($ch);
+  $vt=str_between($h2,'vt":"','"');
+   $link=$link."?direct=false&ua=1&vt=".$vt;
+   //echo $link;
   $t1=explode('file":"',$h);
   $t2=explode('"',$t1[2]);
   if (strpos($t2[0],".srt") !== false) $srt=$t2[0];
