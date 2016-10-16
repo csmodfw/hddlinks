@@ -190,8 +190,13 @@ if (userInput == "pagedown" || userInput == "pageup")
 }
 else if (userInput == "two" || userInput == "2")
 {
+movie=getItemInfo(getFocusItemIndex(),"link1");
+img=getItemInfo(getFocusItemIndex(),"image");
+tit=getItemInfo(getFocusItemIndex(),"title1");
+year=getItemInfo(getFocusItemIndex(),"title1");
+id=getItemInfo(getFocusItemIndex(),"title1");
  showIdle();
- url="http://127.0.0.1/cgi-bin/scripts/filme/php/moviesplanet_add.php?mod=add*" + getItemInfo(getFocusItemIndex(),"link1") + "*" + getItemInfo(getFocusItemIndex(),"title1");
+ url="http://127.0.0.1/cgi-bin/scripts/filme/php/moviesplanet_add.php?mod=add," + movie + "," + tit + "," + urlEncode(img) + "," + urlEncode(year) + "," + urlEncode(id);
  dummy=getUrl(url);
  cancelIdle();
  redrawDisplay();

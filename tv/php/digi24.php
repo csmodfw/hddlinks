@@ -207,6 +207,7 @@ $cookie="/tmp/digi1.dat";
 //$html=str_between($html,'<h1 class="h3">Video</h1>','');
 $t1=explode('h3">Video',$html);
 $html=$t1[1];
+//echo $html;
 $videos = explode('<figure class="card', $html);
 
 unset($videos[0]);
@@ -217,9 +218,10 @@ foreach($videos as $video) {
  //echo $video;
  $title=x_dec(html_entity_decode(str_between($video,'title="','"')));
  $descriere=$title;
- $image=urldecode(str_between($video,'humb.php?src=','&'));
+ $image=urldecode(str_between($video,'src="','"'));
  $link="http://www.digi24.ro".str_between($video,'href="','"');
  $link=$host."/scripts/tv/php/digi24_link.php?file=".$link;
+ $title1=str_replace('"',"'",$title);
 if ($title) {
     echo '
     <item>
@@ -238,7 +240,7 @@ if ($title) {
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, video/x-flv);
-    streamArray = pushBackStringArray(streamArray, "'.$s_title.'");
+    streamArray = pushBackStringArray(streamArray, "'.$title1.'");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer.rss");

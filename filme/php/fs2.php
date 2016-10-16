@@ -212,7 +212,7 @@ $request="<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>
  </param>
  <param>
   <value>
-   <string>OSTestUserAgentTemp</string>
+   <string>hd4all</string>
   </value>
  </param>
 </params>

@@ -216,6 +216,7 @@ foreach($videos as $video) {
   $t1 = explode('src="', $video);
   $t2 = explode('"', $t1[1]);
   $image = $t2[0];
+  $title=trim(preg_replace("/(onlin|film)(.*)/i","",$title));
     //if (strpos($titlu,"Kill") === false) {
 	if($link!="") {
 		//$link = "http://127.0.0.1/cgi-bin/scripts/filme/php/onlinemoca_link.php?file=".$link.",".urlencode($titlu);

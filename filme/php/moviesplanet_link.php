@@ -50,6 +50,41 @@ $t1=explode('subtitles" src="',$html);
 $k=count($t1);
 $t2=explode('"',$t1[$k-1]);
 $file=$t2[0];
+if (!$movie || strpos($movie,"google") !== false) {
+  //echo $html;
+  $l=str_between($html,"file': '","'");
+  //$link=$l;
+  //echo $l;
+
+   $ch = curl_init();
+   curl_setopt($ch, CURLOPT_URL, $l);
+   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+   curl_setopt($ch, CURLOPT_REFERER, $l);
+   curl_setopt($ch, CURLOPT_HEADER, true);
+   curl_setopt($ch, CURLOPT_NOBODY, 1);
+   curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+   $h = curl_exec($ch);
+   curl_close($ch);
+   $t1=explode("Location:",$h);
+   $t2=explode("\n",$t1[1]);
+   $link=trim($t2[0]);
+
+   //echo $link;
+$out='#!/bin/sh
+cat <<EOF
+Content-type: video/mp4
+
+EOF
+exec /usr/local/bin/Resource/www/cgi-bin/scripts/curl -k -s -A "Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0" "'.$link.'"';
+$fp = fopen('/usr/local/etc/www/cgi-bin/scripts/util/m.cgi', 'w');
+fwrite($fp, $out);
+fclose($fp);
+exec("chmod +x /usr/local/etc/www/cgi-bin/scripts/util/m.cgi");
+sleep (1);
+$movie="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
+}
 //////////////////////////////////////////////////////////////////
 exec ("rm -f /tmp/test.xml");
 if ($file) {
