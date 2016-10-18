@@ -232,6 +232,12 @@ if ($title) {
     url="'.$link.'";
     movie=getUrl(url);
     cancelIdle();
+    if (movie == "" || movie == " " || movie == null)
+    {
+    playItemUrl(-1,1);
+    }
+    else
+    {
     storagePath = getStoragePath("tmp");
     storagePath_stream = storagePath + "stream.dat";
     streamArray = null;
@@ -244,6 +250,7 @@ if ($title) {
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer.rss");
+    }
     </script>
     </onClick>
     <annotation>'.$title.'</annotation>

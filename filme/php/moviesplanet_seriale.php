@@ -38,7 +38,7 @@ if (file_exists($pop) && !file_exists($cookie)) {
 
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
-  //curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0');
   //curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   curl_setopt ($ch, CURLOPT_REFERER, "http://www.moviesplanet.is/");
