@@ -2684,6 +2684,7 @@ $sPattern = '/<script type="text\/javascript">([a-z]=.+?\(\)\)\(\);)/';
 preg_match($sPattern,$h1,$m);
 $j=str_replace('<script type="text/javascript">',"",$m[0]);
 $out = jjdecode($j);
+//echo $out;
 $a1=explode("tmp.slice(-1).charCodeAt(0) +",$out);
 $a2=explode(")",$a1[1]);
 $index=trim($a2[0]);
@@ -2707,6 +2708,7 @@ if (strpos($out,"y.length") === false)
 else
   $h_index=str_between($out,'var y = $("#','"');
 }
+
 if (!$index) $index=0;
 //echo $index;
 //$out=$out.AADecoder::decode($h1);
@@ -2864,7 +2866,27 @@ $x3=explode(">",$x1[1]);
 $x2=explode("<",$x3[1]);
 $hiddenurl=$x2[0];
 }
+//$hiddenurl="AI5IyHA6&amp;+&amp;O`cfehcfcheOga]a`_]_]_OJv{A5&lt;d=";
+//$index=2;
 $hiddenurl = htmlspecialchars_decode($hiddenurl);
+//$hiddenurl="12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567899";
+$magic=ord(substr($hiddenurl,-1));
+$t1=explode(chr($magic-1),$hiddenurl);
+$c=count($t1);
+$a="";
+for ($i=0;$i<$c;$i++) {
+  $t1[$i]=str_replace(chr($magic),chr($magic-1),$t1[$i]);
+  $t1[$i]=$t1[$i].chr($magic);
+  $a .=$t1[$i];
+}
+$hiddenurl=substr($a, 0, -1);
+//$hiddenurl =substr($hiddenurl, 0, -1).chr($magic-1);
+//echo $hiddenurl;
+//echo "\n"."12345679801234567980123456798012345679801234567980123456798012345679801234567980123456798012345679801234567988";
+//die();
+//12345679801234567980123456798012345679801234567980123456798012345679801234567980123456798012345679801234567988
+//$hiddenurl="AI5IyHA6&+&O`cfehcgafgOga]a`_]_]_Or~b<dvr(";
+//$index=2;
 $c=strlen($hiddenurl);
 for ($k=0;$k<$c;$k++) {
   $j=ord($hiddenurl[$k]);
