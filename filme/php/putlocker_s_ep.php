@@ -7,6 +7,7 @@ if($query) {
    $queryArr = explode(',', $query);
    $link = urldecode($queryArr[0]);
    $series_title=urldecode($queryArr[1]);
+   $series_title = str_replace("\'","'",$series_title);
    $series_title_no_year= urldecode($queryArr[2]);
    $id_t= $queryArr[3];
    $tip=$queryArr[4];
@@ -279,6 +280,7 @@ if($requestPage->status->http_code == 503) {
 	}
 }
 */
+$series_title_no_year=trim(preg_replace("/\(\s*(\d+)\s*\)/","",$series_title));
 $requestLink=$link;
 //$cookie="/tmp/vumoo.txt";
 //$cookie="D:/";
@@ -287,29 +289,30 @@ $requestLink=$link;
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt ($ch, CURLOPT_REFERER, "http://putlocker.is");
+  curl_setopt ($ch, CURLOPT_REFERER, "http://www.watchfree.to");
   //curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
   //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   //curl_setopt($ch, CURLOPT_HEADER,1);
   $html = curl_exec($ch);
   //echo $html;
   $link1="";
- $videos = explode('td class="entry"', $html);
+ $videos = explode('tv_episode_item">', $html);
 unset($videos[0]);
 $videos = array_values($videos);
 foreach($videos as $video) {
   //Star Trek: Enterprise Season 1 Episode 1 - Broken Bow: Part 1
   $t1=explode('href="',$video);
   $t2=explode('"',$t1[1]);
-  $link1=$t2[0];
-  $ep_tit=str_between($video,'title="','"');
+  $link1="http://www.watchfree.to".$t2[0];
+  $ep_tit=trim(str_between($video,'tv_episode_name">','<'));
   $ep_tit=str_replace("?","",$ep_tit);
   //$t1=explode('>',$video);
-  preg_match("/Season\s*(\d+)\s*Episode\s*(\d+)/",$ep_tit,$m);
+  //season-1-episode-3
+  preg_match("/season-(\d+)-episode-(\d+)/",$link1,$m);
   //print_r ($m);
   $season=$m[1];
   $episod=$m[2];
-
+   $ep_tit=$season."x".$episod." ".$ep_tit;
    $title1=$ep_tit;
    $title=$ep_tit;
    $image1=$image;

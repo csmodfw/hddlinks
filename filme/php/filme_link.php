@@ -451,7 +451,7 @@ if (strpos($filelink,"voxfilmeonline1") !== false) {
 //echo $html;
 //die();
 }
-elseif (strpos($filelink,"vezi-online.com") !== false) {
+elseif (strpos($filelink,"vezi-online1.com") !== false) {
   $ch = curl_init($filelink);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch,CURLOPT_REFERER,$filelink);
@@ -532,6 +532,25 @@ elseif (strpos($filelink,"filmeonlinesubtitrate") !== false) {
 //  $html=file_get_contents($filelink);
 //  $filelink="http://filmedivix.com/filmeonline/".str_between($html,"filmedivix.com/filmeonline/",'"');
 //  $html = file_get_contents($filelink);
+} elseif (strpos($filelink,"vezi-online.com") !== false) {
+    require_once("JavaScriptUnpacker.php");
+    $jsu = new JavaScriptUnpacker();
+    $html22=file_get_contents($filelink);
+    //echo $html22;
+    $out="";
+    $html="";
+    $videos = explode('player-video">', $html22);
+    unset($videos[0]);
+    $videos = array_values($videos);
+    foreach($videos as $video) {
+      $t1=explode('src="',$video);
+      $t2=explode('"',$t1[1]);
+      $html1=file_get_contents($t2[0]);
+      //echo $html1;
+
+      $out = $jsu->Unpack($html1);
+      $html .=" ".$out;
+    }
 } elseif (strpos($filelink,"http://filmehd.net") !== false) {
   require_once("JavaScriptUnpacker.php");
   $html1=file_get_contents($filelink);
@@ -661,7 +680,7 @@ $links=$matches[1];
 $s="/adf\.ly|vidxden\.c|divxden\.c|vidbux\.c|movreel\.c|videoweed\.(c|e)|novamov\.(c|e)|vk\.com";
 $s=$s."|movshare\.net|youtube\.com|youtube-nocookie\.com|flvz\.com|rapidmov\.net|putlocker\.com|mixturevideo\.com|played\.to|";
 $s=$s."peteava\.ro\/embed|peteava\.ro\/id|content\.peteava\.ro|divxstage\.net|divxstage\.eu|thevideo\.me|grab\.php\?link1=";
-$s=$s."|vimeo\.com|googleplayer\.swf|filebox\.ro\/get_video|vkontakte\.ru|megavideo\.com|videobam\.com";
+$s=$s."|vimeo\.com|googleplayer\.swf|filebox\.ro\/get_video|vkontakte\.ru|megavideo\.com|videobam\.com|vidzi\.tv|estream\.to|briskfile\.com|playedto\.me";
 $s=$s."|fastupload|video\.rol\.ro|zetshare\.net\/embed|ufliq\.com|stagero\.eu|ovfile\.com|videofox\.net|fastplay\.cc|watchers\.to";
 $s=$s."|trilulilu|proplayer\/playlist-controller.php|viki\.com|modovideo\.com|roshare|rosharing|ishared\.eu|stagevu\.com|vidup\.me";
 $s=$s."filebox\.com|glumbouploads\.com|uploadc\.com|sharefiles4u\.com|zixshare\.com|uploadboost\.com|hqq\.tv|vidtodo\.com|vshare\.eu";

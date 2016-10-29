@@ -4,15 +4,15 @@ error_reporting(0);
 $new_file = "/tmp/fs.dat";
 $f=file_get_contents($new_file);
 $t1=explode("\n",$f);
-
+//print_r ($t1);
 $tip="series";
 $link=urldecode($t1[1]);
 $tit2=urldecode($t1[0]);
 $tit=urldecode($t1[2]);
-  preg_match("/Season\s*(\d+)\s*Episode\s*(\d+)/",$tit2,$m);
-  //print_r ($m);
+  preg_match("/(\d+)x(\d+)/",$tit2,$m);
   $sezon=$m[1];
-  $episod=$m[2];
+  $episod=intval($m[2]);
+//echo $sezon." ".$episod."ceva";
 ?>
 <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
 <onEnter>

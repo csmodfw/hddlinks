@@ -50,12 +50,15 @@ $t1=explode('subtitles" src="',$html);
 $k=count($t1);
 $t2=explode('"',$t1[$k-1]);
 $file=$t2[0];
+
 if (!$movie || strpos($movie,"google") !== false) {
   //echo $html;
-  $l=str_between($html,"file': '","'");
-  //$link=$l;
-  //echo $l;
+  preg_match('/([http|https][\.\d\w\-\.\/\\\:\?\&\#\%\_\,]*(=m\d{2}))/', $html, $m);
+  $l=$m[0];
 
+  $link=$l;
+  //echo $l;
+   /*
    $ch = curl_init();
    curl_setopt($ch, CURLOPT_URL, $l);
    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -70,14 +73,15 @@ if (!$movie || strpos($movie,"google") !== false) {
    $t1=explode("Location:",$h);
    $t2=explode("\n",$t1[1]);
    $link=trim($t2[0]);
-
+   */
    //echo $link;
 $out='#!/bin/sh
 cat <<EOF
 Content-type: video/mp4
 
 EOF
-exec /usr/local/bin/Resource/www/cgi-bin/scripts/curl -k -s -A "Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0" "'.$link.'"';
+exec /usr/local/bin/Resource/www/cgi-bin/scripts/curl -L -k -s -A "Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0" "'.$link.'"';
+//exec /usr/local/bin/Resource/www/cgi-bin/scripts/wget --no-check-certificate "'.$link.'"';
 $fp = fopen('/usr/local/etc/www/cgi-bin/scripts/util/m.cgi', 'w');
 fwrite($fp, $out);
 fclose($fp);

@@ -16,10 +16,10 @@ if ($tip == "series") {
    //$t1=explode("|",$title);
    //$title= $t1[0]." ".$t1[1];
    $serial=$id1;
-  preg_match("/Season\s*(\d+)\s*Episode\s*(\d+)/",$title,$m);
+  //preg_match("/Season\s*(\d+)\s*Episode\s*(\d+)/",$title,$m);
   //print_r ($m);
-  $season=$m[1];
-  $episod=$m[2];
+  //$season=$m[1];
+  //$episod=$m[2];
 }
 $year="";
 ?>
@@ -281,21 +281,22 @@ if($requestPage->status->http_code == 503) {
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt ($ch, CURLOPT_REFERER, "http://putlocker.is");
+  curl_setopt ($ch, CURLOPT_REFERER, "http://www.watchfree.to");
   //curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
   //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   //curl_setopt($ch, CURLOPT_HEADER,1);
   $html = curl_exec($ch);
- $videos = explode('<td class="entry">', $html);
+ $videos = explode('go.php', $html);
 unset($videos[0]);
 $videos = array_values($videos);
 foreach($videos as $video) {
-  $t1=explode('href="',$video);
-  $t2=explode('"',$t1[1]);
-  $openload=$t2[0];
-  $server = str_between($openload,"http://","/");
-  if (!$server) $server = str_between($openload,"https://","/");
-   if ($openload && strpos($server,"putlocker.is") === false) {
+  //$t1=explode('href="',$video);
+  $t2=explode('&',$video);
+  $openload="http://www.watchfree.to/go.php".$t2[0];
+  $server = str_between($video,"</strong>","<");
+  $server=trim(str_replace("-","",$server));
+  //if (!$server) $server = str_between($openload,"https://","/");
+   if ($openload) {
      echo '
      <item>
      <title>'.$server.'</title>

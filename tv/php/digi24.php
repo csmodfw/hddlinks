@@ -197,6 +197,7 @@ $cookie="/tmp/digi1.dat";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $link);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  //curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0');
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
@@ -217,6 +218,13 @@ foreach($videos as $video) {
  $video=html_entity_decode($video);
  //echo $video;
  $title=x_dec(html_entity_decode(str_between($video,'title="','"')));
+ //$title=html_entity_decode($title,ENT_HTML5);
+ $title=str_replace("&period;",".",$title);
+ $title=str_replace("&comma;",",",$title);
+ $title=str_replace("&abreve;","a",$title);
+ $title=str_replace("&tcedil;","t",$title);
+ $title=str_replace("&colon;",":",$title);
+ //&tcedil;ig&abreve;ri
  $descriere=$title;
  $image=urldecode(str_between($video,'src="','"'));
  $link="http://www.digi24.ro".str_between($video,'href="','"');

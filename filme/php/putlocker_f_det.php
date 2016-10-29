@@ -68,7 +68,7 @@ $requestLink = $link;
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt ($ch, CURLOPT_REFERER, "http://putlocker.is");
+  curl_setopt ($ch, CURLOPT_REFERER, "http://www.watchfree.to");
   //curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
   //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   //curl_setopt($ch, CURLOPT_HEADER,1);
@@ -76,26 +76,28 @@ $requestLink = $link;
   curl_close($ch);
 $ttxml="";
 exec ("rm -f /tmp/movie.dat");
-$a1=explode('td class="summary"',$html);
-$html=$a1[2];
+$a1=explode('item_body">',$html);
+$html=$a1[1];
 $t1=explode('src="',$a1[1]);
 $t2=explode('"',$t1[1]);
-$img=$t2[0];
+$img="http:".$t2[0];
 $img=str_replace("https","http",$img);
 $year="";
 
 
-$imdb="IMDB Rating:".trim(str_between($html,'IMDB Rating:</strong>','<'));
-$t1=explode("Genre:",$html);
+$imdb="IMDB Rating: ".trim(str_between($html,"color:green;'>",'<'));
+$t1=explode('Genres',$html);
 $t2=explode("</td",$t1[1]);
 $gen="Gen: ".trim(preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$t2[0]));
 $durata="";
 
-
-$cast="Stars: ".str_between($html,'Stars:','</td>');
-$cast = trim(preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$cast));
-$desc=trim(str_between($html,'Synopsis:</strong>',"<"));
-$desc = trim(preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$desc));
+$t1=explode('"movie_actors">',$html);
+$t2=explode("</span",$t1[1]);
+$cast = "Stars: ".trim(preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$t2[0]));
+//$desc=trim(str_between($html,'class="synopsis">',"<"));
+$t1=explode('class="synopsis">',$html);
+$t2=explode("<",$t1[1]);
+$desc = trim(preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$t2[0]));
 $ttxml .=$tit."\n"; //title
 $ttxml .= $year."\n";     //an
 $ttxml .=$img."\n"; //image

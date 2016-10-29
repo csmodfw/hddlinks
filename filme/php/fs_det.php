@@ -7,9 +7,11 @@ function str_between($string, $start, $end){
 	return substr($string,$ini,$len);
 }
 $query = $_GET["file"];
+//$query=str_replace("|",",",$query);
 $queryArr = explode(',', $query);
 $tit = $queryArr[0];
 $link = $queryArr[1];
+$link=str_replace("|",",",$link);
 $subtitle = $queryArr[2];
 $server = $queryArr[3];
 $hd = $queryArr[4];

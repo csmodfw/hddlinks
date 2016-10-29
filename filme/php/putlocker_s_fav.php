@@ -178,7 +178,7 @@ ret;
 	</item_template>
   <channel>
 
-    <title>putlocker - favorite</title>
+    <title>watchfree - favorite</title>
 
 <?php
 function str_between($string, $start, $end){
@@ -227,7 +227,7 @@ foreach ($arr as $key => $val) {
   $image1=$image;
    $link2=$host."/scripts/filme/php/putlocker_s_ep.php?file=".urlencode($link).",".urlencode($title).",".$id1.",".$id_t.",series,".urlencode($image);
    //$link2=$host."/scripts/filme/php/vumoo_s_ep.php?file=".urlencode($link).",".urlencode($title).",".$id1.",".$id_t.",series,".urlencode($image);
-   if ($title) {
+   if ($title && strpos($link,"putlocker.is") === false) {
      echo '
      <item>
      <title>'.$title.'</title>

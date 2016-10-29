@@ -212,14 +212,7 @@ ret;
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
-<!--
-<item>
-<title>filmbox</title>
-<link><?php echo $host; ?>/scripts/filme/php/filmbox_main.php</link>
-<annotation>filmbox</annotation>
-<mediaDisplay name="threePartsView"/>
-</item>
--->
+
 <!--
 <item>
 <title>spicetv - filme HD</title>
@@ -247,6 +240,13 @@ ret;
 <link><?php echo $host; ?>/scripts/filme/php/moviesplanet_main.php</link>
 <annotation>http://moviesplanet.is</annotation>
 <mediaDisplay name="threePartsView"/>
+</item>
+
+<item>
+<title>flixanity</title>
+<link><?php echo $host; ?>/scripts/filme/php/flixanity_f.php?page=1,release,,filme</link>
+<annotation>http://flixanity.watch</annotation>
+<media:thumbnail url="image/movies.png" />
 </item>
 <!--
 <item>
@@ -478,6 +478,12 @@ ret;
 <mediaDisplay name="threePartsView"/>
 </item>
 
+<item>
+<title>filmbox</title>
+<link><?php echo $host; ?>/scripts/filme/php/filmbox_main.php</link>
+<annotation>filmbox</annotation>
+<mediaDisplay name="threePartsView"/>
+</item>
 <!--
 <item>
 <title>cr3ative-zone</title>

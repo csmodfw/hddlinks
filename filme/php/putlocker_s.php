@@ -340,17 +340,18 @@ if($requestPage->status->http_code == 503) {
 //http://putlocker.is/tv
 //http://putlocker.is/search/search.php?q=star%20trek&sort=views&page=1
 if ($tip=="search")
-   $requestLink = "http://putlocker.is/search/search.php?q=".str_replace(" ","%20",$link)."&sort=views&page=".$page;
+   $requestLink = "http://www.watchfree.to/?keyword=".str_replace(" ","+",$link)."&search_section=2&page=".$page;
 else
-   $requestLink = "http://putlocker.is/tv/".$page."";
-$cookie="/tmp/vumoo.txt";
+   $requestLink = "http://www.watchfree.to/?tv=&page=".$page."";
+//http://www.watchfree.to/?keyword=star+trek&search_section=2&page=2
+//http://www.watchfree.to/?tv=&page=2
 //$cookie="D:/";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $requestLink);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt ($ch, CURLOPT_REFERER, "http://putlocker.is");
+  curl_setopt ($ch, CURLOPT_REFERER, "http://www.watchfree.to");
   //curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
   //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   //curl_setopt($ch, CURLOPT_HEADER,1);
@@ -358,30 +359,31 @@ $cookie="/tmp/vumoo.txt";
   curl_close($ch);
 //preg_match_all("/http.*\"(.*)title=\"(.*)\"/",$html,$m);
 //print_r ($m);
- $videos = explode('<td width=', $html);
+ $videos = explode('class="item">', $html);
 unset($videos[0]);
 $videos = array_values($videos);
 foreach($videos as $video) {
   $t1 = explode('href="',$video);
   $t2 = explode('"', $t1[1]);
-  $link1 = $t2[0];
+  $link1 = "http://www.watchfree.to".$t2[0];
 
   $t1 = explode('title="', $video);
   $t2 = explode('"', $t1[1]);
   $title11 = $t2[0];
-  $id1=urlencode(str_between($video,'<b>','</b>'));
+  $title11=trim(preg_replace("/Watch|Putlocker/i","",$title11));
+  $id1="";
   //$title=trim(preg_replace("/- filme online subtitrate/i","",$title));
   $t1 = explode('src="', $video);
   $t2 = explode('"', $t1[1]);
   $image = $t2[0];
-  $image=str_replace("https","http",$image);
+  $image="http:".str_replace("https","http",$image);
   $image1=$image;
   //$year=trim(str_between($video,'movie-date">','<'));
   $title=$title11; //." (".$year.")";
   //$id_t=$id1;
   $id_t="";
    $link2=$host."/scripts/filme/php/putlocker_s_ep.php?file=".urlencode($link1).",".urlencode($title).",".$id1.",".$id_t.",series,".urlencode($image);
-   if ($title && $id1) {
+   if ($title) {
      echo '
      <item>
      <title>'.$title.'</title>
