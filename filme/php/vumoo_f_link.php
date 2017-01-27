@@ -22,7 +22,17 @@ if ($tip == "series") {
   $season=$m[1];
   $episod=$m[2];
   if ($id1) $openload="https://openload.co/embed/".$id1;
-  if ($id_t) $google="https://docs.google.com/uc?id=".$id_t."&export=download";
+  if ($id_t) {
+    $id_t=str_replace("_p_","",$id_t);
+    $l="http://vumoo.li/api/getContents?id=".$id_t."&p=1";
+    //echo $l;
+    $h1=file_get_contents($l);
+      //echo $h1;
+   $l1=str_between($h1,'src":"','"');
+   $l1="http://vumoo.li".str_replace("\/","/",$l1);
+   //echo $l1;
+   $google=$l1;
+  } //$google="https://docs.google.com/uc?id=".$id_t."&export=download";
 }
 $title=str_replace("\'","'",$title);
 $title=str_replace("^",",",$title);
@@ -301,6 +311,18 @@ $openload=str_replace("\\","",$t2[0]);
 $t1=explode('googleLink = "',$html);
 $t2=explode('"',$t1[1]);
 $google=str_replace("\\","",$t2[0]);
+if ($google) {
+  //_p_4Nl7v
+ $id_g=str_replace("_p_","",$google);
+ $l="http://vumoo.li/api/getContents?id=".$id_g."&p=1";
+ //echo $l;
+ $h1=file_get_contents($l);
+ //echo $h1;
+ $l1=str_between($h1,'src":"','"');
+ $l1="http://vumoo.li".str_replace("\/","/",$l1);
+ //echo $l1;
+ $google=$l1;
+}
 /////////////////////////////////////////////////////////
 
    if ($openload) {

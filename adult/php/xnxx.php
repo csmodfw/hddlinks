@@ -240,6 +240,11 @@ foreach($videos as $video) {
     $t1 = explode('src="', $video);
     $t2 = explode('"', $t1[1]);
     $image = $t2[0];
+    if (strpos($image,"THUMBNUM") !== false) {
+      //$rest = substr(strrchr($image, "/"), 1);
+      //$image=str_replace($rest,"mozaiquehome.jpg",$image);
+      $image=str_replace("THUMBNUM","2",$image);
+    }
     $link = $host."/scripts/adult/php/xnxx_link.php?file=".$link;
 
 

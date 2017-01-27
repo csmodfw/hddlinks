@@ -347,14 +347,14 @@ ret;
 <annotation>http://f-hd.net/</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+<!--
 <item>
 <title>pefilme</title>
 <link><?php echo $host; ?>/scripts/filme/php/pefilme_main.php</link>
 <annotation>http://pefilme.com/</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <item>
 <title>filmeserialeonline</title>
 <link><?php echo $host; ?>/scripts/filme/php/filmeserialeonline_main.php</link>

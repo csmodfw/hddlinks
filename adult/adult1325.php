@@ -227,13 +227,14 @@ $host = "http://127.0.0.1/cgi-bin";
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
+<!--
 <item>
 <title>penthouse</title>
   <link><?php echo $host; ?>/scripts/adult/penthousevideos.php</link>
 <image>/usr/local/etc/www/cgi-bin/scripts/adult/image/penthousevideos.jpg</image>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <item>
 <title>tjoob</title>
   <link><?php echo $host; ?>/scripts/adult/tjoob.php</link>

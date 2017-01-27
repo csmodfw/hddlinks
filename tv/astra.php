@@ -245,6 +245,7 @@ unset($videos[0]);
 //http://www.cgi.somee.com/dbx.php?id=B1
 $m3uFile="/usr/local/etc/dvdplayer/astra.m3u";
 $m3uFile="http://astra.yoo.ro:9876/playlist.m3u8";
+$m3uFile="http://mxcore.forithost.com/playlist.m3u";
 $m3uFile = file($m3uFile);
 foreach($m3uFile as $key => $line) {
   if(strtoupper(substr($line, 0, 7)) === "#EXTINF") {
@@ -269,6 +270,7 @@ foreach ($arr as $key => $val) {
 	$id_prog=str_replace("%C5%9F","s",$id_prog);
 	$id_prog=str_replace("%C4%83","a",$id_prog);
 	$title1=urldecode($id_prog);
+	//$link="http://127.0.0.1/cgi-bin/scripts/util/w.cgi?".$link;
    //$link=str_replace("http://www.cgi.somee.com/cgi-bin?ch=","http://www.cgi.somee.com/dbx.php?id=",$link);
       echo '
      <item>
@@ -287,7 +289,7 @@ foreach ($arr as $key => $val) {
     streamArray = pushBackStringArray(streamArray, "'.$title.'");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
-    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer.rss");
      </script>
      </onClick>
      <id>'.$title1.'</id>

@@ -220,7 +220,7 @@ function str_between($string, $start, $end){
 	return substr($string,$ini,$len); 
 }
 //$videos = explode('<div class="video">', $html);
-$videos=explode('<span class="video-title">',$html);
+$videos=explode('class="video-thumb"',$html);
 unset($videos[0]);
 $videos = array_values($videos);
 
@@ -233,7 +233,7 @@ foreach($videos as $video) {
     $t1 = explode('src="', $video);
     $t2 = explode('"', $t1[1]);
     $image = $t2[0];
-
+    if (strpos($image,"http") === false) $image="http:".$image;
     $title=str_between($video,'title="','"');
 
     $data = trim(str_between($video,'<span class="d">',"<"));

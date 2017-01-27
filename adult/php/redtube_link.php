@@ -14,5 +14,7 @@ $t3=explode('"',$t2[1]);
 $out=str_replace("\/","/",$t3[0]);
 */
 $out=str_between($html,'source src="','"');
+if (strpos($out,"http") === false) $out="http:".$out;
+$out=str_replace("&amp;","&",$out);
 print $out;
 ?>

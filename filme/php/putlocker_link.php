@@ -293,8 +293,9 @@ unset($videos[0]);
 $videos = array_values($videos);
 foreach($videos as $video) {
   //$t1=explode('href="',$video);
-  $t2=explode("&",$video);
-  $openload="http://www.watchfree.to/go.php".$t2[0];
+  $t2=explode('"',$video);
+  $t3=explode("&",$t2[0]);
+  $openload="http://www.watchfree.to/go.php".$t3[0];
   $server = str_between($video,"</strong>","<");
   $server=trim(str_replace("-","",$server));
   //if (!$server) $server = str_between($openload,"https://","/");

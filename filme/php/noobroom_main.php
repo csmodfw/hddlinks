@@ -167,7 +167,7 @@ if (!file_exists($noob_serv)) {
   curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   $h = curl_exec($ch);
   curl_close($ch);
-  $h=str_between($h,"Select","</div");
+  $h=str_between($h,"Select a stream","</div");
   $out="";
   $videos = explode('href=', $h);
   unset($videos[0]);

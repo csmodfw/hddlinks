@@ -29,10 +29,16 @@ $id = $_GET["file"];
   $html = curl_exec($ch);
   curl_close($ch);
 //echo $html;
+/*
 $t1=explode('video" src="',$html);
 $t2=explode('"',$t1[1]);
 $id1=$t2[0];
 $link="http://s2.digisport.ro//".$id1.".360p.mp4";
 $link=str_replace("onedb","onedb/transcode",$link);
-print $link;
+*/
+$t1=explode('id="test" src="onedb/',$html);
+$t2=explode('"',$t1[1]);
+$id1=$t2[0];
+$out="http://s6.digisport.ro//onedb:transcode/".$id1.".480p.mp4";
+print $out;
 ?>

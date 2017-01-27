@@ -238,7 +238,7 @@ function str_between($string, $start, $end){
 	return substr($string,$ini,$len); 
 }
 include ("../../common.php");
-$videos = explode('div class="col-lg-', $html);
+$videos = explode('div class="col', $html);
 
 unset($videos[0]);
 $videos = array_values($videos);
