@@ -177,7 +177,7 @@ $l="http://www.pornhub.com/categories";
   curl_setopt($ch, CURLOPT_REFERER, "http://www.pornhub.com");
   $html = curl_exec($ch);
   curl_close($ch);
-$videos = explode('a class="sidebarIndent"', $html);
+$videos = explode('class="sidebarIndent', $html);
 unset($videos[0]);
 $videos = array_values($videos);
 foreach($videos as $video) {

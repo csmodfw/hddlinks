@@ -298,6 +298,14 @@ ret;
 <annotation>http://zfilmeonline.eu/</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
+
+<item>
+<title>filmeonline2016</title>
+<link><?php echo $host; ?>/scripts/filme/php/filmeonline2016_main.php</link>
+<annotation>http://www.filmeonline2016.biz/</annotation>
+<mediaDisplay name="threePartsView"/>
+</item>
+
 <!--
 <item>
 <title>vezi-online</title>

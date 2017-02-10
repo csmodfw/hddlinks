@@ -191,9 +191,28 @@ if($query) {
    $search = str_replace(" ","%20",$search);
 }
 if ($page > 1) {
-$html = file_get_contents($search."".$page."/");
+if (strpos($search,"recent") === false)
+  $l=$search."?mode=async&function=get_block&block_id=list_videos_common_videos_list&sort_by=post_date&from=".$page;
+else
+ $l="http://www.alotporn.com/recent/".$page."/";
+//echo $l;
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  $html = curl_exec($ch);
+  curl_close($ch);
 } else {
-$html = file_get_contents($search."");
+$l=$search;
+//echo $l;
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  $html = curl_exec($ch);
+  curl_close($ch);
 }
 if($page > 1) { ?>
 
@@ -221,22 +240,28 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
-$html=str_between($html,'<div class="thumbs">','</div');
-$videos = explode('a href="', $html);
+if (strpos($search,"recent") === false) {
+$x1=explode('id="list_videos_common_videos_list_items">',$html);
+$html=$x1[1];
+} else {
+$x1=explode('id="list_videos_latest_videos_list_items"',$html);
+$html=$x1[1];
+}
+$videos = explode('class="holder-thumb', $html);
 //http://alotporn.com/amateur/recent/2/
 unset($videos[0]);
 $videos = array_values($videos);
 
 foreach($videos as $video) {
     $t1=explode('href="',$video);
-    $t2 = explode('"', $video);
+    $t2 = explode('"', $t1[1]);
     $link = $t2[0];
     $t3=explode('title="',$video);
     $t4=explode('"',$t3[1]);
     $title=$t4[0];
     $link = $link=$host."/scripts/adult/php/alotporn_link.php?file=".$link;
 
-    $t1 = explode('data-original="', $video);
+    $t1 = explode('src="', $video);
     $t2 = explode('"', $t1[1]);
     $image = $t2[0];
 

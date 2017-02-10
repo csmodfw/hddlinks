@@ -297,6 +297,7 @@ $id_t=$episod;
 $elid=str_between($html,'elid = "','"');
 $tok=str_between($html,"tok    = '","'");
 $l="http://flixanity.watch/ajax/embeds.php";
+$l="http://flixanity.watch/ajax/jne.php";
 if ($tip == "series")
 $post="action=getEpisodeEmb&idEl=".$elid."&token=".$tok."&elid=";
 else

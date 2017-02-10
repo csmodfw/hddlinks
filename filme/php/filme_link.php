@@ -492,6 +492,49 @@ elseif (strpos($filelink,"filmeserialeonline.org") !== false) {
   $html = curl_exec($ch);
   curl_close ($ch);
 }
+elseif (strpos($filelink,"filmeseriale.online") !== false) {
+  $ch = curl_init($filelink);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch,CURLOPT_REFERER,$filelink);
+  //curl_setopt ($ch, CURLOPT_POST, 1);
+  //curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+  //curl_setopt($ch, CURLOPT_HEADER, true);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  $h2 = curl_exec($ch);
+  curl_close ($ch);
+  $t1=explode("id:",$h2);
+  preg_match_all("/id:(\d+),server:(\d+)/",$h2,$m);
+  //print_r ($m);
+  $c=count ($m[0]);
+  $html="";
+  $l="https://filmeseriale.online/wp-content/themes/playnow/masthemes/descargas/source.php";
+  for ($k=0;$k<$c;$k++) {
+  $id=$m[1][$k];
+  $serv=$m[2][$k];
+  $post="id=".$id."&server=".$serv;
+  //$post="id=37321&server=0";
+  //echo $post;
+  $ch = curl_init($l);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch,CURLOPT_REFERER,$filelink);
+  curl_setopt ($ch, CURLOPT_POST, 1);
+  curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  $h3 = curl_exec($ch);
+  curl_close ($ch);
+  $html .=$h3;
+}
+  //echo $html;
+    //$videos = explode("id:",$h2);
+    //unset($videos[0]);
+    //$videos = array_values($videos);
+    //foreach($videos as $video) {
+      //$t1=explode('"',$video);
+}
 elseif (strpos($filelink,"filmeonlinesubtitrate") !== false) {
 
   $post="pageviewnr=1";

@@ -18,8 +18,29 @@ $link="http://www.pornhub.com/view_video.php?viewkey=".$l;
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   $html = curl_exec($ch);
   curl_close($ch);
-$out=trim(str_between($html,"var player_quality_720p = '","'"));
-if (!$out)  $out=trim(str_between($html,"var player_quality_480p = '","'"));
-if (!$out)  $out=trim(str_between($html,"var player_quality_240p = '","'"));
+
+//$out=trim(str_between($html,"var player_quality_720p = '","'"));
+//if (!$out)  $out=trim(str_between($html,"var player_quality_480p = '","'"));
+//if (!$out)  $out=trim(str_between($html,"var player_quality_240p = '","'"));
+$t1=explode("var player_quality_720p",$html);
+$t2=explode('"',$t1[1]);
+$part1=$t2[1];
+$t2=explode('"',$t1[2]);
+$part2=$t2[1];
+if (strpos($part1,"http") !== false)
+ $out=$part1.$part2;
+else
+ $out=$part2.$part1;
+if (!$out) {
+$t1=explode("var player_quality_480p",$html);
+$t2=explode('"',$t1[1]);
+$part1=$t2[1];
+$t2=explode('"',$t1[2]);
+$part2=$t2[1];
+if (strpos($part1,"http") !== false)
+ $out=$part1.$part2;
+else
+ $out=$part2.$part1;
+}
 print $out;
 ?>

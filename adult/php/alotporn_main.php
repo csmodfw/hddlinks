@@ -162,7 +162,8 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
-$l="http://alotporn.com/categories/";
+for ($k=1;$k<4;$k++) {
+$l="http://alotporn.com/categories/".$k."/";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -171,15 +172,18 @@ $l="http://alotporn.com/categories/";
   curl_setopt($ch, CURLOPT_REFERER, "http://alotporn.com/");
   $html = curl_exec($ch);
   curl_close($ch);
-$html=str_between($html,'<div class="categories-cont">','</div');
-$videos = explode('<a href="', $html);
+//$html=str_between($html,'id="list_categories_categories_list_items">','</div');
+$t1=explode('id="list_categories_categories_list_items"',$html);
+$html=$t1[1];
+$videos = explode('class="item-holder', $html);
 unset($videos[0]);
 $videos = array_values($videos);
 foreach($videos as $video) {
-    //$t=explode('href="',$video);
-    $t1=explode('"',$video);
+    $t=explode('href="',$video);
+    $t1=explode('"',$t[1]);
     $link=$t1[0];
     $link=str_replace("recent/","",$link);
+    $link=str_replace("viewed/","",$link);
     //echo $t[1];
     //$t2=explode(">",$t[1]);
     //$t3=explode("<",$t2[2]);
@@ -192,6 +196,7 @@ foreach($videos as $video) {
   		<title>'.$title.'</title>
   		<link>'.$link.'</link>
   	</item>';
+}
 }
 ?>
 </channel>
