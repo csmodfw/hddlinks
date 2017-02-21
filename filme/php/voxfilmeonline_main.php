@@ -165,11 +165,12 @@ $l="http://voxfilmeonline.net/";
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   $html = curl_exec($ch);
   curl_close($ch);
 //$html = str_between($html,"ul class='children'","</ul>" );
-$link = $host."/scripts/filme/php/voxfilmeonline.php?query=,http://voxfilmeonline.net/";
+$link = $host."/scripts/filme/php/voxfilmeonline.php?query=,https://voxfilmeonline.net/";
     	echo '
     	<item>
     		<title>Filme Noi</title>

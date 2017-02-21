@@ -2389,8 +2389,8 @@ $link=unpack_DivXBrowserPlugin1(1,$h);
       //print_r ($m);
       $n=count($m[1]);
       $link=$m[1][$n-1];
-      $link=str_replace("https","http",$link);
-/*
+      //$link=str_replace("https","http",$link);
+
 $out='#!/bin/sh
 cat <<EOF
 Content-type: video/mp4
@@ -2403,7 +2403,7 @@ fclose($fp);
 exec("chmod +x /usr/local/etc/www/cgi-bin/scripts/util/m.cgi");
 sleep (1);
 $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
-*/
+
 } elseif (strpos($filelink,"rapidvideo.com") !==false) {
 //https://www.rapidvideo.com/embed/21ocj7atN
 //$filelink="https://www.rapidvideo.com/?v=21ocj7atN";

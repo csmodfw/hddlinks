@@ -32,7 +32,7 @@ if (!file_exists("/tmp/s_dec.php")) {
   //echo $html;
   $html = str_between($html,'ytplayer.config = ',';ytplayer.load');
   $parts = json_decode($html,1);
-  $l = "https:".$parts[assets][js];
+  $l = "https://s.ytimg.com".$parts[assets][js];
   //echo $l;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
