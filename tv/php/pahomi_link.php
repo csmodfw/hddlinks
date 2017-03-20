@@ -15,6 +15,6 @@ $link = $_GET["file"];
   //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   $html = curl_exec($ch);
   curl_close($ch);
-  $movie=str_between($html,"url:'","'");
+  $movie=str_between($html,'source src="','"');
 print $movie;
 ?>

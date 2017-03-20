@@ -234,7 +234,7 @@ ret;
 <annotation>http://vumoo.at</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+<!--
 <item>
 <title>moviesplanet</title>
 <link><?php echo $host; ?>/scripts/filme/php/moviesplanet_main.php</link>
@@ -248,6 +248,7 @@ ret;
 <annotation>http://flixanity.watch</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
+-->
 <!--
 <item>
 <title>Noobroom (free)</title>
@@ -320,13 +321,14 @@ ret;
 <annotation>http://vezi-online.net/filme</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
+<!--
 <item>
 <title>calitatehd</title>
 <link><?php echo $host; ?>/scripts/filme/php/calitatehd_main.php</link>
 <annotation>http://www.calitatehd.com</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <item>
 <title>filmeonline2013</title>
 <link><?php echo $host; ?>/scripts/filme/php/filmeonline2013_main.php</link>
@@ -437,14 +439,14 @@ ret;
 <annotation>http://voxfilmeonline.com</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+<!--
 <item>
 <title>playhd</title>
 <link><?php echo $host; ?>/scripts/filme/php/playhd_main.php</link>
 <annotation>http://playhd.biz</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <item>
 <title>movietv (premium only)</title>
 <link><?php echo $host; ?>/scripts/filme/php/movietv_main.php</link>

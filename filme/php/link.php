@@ -663,8 +663,53 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
   curl_close($ch);
   preg_match('/[file:"]([http|https][\.\d\w\-\.\/\\\:\?\&\#\%\_\,]*(\.mp4))/', $h2, $m);
   $link=$m[1];
+} elseif (strpos($filelink,"vidlox.tv") !== false) {
+  //$filelink=str_replace("https","http",$filelink);
+  /*
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $filelink);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  //curl_setopt($ch, CURLOPT_HEADER,1);
+  //curl_setopt($ch, CURLOPT_NOBODY,1);
+  $h2 = curl_exec($ch);
+  curl_close($ch);
+  preg_match('/[file:"]([http|https][\.\d\w\-\.\/\\\:\?\&\#\%\_\,]*(\.mp4))/', $h2, $m);
+  $link=$m[1];
+  $link=str_replace("https","http",$link);
+  preg_match('/([http|https][\.\d\w\-\.\/\\\:\?\&\#\%\_\,]*(\.(srt|vtt)))/', $h2, $m);
+  $srt=$m[1];
+  echo $srt;
+  */
+  if (strpos($filelink,"https") === false) $filelink=str_replace("http","https",$filelink);
+  //$filelink="https://vidlox.tv/embed-6pgn57s9gkfq.html";
+  $x="http://uphero.xpresso.eu/movietv/vidlox.php?file=".$filelink;
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $x);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  //curl_setopt($ch, CURLOPT_HEADER,1);
+  //curl_setopt($ch, CURLOPT_NOBODY,1);
+  $h2 = curl_exec($ch);
+  curl_close($ch);
+  $t1=explode("<SUB>",$h2);
+  $link=$t1[0];
+  $srt=$t1[1];
+  //$srt=str_replace("https","http",$srt);
+  //echo $srt;
+   if ($srt) {
+   $l_srt="http://127.0.0.1/cgi-bin/scripts/util/srt_xml.php?file=".urlencode($srt);
+   //echo $l_srt;
+   $h=file_get_contents($l_srt);
+   //echo $h;
+   if ($filelink_990 && !file_exists($base_sub."990.dat")) copy("/tmp/test.xml", "/tmp/990.dat");
+   }
 } elseif (strpos($filelink,"estream.to") !== false) {
-  require_once("JavaScriptUnpacker.php");
+  //require_once("JavaScriptUnpacker.php");
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $filelink);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -677,10 +722,10 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
   curl_close($ch);
   //$a1=explode("jwplayer.js",$h2);
   //$h2=$a1[1];
-  $jsu = new JavaScriptUnpacker();
-  $out = $jsu->Unpack($h2);
+  //$jsu = new JavaScriptUnpacker();
+  //$out = $jsu->Unpack($h2);
   //echo $out;
-  preg_match('/[file:"]([http|https][\.\d\w\-\.\/\\\:\?\&\#\%\_\,]*(\.mp4))/', $out, $m);
+  preg_match('/[file:"]([http|https][\.\d\w\-\.\/\\\:\?\&\#\%\_\,]*(\.mp4))/', $h2, $m);
   $link=$m[1];
   $link=str_replace("https","http",$link);
 } elseif (strpos($filelink,"vidzi.tv") !== false) {
@@ -2386,11 +2431,20 @@ $link=unpack_DivXBrowserPlugin1(1,$h);
       $t3=str_replace("\/","/",$t2[0]);
       //echo $t3;
       preg_match_all('/[file":"=]([http|https][\.\d\w\-\.\/\\\:\?\&\#\%\_\,]*(\.mp4))/', $t3, $m);
+
       //print_r ($m);
       $n=count($m[1]);
       $link=$m[1][$n-1];
       //$link=str_replace("https","http",$link);
-
+      preg_match_all('/([http|https][\.\d\w\-\.\/\\\:\?\&\#\%\_\,]*(\.(srt|vtt)))/', $t3, $m);
+      $srt=$m[0][0];
+      if ($srt && strpos($srt,"http") === false) $srt="https://www.raptu.com/".$srt;
+   exec ("rm -f /tmp/test.xml");
+   if ($srt) {
+   //echo $srt;
+   $l_srt="http://127.0.0.1/cgi-bin/scripts/util/srt_xml.php?file=".urlencode($srt);
+   $h=file_get_contents($l_srt);
+   }
 $out='#!/bin/sh
 cat <<EOF
 Content-type: video/mp4
@@ -2405,6 +2459,7 @@ sleep (1);
 $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
 
 } elseif (strpos($filelink,"rapidvideo.com") !==false) {
+//echo $filelink;
 //https://www.rapidvideo.com/embed/21ocj7atN
 //$filelink="https://www.rapidvideo.com/?v=21ocj7atN";
 //https://www2.playercdn.net/85/1/MarfOzq_GqVVgWJJycF56Q/1473425738/160908/508tD9F0PT8X2h8N.mp4
@@ -2421,6 +2476,7 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
       curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
       $h = curl_exec($ch);
       curl_close($ch);
+      //echo $h;
       $t1=explode("jwplayer.key",$h);
       $t2=explode('loadsrt.php',$t1[1]);
       $t3=explode('"',$t2[1]);
@@ -2682,6 +2738,7 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
 } elseif (strpos($filelink,"openload.co") !==false) {
 //require_once('AADecoder.php');
 //include ("jj.php");
+//echo $filelink;
 function calc($equation)
 {
     // Remove whitespaces

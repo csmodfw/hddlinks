@@ -476,14 +476,36 @@ elseif (strpos($filelink,"filmeserialeonline.org") !== false) {
   $h2 = curl_exec($ch);
   curl_close ($ch);
   $id=str_between($h2,'post_id":"','"');
-  if (strpos($h2,"movies.php") !== false)
-    $l="http://www.filmeserialeonline.org/wp-content/themes/grifus/loop/movies.php";
-  else
-    $l="http://www.filmeserialeonline.org/wp-content/themes/grifus/includes/single/sources.php";
+
+  if (strpos($h2,"grifus/includes") !== false) {
+    $id=str_between($h2,'data:{id:',')');
+    $l="http://www.filmeserialeonline.org/wp-content/themes/grifus/includes/single/second.php";
+  } else {
+    $id=str_between($h2,'data:{id:','}');
+    $l="http://www.filmeserialeonline.org/wp-content/themes/grifus/loop/second.php";
+  }
+  //$l="http://www.filmeserialeonline.org/wp-admin/admin-ajax.php";
+  //$l="http://www.filmeserialeonline.org/wp-content/themes/grifus/includes/single/second.php";
+  //$l="http://www.filmeserialeonline.org/wp-content/themes/grifus/includes/single/second.php";
+  //$l="http://www.filmeserialeonline.org/wp-content/themes/grifus/includes/single/second.php";
   $post="id=".$id;
+  //$post="id=47938";
+  //echo $post;
+  //$post="id=45798";
+  //https://www.raptu.com/embed/eKBtLeEH
+  //v%3DeKBtLeEH
+  $cookie="Cookie: _ga=GA1.2.226532075.1472192307; _gat=1; GoogleCaptcha=c07edfad41d0f118e5d44ec9a725f017";
+  $headers = array('Accept: text/html, */*; q=0.01',
+   'Accept-Language: ro-RO,ro;q=0.8,en-US;q=0.6,en-GB;q=0.4,en;q=0.2',
+   'Accept-Encoding: deflate',
+   'Content-Type: application/x-www-form-urlencoded; charset=UTF-8',
+   'X-Requested-With: XMLHttpRequest',
+   'Cookie: _ga=GA1.2.226532075.1472192307; _gat=1; GoogleCaptcha=c07edfad41d0f118e5d44ec9a725f017'
+  );
   $ch = curl_init($l);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch,CURLOPT_REFERER,$filelink);
+  curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
   curl_setopt ($ch, CURLOPT_POST, 1);
   curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
@@ -491,6 +513,9 @@ elseif (strpos($filelink,"filmeserialeonline.org") !== false) {
   //curl_setopt($ch, CURLOPT_HEADER, true);
   $html = curl_exec($ch);
   curl_close ($ch);
+  //echo $html;
+  //https://vidlox.tv/embed-6pgn57s9gkfq.html
+
 }
 elseif (strpos($filelink,"filmeseriale.online") !== false) {
   $ch = curl_init($filelink);
@@ -819,7 +844,7 @@ $s=$s."|trilulilu|proplayer\/playlist-controller.php|viki\.com|modovideo\.com|ro
 $s=$s."filebox\.com|glumbouploads\.com|uploadc\.com|sharefiles4u\.com|zixshare\.com|uploadboost\.com|hqq\.tv|vidtodo\.com|vshare\.eu";
 $s=$s."|nowvideo\.eu|nowvideo\.co|vreer\.com|180upload\.com|dailymotion\.com|nosvideo\.com|vidbull\.com|purevid\.com|videobam\.com|streamcloud\.eu|donevideo\.com|upafile\.com|docs\.google|mail\.ru|superweb|moviki\.ru|entervideos\.com";
 $s=$s."|indavideo\.hu|redfly\.us|videa\.hu|videakid\.hu|mooshare\.biz|streamin\.to|kodik\.biz|videomega\.tv|ok\.ru|realvid\.net|up2stream\.com|openload\.co|allvid\.ch|";
-$s=$s."gorillavid\.in|daclips\.in|movpod\.in|vodlocker\.com|filehoot\.com|bestreams\.net|vidto\.me|cloudyvideos\.com|allmyvideos\.net|goo\.gl|cloudy\.ec|rapidvideo\.com|megavideo\.pro|raptu\.com/i";
+$s=$s."gorillavid\.in|daclips\.in|movpod\.in|vodlocker\.com|filehoot\.com|bestreams\.net|vidto\.me|cloudyvideos\.com|allmyvideos\.net|goo\.gl|cloudy\.ec|rapidvideo\.com|megavideo\.pro|raptu\.com|vidlox\.tv/i";
 
 for ($i=0;$i<count($links);$i++) {
   if (strpos($links[$i],"http") !== false) {
@@ -852,7 +877,7 @@ for ($i=0;$i<count($links);$i++) {
   $cur_link=$t1[0];
   $t1=explode("&stretching",$cur_link);    //vezi-online
   $cur_link=$t1[0];
-  if (strpos($cur_link,"raptu.com") !== false) {
+  if (strpos($cur_link,"raptu.com1") !== false) {
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $cur_link);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

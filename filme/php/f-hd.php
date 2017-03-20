@@ -216,6 +216,7 @@ foreach($videos as $video) {
   $t1 = explode('image" content="', $video);
   $t2 = explode('"', $t1[1]);
   $image = $t2[0];
+  $image=str_replace("https","http",$image);
   $descriere=str_between($video,'<p>','<');
   $descriere=str_replace("[&hellip;]","...",$descriere);
 //  descriere

@@ -27,6 +27,19 @@ $ttxml     = '';
 $full_line = '';
 $sub_max = 53;
 $last_end=0;
+if (strpos($file,"vidlox.tv") !== false) {
+  $x="http://uphero.xpresso.eu/movietv/vidox_s.php?file=".$file;
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $x);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  //curl_setopt($ch, CURLOPT_HEADER,1);
+  //curl_setopt($ch, CURLOPT_NOBODY,1);
+  $h = curl_exec($ch);
+  curl_close($ch);
+} else {
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $file);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -35,6 +48,7 @@ $last_end=0;
   curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $h = curl_exec($ch);
   curl_close($ch);
+}
   $file_array=explode("\n",$h);
 
 if($file_array)
