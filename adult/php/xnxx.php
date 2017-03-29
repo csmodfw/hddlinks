@@ -189,13 +189,25 @@ if($query) {
    $page = $queryArr[0];
    $search = $queryArr[1];
    $search = str_replace(" ","%20",$search);
+   $tip=urldecode($queryArr[2]);
+   if ($tip == "release") {
+      $search=str_replace("|","&",$search);
+   } else {
+     $search3=str_replace(" ","+",urldecode($search));
+     $search2="http://www.xnxx.com/?k=".$search3."&p=".$page;
+     $tip="search";
+   }
 }
+if ($tip=="release") {
 if (preg_match("/tags|new/",$search)) {
   $link=$search."/".($page-1);
 } else {
   //http://www.xnxx.com/c/Blowjob-15
   $link=str_replace("c/","c/".($page-1)."/",$search);
   //$link=$search.$page.".html";
+}
+} else {
+  $link=$search2;
 }
 $html = file_get_contents($link);
 
@@ -206,7 +218,7 @@ if($page > 1) { ?>
 $sThisFile = 'http://127.0.0.1'.$_SERVER['SCRIPT_NAME'];
 $url = $sThisFile."?query=".($page-1).",";
 if($search) { 
-  $url = $url.$search; 
+  $url = $url.$search.",".$tip;
 }
 ?>
 <title>Previous Page</title>
@@ -294,7 +306,7 @@ foreach($videos as $video) {
 $sThisFile = 'http://127.0.0.1'.$_SERVER['SCRIPT_NAME'];
 $url = $sThisFile."?query=".($page+1).",";
 if($search) { 
-  $url = $url.$search; 
+  $url = $url.$search.",".$tip;
 }
 ?>
 <title>Next Page</title>

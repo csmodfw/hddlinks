@@ -189,9 +189,34 @@ if($query) {
    $page = $queryArr[0];
    $search = $queryArr[1];
    $search = str_replace(" ","%20",$search);
+   $tip = $queryArr[2];
 }
-
-$html = file_get_contents($search."?page=".$page);
+if ($tip=="release") {
+$search3 = $search."?page=".$page;
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $search3);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, "https://www.redtube.com/");
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  $html = curl_exec($ch);
+  curl_close($ch);
+} else {
+  $tip="search";
+  $search1=str_replace(" ","+",urldecode($search));
+  $search3="http://www.redtube.com/?search=".$search1."&page=".$page;
+  //$html = file_get_contents($search3);
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $search3);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, "https://www.redtube.com/");
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  $html = curl_exec($ch);
+  curl_close($ch);
+}
 
 if($page > 1) { ?>
 
@@ -200,7 +225,7 @@ if($page > 1) { ?>
 $sThisFile = 'http://127.0.0.1'.$_SERVER['SCRIPT_NAME'];
 $url = $sThisFile."?query=".($page-1).",";
 if($search) { 
-  $url = $url.$search; 
+  $url = $url.$search.",".$tip;
 }
 ?>
 <title>Previous Page</title>
@@ -227,16 +252,17 @@ $videos = array_values($videos);
 foreach($videos as $video) {
     $t1=explode('href="',$video);
     $t2 = explode('"', $t1[1]);
-    $link = "http://www.redtube.com".$t2[0];
+    $link = "https://www.redtube.com".$t2[0];
     $link = $host."/scripts/adult/php/redtube_link.php?file=".$link;
     //http://img02.redtubefiles.com/_thumbs/0000350/0350855/0350855_009m.jpg
     $t1 = explode('src="', $video);
     $t2 = explode('"', $t1[1]);
     $image = $t2[0];
-    if (strpos($image,"http") === false) $image="http:".$image;
+    if (strpos($image,"http") === false) $image="https:".$image;
+    $image=str_replace("https","http",$image);
     $title=str_between($video,'title="','"');
 
-    $data = trim(str_between($video,'<span class="d">',"<"));
+    $data = trim(str_between($video,'class="video-duration">',"<"));
 
     $data = "Durata: ".$data;
     $name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".flv";
@@ -281,7 +307,7 @@ foreach($videos as $video) {
 $sThisFile = 'http://127.0.0.1'.$_SERVER['SCRIPT_NAME'];
 $url = $sThisFile."?query=".($page+1).",";
 if($search) { 
-  $url = $url.$search; 
+  $url = $url.$search.",".$tip;
 }
 ?>
 <title>Next Page</title>

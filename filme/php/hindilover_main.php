@@ -1,6 +1,7 @@
 #!/usr/local/bin/Resource/www/cgi-bin/php
 <?php echo "<?xml version='1.0' encoding='UTF8' ?>";
-$query = $_GET["file"];
+//$query = $_GET["file"];
+//openNavsss()
 if($query) {
    $queryArr = explode(',', $query);
    $link = $queryArr[0];
@@ -169,22 +170,25 @@ function str_between($string, $start, $end){
 $host = "http://127.0.0.1/cgi-bin";
 $image="image/movies.png";
 
-
+$link="http://hindilover.net/index/0-54";
 $html = file_get_contents($link);
-$videos = explode('class="catsTdI"', $html);
+$t1=explode("closeNavsss()",$html);
+$html=$t1[1];
+//echo $html;
+$videos = explode('href="', $html);
 
 unset($videos[0]);
 $videos = array_values($videos);
 
 foreach($videos as $video) {
-    $t1=explode('href="',$video);
-    $t2=explode('"',$t1[1]);
+    //$t1=explode('href="',$video);
+    $t2=explode('"',$video);
     $link1=$t2[0];
 
 
-    $t1 = explode('class="abcdD', $video);
+    $t1 = explode('class="', $video);
     $t2 = explode('>', $t1[1]);
-    $t3 = explode('<',$t2[1]);
+    $t3 = explode('<',$t2[2]);
     $title = trim($t3[0]);
 
     //$data = trim(str_between($video,'<div class="entry-summary" style="height:150px;">','</div>'));

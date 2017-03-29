@@ -49,7 +49,7 @@ $host = "http://127.0.0.1/cgi-bin";
 		  <script>getPageInfo("pageTitle");</script>
 		</text>
   	<text align="left" offsetXPC="6" offsetYPC="15" widthPC="100" heightPC="4" fontSize="16" backgroundColor="10:105:150" foregroundColor="100:200:255">
-    Apasati 2 pentru download, 3 pentru download manager
+    Press 2 for download, 3 for download manager
 		</text>
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
@@ -67,14 +67,14 @@ $host = "http://127.0.0.1/cgi-bin";
 		<image  redraw="yes" offsetXPC=60 offsetYPC=22.5 widthPC=30 heightPC=25>
 		<script>print(img); img;</script>
 		</image>
-		<idleImage> image/POPUP_LOADING_01.png </idleImage>
-		<idleImage> image/POPUP_LOADING_02.png </idleImage>
-		<idleImage> image/POPUP_LOADING_03.png </idleImage>
-		<idleImage> image/POPUP_LOADING_04.png </idleImage>
-		<idleImage> image/POPUP_LOADING_05.png </idleImage>
-		<idleImage> image/POPUP_LOADING_06.png </idleImage>
-		<idleImage> image/POPUP_LOADING_07.png </idleImage>
-		<idleImage> image/POPUP_LOADING_08.png </idleImage>
+        <idleImage>image/POPUP_LOADING_01.png</idleImage>
+        <idleImage>image/POPUP_LOADING_02.png</idleImage>
+        <idleImage>image/POPUP_LOADING_03.png</idleImage>
+        <idleImage>image/POPUP_LOADING_04.png</idleImage>
+        <idleImage>image/POPUP_LOADING_05.png</idleImage>
+        <idleImage>image/POPUP_LOADING_06.png</idleImage>
+        <idleImage>image/POPUP_LOADING_07.png</idleImage>
+        <idleImage>image/POPUP_LOADING_08.png</idleImage>
 
 		<itemDisplay>
 			<text align="left" lines="1" offsetXPC=0 offsetYPC=0 widthPC=100 heightPC=100>
@@ -93,7 +93,7 @@ $host = "http://127.0.0.1/cgi-bin";
   				<script>
   					idx = getQueryItemIndex();
   					focus = getFocusItemIndex();
-  			    if(focus==idx) "16"; else "14";
+  			    if(focus==idx) "14"; else "14";
   				</script>
 				</fontSize>
 			  <backgroundColor>
@@ -180,9 +180,7 @@ ret;
 	</link>
 </destination>
 <channel>
-	<title>Tube8.com</title>
-	<menu>main menu</menu>
-
+	<title>xvideos</title>
 
 <?php
 $query = $_GET["query"];
@@ -190,32 +188,30 @@ if($query) {
    $queryArr = explode(',', $query);
    $page = $queryArr[0];
    $search = $queryArr[1];
-   $tip = $queryArr[2];
+   $search = str_replace(" ","%20",$search);
+   $tip=urldecode($queryArr[2]);
+   if ($tip == "release") {
+      $search=str_replace("|","&",$search);
+   } else {
+     $search3=str_replace(" ","+",urldecode($search));
+     //$search2="http://www.xnxx.com/?k=".$search3."&p=".$page;
+     $search2="http://www.xvideos.com/?k=".$search."&p=".($page-1);
+     $tip="search";
+   }
 }
 if ($tip=="release") {
-if($page) {
-    if($search) {
-        $html = file_get_contents($search."page/".$page."/");
-    } else {
-        $html = file_get_contents($search."page/".$page."/");
-    }
+if (preg_match("/tags|new/",$search)) {
+  $link=$search.$page;
 } else {
-    $page = 1;
-    if($search) {
-        $html = file_get_contents($search);
-    } else {
-        $html = file_get_contents($search);
-    }
+  //http://www.xnxx.com/c/Blowjob-15
+  $link=str_replace("c/","c/".($page-1)."/",$search);
+  //$link=$search.$page.".html";
 }
 } else {
- $tip="search";
- $search1=str_replace(" ","+",urldecode($search));
- if ($page1 > 1)
- $search3="http://www.tube8.com/searches.html?q=".$search1."&page=".$page1;
- else
- $search3="http://www.tube8.com/searches.html?q=".$search1;
- $html = file_get_contents($search3);
+  $link=$search2;
 }
+//echo $link;
+$html = file_get_contents($link);
 
 if($page > 1) { ?>
 
@@ -229,7 +225,7 @@ if($search) {
 ?>
 <title>Previous Page</title>
 <link><?php echo $url;?></link>
-<annotation>Pagina anterioara</annotation>
+<annotation>Previous Page</annotation>
 <image>image/left.jpg</image>
 <mediaDisplay name="threePartsView"/>
 </item>
@@ -238,34 +234,44 @@ if($search) {
 <?php } ?>
 
 <?php
-function str_between($string, $start, $end){
-	$string = " ".$string; $ini = strpos($string,$start);
-	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini;
-	return substr($string,$ini,$len);
+function str_between($string, $start, $end){ 
+	$string = " ".$string; $ini = strpos($string,$start); 
+	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
+	return substr($string,$ini,$len); 
 }
-$videos = explode('<div id="video_', $html);
+$videos = explode('div id="video', $html);
 
 unset($videos[0]);
 $videos = array_values($videos);
 
 foreach($videos as $video) {
-    $t1 = explode('<a href="', $video);
+    $t1=explode('href="',$video);
     $t2 = explode('"', $t1[1]);
-    $link = $t2[0];
-    $link = $host."/scripts/adult/php/tube8_link.php?file=".$t2[0];
+    $link = "http://www.xvideos.com".$t2[0];
+
+    $t3=explode('title="',$video);
+    $t4=explode('"',$t3[2]);
+    $title=$t4[0];
+    if (!$title) {
+    $t4=explode('"',$t3[1]);
+    $title=$t4[0];
+    }
 
     $t1 = explode('src="', $video);
     $t2 = explode('"', $t1[1]);
     $image = $t2[0];
-    if (strpos($image,".gif") !== false) {
-     $image=str_between($video,'data-thumb="','"');
+    if (strpos($image,"THUMBNUM") !== false) {
+      //$rest = substr(strrchr($image, "/"), 1);
+      //$image=str_replace($rest,"mozaiquehome.jpg",$image);
+      $image=str_replace("THUMBNUM","2",$image);
     }
+    $link = $host."/scripts/adult/php/xvideos_link.php?file=".$link;
 
-    $t1 = explode(' title="', $video);
-    $t2 = explode('"', $t1[1]);
-    $title = $t2[0];
 
-    $data = "Durata: ".trim(str_between($video,'video_duration">',"<"));
+    $data = $title." ".trim(str_between($video,'class="bg"><strong>','<'));
+    $data = preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$data);
+
+    //$data = "Duration: ".$data;
     $name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".flv";
 
     echo '
@@ -313,7 +319,7 @@ if($search) {
 ?>
 <title>Next Page</title>
 <link><?php echo $url;?></link>
-<annotation>Pagina urmatoare</annotation>
+<annotation>Next Page</annotation>
 <image>image/right.jpg</image>
 <mediaDisplay name="threePartsView"/>
 </item>

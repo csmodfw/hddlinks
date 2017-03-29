@@ -12,11 +12,17 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini;
 	return substr($string,$ini,$len);
 }
+//http://hindilover.net/stuff/15-2
+//http://hindilover.net/stuff/30
 //http://hindilover.com/news/1001_nopti/1-0-59
-$t1=explode("/",$l);
-$l2="http://hindilover.com/news/".$t1[4]."/";
-$id=substr(strrchr($l, "-"), 1);
-$l2= $l2.$page."-0-".$id;
+//$t1=explode("/",$l);
+//$l2="http://hindilover.com/news/".$t1[4]."/";
+//$id=substr(strrchr($l, "-"), 1);
+//$l2= $l2.$page."-0-".$id;
+if ($page > 1)
+  $l2=$l."-".$page;
+else
+  $l2=$l;
 $html = file_get_contents($l2);
 
 ?>
@@ -225,7 +231,7 @@ if($search) {
 <?php
 
 $host = "http://127.0.0.1/cgi-bin";
-$videos = explode('<div class="eTitle"', $html);
+$videos = explode('div id="entryID', $html);
 
 unset($videos[0]);
 $videos = array_values($videos);
@@ -233,16 +239,14 @@ $videos = array_values($videos);
 foreach($videos as $video) {
     $t1=explode('href="',$video);
     $t2=explode('"',$t1[1]);
-    $link="http://hindilover.com".$t2[0];
+    $link="http://hindilover.net".$t2[0];
 
-    $t3=explode(">",$t1[1]);
-    $t4=explode("<",$t3[1]);
-    $title=$t4[0];
-$t1=explode('class="imgser"',$html);
-$t2=explode('src="',$t1[1]);
-$t3=explode('"',$t2[1]);
-//$image="http://hindilover.com".$t3[0];
-if (!$image) $image=str_between($video,'src="','"');
+    $t3=explode("class='spacer'>",$t1[1]);
+    $t4=explode("span>",$t3[2]);
+    $t5=explode("<",$t4[1]);
+    $title=$t5[0];
+
+    $image=str_between($video,'src="','"');
 
        $data = $title;
 

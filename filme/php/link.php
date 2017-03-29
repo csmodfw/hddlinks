@@ -621,6 +621,60 @@ if (strpos($filelink,"cloudy.ec") !== false) {
   //echo $link;
   //die();
   $link=urldecode(str_between($h2,"url=","&"));
+} elseif (strpos($filelink,"flashservice.xvideos.com") !== false) {
+   $ch = curl_init();
+   curl_setopt($ch, CURLOPT_URL, $filelink);
+   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+   curl_setopt($ch, CURLOPT_REFERER, $filelink);
+   $h = curl_exec($ch);
+   curl_close($ch);
+   $link=str_between($h,"html5player.setVideoUrlHigh('","'");
+   if (!$link)  $link=str_between($h,"html5player.setVideoUrlLow('","'");
+} elseif (strpos($filelink,"xhamster.com") !== false) {
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $filelink);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, "https://xhamster.com");
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  $html = curl_exec($ch);
+  curl_close($ch);
+//echo $html;
+//die();
+//$link = urldecode(str_between($html, "flv_url=", "&"));
+//if (!$link) {
+$t1=explode('720p\":[\"',$html);
+$t2=explode('"',$t1[1]);
+$link=$t2[0];
+if (!$link) {
+$t1=explode('480p\":[\"',$html);
+$t2=explode('"',$t1[1]);
+$link=$t2[0];
+}
+if (!$link) {
+$t1=explode('240p\":[\"',$html);
+$t2=explode('"',$t1[1]);
+$link=$t2[0];
+}
+$link1=str_replace("\\","",$link);
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, $link1);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:46.0) Gecko/20100101 Firefox/46.0');
+      curl_setopt($ch, CURLOPT_REFERER, "https://xhamster.com");
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+      curl_setopt($ch, CURLOPT_NOBODY,true);
+      curl_setopt($ch, CURLOPT_HEADER,1);
+      $ret = curl_exec($ch);
+      curl_close($ch);
+      $t1=explode("Location:",$ret);
+      $t2=explode("\n",$t1[1]);
+      $link=trim($t2[0]);
+      if (!$link) $link=$link1;
+$link=str_replace("https","http",$link);
 } elseif (strpos($filelink,"grab.php?link1=") !== false) {   //zfilme
    $ch = curl_init();
    curl_setopt($ch, CURLOPT_URL, $filelink);

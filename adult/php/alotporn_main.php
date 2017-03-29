@@ -54,9 +54,7 @@ $host = "http://127.0.0.1/cgi-bin";
   	<text  redraw="yes" align="center" offsetXPC="0" offsetYPC="90" widthPC="100" heightPC="8" fontSize="17" backgroundColor="10:105:150" foregroundColor="100:200:255">
 		  <script>print(annotation); annotation;</script>
 		</text>
-		<image  redraw="yes" offsetXPC=60 offsetYPC=35 widthPC=30 heightPC=30>
-  <script>channelImage;</script>
-		</image>
+
         <idleImage>image/POPUP_LOADING_01.png</idleImage>
         <idleImage>image/POPUP_LOADING_02.png</idleImage>
         <idleImage>image/POPUP_LOADING_03.png</idleImage>
@@ -156,12 +154,20 @@ ret;
 <channel>
 	<title>alotporn.com</title>
 	<menu>main menu</menu>
+
 <?php
 function str_between($string, $start, $end){ 
 	$string = " ".$string; $ini = strpos($string,$start); 
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
+//http://127.0.0.1/mobile/scripts/adult/alotporn.php?page=1,http://www.alotporn.com/recent/,Recente
+  	$link=$host."/scripts/adult/php/alotporn.php?query=1,http://www.alotporn.com/recent/";
+  	echo '
+  	<item>
+  		<title>New</title>
+  		<link>'.$link.'</link>
+  	</item>';
 for ($k=1;$k<4;$k++) {
 $l="http://alotporn.com/categories/".$k."/";
   $ch = curl_init();

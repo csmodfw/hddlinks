@@ -54,9 +54,7 @@ $host = "http://127.0.0.1/cgi-bin";
   	<text  redraw="yes" align="center" offsetXPC="0" offsetYPC="90" widthPC="100" heightPC="8" fontSize="17" backgroundColor="10:105:150" foregroundColor="100:200:255">
 		  <script>print(annotation); annotation;</script>
 		</text>
-		<image  redraw="yes" offsetXPC=60 offsetYPC=35 widthPC=30 heightPC=30>
-  <script>channelImage;</script>
-		</image>
+
         <idleImage>image/POPUP_LOADING_01.png</idleImage>
         <idleImage>image/POPUP_LOADING_02.png</idleImage>
         <idleImage>image/POPUP_LOADING_03.png</idleImage>
@@ -149,20 +147,34 @@ ret;
 		</mediaDisplay>
 
 	</item_template>
-
+	<searchLink>
+	  <link>
+	    <script>"<?php echo $host."/scripts/adult/php/xnxx.php?query=1,"; ?>" + urlEncode(keyword) + "," + urlEncode(keyword);</script>
+	  </link>
+	</searchLink>
 <script>
     channelImage = "/usr/local/etc/www/cgi-bin/scripts/adult/image/xnxx.gif";
   </script>
 <channel>
 	<title>xnxx.com</title>
 	<menu>main menu</menu>
+<item>
+  <title>Căutare</title>
+  <onClick>
+        keyword = getInput("Input", "doModal");
+		if (keyword != null)
+		 {
+	       jumpToLink("searchLink");
+		  }
+   </onClick>
+</item>
 <?php
 function str_between($string, $start, $end){ 
 	$string = " ".$string; $ini = strpos($string,$start); 
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
-  	$link=$host."/scripts/adult/php/xnxx.php?query=1,http://www.xnxx.com/new";
+  	$link=$host."/scripts/adult/php/xnxx.php?query=1,http://www.xnxx.com/new,release";
   	echo '
   	<item>
   		<title>New</title>
@@ -190,7 +202,7 @@ foreach($videos as $video) {
     $t3=explode('"',$t2[1]);
   	$title=$t3[0];
 
-  	$link=$host."/scripts/adult/php/xnxx.php?query=1,".$link;
+  	$link=$host."/scripts/adult/php/xnxx.php?query=1,".$link.",release";;
   	if ($title <> "All") {
   	echo '
   	<item>

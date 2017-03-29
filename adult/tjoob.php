@@ -54,9 +54,7 @@ $host = "http://127.0.0.1/cgi-bin";
   	<text  redraw="yes" align="center" offsetXPC="0" offsetYPC="90" widthPC="100" heightPC="8" fontSize="17" backgroundColor="10:105:150" foregroundColor="100:200:255">
 		  <script>print(annotation); annotation;</script>
 		</text>
-		<image  redraw="yes" offsetXPC=60 offsetYPC=35 widthPC=30 heightPC=30>
-  <script>channelImage;</script>
-		</image>
+
 		<idleImage> image/POPUP_LOADING_01.png </idleImage>
 		<idleImage> image/POPUP_LOADING_02.png </idleImage>
 		<idleImage> image/POPUP_LOADING_03.png </idleImage>

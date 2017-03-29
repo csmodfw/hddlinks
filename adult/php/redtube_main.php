@@ -54,9 +54,7 @@ $host = "http://127.0.0.1/cgi-bin";
   	<text  redraw="yes" align="center" offsetXPC="0" offsetYPC="90" widthPC="100" heightPC="8" fontSize="17" backgroundColor="10:105:150" foregroundColor="100:200:255">
 		  <script>print(annotation); annotation;</script>
 		</text>
-		<image  redraw="yes" offsetXPC=60 offsetYPC=35 widthPC=30 heightPC=30>
-  <script>channelImage;</script>
-		</image>
+
         <idleImage>image/POPUP_LOADING_01.png</idleImage>
         <idleImage>image/POPUP_LOADING_02.png</idleImage>
         <idleImage>image/POPUP_LOADING_03.png</idleImage>
@@ -149,27 +147,48 @@ ret;
 		</mediaDisplay>
 
 	</item_template>
-<script>
-    channelImage = "/usr/local/etc/www/cgi-bin/scripts/adult/image/redtube.png";
-  </script>
 
 
+	<searchLink>
+	  <link>
+	    <script>"<?php echo $host."/scripts/adult/php/redtube.php?query=1,"; ?>" + urlEncode(keyword) + "," + urlEncode(keyword);</script>
+	  </link>
+	</searchLink>
 <channel>
 	<title>redtube.com</title>
 	<menu>main menu</menu>
+<item>
+  <title>Căutare</title>
+  <onClick>
+        keyword = getInput("Input", "doModal");
+		if (keyword != null)
+		 {
+	       jumpToLink("searchLink");
+		  }
+   </onClick>
+</item>
 <?php
 function str_between($string, $start, $end){ 
 	$string = " ".$string; $ini = strpos($string,$start); 
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
-  	$link=$host."/scripts/adult/php/redtube.php?query=1,http://www.redtube.com/";
+  	$link=$host."/scripts/adult/php/redtube.php?query=1,https://www.redtube.com/,release";
   	echo '
   	<item>
   		<title>New</title>
   		<link>'.$link.'</link>
   	</item>';
-$html = file_get_contents("http://www.redtube.com/channels");
+$l = "https://www.redtube.com/channels";
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, "https://www.redtube.com/");
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  $html = curl_exec($ch);
+  curl_close($ch);
 //$html = str_between($html,'<ul class="smallChannels">','</ul>');
 $videos = explode('<div class="video">', $html);
 unset($videos[0]);
@@ -180,7 +199,7 @@ foreach($videos as $video) {
     $link="http://www.redtube.com".$t1[0];
   	$title=str_between($video,'title="','"');
 
-  	$link=$host."/scripts/adult/php/redtube.php?query=1,".$link;
+  	$link=$host."/scripts/adult/php/redtube.php?query=1,".$link.",release";
   	echo '
   	<item>
   		<title>'.$title.'</title>

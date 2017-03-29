@@ -324,13 +324,13 @@ else
 <link>/usr/local/etc/www/cgi-bin/scripts/dir.rss</link>
 </movie>
 <adultlink>
-<mediaDisplay name="photoView"/>
+<mediaDisplay name="threePartsView"/>
 <link>
   <?php echo $host; ?>/scripts/adult/adult1325.php
 </link>
 </adultlink>
 <adultpass>
-<mediaDisplay name="onePartView" />
+<mediaDisplay name="threePartsView"/>
 <link>
 /usr/local/etc/www/cgi-bin/scripts/adult/adult.rss
 </link>
@@ -516,51 +516,7 @@ showIdle();
 <annotation>Înregistrări evenimente sportive: fotbal şi nu numai</annotation>
 </item>
 
-<!-- 13 - new line -->
-<!--
-<?php
-$f="/usr/local/etc/xLive/repoman/05_08_2011.txt";
-if (file_exists($f)) {
-echo '
-<item>
-<title>repoman xLive</title>
-<link>/usr/local/etc/xLive/repoman/repoman.rss</link>
-<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/php1/xlive.png" />
-<focus>/usr/local/etc/www/cgi-bin/scripts/image/xlive_focus.png</focus>
-<unfocus>/usr/local/etc/www/cgi-bin/scripts/image/xlive_unfocus.png</unfocus>
-<location></location>
-<annotation>repoman xLive</annotation>
-<mediaDisplay name="photoView"/>
-</item>
-';
-} else {
-echo '
-<item>
-<title>repoman xLive</title>
-<onClick>
-<script>
-rss = "/usr/local/etc/www/cgi-bin/scripts/util/downloadDialog.rss";
-ret = doModalRss(rss);
-if (ret == "Confirm")    {
-  showIdle();
-  url="http://127.0.0.1/cgi-bin/scripts/util/xlive.cgi?mode=install";
-  msg = getURL(url);
-  cancelIdle();
-  jumptolink("destination");
-}
-</script>
-</onClick>
-<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/php1/xlive.png" />
-<focus>/usr/local/etc/www/cgi-bin/scripts/image/xlive_focus.png</focus>
-<unfocus>/usr/local/etc/www/cgi-bin/scripts/image/xlive_unfocus.png</unfocus>
-<location></location>
-<annotation>repoman xLive</annotation>
-<mediaDisplay name="photoView"/>
-</item>
-';
-}
-?>
--->
+
 <item>
 <title>Movie Browser</title>
 <link><?php echo $host; ?>/scripts/dir.php</link>
@@ -634,7 +590,7 @@ showIdle();
     }
     </script>
     </onClick>
-    <mediaDisplay name="photoView"/>
+    <mediaDisplay name="threePartsView"/>
   </item>
 </channel>
 

@@ -388,7 +388,7 @@ echo '
 
 <item>
 <title>hindilover (turcesti)</title>
-<link><?php echo $host; ?>/scripts/filme/php/hindilover_main_main.php</link>
+<link><?php echo $host; ?>/scripts/filme/php/hindilover_main.php</link>
 <annotation>http://hindilover.com/</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>

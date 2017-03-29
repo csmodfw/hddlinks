@@ -261,12 +261,13 @@ foreach($videos as $video) {
     $title=$t4[0];
     $link = $link=$host."/scripts/adult/php/alotporn_link.php?file=".$link;
 
-    $t1 = explode('src="', $video);
+    $t1 = explode('data-original="', $video);
     $t2 = explode('"', $t1[1]);
     $image = $t2[0];
 
-    $data = trim(str_between($video,'span class="length">','</span>'));
-    $data = preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$data);
+    $data = trim(str_between($video,'class="time">','</span>'));
+    $data = str_replace("&nbsp;","",$data);
+    $data = trim(preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$data));
 
     $data = "Duration: ".$data;
     $name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".flv";

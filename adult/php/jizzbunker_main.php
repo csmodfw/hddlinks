@@ -148,46 +148,66 @@ ret;
 
 	</item_template>
 
-<script>
-    channelImage = "/usr/local/etc/www/cgi-bin/scripts/adult/image/extremetube.jpg";
-  </script>
+
+	<searchLink>
+	  <link>
+	    <script>"<?php echo $host."/scripts/adult/php/jizzbunker.php?query=1,"; ?>" + urlEncode(keyword) + "," + urlEncode(keyword);</script>
+	  </link>
+	</searchLink>
 <channel>
-	<title>extremetube.com</title>
+	<title>jizzbunker</title>
 	<menu>main menu</menu>
+<item>
+  <title>Căutare</title>
+  <onClick>
+        keyword = getInput("Input", "doModal");
+		if (keyword != null)
+		 {
+	       jumpToLink("searchLink");
+		  }
+   </onClick>
+</item>
 <?php
 function str_between($string, $start, $end){ 
 	$string = " ".$string; $ini = strpos($string,$start); 
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
-$title="News";
-$link="http://www.extremetube.com/videos";
-  	$link=$host."/scripts/adult/php/extremetube.php?query=1,".$link;
+  	$link=$host."/scripts/adult/php/jizzbunker.php?query=1,http://jizzbunker.com/newest,release";
   	echo '
   	<item>
-  		<title>'.$title.'</title>
+  		<title>New</title>
   		<link>'.$link.'</link>
   	</item>';
-$html = file_get_contents("http://www.extremetube.com/video-categories");
-//$html = str_between($html,'<div id="submenu">','id="page">');
-$videos = explode('option value="', $html);
+$l="http://jizzbunker.com/channels";
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, "http://jizzbunker.com/newest");
+  //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  $html = curl_exec($ch);
+  curl_close($ch);
+//$html = str_between($html,'<ul class="smallChannels">','</ul>');
+$videos = explode('<figure>', $html);
 unset($videos[0]);
 $videos = array_values($videos);
 foreach($videos as $video) {
-    $t1=explode('"',$video);
+    $t=explode('href="',$video);
+    $t1=explode('"',$t[1]);
     $link=$t1[0];
 
-    $t2=explode(">",$video);
-    $t3=explode("<",$t2[1]);
+    $t2=explode('title="',$video);
+    $t3=explode('"',$t2[1]);
   	$title=$t3[0];
-    if (strpos($link,"http") !== false) {
-  	$link=$host."/scripts/adult/php/extremetube.php?query=1,".$link;
+
+  	$link=$host."/scripts/adult/php/jizzbunker.php?query=1,".$link.",release";
   	echo '
   	<item>
   		<title>'.$title.'</title>
   		<link>'.$link.'</link>
   	</item>';
-  	}
 }
 ?>
 </channel>
