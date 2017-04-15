@@ -44,7 +44,9 @@
   	<text align="center" offsetXPC="0" offsetYPC="0" widthPC="100" heightPC="20" fontSize="30" backgroundColor="10:105:150" foregroundColor="100:200:255">
 		  <script>getPageInfo("pageTitle");</script>
 		</text>
-
+  	<text align="left" offsetXPC="6" offsetYPC="15" widthPC="75" heightPC="4" fontSize="16" backgroundColor="10:105:150" foregroundColor="100:200:255">
+    right for more
+		</text>
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
 		</text>
@@ -127,6 +129,16 @@ if (userInput == "pagedown" || userInput == "pageup")
 	setItemFocus(0);
   redrawDisplay();
   "true";
+}
+else if (userInput == "right" || userInput == "R")
+{
+tit=getItemInfo(getFocusItemIndex(),"title1");
+showIdle();
+movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/noobroom_det.php?file=movie" + tit;
+dummy = getURL(movie_info);
+cancelIdle();
+ret_val=doModalRss("/usr/local/etc/www/cgi-bin/scripts/filme/php/movie_detail.rss");
+ret="true";
 }
 ret;
 </script>
@@ -214,13 +226,14 @@ foreach($videos as $video) {
 	$title = trim($title);
 	$title=preg_replace("/online|subtitrat(e*)|film(e*)|vezi(.*)(:)|gratis/si","",$title);
 	$title=trim(str_replace("&nbsp;","",$title));
-
+    $title=html_entity_decode($title,ENT_QUOTES,'UTF-8');
 	$pos = strpos($image, '.jpg');
 	if (($pos !== false) && ($title <> "")){
     $link = 'http://127.0.0.1/cgi-bin/scripts/filme/php/filme_link.php?file='.$link.','.urlencode($title);
     echo '
     <item>
-    <title>'.$title.'</title>
+    <title>'.str_replace("&","&amp;",str_replace("&amp;","&",$title)).'</title>
+    <title1>'.urlencode(trim(str_replace(",","^",$title))).'</title1>
     <link>'.$link.'</link>	
     <annotation>'.$title.'</annotation>
     <image>'.$image.'</image>

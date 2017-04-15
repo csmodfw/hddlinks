@@ -143,7 +143,7 @@ setRefreshTime(1);
 		  <script>getPageInfo("pageTitle") + " (" + itemCount + ")";</script>
 		</text>
   	<text align="left" offsetXPC="8" offsetYPC="3" widthPC="90" heightPC="4" fontSize="14" backgroundColor="10:105:150" foregroundColor="100:200:255">
-    5=Setare subtitrare, info=server load , 0 = folositi alta subtitrare
+    5=Setare subtitrare, info=server load , 0(blue) = folositi alta subtitrare
 		</text>
   	<text align="left" offsetXPC="6" offsetYPC="15" widthPC="80" heightPC="4" fontSize="16" backgroundColor="10:105:150" foregroundColor="100:200:255">
     1=favorite, 2= download,4/6= jump -+100, right for more...
@@ -259,7 +259,7 @@ else if (userInput == "two" || userInput == "2")
 	 dlok = loadXMLFile(topUrl);
 	 "true";
 }
-else if (userInput == "zero" || userInput == "0")
+else if (userInput == "zero" || userInput == "0" || userInput == "option_blue")
    {
   t = getItemInfo(getFocusItemIndex(),"title1");
   l = getItemInfo(getFocusItemIndex(),"link1");
@@ -508,7 +508,7 @@ foreach ($arr as $key => $val) {
    if ($title) {
      echo '
      <item>
-     <title>'.$title1.'</title>
+     <title>'.str_replace("&","&amp;",str_replace("&amp;","&",$title1)).'</title>
      <onClick>
      <script>
      showIdle();
@@ -541,7 +541,7 @@ foreach ($arr as $key => $val) {
      </script>
      </onClick>
     <download>'.$link1.'</download>
-    <title1>'.urlencode($title).'</title1>
+    <title1>'.urlencode(str_replace(",","^",$title)).'</title1>
     <link1>'.urlencode($link).'</link1>
     <name>'.$name.'</name>
     <movie>'.$link.'</movie>

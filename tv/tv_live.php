@@ -195,6 +195,13 @@ ret;
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
+
+<item>
+<title>Seenow TV (Freezone) - alternativ</title>
+<link><?php echo $host; ?>/scripts/tv/php/seenow_e1.php?query=1,http://www.seenow.ro/freezone-9-pagina-,Seenow+TV+(freezone)</link>
+<media:thumbnail url="image/tv_radio.png" />
+<mediaDisplay name="threePartsView"/>
+</item>
 <!--
 <item>
 <title>Seenow TV (Abonament)</title>

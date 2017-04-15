@@ -299,6 +299,7 @@ if ($sub) {
 if (strpos($out,"mp4") !== false && strpos($out,"radio") === false)
 print $out;
 elseif (strpos($out,"radio") === false) {
+//echo $out;
 $app="live3";
 $serv="fms11".mt_rand(2,3).".mediadirect.ro";
 $rtmp="rtmp://".$serv."/".$app."/_definst_";

@@ -151,7 +151,7 @@ else if (userInput == "right" || userInput == "R")
 movie=getItemInfo(getFocusItemIndex(),"id");
 tit=getItemInfo(getFocusItemIndex(),"tit");
 showIdle();
-movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/vumoo_f_det.php?file=" + movie+ "," + urlEncode(tit);
+movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/noobroom_det.php?file=series" + tit;
 dummy = getURL(movie_info);
 cancelIdle();
 ret_val=doModalRss("/usr/local/etc/www/cgi-bin/scripts/filme/php/movie_detail.rss");
@@ -199,6 +199,7 @@ unset($videos[0]);
 $videos = array_values($videos);
 foreach($videos as $video) {
   $link=urldecode(str_between($video,"<movie>","</movie>"));
+  $link=str_replace("vumoo.at","vumoo.li",$link);
   $title=urldecode(str_between($video,"<title>","</title>"));
   $title=str_replace("/",",",$title);
   //$image=urldecode(str_between($video,"<image>","<image>"));
@@ -214,10 +215,13 @@ $arr[]=array($title,$link,$image,$year,$id);
 asort($arr);
 foreach ($arr as $key => $val) {
   $link=$arr[$key][1];
+  $link=str_replace("vumoo.at","vumoo.li",$link);
   $image=$arr[$key][2];
   //echo $image1;
   $title=$arr[$key][0];
-
+  $title=str_replace("^",",",$title);
+  $title=str_replace("\\","",$title);
+  $title=str_replace("&amp;","&",$title);
   $t1=explode("<image>",$video);
   $year=$arr[$key][3];
   $id=$arr[$key][4];
@@ -225,16 +229,16 @@ foreach ($arr as $key => $val) {
   //watch-narcos-87202
   $id1=substr(strrchr($link, "-"), 1);
   $image1="http://127.0.0.1/cgi-bin/scripts/filme/php/r.php?file=".$image;
-   $link2=$host."/scripts/filme/php/vumoo_s_ep.php?file=".urlencode($link).",".urlencode($title).",".$id1.",".$id_t.",series,".urlencode($image);
+   $link2=$host."/scripts/filme/php/vumoo_s_ep.php?file=".urlencode($link).",".urlencode(str_replace(",","^",$title)).",".$id1.",".$id_t.",series,".urlencode($image);
    if ($title) {
      echo '
      <item>
-     <title>'.$title.'</title>
+     <title>'.str_replace("&","&amp;",str_replace("&amp;","&",$title)).'</title>
      <link>'.$link2.'</link>
     <image>'.$image.'</image>
     <image1>'.$image1.'</image1>
-    <tit>'.trim($title).'</tit>
-    <tit1>'.urlencode(trim($title)).'</tit1>
+    <tit>'.urlencode(trim(str_replace(",","^",$title))).'</tit>
+    <tit1>'.urlencode(trim(str_replace(",","^",$title))).'</tit1>
     <id>'.$id1.'</id>
     <idt>'.$id_t.'</idt>
     <movie>'.trim($link).'</movie>

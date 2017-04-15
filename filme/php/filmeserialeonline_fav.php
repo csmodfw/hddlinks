@@ -46,7 +46,7 @@ $host = "http://127.0.0.1/cgi-bin";
 		  <script>getPageInfo("pageTitle");</script>
 		</text>
   	<text align="left" offsetXPC="6" offsetYPC="15" widthPC="75" heightPC="4" fontSize="16" backgroundColor="10:105:150" foregroundColor="100:200:255">
-    2 = sterge de la favorite. Reincarcati pagina pentru a vedea rezultatul
+    2 = sterge de la favorite, right for more
 		</text>
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
@@ -135,6 +135,16 @@ else if (userInput == "two" || userInput == "2")
  redrawDisplay();
  ret="true";
 }
+else if (userInput == "right" || userInput == "R")
+{
+tit=getItemInfo(getFocusItemIndex(),"title1");
+showIdle();
+movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/noobroom_det.php?file=series" + tit;
+dummy = getURL(movie_info);
+cancelIdle();
+ret_val=doModalRss("/usr/local/etc/www/cgi-bin/scripts/filme/php/movie_detail.rss");
+ret="true";
+}
 ret;
 </script>
 </onUserInput>
@@ -182,15 +192,19 @@ asort($arr);
 foreach ($arr as $key => $val) {
   $l=$arr[$key][1];
   $title=$arr[$key][0];
+  $title=str_replace("^",",",$title);
+  $title=str_replace("\\","",$title);
+  $title=str_replace("&amp;","&",$title);
   //filmeseriale.php?file='.$link.','.urlencode($title);
-  $link = $host."/scripts/filme/php/filmeserialeonline_seriale.php?file=".$l.",".urlencode($title);
+  $link = $host."/scripts/filme/php/filmeserialeonline_seriale.php?file=".$l.",".urlencode(str_replace(",","^",$title));
     echo '
     <item>
-    <title>'.$title.'</title>
-    <annotation>'.$title.'</annotation>
+    <title>'.str_replace("&","&amp;",str_replace("&amp;","&",$title)).'</title>
+    <annotation>'.str_replace("&","&amp;",str_replace("&amp;","&",$title)).'</annotation>
     <link>'.$link.'</link>
-    <title1>'.urlencode($title).'</title1>
+    <title1>'.str_replace("&","&amp;",str_replace("&amp;","&",$title)).'</title1>
     <link1>'.$l.'</link1>
+    <tip>series></tip>
     </item>
     ';
 }

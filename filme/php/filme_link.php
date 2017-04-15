@@ -674,6 +674,7 @@ elseif (strpos($filelink,"filmeonlinesubtitrate") !== false) {
 $html=file_get_contents("http://uphero.xpresso.eu/movietv/filme_link1.php?file=".$filelink);
 } elseif (strpos($filelink,"http://filmehd.net") !== false) {
   require_once("JavaScriptUnpacker.php");
+  //echo $filelink;
   $html1=file_get_contents($filelink);
   $i1=str_between($html1,"js_content.php","'");
   $filelink="http://filmehd.net/js_content.php".$i1;
@@ -681,7 +682,10 @@ $html=file_get_contents("http://uphero.xpresso.eu/movietv/filme_link1.php?file="
   //echo $html;
   $jsu = new JavaScriptUnpacker();
   $out = $jsu->Unpack($html);
+  //echo $out;
   $html .=" ".$out;
+  //https://hqq.tv/sec/player/embed_player.php?iss=ODIuMjEwLjE3OC4xMjk=&vid=259208274208242226277227238246231270194271217271255&at=6e3a6f5ec3f5f8b95c37275f9bbcd346&autoplayed=yes&referer=on&http_referer=aHR0cDovL2hxcS50di9wbGF5ZXIvZW1iZWRfcGxheWVyLnBocD92aWQ9MjU5MjA4Mjc0MjA4MjQyMjI2Mjc3MjI3MjM4MjQ2MjMxMjcwMTk0MjcxMjE3MjcxMjU1JmF1dG9wbGF5PW5vbmUmaGFzaF9mcm9tPTZlM2E2ZjVlYzNmNWY4Yjk1YzM3Mjc1ZjliYmNkMzQ2&pass=&embed_from=&need_captcha=0&hash_from=6e3a6f5ec3f5f8b95c37275f9bbcd346
+
   //echo $t2;
   //$t2=$ls;
   /*
@@ -844,7 +848,7 @@ $s=$s."|trilulilu|proplayer\/playlist-controller.php|viki\.com|modovideo\.com|ro
 $s=$s."filebox\.com|glumbouploads\.com|uploadc\.com|sharefiles4u\.com|zixshare\.com|uploadboost\.com|hqq\.tv|vidtodo\.com|vshare\.eu";
 $s=$s."|nowvideo\.eu|nowvideo\.co|vreer\.com|180upload\.com|dailymotion\.com|nosvideo\.com|vidbull\.com|purevid\.com|videobam\.com|streamcloud\.eu|donevideo\.com|upafile\.com|docs\.google|mail\.ru|superweb|moviki\.ru|entervideos\.com";
 $s=$s."|indavideo\.hu|redfly\.us|videa\.hu|videakid\.hu|mooshare\.biz|streamin\.to|kodik\.biz|videomega\.tv|ok\.ru|realvid\.net|up2stream\.com|openload\.co|allvid\.ch|";
-$s=$s."gorillavid\.in|daclips\.in|movpod\.in|vodlocker\.com|filehoot\.com|bestreams\.net|vidto\.me|cloudyvideos\.com|allmyvideos\.net|goo\.gl|cloudy\.ec|rapidvideo\.com|megavideo\.pro|raptu\.com|vidlox\.tv|flashservice\.xvideos\.com|xhamster\.com/i";
+$s=$s."streamango\.com|streamplay\.to|gorillavid\.in|daclips\.in|movpod\.in|vodlocker\.com|filehoot\.com|bestreams\.net|vidto\.me|cloudyvideos\.com|allmyvideos\.net|goo\.gl|cloudy\.ec|rapidvideo\.com|megavideo\.pro|raptu\.com|vidlox\.tv|flashservice\.xvideos\.com|xhamster\.com/i";
 
 for ($i=0;$i<count($links);$i++) {
   if (strpos($links[$i],"http") !== false) {

@@ -151,7 +151,7 @@ else if (userInput == "right" || userInput == "R")
 movie=getItemInfo(getFocusItemIndex(),"movie");
 tit=getItemInfo(getFocusItemIndex(),"tit");
 showIdle();
-movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/putlocker_f_det.php?file=" + movie+ "," + urlEncode(tit);
+movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/putlocker_f_det.php?file=" + movie+ "," + tit;
 dummy = getURL(movie_info);
 cancelIdle();
 ret_val=doModalRss("/usr/local/etc/www/cgi-bin/scripts/filme/php/movie_detail.rss");
@@ -217,6 +217,9 @@ foreach ($arr as $key => $val) {
   $image=$arr[$key][2];
   //echo $image1;
   $title=$arr[$key][0];
+  $title=str_replace("^",",",$title);
+  $title=str_replace("\\","",$title);
+  $title=str_replace("&amp;","&",$title);
 
   $t1=explode("<image>",$video);
   $year=$arr[$key][3];
@@ -225,16 +228,16 @@ foreach ($arr as $key => $val) {
   //watch-narcos-87202
   //$id1=substr(strrchr($link, "-"), 1);
   $image1=$image;
-   $link2=$host."/scripts/filme/php/putlocker_s_ep.php?file=".urlencode($link).",".urlencode($title).",".$id1.",".$id_t.",series,".urlencode($image);
+   $link2=$host."/scripts/filme/php/putlocker_s_ep.php?file=".urlencode($link).",".urlencode(str_replace(",","^",$title)).",".$id1.",".$id_t.",series,".urlencode($image);
    //$link2=$host."/scripts/filme/php/vumoo_s_ep.php?file=".urlencode($link).",".urlencode($title).",".$id1.",".$id_t.",series,".urlencode($image);
    if ($title && strpos($link,"putlocker.is") === false) {
      echo '
      <item>
-     <title>'.$title.'</title>
+     <title>'.str_replace("&","&amp;",str_replace("&amp;","&",$title)).'</title>
      <link>'.$link2.'</link>
     <image>'.$image.'</image>
     <image1>'.$image1.'</image1>
-    <tit>'.trim($title).'</tit>
+    <tit>'.urlencode(trim(str_replace(",","^",$title))).'</tit>
     <tit1>'.urlencode(trim($title)).'</tit1>
     <id>'.$id1.'</id>
     <idt>'.$id_t.'</idt>

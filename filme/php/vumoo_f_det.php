@@ -28,15 +28,15 @@ if($query) {
    $tit = urldecode($queryArr[1]);
    $tit=str_replace("/",",",$tit);
 }
-//http://vumoo.at/popup/movie_info/88871
-/*
+//http://vumoo.li/popup/movie_info/88871
+
 require_once 'httpProxyClass.php';
 require_once 'cloudflareClass.php';
 
 $httpProxy   = new httpProxy();
 $httpProxyUA = 'proxyFactory';
 
-$requestLink = "http://vumoo.at/popup/movie_info/".$link;
+$requestLink = "http://vumoo.li/popup/movie_info/".$link;
 $requestPage = json_decode($httpProxy->performRequest($requestLink));
 //echo $requestLink;
 // if page is protected by cloudflare
@@ -58,21 +58,25 @@ if($requestPage->status->http_code == 503) {
 		// could not fetch clearance cookie
         $html="";
 	}
+} else {
+$html = $requestPage->content;
 }
-*/
-$requestLink = "http://vumoo.at/popup/movie_info/".$link;
+
+/*
+$requestLink = "http://vumoo.li/popup/movie_info/".$link;
 $cookie="/tmp/vumoo.txt";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $requestLink);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt ($ch, CURLOPT_REFERER, "http://vumoo.at/");
+  curl_setopt ($ch, CURLOPT_REFERER, "http://vumoo.li/");
   curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
   curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   //curl_setopt($ch, CURLOPT_HEADER,1);
   $html = curl_exec($ch);
   curl_close($ch);
+*/
 $ttxml="";
 exec ("rm -f /tmp/movie.dat");
 $t1=explode('src="',$html);

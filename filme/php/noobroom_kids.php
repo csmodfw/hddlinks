@@ -711,7 +711,7 @@ foreach($videos as $video) {
      </script>
      </onClick>
     <download>'.$link1.'</download>
-    <title1>'.urlencode($title).'</title1>
+    <title1>'.urlencode(str_replace(",","^",$title)).'</title1>
     <link1>'.urlencode($link).'</link1>
     <name>'.$name.'</name>
     <movie>'.$link.'</movie>

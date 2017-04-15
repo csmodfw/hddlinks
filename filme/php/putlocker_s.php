@@ -187,7 +187,7 @@ tit=getItemInfo(getFocusItemIndex(),"tit");
 year=getItemInfo(getFocusItemIndex(),"an");
 id=getItemInfo(getFocusItemIndex(),"id");
  showIdle();
- url="http://127.0.0.1/cgi-bin/scripts/filme/php/putlocker_s_add.php?mod=add," + urlEncode(movie) + "," + urlEncode(tit) + "," + urlEncode(img) + "," + urlEncode(year) + "," + urlEncode(id);
+ url="http://127.0.0.1/cgi-bin/scripts/filme/php/putlocker_s_add.php?mod=add," + urlEncode(movie) + "," + tit + "," + urlEncode(img) + "," + urlEncode(year) + "," + urlEncode(id);
  dummy=getUrl(url);
  cancelIdle();
  redrawDisplay();
@@ -198,7 +198,7 @@ else if (userInput == "right" || userInput == "R")
 movie=getItemInfo(getFocusItemIndex(),"movie");
 tit=getItemInfo(getFocusItemIndex(),"tit");
 showIdle();
-movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/putlocker_f_det.php?file=" + movie+ "," + urlEncode(tit);
+movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/putlocker_f_det.php?file=" + movie+ "," + tit;
 dummy = getURL(movie_info);
 cancelIdle();
 ret_val=doModalRss("/usr/local/etc/www/cgi-bin/scripts/filme/php/movie_detail.rss");
@@ -382,15 +382,15 @@ foreach($videos as $video) {
   $title=$title11; //." (".$year.")";
   //$id_t=$id1;
   $id_t="";
-   $link2=$host."/scripts/filme/php/putlocker_s_ep.php?file=".urlencode($link1).",".urlencode($title).",".$id1.",".$id_t.",series,".urlencode($image);
+   $link2=$host."/scripts/filme/php/putlocker_s_ep.php?file=".urlencode($link1).",".urlencode(str_replace(",","^",$title)).",".$id1.",".$id_t.",series,".urlencode($image);
    if ($title) {
      echo '
      <item>
-     <title>'.$title.'</title>
+     <title>'.str_replace("&","&amp;",str_replace("&amp;","&",$title)).'</title>
      <link>'.$link2.'</link>
     <image>'.$image.'</image>
     <image1>'.$image1.'</image1>
-    <tit>'.trim($title).'</tit>
+    <tit>'.urlencode(trim(str_replace(",","^",$title))).'</tit>
     <tit1>'.urlencode(trim($title)).'</tit1>
     <id>'.$id1.'</id>
     <idt>'.$id_t.'</idt>

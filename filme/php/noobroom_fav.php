@@ -453,7 +453,7 @@ foreach ($arr as $key => $val) {
   $title=$arr[$key][0];
    $title=str_replace("&amp;","&",$title);
    $title=str_replace("&","&amp;",$title);
-   $title=str_replace("\'","'",$title);
+   $title=str_replace("\\","",$title);
 
     $link=$l;
     $name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".mp4";
@@ -469,7 +469,7 @@ foreach ($arr as $key => $val) {
     //$title=str_replace("&","&amp;",$title);
     echo '
      <item>
-     <title>'.$title.'</title>
+     <title>'.str_replace("&","&amp;",str_replace("&amp;","&",$title)).'</title>
      <onClick>
      <script>
      showIdle();
@@ -502,7 +502,7 @@ foreach ($arr as $key => $val) {
      </script>
      </onClick>
     <download>'.$link1.'</download>
-    <title1>'.urlencode($title).'</title1>
+    <title1>'.urlencode(str_replace(",","^",$title)).'</title1>
     <link1>'.urlencode($l).'</link1>
     <name>'.$name.'</name>
     <movie>'.$l.'</movie>

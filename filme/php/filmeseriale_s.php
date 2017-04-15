@@ -56,7 +56,7 @@ if($query) {
 		  <script>getPageInfo("pageTitle");</script>
 		</text>
   	<text align="left" offsetXPC="6" offsetYPC="15" widthPC="75" heightPC="4" fontSize="16" backgroundColor="10:105:150" foregroundColor="100:200:255">
-    2= adauga la favorite
+    2= adauga la favorite, right for more
 		</text>
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
@@ -148,6 +148,16 @@ else if (userInput == "two" || userInput == "2")
  cancelIdle();
  redrawDisplay();
  ret="true";
+}
+else if (userInput == "right" || userInput == "R")
+{
+tit=getItemInfo(getFocusItemIndex(),"title1");
+showIdle();
+movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/noobroom_det.php?file=series" + tit;
+dummy = getURL(movie_info);
+cancelIdle();
+ret_val=doModalRss("/usr/local/etc/www/cgi-bin/scripts/filme/php/movie_detail.rss");
+ret="true";
 }
 ret;
 </script>
@@ -242,14 +252,14 @@ foreach($videos as $video) {
 	if($link!="" && strpos($link,"/serial") !== false) {
 		//$link = "http://127.0.0.1/cgi-bin/scripts/filme/php/onlinemoca_link.php?file=".$link.",".urlencode($titlu);
 		//$link = "http://127.0.0.1/cgi-bin/scripts/filme/php/fs.php?query=".$link.",".urlencode($title).",movie";
-		$link = 'http://127.0.0.1/cgi-bin/scripts/filme/php/filmeseriale.php?file='.$link.','.urlencode($title);
+		$link = 'http://127.0.0.1/cgi-bin/scripts/filme/php/filmeseriale.php?file='.$link.','.urlencode(str_replace(",","^",$title));
 		echo'
 		<item>
-		<title>'.$title.'</title>
+		<title>'.str_replace("&","&amp;",str_replace("&amp;","&",$title)).'</title>
 		<link>'.$link.'</link>
 	  <annotation>'.$title.'</annotation>
 	  <image>'.$image.'</image>
-    <title1>'.urlencode($title).'</title1>
+    <title1>'.urlencode(trim(str_replace(",","^",$title))).'</title1>
     <link1>'.urlencode($link1).'</link1>
 	  <media:thumbnail url="image/movies.png" />
 	  <mediaDisplay name="threePartsView"/>

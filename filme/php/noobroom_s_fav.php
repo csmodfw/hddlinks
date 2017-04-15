@@ -45,6 +45,9 @@ $host = "http://127.0.0.1/cgi-bin";
   	<text align="center" offsetXPC="0" offsetYPC="0" widthPC="100" heightPC="20" fontSize="30" backgroundColor="10:105:150" foregroundColor="100:200:255">
 		  <script>getPageInfo("pageTitle");</script>
 		</text>
+  	<text align="left" offsetXPC="8" offsetYPC="3" widthPC="47" heightPC="4" fontSize="14" backgroundColor="10:105:150" foregroundColor="100:200:255">
+    4/6= jump -+100, right for more...
+		</text>
   	<text align="left" offsetXPC="6" offsetYPC="15" widthPC="75" heightPC="4" fontSize="16" backgroundColor="10:105:150" foregroundColor="100:200:255">
     2 = sterge de la favorite. Reincarcati pagina pentru a vedea rezultatul
 		</text>
@@ -135,6 +138,40 @@ else if (userInput == "two" || userInput == "2")
  redrawDisplay();
  ret="true";
 }
+else if(userInput == "six" || userInput == "6")
+{
+    idx = Integer(getFocusItemIndex());
+    idx -= -100;
+    if(idx &gt;= itemCount)
+    idx = itemCount-1;
+
+  print("new idx: "+idx);
+  setFocusItemIndex(idx);
+	setItemFocus(0);
+  "true";
+}
+else if(userInput == "four" || userInput == "4")
+{
+    idx = Integer(getFocusItemIndex());
+    idx -= 100;
+    if(idx &lt; 0)
+      idx = 0;
+
+  print("new idx: "+idx);
+  setFocusItemIndex(idx);
+	setItemFocus(0);
+  "true";
+}
+else if (userInput == "right" || userInput == "R")
+{
+movie=getItemInfo(getFocusItemIndex(),"movie");
+showIdle();
+movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/noobroom_det.php?file=series" + movie;
+dummy = getURL(movie_info);
+cancelIdle();
+ret_val=doModalRss("/usr/local/etc/www/cgi-bin/scripts/filme/php/movie_detail.rss");
+ret="true";
+}
 ret;
 </script>
 </onUserInput>
@@ -186,14 +223,17 @@ foreach ($arr as $key => $val) {
   $l=$arr[$key][1];
   $l1 =$noob.$l;
   $title=$arr[$key][0];
+  $title=str_replace("\\","",$title);
+  $title=str_replace("^",",",$title);
   //$link = 'http://127.0.0.1/cgi-bin/scripts/filme/php/online-filmek.php?query=1,'.$l.','.urlencode($title);
-  $link="http://127.0.0.1/cgi-bin/scripts/filme/php/noobroom_series.php?query=".urlencode($l1).",".urlencode($title);
+  $link="http://127.0.0.1/cgi-bin/scripts/filme/php/noobroom_series.php?query=".urlencode($l1).",".urlencode(str_replace(",","^",$title));
     echo '
     <item>
     <title>'.$title.'</title>
     <annotation>'.$title.'</annotation>
     <link>'.$link.'</link>
-    <title1>'.urlencode($title).'</title1>
+    <title1>'.urlencode(str_replace(",","^",$title)).'</title1>
+    <movie>'.urlencode(str_replace(",","^",$title)).'</movie>
     <link1>'.urlencode($l).'</link1>
     </item>
     ';

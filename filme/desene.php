@@ -178,6 +178,13 @@ ret;
 <annotation>http://desenanimatdublat.blogspot.ro</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
+
+<item>
+<title>desene-super-ade3</title>
+<link><?php echo $host; ?>/scripts/filme/php/deseneledublate2_main.php</link>
+<annotation>https://desene-super-ade3.blogspot.ro</annotation>
+<mediaDisplay name="threePartsView"/>
+</item>
 <!--
 <item>
 <title>Desene Animate</title>

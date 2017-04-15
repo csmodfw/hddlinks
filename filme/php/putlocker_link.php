@@ -8,7 +8,8 @@ if($query) {
    $link = urldecode($queryArr[0]);
    $title=urldecode($queryArr[1]);
    $title=str_replace("^",",",$title);
-   $title=str_replace("\'","'",$title);
+   $title=str_replace("\\","",$title);
+   $title=str_replace("&amp;","&",$title);
    $id1= $queryArr[2];
    $id_t= $queryArr[3];
    $tip=$queryArr[4];
@@ -104,7 +105,7 @@ $year="";
 		</image>
 
   	<text  redraw="yes" align="center" offsetXPC="0" offsetYPC="90" widthPC="100" heightPC="8" fontSize="17" backgroundColor="10:105:150" foregroundColor="100:200:255">
-		  <script>print(titlu); titlu;</script>
+		  <script>print(annotation); annotation;</script>
 		</text>
 
 		<idleImage> image/POPUP_LOADING_01.png </idleImage>
@@ -125,7 +126,7 @@ $year="";
 					{
 					  image = getItemInfo(idx, "image");
 					  an =  getItemInfo(idx, "an");
-					  annotation = getItemInfo(idx, "annotation");
+					  annotation1 = getItemInfo(idx, "annotation");
 					  durata = getItemInfo(idx, "durata");
 					  pub = getItemInfo(idx, "pub");
 					  titlu = getItemInfo(idx, "title");
@@ -196,6 +197,22 @@ else if (userInput == "zero" || userInput == "0" || userInput == "option_blue")
     jumpToLink("fs");
     "true";
 }
+else if(userInput == "four" || userInput == "4")
+{
+showIdle();
+l = getItemInfo(getFocusItemIndex(),"movie1");
+url="http://127.0.0.1/cgi-bin/scripts/filme/php/link.php?file=" + l;
+annotation=geturl(url);
+cancelIdle();
+  redrawDisplay();
+  ret="true";
+}
+else
+{
+annotation = "";
+redrawDisplay();
+ret="false";
+}
 ret;
 </script>
 </onUserInput>
@@ -218,7 +235,7 @@ ret;
 <link>http://127.0.0.1/cgi-bin/scripts/filme/php/fs3.php</link>
 </fs>
 <channel>
-	<title><?php echo $title; ?></title>
+	<title><?php echo str_replace("&","&amp;",str_replace("&amp;","&",$title)); ?></title>
 	<menu>main menu</menu>
 
 
@@ -278,16 +295,19 @@ if($requestPage->status->http_code == 503) {
 }
 */
 //echo $link;
+//$link="http://www.watchfree.to/tv-1028-Prison-Break-tv-show-online-free-putlocker.html/season-5-episode-1";
+//$link="http://www.watchfree.to/tv-1028-Prison-Break-tv-show-online-free-putlocker.html/season-1-episode-1#close-modal";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $link);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0');
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   curl_setopt ($ch, CURLOPT_REFERER, "http://www.watchfree.to");
   //curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
   //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   //curl_setopt($ch, CURLOPT_HEADER,1);
   $html = curl_exec($ch);
+  //echo $html;
  $videos = explode('go.php', $html);
 unset($videos[0]);
 $videos = array_values($videos);
@@ -343,6 +363,7 @@ foreach($videos as $video) {
     <movie>'.trim($openload).'</movie>
     <serial>'.urlencode($serial).'</serial>
     <movie1>'.urlencode(trim($openload)).'</movie1>
+    <annotation>'.$server.'</annotation>
      </item>
      ';
    }

@@ -6,6 +6,7 @@ function str_between($string, $start, $end){
 	return substr($string,$ini,$len);
 }
 $id = $_GET["file"];
+if (substr($id, 0, 6) != "series" && substr($id, 0, 5) != "movie") {
 $noob=file_get_contents("/tmp/n.txt");
 ///?imdb.com/title/tt2084342"
 //http://37.128.191.193/
@@ -114,6 +115,50 @@ $desc=str_replace("&#xCE;","I",$desc);
 $desc=str_replace("&#xEE;","i",$desc);
 $desc=str_replace("&#xE2;","a",$desc);
 $desc = trim(preg_replace("/<(.*)>|(\{(.*)\})/e","",$desc));
+} else {
+//http://www.omdbapi.com/?t=Rizzoli+%26+Isles&plot=full
+$tit=urldecode($id);
+if (substr($id, 0, 6) == "series") {
+  $tip="series";
+  $tit = str_replace("series","",$tit);
+} else {
+  $tip="movie";
+  $tit = str_replace("movie","",$tit);
+}
+$tit=str_replace("\\","",$tit);
+$tit=str_replace("^",",",$tit);
+//$tit = str_replace("series","",$tit);
+$tit = str_replace("&amp;","&",$tit);
+//$tit = str_replace("&","%26",$tit);
+$t1=explode("(",$tit);
+$tit3=trim($t1[0]);
+
+$year="";
+$IMDB_API_URL = "http://www.omdbapi.com/?t=".urlencode($tit3)."&y=".$year."&type=".$tip."&plot=full";
+$Data = file_get_contents($IMDB_API_URL);
+//echo $Data;
+if (strpos($Data,"imdbID") !== false) {
+$JSON = json_decode($Data,1);
+//print_r ($JSON);
+$imdb="IMDB: ".$JSON["imdbRating"];
+//$imdb1=json_decode($JSON["Ratings"][0],1);
+//$imdb=$imdb1["Value"];
+$tit=$JSON["Title"];
+$year="Year: ".$JSON["Year"];
+$img=$JSON["Poster"];
+if (strpos($img,"http") !== false)
+$img="http://127.0.0.1/cgi-bin/scripts/filme/php/r.php?file=".$img;
+else
+$img="";
+$gen="Genre: ".$JSON["Genre"];
+$durata="Duration: ".$JSON["Runtime"];
+$cast="Cast: ".$JSON["Actors"];
+$desc=$JSON["Plot"];
+$ttxml="";
+} else {
+$iit = $tit3;
+}
+}
 $ttxml .=$tit."\n"; //title
 $ttxml .= $year."\n";     //an
 $ttxml .=$img."\n"; //image
@@ -122,7 +167,7 @@ $ttxml .=$durata."\n"; //regie
 $ttxml .=$imdb."\n"; //imdb
 $ttxml .=$cast."\n"; //actori
 $ttxml .=$desc."\n"; //descriere
-//echo $ttxml;
+echo $ttxml;
 $new_file = "/tmp/movie.dat";
 $fh = fopen($new_file, 'w');
 fwrite($fh, $ttxml);

@@ -34,6 +34,7 @@ $baseimg=$t2[0];
 $baseimg=$noob."/2img/";
 //$baseimg="http://107.6.170.83/~nooboard/2img/";
 $p=0;
+//$imdb=str_between($h,"imdb.com/title/tt",'"');
 ?>
 <rss version="2.0">
 <script>
@@ -513,7 +514,7 @@ if (strpos($l,"azlist") !== false) {
    if ($title) {
      echo '
      <item>
-     <title>'.$title1.'</title>
+     <title>'.str_replace("&","&amp;",str_replace("&amp;","&",$title1)).'</title>
      <onClick>
      <script>
      showIdle();
@@ -546,7 +547,7 @@ if (strpos($l,"azlist") !== false) {
      </script>
      </onClick>
     <download>'.$link1.'</download>
-    <title1>'.urlencode($title).'</title1>
+    <title1>'.urlencode(str_replace(",","^",$title)).'</title1>
     <link1>'.urlencode($link).'</link1>
     <name>'.$name.'</name>
     <movie>'.$link.'</movie>
@@ -603,7 +604,7 @@ foreach($videos as $video) {
    if ($title) {
      echo '
      <item>
-     <title>'.$title1.'</title>
+     <title>'.str_replace("&","&amp;",str_replace("&amp;","&",$title1)).'</title>
      <onClick>
      <script>
      showIdle();
@@ -636,7 +637,7 @@ foreach($videos as $video) {
      </script>
      </onClick>
     <download>'.$link1.'</download>
-    <title1>'.urlencode($title).'</title1>
+    <title1>'.urlencode(str_replace(",","^",$title)).'</title1>
     <link1>'.urlencode($link).'</link1>
     <name>'.$name.'</name>
     <movie>'.$link.'</movie>
@@ -697,7 +698,7 @@ foreach ($arr as $key => $val) {
    if ($title) {
      echo '
      <item>
-     <title>'.$title1.'</title>
+     <title>'.str_replace("&","&amp;",str_replace("&amp;","&",$title1)).'</title>
      <onClick>
      <script>
      showIdle();
@@ -730,7 +731,7 @@ foreach ($arr as $key => $val) {
      </script>
      </onClick>
     <download>'.$link1.'</download>
-    <title1>'.urlencode($title).'</title1>
+    <title1>'.urlencode(str_replace(",","^",$title)).'</title1>
     <link1>'.urlencode($link).'</link1>
     <name>'.$name.'</name>
     <movie>'.$link.'</movie>

@@ -27,7 +27,7 @@ $ttxml     = '';
 $full_line = '';
 $sub_max = 53;
 $last_end=0;
-if (strpos($file,"vidlox.tv") !== false) {
+if (strpos($file,"vidlox.tv") !== false || strpos($file,"raptu") !== false) {
   $x="http://uphero.xpresso.eu/movietv/vidox_s.php?file=".$file;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $x);

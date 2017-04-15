@@ -21,6 +21,7 @@ $link = $_GET["file"];
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $html = curl_exec($ch);
   curl_close($ch);
   //echo $html;
@@ -30,5 +31,6 @@ $link = $_GET["file"];
 //$t3=explode('"',$t2[1]);
 //$link = urldecode($t3[0]);
 $link=trim(str_between($html,'videoUrlJS = "','"'));
+$link=str_replace("https","http",$link);
 print $link;
 ?>

@@ -232,7 +232,7 @@ fclose($fh);
 		  <script>getPageInfo("pageTitle");</script>
 		</text>
   	<text align="left" offsetXPC="8" offsetYPC="3" widthPC="47" heightPC="4" fontSize="14" backgroundColor="10:105:150" foregroundColor="100:200:255">
-    2=Re-Logon, 6=Logout
+    2=Re-Logon, 7=Logout,4/6= jump -+100, right for more...
 		</text>
   	<text align="right" offsetXPC="55" offsetYPC="3" widthPC="40" heightPC="4" fontSize="14" backgroundColor="10:105:150" foregroundColor="100:200:255">
     <script>"<?php echo $premium; ?>" + sprintf("%s "," ");</script>
@@ -337,13 +337,49 @@ else if (userInput == "one" || userInput == "1")
  redrawDisplay();
  ret="true";
 }
-else if (userInput == "six" || userInput == "6")
+else if (userInput == "seven" || userInput == "7")
 {
  showIdle();
  url=geturl("http://127.0.0.1/cgi-bin/scripts/filme/php/noob_del1.php");
  cancelIdle();
  redrawDisplay();
  "true";
+}
+else if(userInput == "six" || userInput == "6")
+{
+    idx = Integer(getFocusItemIndex());
+    idx -= -100;
+    if(idx &gt;= itemCount)
+    idx = itemCount-1;
+
+  print("new idx: "+idx);
+  setFocusItemIndex(idx);
+	setItemFocus(0);
+  redrawDisplay();
+  "true";
+}
+else if(userInput == "four" || userInput == "4")
+{
+    idx = Integer(getFocusItemIndex());
+    idx -= 100;
+    if(idx &lt; 0)
+      idx = 0;
+
+  print("new idx: "+idx);
+  setFocusItemIndex(idx);
+	setItemFocus(0);
+	redrawDisplay();
+  "true";
+}
+else if (userInput == "right" || userInput == "R")
+{
+movie=getItemInfo(getFocusItemIndex(),"movie");
+showIdle();
+movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/noobroom_det.php?file=series" + movie;
+dummy = getURL(movie_info);
+cancelIdle();
+ret_val=doModalRss("/usr/local/etc/www/cgi-bin/scripts/filme/php/movie_detail.rss");
+ret="true";
 }
 ret;
 </script>
@@ -469,13 +505,14 @@ foreach ($arr as $key => $val) {
  $link1=$arr[$key][1];
  $img=$arr[$key][2];
  $link=$noob.$link1;
-   $link=$host."/scripts/filme/php/noobroom_series.php?query=".urlencode($link).",".urlencode($title);
+   $link=$host."/scripts/filme/php/noobroom_series.php?query=".urlencode($link).",".urlencode(str_replace(",","^",$title));
    echo '
     <item>
     <title>'.$title.'</title>
     <link>'.$link.'</link>
     <link1>'.urlencode($link1).'</link1>
-    <title1>'.urlencode($title).'</title1>
+    <title1>'.urlencode(str_replace(",","^",$title)).'</title1>
+    <movie>'.urlencode(str_replace(",","^",$title)).'</movie>
   	<annotation>'.$title.'</annotation>
   	<image>'.$img.'</image>
     <mediaDisplay name="threePartsView"/>
@@ -517,7 +554,8 @@ foreach($videos as $video) {
     <title>'.$title.'</title>
     <link>'.$link.'</link>
     <link1>'.urlencode($link1).'</link1>
-    <title1>'.urlencode($title).'</title1>
+    <title1>'.urlencode(str_replace(",","^",$title)).'</title1>
+    <movie>'.urlencode(str_replace(",","^",$title)).'</movie>
   	<annotation>'.$title.'</annotation>
   	<image>'.$img.'</image>
     <mediaDisplay name="threePartsView"/>

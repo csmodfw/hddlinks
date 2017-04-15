@@ -6,6 +6,9 @@ if($query) {
    $link = $queryArr[0];
    $pagetitle = trim(urldecode($queryArr[1]));
    $pagetitle=str_replace(urldecode("%C2%A0"),"",$pagetitle);
+   $pagetitle = str_replace("\\","",$pagetitle);
+   $pagetitle = str_replace("^",",",$pagetitle);
+   $pagetitle = str_replace("&amp;","&",$pagetitle);
 }
 ?>
 <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
@@ -158,7 +161,7 @@ ret;
       		
 </mediaDisplay>
 <channel>
-	<title><?php echo $pagetitle; ?></title>
+	<title><?php echo str_replace("&","&amp;",str_replace("&amp;","&",$pagetitle)); ?></title>
 	<menu>main menu</menu>
 <?php
 function str_between($string, $start, $end){ 
@@ -202,10 +205,10 @@ if ( sizeof($t1)>1 ) {
 
       //$link = 'filme_link.php?file='.urlencode($link).",".urlencode($title);
 
-   $link="http://127.0.0.1/cgi-bin/scripts/filme/php/filme_link.php?file=".$link.",".urlencode(str_replace(","," - ",$pagetitle." ".$title));
+   $link="http://127.0.0.1/cgi-bin/scripts/filme/php/filme_link.php?file=".$link.",".urlencode(str_replace(","," - ",str_replace(",","^",$pagetitle)." ".str_replace(",","^",$title)));
     echo '
     <item>
-    <title>'.$title.'</title>
+    <title>'.str_replace("&","&amp;",str_replace("&amp;","&",$title)).'</title>
     <link>'.$link.'</link>
  		<media:thumbnail url="'.$pageimage.'" />
  		<mediaDisplay name="threePartsView"/>

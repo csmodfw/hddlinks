@@ -15,9 +15,9 @@ if ($tip=="movie") {
 } else {
   $tit2=$sezon."x".$episod;
 }
-  $tit2=str_replace("\'","'",$tit2);
+  $tit2=str_replace("\\","",$tit2);
   $tit2=str_replace("^",",",$tit2);
-  $tit=str_replace("\'","'",$tit);
+  $tit=str_replace("\\","",$tit);
   $tit=str_replace("^",",",$tit);
 ?>
 <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
@@ -59,9 +59,6 @@ if ($tip=="movie") {
 >
   	<text align="center" offsetXPC="0" offsetYPC="0" widthPC="100" heightPC="20" fontSize="30" backgroundColor="10:105:150" foregroundColor="100:200:255">
 		  <script>getPageInfo("pageTitle");</script>
-		</text>
-  	<text align="left" offsetXPC="8" offsetYPC="3" widthPC="47" heightPC="4" fontSize="14" backgroundColor="10:105:150" foregroundColor="100:200:255">
-    2=Initializeaza token
 		</text>
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
@@ -152,7 +149,7 @@ ret;
       		
 </mediaDisplay>
 <channel>
-	<title><?php echo $tit." ".$tit2; ?></title>
+	<title><?php echo str_replace("&","&amp;",$tit)." ".str_replace("&","&amp;",$tit2); ?></title>
 	<menu>main menu</menu>
 <?php
 
@@ -189,6 +186,7 @@ function get_value($q, $string) {
 
 
 $f="/tmp/opensub.txt";
+exec("rm -f /tmp/opensub.txt");
 if (file_exists($f)) {
 $token=file_get_contents($f);
 } else {
@@ -242,7 +240,7 @@ $request="<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>
        <member>
         <name>query</name>
         <value>
-         <string>".$tit."</string>
+         <string>".str_replace("&","&amp;",$tit)."</string>
         </value>
        </member>
        <member>
@@ -310,7 +308,7 @@ $request="<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>
        <member>
         <name>query</name>
         <value>
-         <string>".$tit."</string>
+         <string>".str_replace("&","&amp;",$tit)."</string>
         </value>
        </member>
        <member>

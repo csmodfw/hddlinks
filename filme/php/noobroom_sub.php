@@ -28,6 +28,8 @@ $baseimg=$t2[0];
 $baseimg=$noob."/2img/";
 //$baseimg="http://107.6.170.83/~nooboard/2img/";
 $p=0;
+//http://imdb.com/title/tt0502165
+//$imdb=str_between($h,"imdb.com/title/tt",'"');
 ?>
 <rss version="2.0">
 <script>
@@ -140,10 +142,10 @@ setRefreshTime(1);
 		  <script>getPageInfo("pageTitle") + " (" + itemCount + ")";</script>
 		</text>
   	<text align="left" offsetXPC="8" offsetYPC="3" widthPC="47" heightPC="4" fontSize="14" backgroundColor="10:105:150" foregroundColor="100:200:255">
-    5=Setare subtitrare, info=server load
+    5=Setare subtitrare, info=server load , 0 (blue) = folositi alta subtitrare
 		</text>
   	<text align="left" offsetXPC="6" offsetYPC="15" widthPC="80" heightPC="4" fontSize="16" backgroundColor="10:105:150" foregroundColor="100:200:255">
-    1=favorite, 2= download,0=dl. manager,4/6= jump -+100, right for more...
+    1=favorite, 2= download,4/6= jump -+100, right for more...
 		</text>
   	<text redraw="yes" offsetXPC="86" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s", focus-(-1));</script>
@@ -256,11 +258,6 @@ else if (userInput == "two" || userInput == "2")
 	 dlok = loadXMLFile(topUrl);
 	 "true";
 }
-else if (userInput == "zero" || userInput == "0")
-   {
-    jumpToLink("destination");
-    "true";
-}
 else if (userInput == "five" || userInput == "5")
    {
     jumpToLink("sub");
@@ -347,6 +344,16 @@ else if(hhd == "3")
   shd = "SD";
  }
 }
+else if (userInput == "zero" || userInput == "0" || userInput == "option_blue")
+   {
+  t = getItemInfo(getFocusItemIndex(),"title1");
+  l = getItemInfo(getFocusItemIndex(),"link1");
+  movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/fs_det.php?file=" + t + "," + l + "," + subtitle + "," + server + "," + hhd + ",0";
+  dummy = getURL(movie_info);
+
+    jumpToLink("fs");
+    "true";
+}
 else if (userInput == "right" || userInput == "R")
 {
 movie=getItemInfo(getFocusItemIndex(),"movie");
@@ -415,6 +422,9 @@ echo '
 ';
 }
 ?>
+<fs>
+<link>http://127.0.0.1/cgi-bin/scripts/filme/php/fs.php</link>
+</fs>
 <channel>
 	<title>Ultimele filme subtitrate</title>
 	<menu>main menu</menu>
@@ -489,7 +499,9 @@ for ($k=0;$k<100;$k++) {
    $link=$id;
    $title=$filme[$id]["tit"];
    $year=$filme[$id]["an"];
-
+   $title=str_replace("&amp;","&",$title);
+   $title=str_replace("&","&amp;",$title);
+   $title=str_replace("\'","'",$title);
    $title1=$title;
    //$t1=explode("(",$title);
    //$x=count($t1);
@@ -542,7 +554,7 @@ for ($k=0;$k<100;$k++) {
      </script>
      </onClick>
     <download>'.$link1.'</download>
-    <title1>'.urlencode($title).'</title1>
+    <title1>'.urlencode(str_replace(",","^",$title)).'</title1>
     <link1>'.urlencode($link).'</link1>
     <name>'.$name.'</name>
     <movie>'.$link.'</movie>

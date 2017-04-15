@@ -187,7 +187,7 @@ tit=getItemInfo(getFocusItemIndex(),"tit");
 year=getItemInfo(getFocusItemIndex(),"an");
 id=getItemInfo(getFocusItemIndex(),"id");
  showIdle();
- url="http://127.0.0.1/cgi-bin/scripts/filme/php/vumoo_s_add.php?mod=add," + urlEncode(movie) + "," + urlEncode(tit) + "," + urlEncode(img) + "," + urlEncode(year) + "," + urlEncode(id);
+ url="http://127.0.0.1/cgi-bin/scripts/filme/php/vumoo_s_add.php?mod=add," + urlEncode(movie) + "," + tit + "," + urlEncode(img) + "," + urlEncode(year) + "," + urlEncode(id);
  dummy=getUrl(url);
  cancelIdle();
  redrawDisplay();
@@ -198,7 +198,7 @@ else if (userInput == "right" || userInput == "R")
 movie=getItemInfo(getFocusItemIndex(),"id");
 tit=getItemInfo(getFocusItemIndex(),"tit");
 showIdle();
-movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/vumoo_f_det.php?file=" + movie+ "," + urlEncode(tit);
+movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/noobroom_det.php?file=series" + tit;
 dummy = getURL(movie_info);
 cancelIdle();
 ret_val=doModalRss("/usr/local/etc/www/cgi-bin/scripts/filme/php/movie_detail.rss");
@@ -301,17 +301,17 @@ $url = $sThisFile."?page=".($page-1).",".$tip.",".urlencode($link).",".urlencode
 
 
 /////////////////////////////////////////////////////////////
-/*
+
 require_once 'httpProxyClass.php';
 require_once 'cloudflareClass.php';
 
 $httpProxy   = new httpProxy();
 $httpProxyUA = 'proxyFactory';
-//http://vumoo.at/videos/search/?search=star&page=2
+//http://vumoo.li/videos/search/?search=star&page=2
 if ($tip=="search")
-   $requestLink = "http://vumoo.at/videos/search/?search=".str_replace(" ","+",$link)."&page=".$page;
+   $requestLink = "http://vumoo.li/videos/search/?search=".str_replace(" ","+",$link)."&page=".$page;
 else
-   $requestLink = "http://vumoo.at/videos/category/".str_replace(" ","%20",$link)."/?page=".$page."";
+   $requestLink = "http://vumoo.li/videos/category/trending-television/?page=".$page."";
 //echo $requestLink;
 $requestPage = json_decode($httpProxy->performRequest($requestLink));
 //echo $requestLink;
@@ -334,13 +334,16 @@ if($requestPage->status->http_code == 503) {
 		// could not fetch clearance cookie
         $html="";
 	}
+} else {
+$html = $requestPage->content;
 }
-*/
+
 //echo $html;
+/*
 if ($tip=="search")
-   $requestLink = "http://vumoo.at/videos/search/?search=".str_replace(" ","+",$link)."&page=".$page;
+   $requestLink = "http://vumoo.li/videos/search/?search=".str_replace(" ","+",$link)."&page=".$page;
 else
-   $requestLink = "http://vumoo.at/videos/category/trending-television/?page=".$page."";
+   $requestLink = "http://vumoo.li/videos/category/trending-television/?page=".$page."";
 $cookie="/tmp/vumoo.txt";
 //$cookie="D:/";
   $ch = curl_init();
@@ -348,13 +351,13 @@ $cookie="/tmp/vumoo.txt";
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt ($ch, CURLOPT_REFERER, "http://vumoo.at/");
+  curl_setopt ($ch, CURLOPT_REFERER, "http://vumoo.li/");
   curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
   curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   //curl_setopt($ch, CURLOPT_HEADER,1);
   $html = curl_exec($ch);
   curl_close($ch);
-  
+*/
  $videos = explode('<article class="movie_item">', $html);
 unset($videos[0]);
 $videos = array_values($videos);
@@ -381,11 +384,11 @@ foreach($videos as $video) {
    if ($title) {
      echo '
      <item>
-     <title>'.$title.'</title>
+     <title>'.str_replace("&","&amp;",str_replace("&amp;","&",$title)).'</title>
      <link>'.$link2.'</link>
     <image>'.$image.'</image>
     <image1>'.$image1.'</image1>
-    <tit>'.trim($title).'</tit>
+    <tit>'.urlencode(trim(str_replace(",","^",$title))).'</tit>
     <tit1>'.urlencode(trim(str_replace(",","^",$title))).'</tit1>
     <id>'.$id1.'</id>
     <idt>'.$id_t.'</idt>

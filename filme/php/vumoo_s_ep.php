@@ -9,13 +9,16 @@ if($query) {
    $queryArr = explode(',', $query);
    $link = urldecode($queryArr[0]);
    $series_title=urldecode($queryArr[1]);
+   $series_title = str_replace("\\","",$series_title);
+   $series_title = str_replace("^",",",$series_title);
+   $series_title = str_replace("&amp;","&",$series_title);
    $id1= $queryArr[2];
    $id_t= $queryArr[3];
    $tip=$queryArr[4];
    $image= urldecode($queryArr[5]);
 }
-$series_title=str_replace("^",",",$series_title);
-$series_title=str_replace("\'","'",$series_title);
+//$series_title=str_replace("^",",",$series_title);
+//$series_title=str_replace("\'","'",$series_title);
 ?>
 <rss version="2.0">
 <onEnter>
@@ -223,7 +226,7 @@ ret;
 <link>http://127.0.0.1/cgi-bin/scripts/filme/php/fs2.php</link>
 </fs>
 <channel>
-	<title><?php echo $series_title; ?></title>
+	<title><?php echo str_replace("&","&amp;",str_replace("&amp;","&",$series_title)); ?></title>
 	<menu>main menu</menu>
 
 
@@ -250,14 +253,14 @@ function str_between($string, $start, $end){
             return isset($ERRORS[$error]) ? $ERRORS[$error] : 'Unknown error';
         }
     }
-/*
-$requestLink="http://vumoo.at/videos/play/".$link;
+
+$requestLink="http://vumoo.li/videos/play/".$link;
 require_once 'httpProxyClass.php';
 require_once 'cloudflareClass.php';
 
 $httpProxy   = new httpProxy();
 $httpProxyUA = 'proxyFactory';
-//http://vumoo.at/videos/search/?search=star&page=2
+//http://vumoo.li/videos/search/?search=star&page=2
 
 $requestPage = json_decode($httpProxy->performRequest($requestLink));
 //echo $requestLink;
@@ -280,9 +283,12 @@ if($requestPage->status->http_code == 503) {
 		// could not fetch clearance cookie
         $html="";
 	}
+} else {
+$html = $requestPage->content;
 }
-*/
-$requestLink="http://vumoo.at/videos/play/".$link;
+
+/*
+$requestLink="http://vumoo.li/videos/play/".$link;
 $cookie="/tmp/vumoo.txt";
 //$cookie="D:/";
   $ch = curl_init();
@@ -290,12 +296,13 @@ $cookie="/tmp/vumoo.txt";
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt ($ch, CURLOPT_REFERER, "http://vumoo.at/");
+  curl_setopt ($ch, CURLOPT_REFERER, "http://vumoo.li/");
   curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
   curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   //curl_setopt($ch, CURLOPT_HEADER,1);
   $html = curl_exec($ch);
   curl_close($ch);
+*/
   $link1="";
  $videos = explode('<li id=season', $html);
 unset($videos[0]);
@@ -327,11 +334,11 @@ foreach($videos as $video) {
    if ($title) {
      echo '
      <item>
-     <title>'.$title.'</title>
+     <title>'.str_replace("&","&amp;",str_replace("&amp;","&",$title)).'</title>
      <link>'.$link2.'</link>
     <image>'.$image.'</image>
     <image1>'.$image1.'</image1>
-    <tit>'.trim($title).'</tit>
+    <tit>'.urlencode(trim(str_replace(",","^",$title))).'</tit>
     <tit1>'.urlencode(trim(str_replace(",","^",$title))).'</tit1>
     <id>'.$id1.'</id>
     <idt>'.$id_t.'</idt>

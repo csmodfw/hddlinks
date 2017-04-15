@@ -44,7 +44,9 @@
   	<text align="center" offsetXPC="0" offsetYPC="0" widthPC="100" heightPC="20" fontSize="30" backgroundColor="10:105:150" foregroundColor="100:200:255">
 		  <script>getPageInfo("pageTitle");</script>
 		</text>
-
+  	<text align="left" offsetXPC="6" offsetYPC="15" widthPC="75" heightPC="4" fontSize="16" backgroundColor="10:105:150" foregroundColor="100:200:255">
+    right for more
+		</text>
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
 		</text>
@@ -129,6 +131,22 @@ if (userInput == "pagedown" || userInput == "pageup")
 	setItemFocus(0);
   redrawDisplay();
   "true";
+}
+else if (userInput == "right" || userInput == "R")
+{
+tit=getItemInfo(getFocusItemIndex(),"title1");
+tip=getItemInfo(getFocusItemIndex(),"tip");
+showIdle();
+if (tip == "movie")
+{
+movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/noobroom_det.php?file=movie" + tit;
+} else {
+movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/noobroom_det.php?file=series" + tit;
+}
+dummy = getURL(movie_info);
+cancelIdle();
+ret_val=doModalRss("/usr/local/etc/www/cgi-bin/scripts/filme/php/movie_detail.rss");
+ret="true";
 }
 ret;
 </script>
@@ -216,6 +234,7 @@ foreach($videos as $video) {
   $link = trim(str_between($video,'href="','"'));
   $title=str_between($video,'<h2>','</');
   $title=trim(preg_replace("/Online Subtitrat in Romana|Filme Online Subtitrat HD 720p|Online HD 720p Subtitrat in Romana|Online Subtitrat Gratis|Online Subtitrat in HD Gratis|Film HD Online Subtitrat/i","",$title));
+  $title=html_entity_decode($title,ENT_QUOTES,'UTF-8');
   $t1 = explode('src="', $video);
   $t2 = explode('"', $t1[1]);
   $image = $t2[0];
@@ -238,24 +257,28 @@ foreach($videos as $video) {
 */
 	if ($link <> "") {
 	if($tip=="") {
-		$link = 'http://127.0.0.1/cgi-bin/scripts/filme/php/filme_link.php?file='.$link.','.urlencode($title);
+		$link = 'http://127.0.0.1/cgi-bin/scripts/filme/php/filme_link.php?file='.$link.','.urlencode(str_replace(",","^",$title));
 	echo'
 	<item>
-	<title>'.$title.'</title>
+ <title>'.str_replace("&","&amp;",str_replace("&amp;","&",$title)).'</title>
+	<title1>'.urlencode(trim(str_replace(",","^",$title))).'</title1>
 	<link>'.$link.'</link> 
   <annotation>'.$descriere.'</annotation>
   <image>'.$image.'</image>
+  <tip>movie</tip>
   <media:thumbnail url="'.$image.'" />
   <mediaDisplay name="threePartsView"/>
 	</item>
 	';
   } else {
-		$link = 'http://127.0.0.1/cgi-bin/scripts/filme/php/filmeserialeonline_seriale.php?file='.$link.','.urlencode($title);
+		$link = 'http://127.0.0.1/cgi-bin/scripts/filme/php/filmeserialeonline_seriale.php?file='.$link.','.urlencode(str_replace(",","^",$title));
 		echo'
 		<item>
-		<title>'.$title.'</title>
+        <title>'.str_replace("&","&amp;",str_replace("&amp;","&",$title)).'</title>
 		<link>'.$link.'</link>
+		<title1>'.urlencode(trim(str_replace(",","^",$title))).'</title1>
 	  <annotation>'.$descriere.'</annotation>
+	  <tip>series</tip>
 	  <image>'.$image.'</image>
 	  <media:thumbnail url="image/movies.png" />
 	  <mediaDisplay name="threePartsView"/>

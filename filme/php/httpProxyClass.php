@@ -946,6 +946,48 @@ class httpProxy {
 		return $this->outputPageResponse($pageHeaders, $pageContents, $status, $headers);
 	}
 	
-	// }}}	 
+	// }}}
+	public function performRequest_nobody($url, $requestType = 'GET', $postFields = array(), $headers = array()){
+		// populate header options which have not been filled
+		$this->populateHeaderOptions($headers);
+		// validate return type if one has been provided
+		$this->throwErrorIfInvalidReturnType($headers['mode']);
+		// if url is invalid
+		if(!$this->isValidUrl($url)) {
+			// throw invalid url exception
+			$this->throwError('URL provided is not valid');
+		}
+		// initialize curl request for given url
+		$curlResource = curl_init($url);
+		// set type of request
+		$this->configureRequestType($requestType, $curlResource);
+		// set post fields if type of request is post
+	  	$this->configureRequestFieldsIfPost($requestType, $postFields, $curlResource);
+		// set cookies to use in request
+		$this->configureRequestCookies($headers['cookies'], $headers['sessionInCookie'], $curlResource);
+		// configure ssl settings for request
+		$this->configureSSLForRequest($headers['ssl'], $curlResource);
+		// configure redirect settings for request
+		$this->configureRedirectsForRequest($headers['followRedirects'], $headers['maxRedirects'], $curlResource);
+		// configure header settings for request
+		$this->configureRequestHeaders($headers['raw'], $requestType, $curlResource);
+		// data will always be returned
+		curl_setopt($curlResource, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curlResource, CURLOPT_NOBODY, true);
+		//curl_setopt ($curlResource, CURLOPT_HEADER, true);
+		//curl_setopt($curlResource, CURLOPT_FOLLOWLOCATION  ,0);
+		// extracting page headers and content from page response
+		$pageResponse = curl_exec($curlResource);
+//$info = curl_getinfo($ch);
+
+		list($pageHeaders, $pageContents) = $this->extractPageHeadersContent($pageResponse);
+		// extracting status object
+		$status = curl_getinfo($curlResource);
+        //print_r ($status);
+		// disposing connection object
+		curl_close($curlResource);
+		// outputting response for page request
+		return $status;
+	}
 }
 ?>

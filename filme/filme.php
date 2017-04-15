@@ -234,7 +234,7 @@ ret;
 <annotation>http://vumoo.at</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-<!--
+
 <item>
 <title>moviesplanet</title>
 <link><?php echo $host; ?>/scripts/filme/php/moviesplanet_main.php</link>
@@ -248,7 +248,7 @@ ret;
 <annotation>http://flixanity.watch</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
--->
+
 <!--
 <item>
 <title>Noobroom (free)</title>

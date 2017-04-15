@@ -27,7 +27,8 @@ if($query) {
    $link = $queryArr[0];
    $tit = urldecode($queryArr[1]);
    $tit=str_replace("/",",",$tit);
-   $tit=str_replace("\'","'",$tit);
+   $tit=str_replace("\\","",$tit);
+   $tit=str_replace("&amp;","&",$tit);
 }
 //http://vumoo.at/popup/movie_info/88871
 /*

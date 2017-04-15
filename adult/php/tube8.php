@@ -195,26 +195,44 @@ if($query) {
 if ($tip=="release") {
 if($page) {
     if($search) {
-        $html = file_get_contents($search."page/".$page."/");
+        $l = $search."page/".$page."/";
     } else {
-        $html = file_get_contents($search."page/".$page."/");
+        $l = $search."page/".$page."/";
     }
 } else {
     $page = 1;
     if($search) {
-        $html = file_get_contents($search);
+        $l = $search;
     } else {
-        $html = file_get_contents($search);
+        $l = $search;
     }
 }
+       $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, $l);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+      curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:46.0) Gecko/20100101 Firefox/46.0");
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+      curl_setopt($ch, CURLOPT_REFERER, "https://www.tube8.com");
+      $html = curl_exec($ch);
+      curl_close($ch);
 } else {
  $tip="search";
  $search1=str_replace(" ","+",urldecode($search));
  if ($page1 > 1)
- $search3="http://www.tube8.com/searches.html?q=".$search1."&page=".$page1;
+ $search3="https://www.tube8.com/searches.html?q=".$search1."&page=".$page1;
  else
- $search3="http://www.tube8.com/searches.html?q=".$search1;
- $html = file_get_contents($search3);
+ $search3="https://www.tube8.com/searches.html?q=".$search1;
+ //$html = file_get_contents($search3);
+       $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, $search3);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+      curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:46.0) Gecko/20100101 Firefox/46.0");
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+      curl_setopt($ch, CURLOPT_REFERER, "https://www.tube8.com");
+      $html = curl_exec($ch);
+      curl_close($ch);
 }
 
 if($page > 1) { ?>
@@ -260,7 +278,7 @@ foreach($videos as $video) {
     if (strpos($image,".gif") !== false) {
      $image=str_between($video,'data-thumb="','"');
     }
-
+    $image=str_replace("https","http",$image);
     $t1 = explode(' title="', $video);
     $t2 = explode('"', $t1[1]);
     $title = $t2[0];

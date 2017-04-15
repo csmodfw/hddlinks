@@ -7,7 +7,9 @@ if($query) {
    $queryArr = explode(',', $query);
    $link = urldecode($queryArr[0]);
    $series_title=urldecode($queryArr[1]);
-   $series_title = str_replace("\'","'",$series_title);
+   $series_title = str_replace("\\","",$series_title);
+   $series_title = str_replace("^",",",$series_title);
+   $series_title = str_replace("&amp;","&",$series_title);
    $series_title_no_year= urldecode($queryArr[2]);
    $id_t= $queryArr[3];
    $tip=$queryArr[4];
@@ -221,7 +223,7 @@ ret;
 <link>http://127.0.0.1/cgi-bin/scripts/filme/php/fs2.php</link>
 </fs>
 <channel>
-	<title><?php echo $series_title; ?></title>
+	<title><?php echo str_replace("&","&amp;",str_replace("&amp;","&",$series_title)); ?></title>
 	<menu>main menu</menu>
 
 
@@ -320,7 +322,7 @@ foreach($videos as $video) {
    if ($video) {
      echo '
      <item>
-     <title>'.$title.'</title>
+     <title>'.str_replace("&","&amp;",str_replace("&amp;","&",$title)).'</title>
      <link>'.$link2.'</link>
     <image>'.$image.'</image>
     <image1>'.$image1.'</image1>

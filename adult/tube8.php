@@ -169,82 +169,82 @@ ret;
 </item>
 <item>
 <title>Newest Videos</title>
-<link><?php echo $host; ?>/scripts/adult/php/tube8.php?query=1,http://www.tube8.com/latest/,release</link>
+<link><?php echo $host; ?>/scripts/adult/php/tube8.php?query=1,https://www.tube8.com/latest/,release</link>
 </item>
 
 <item>
 <title>Amateur</title>
-<link><?php echo $host; ?>/scripts/adult/php/tube8.php?query=1,http://www.tube8.com/cat/amateur/6/,release</link>
+<link><?php echo $host; ?>/scripts/adult/php/tube8.php?query=1,https://www.tube8.com/cat/amateur/6/,release</link>
 </item>
 
 <item>
 <title>Anal</title>
-<link><?php echo $host; ?>/scripts/adult/php/tube8.php?query=1,http://www.tube8.com/cat/anal/13/,release</link>
+<link><?php echo $host; ?>/scripts/adult/php/tube8.php?query=1,https://www.tube8.com/cat/anal/13/,release</link>
 </item>
 
 <item>
 <title>Asian</title>
-<link><?php echo $host; ?>/scripts/adult/php/tube8.php?query=1,http://www.tube8.com/cat/asian/12/,release</link>
+<link><?php echo $host; ?>/scripts/adult/php/tube8.php?query=1,https://www.tube8.com/cat/asian/12/,release</link>
 </item>
 
 <item>
 <title>Blowjob</title>
-<link><?php echo $host; ?>/scripts/adult/php/tube8.php?query=1,http://www.tube8.com/cat/blowjob/7/,release</link>
+<link><?php echo $host; ?>/scripts/adult/php/tube8.php?query=1,https://www.tube8.com/cat/blowjob/7/,release</link>
 </item>
 
 <item>
 <title>Ebony</title>
-<link><?php echo $host; ?>/scripts/adult/php/tube8.php?query=1,http://www.tube8.com/cat/ebony/4/,release</link>
+<link><?php echo $host; ?>/scripts/adult/php/tube8.php?query=1,https://www.tube8.com/cat/ebony/4/,release</link>
 </item>
 
 <item>
 <title>Erotic</title>
-<link><?php echo $host; ?>/scripts/adult/php/tube8.php?query=1,http://www.tube8.com/cat/erotic/11/,release</link>
+<link><?php echo $host; ?>/scripts/adult/php/tube8.php?query=1,https://www.tube8.com/cat/erotic/11/,release</link>
 </item>
 
 <item>
 <title>Fetish</title>
-<link><?php echo $host; ?>/scripts/adult/php/tube8.php?query=1,http://www.tube8.com/cat/fetish/5/,release</link>
+<link><?php echo $host; ?>/scripts/adult/php/tube8.php?query=1,https://www.tube8.com/cat/fetish/5/,release</link>
 </item>
 
 <item>
 <title>Gay</title>
-<link><?php echo $host; ?>/scripts/adult/php/tube8.php?query=1,http://www.tube8.com/cat/gay/9/,release</link>
+<link><?php echo $host; ?>/scripts/adult/php/tube8.php?query=1,https://www.tube8.com/cat/gay/9/,release</link>
 </item>
 
 <item>
 <title>Hardcore</title>
-<link><?php echo $host; ?>/scripts/adult/php/tube8.php?query=1,http://www.tube8.com/cat/hardcore/1/,release</link>
+<link><?php echo $host; ?>/scripts/adult/php/tube8.php?query=1,https://www.tube8.com/cat/hardcore/1/,release</link>
 </item>
 
 <item>
 <title>Latina</title>
-<link><?php echo $host; ?>/scripts/adult/php/tube8.php?query=1,http://www.tube8.com/cat/latina/14/,release</link>
+<link><?php echo $host; ?>/scripts/adult/php/tube8.php?query=1,https://www.tube8.com/cat/latina/14/,release</link>
 </item>
 
 <item>
 <title>Lesbian</title>
-<link><?php echo $host; ?>/scripts/adult/php/tube8.php?query=1,http://www.tube8.com/cat/lesbian/8/,release</link>
+<link><?php echo $host; ?>/scripts/adult/php/tube8.php?query=1,https://www.tube8.com/cat/lesbian/8/,release</link>
 </item>
 
 <item>
 <title>Mature</title>
-<link><?php echo $host; ?>/scripts/adult/php/tube8.php?query=1,http://www.tube8.com/cat/mature/2/,release</link>
+<link><?php echo $host; ?>/scripts/adult/php/tube8.php?query=1,https://www.tube8.com/cat/mature/2/,release</link>
 </item>
 
 <item>
 <title>Shemale</title>
-<link><?php echo $host; ?>/scripts/adult/php/tube8.php?query=1,http://www.tube8.com/cat/shemale/15/,release</link>
+<link><?php echo $host; ?>/scripts/adult/php/tube8.php?query=1,https://www.tube8.com/cat/shemale/15/,release</link>
 </item>
 
 <item>
 <title>Strip</title>
-<link><?php echo $host; ?>/scripts/adult/php/tube8.php?query=1,http://www.tube8.com/cat/strip/10/,release</link>
+<link><?php echo $host; ?>/scripts/adult/php/tube8.php?query=1,https://www.tube8.com/cat/strip/10/,release</link>
 </item>
 
 <item>
 <title>Teen</title>
-<link><?php echo $host; ?>/scripts/adult/php/tube8.php?query=1,http://www.tube8.com/cat/teen/3/,release</link>
+<link><?php echo $host; ?>/scripts/adult/php/tube8.php?query=1,https://www.tube8.com/cat/teen/3/,release</link>
 </item>
 
 </channel>

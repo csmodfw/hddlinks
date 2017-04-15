@@ -2,6 +2,7 @@
 <?php echo "<?xml version='1.0' encoding='UTF8' ?>";
 $new_file = "/tmp/fs.dat";
 $f=file_get_contents($new_file);
+//echo $f;
 $t1=explode("\n",$f);
 $id=$t1[1];
 $tit=$t1[0];
@@ -9,6 +10,36 @@ $subtitle = $t1[2];
 $server = $t1[3];
 $hd = $t1[4];
 $tv= $t1[5];
+///////////////////////
+$noob=file_get_contents("/tmp/n.txt");
+$noob_serv="/tmp/noob_serv.log";
+$hserv=file_get_contents($noob_serv);
+$serv_n=explode("\n",$hserv);
+$nn=count($serv);
+if (!$hd) $hd="0";
+if (!$tv) {
+ $l=$noob."/?".$id;
+ $tv="0";
+} else {
+ $l=$noob."/?".$id."&tv=1";
+}
+//if ($tv=="0")
+  //$l=$l."&hd=1";
+//http://noobroom1.com/?1238&hd=1
+//echo $l;
+$cookie="/tmp/noobroom.txt";
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
+  curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+  $html = curl_exec($ch);
+  curl_close($ch);
+  $imdbid=str_between($html,"imdb.com/title/tt",'"');
+//echo $imdbid;
+//////////////////////
 if ($tv==0)
   $tip="movie";
 else {
@@ -20,14 +51,52 @@ else {
   $sezon=$m[1];
   $episod=intval($m[2]);
 }
-  $tit2=str_replace("\'","'",$tit2);
+  $tit2=str_replace("\\","",$tit2);
   $tit2=str_replace("^",",",$tit2);
-  $tit=str_replace("\'","'",$tit);
+  $tit=str_replace("\\","",$tit);
   $tit=str_replace("^",",",$tit);
+//echo $tit;
+$year="";
+if ($tip=="movie") {
+$IMDB_API_URL = "http://www.omdbapi.com/?i=tt".$imdbid;
+$Data = file_get_contents($IMDB_API_URL);
+//echo $Data;
+$JSON = json_decode($Data,1);
+$tit=$JSON["Title"];
+} else {
+$t1=explode("(",$tit);
+$tit3=trim($t1[0]);
+$tit3 = str_replace("&amp;","&",$tit3);
+$IMDB_API_URL = "http://www.omdbapi.com/?t=".urlencode($tit3)."&y=".$year."&type=".$tip;
+//echo $IMDB_API_URL;
+//$Data = file_get_contents($IMDB_API_URL);
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $IMDB_API_URL);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  $Data = curl_exec($ch);
+  curl_close($ch);
+  
+//echo $Data;
+if (strpos($Data,"imdbID") !== false) {
+$JSON = json_decode($Data,1);
+//print_r ($JSON);
+$imdbid=$JSON["imdbID"];
+$imdbid = str_replace("tt","",$imdbid);
+$tit=$JSON["Title"];
+} else {
+$imdbid = "";
+}
+}
+//echo $imdbid;
+//echo $tit;
 ?>
 <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
 <onEnter>
   setRefreshTime(1);
+  x=0;
+  rezultat="Alegeti o subtitrare";
 </onEnter>
 <onRefresh>
   setRefreshTime(-1);
@@ -65,14 +134,11 @@ else {
   	<text align="center" offsetXPC="0" offsetYPC="0" widthPC="100" heightPC="20" fontSize="30" backgroundColor="10:105:150" foregroundColor="100:200:255">
 		  <script>getPageInfo("pageTitle");</script>
 		</text>
-  	<text align="left" offsetXPC="8" offsetYPC="3" widthPC="47" heightPC="4" fontSize="14" backgroundColor="10:105:150" foregroundColor="100:200:255">
-    2=Initializeaza token
-		</text>
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
 		</text>
   	<text  redraw="yes" align="center" offsetXPC="0" offsetYPC="90" widthPC="100" heightPC="8" fontSize="17" backgroundColor="10:105:150" foregroundColor="100:200:255">
-		  <script>print(annotation); annotation;</script>
+		  <script>print(rezultat); rezultat;</script>
 		</text>
         <idleImage>image/POPUP_LOADING_01.png</idleImage>
         <idleImage>image/POPUP_LOADING_02.png</idleImage>
@@ -139,17 +205,33 @@ if (userInput == "pagedown" || userInput == "pageup")
     if(idx &lt; 0)
       idx = 0;
   }
-  
+  x=0;
   print("new idx: "+idx);
   setFocusItemIndex(idx);
 	setItemFocus(0);
   redrawDisplay();
   "true";
 }
-else if (userInput == "two" || userInput == "2")
+else if (userInput == "five" || userInput == "5")
 {
- url=geturl("http://127.0.0.1/cgi-bin/scripts/filme/php/fs_del.php");
+ x=x+1;
+ if (x==2) {
+ showIdle();
+ tip=getItemInfo(getFocusItemIndex(),"tip");
+ file=getItemInfo(getFocusItemIndex(),"file");
+ token=getItemInfo(getFocusItemIndex(),"token");
+ id=getItemInfo(getFocusItemIndex(),"id");
+ movie_info = "http://uphero.xpresso.eu/srt/open.php?tip=" + tip + "," + file + "," + token + "," + id;
+ rezultat = getURL(movie_info);
+ cancelIdle();
+ x=0;
+ }
+ redrawDisplay();
  "true";
+} else {
+ x=0;
+ rezultat="Alegeti o subtitrare";
+ redrawDisplay();
 }
 ret;
 </script>
@@ -157,7 +239,7 @@ ret;
       		
 </mediaDisplay>
 <channel>
-	<title><?php echo $tit." ".$tit2; ?></title>
+	<title><?php echo str_replace("&","&amp;",str_replace("&amp;","&",$tit))." ".str_replace("&","&amp;",str_replace("&amp;","&",$tit2)); ?></title>
 	<menu>main menu</menu>
 <?php
 
@@ -194,6 +276,7 @@ function get_value($q, $string) {
 
 
 $f="/tmp/opensub.txt";
+exec("rm -f /tmp/opensub.txt");
 if (file_exists($f)) {
 $token=file_get_contents($f);
 } else {
@@ -228,6 +311,7 @@ $token=get_value("token",$response);
 file_put_contents($f,$token);
 }
 if ($tip=="movie") {
+//$imdbid="123456";
 $request="<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>
 <methodCall>
 <methodName>SearchSubtitles</methodName>
@@ -246,7 +330,13 @@ $request="<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>
        <member>
         <name>query</name>
         <value>
-         <string>".$tit."</string>
+         <string>".str_replace("&","&amp;",$tit)."</string>
+        </value>
+       </member>
+       <member>
+        <name>imdbid</name>
+        <value>
+         <string>".$imdbid."</string>
         </value>
        </member>
        <member>
@@ -296,6 +386,7 @@ foreach($videos as $video) {
  }
 }
 } else {
+//$imdbid="";
 $request="<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>
 <methodCall>
 <methodName>SearchSubtitles</methodName>
@@ -314,7 +405,13 @@ $request="<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>
        <member>
         <name>query</name>
         <value>
-         <string>".$tit."</string>
+         <string>".str_replace("&","&amp;",$tit)."</string>
+        </value>
+       </member>
+       <member>
+        <name>imdbid</name>
+        <value>
+         <string>".$imdbid."</string>
         </value>
        </member>
        <member>
@@ -357,7 +454,7 @@ $request="<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>
 </methodCall>";
 //echo $request;
 $response = generateResponse($request);
-//echo $response;
+echo $response;
 $videos=explode("MatchedBy",$response);
 unset($videos[0]);
 $videos = array_values($videos);
@@ -418,6 +515,10 @@ for ($k=0;$k<$nn;$k++) {
         echo '
         </script>
         </onClick>
+        <tip>'.$tip.'</tip>
+        <token>'.$token.'</token>
+        <file>'.$arrsub[$k][2].'</file>
+        <id>'.$id.'</id>
         <annotation>Alegeti o subtitrare</annotation>
         </item>
        ';

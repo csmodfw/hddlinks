@@ -1,6 +1,27 @@
 #!/usr/local/bin/Resource/www/cgi-bin/php
 <?php echo "<?xml version='1.0' encoding='UTF8' ?>";
 $host = "http://127.0.0.1/cgi-bin";
+    if (!function_exists('json_last_error_msg')) {
+        function json_last_error_msg() {
+            static $ERRORS = array(
+                JSON_ERROR_NONE => 'No error',
+                JSON_ERROR_DEPTH => 'Maximum stack depth exceeded',
+                JSON_ERROR_STATE_MISMATCH => 'State mismatch (invalid or malformed JSON)',
+                JSON_ERROR_CTRL_CHAR => 'Control character error, possibly incorrectly encoded',
+                JSON_ERROR_SYNTAX => 'Syntax error',
+                JSON_ERROR_UTF8 => 'Malformed UTF-8 characters, possibly incorrectly encoded'
+            );
+
+            //$error = json_last_error();
+            $error='No error';
+            return isset($ERRORS[$error]) ? $ERRORS[$error] : 'Unknown error';
+        }
+    }
+require_once 'httpProxyClass.php';
+require_once 'cloudflareClass.php';
+
+$httpProxy   = new httpProxy();
+$httpProxyUA = 'proxyFactory';
 //file=".urlencode($link1).",".urlencode($title).",".$id1.",".$id_t.",movie,".urlencode($image);
 //file=watch-a-star-is-born-87970,A+Star+Is+Born,87970,,movie
 $query = $_GET["file"];
@@ -8,6 +29,9 @@ if($query) {
    $queryArr = explode(',', $query);
    $link = urldecode($queryArr[0]);
    $title=urldecode($queryArr[1]);
+   $title=str_replace("^",",",$title);
+   $title=str_replace("\\","",$title);
+   $title=str_replace("&amp;","&",$title);
    $id1= $queryArr[2];
    $id_t= $queryArr[3];
    $tip=$queryArr[4];
@@ -24,17 +48,44 @@ if ($tip == "series") {
   if ($id1) $openload="https://openload.co/embed/".$id1;
   if ($id_t) {
     $id_t=str_replace("_p_","",$id_t);
-    $l="http://vumoo.li/api/getContents?id=".$id_t."&p=1";
+    $requestLink="http://vumoo.li/api/getContents?id=".$id_t."&p=1";
+    //echo $requestLink;
+$requestPage = json_decode($httpProxy->performRequest($requestLink));
+
+// if page is protected by cloudflare
+if($requestPage->status->http_code == 503) {
+	// Make this the same user agent you use for other cURL requests in your app
+	cloudflare::useUserAgent($httpProxyUA);
+
+	// attempt to get clearance cookie
+	if($clearanceCookie = cloudflare::bypass($requestLink)) {
+		// use clearance cookie to bypass page
+		$requestPage = $httpProxy->performRequest($requestLink, 'GET', null, array(
+			'cookies' => $clearanceCookie
+		));
+		// return real page content for site
+		$requestPage = json_decode($requestPage);
+		$h1 = $requestPage->content;
+	} else {
+		// could not fetch clearance cookie
+		$h1 = 'Could not fetch CloudFlare clearance cookie (most likely due to excessive requests)';
+	}
+} else {
+$h1 = $requestPage->content;
+}
     //echo $l;
-    $h1=file_get_contents($l);
+    //$h1=file_get_contents($l);
       //echo $h1;
-   $l1=str_between($h1,'src":"','"');
-   $l1="http://vumoo.li".str_replace("\/","/",$l1);
-   //echo $l1;
+      //print_r ($h1);
+      //print_r ($h1[0]);
+      $a1 =  $h1[0]->src;
+      //die();
+   //$l1=str_between($h1,'src":"','"');
+   $l1="http://vumoo.li".$a1;
    $google=$l1;
   } //$google="https://docs.google.com/uc?id=".$id_t."&export=download";
 }
-$title=str_replace("\'","'",$title);
+$title=str_replace("\\","",$title);
 $title=str_replace("^",",",$title);
 $year="";
 ?>
@@ -231,7 +282,7 @@ ret;
 <link>http://127.0.0.1/cgi-bin/scripts/filme/php/fs2.php</link>
 </fs>
 <channel>
-	<title><?php echo $title; ?></title>
+	<title><?php echo str_replace("&","&amp;",str_replace("&amp;","&",$title)); ?></title>
 	<menu>main menu</menu>
 
 
@@ -242,30 +293,15 @@ function str_between($string, $start, $end){
 	return substr($string,$ini,$len);
 }
 
-    if (!function_exists('json_last_error_msg')) {
-        function json_last_error_msg() {
-            static $ERRORS = array(
-                JSON_ERROR_NONE => 'No error',
-                JSON_ERROR_DEPTH => 'Maximum stack depth exceeded',
-                JSON_ERROR_STATE_MISMATCH => 'State mismatch (invalid or malformed JSON)',
-                JSON_ERROR_CTRL_CHAR => 'Control character error, possibly incorrectly encoded',
-                JSON_ERROR_SYNTAX => 'Syntax error',
-                JSON_ERROR_UTF8 => 'Malformed UTF-8 characters, possibly incorrectly encoded'
-            );
 
-            //$error = json_last_error();
-            $error='No error';
-            return isset($ERRORS[$error]) ? $ERRORS[$error] : 'Unknown error';
-        }
-    }
 /*
-$requestLink="http://vumoo.at/videos/play/".$link;
+$requestLink="http://vumoo.li/videos/play/".$link;
 require_once 'httpProxyClass.php';
 require_once 'cloudflareClass.php';
 
 $httpProxy   = new httpProxy();
 $httpProxyUA = 'proxyFactory';
-//http://vumoo.at/videos/search/?search=star&page=2
+//http://vumoo.li/videos/search/?search=star&page=2
 
 $requestPage = json_decode($httpProxy->performRequest($requestLink));
 //echo $requestLink;
@@ -291,19 +327,36 @@ if($requestPage->status->http_code == 503) {
 }
 */
 if ($tip == "movie") {
-$requestLink="http://vumoo.at/videos/play/".$link;
-$cookie="/tmp/vumoo.txt";
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $requestLink);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0');
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt ($ch, CURLOPT_REFERER, "http://vumoo.at/");
-  curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
-  curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
-  //curl_setopt($ch, CURLOPT_HEADER,1);
-  $html = curl_exec($ch);
-  curl_close($ch);
+$requestLink="http://vumoo.li/videos/play/".$link;
+//$cookie="/tmp/vumoo.txt";
+//$requestLink="http://vumoo.li/videos/play/".$link;
+
+//http://vumoo.li/videos/search/?search=star&page=2
+
+$requestPage = json_decode($httpProxy->performRequest($requestLink));
+//echo $requestLink;
+// if page is protected by cloudflare
+if($requestPage->status->http_code == 503) {
+	// Make this the same user agent you use for other cURL requests in your app
+	cloudflare::useUserAgent($httpProxyUA);
+
+	// attempt to get clearance cookie
+	if($clearanceCookie = cloudflare::bypass($requestLink)) {
+		// use clearance cookie to bypass page
+		$requestPage = $httpProxy->performRequest($requestLink, 'GET', null, array(
+			'cookies' => $clearanceCookie
+		));
+		// return real page content for site
+		$requestPage = json_decode($requestPage);
+		//echo $requestPage->content;
+		$html = $requestPage->content;
+	} else {
+		// could not fetch clearance cookie
+        $html="";
+	}
+} else {
+$html = $requestPage->content;
+}
 $t1=explode('openloadLink = "',$html);
 $t2=explode('"',$t1[1]);
 $openload=str_replace("\\","",$t2[0]);
@@ -312,15 +365,44 @@ $t1=explode('googleLink = "',$html);
 $t2=explode('"',$t1[1]);
 $google=str_replace("\\","",$t2[0]);
 if ($google) {
+//echo $google;
   //_p_4Nl7v
  $id_g=str_replace("_p_","",$google);
- $l="http://vumoo.li/api/getContents?id=".$id_g."&p=1";
- //echo $l;
- $h1=file_get_contents($l);
- //echo $h1;
- $l1=str_between($h1,'src":"','"');
- $l1="http://vumoo.li".str_replace("\/","/",$l1);
- //echo $l1;
+ $requestLink="http://vumoo.li/api/getContents?id=".$id_g."&p=1";
+ //echo $requestLink;
+$requestPage = json_decode($httpProxy->performRequest($requestLink));
+
+// if page is protected by cloudflare
+if($requestPage->status->http_code == 503) {
+	// Make this the same user agent you use for other cURL requests in your app
+	cloudflare::useUserAgent($httpProxyUA);
+
+	// attempt to get clearance cookie
+	if($clearanceCookie = cloudflare::bypass($requestLink)) {
+		// use clearance cookie to bypass page
+		$requestPage = $httpProxy->performRequest($requestLink, 'GET', null, array(
+			'cookies' => $clearanceCookie
+		));
+		// return real page content for site
+		$requestPage = json_decode($requestPage);
+		$h1 = $requestPage->content;
+	} else {
+		// could not fetch clearance cookie
+		$h1 = 'Could not fetch CloudFlare clearance cookie (most likely due to excessive requests)';
+	}
+} else {
+$h1 = $requestPage->content;
+}
+    //echo $l;
+    //$h1=file_get_contents($l);
+      //echo $h1;
+      //print_r ($h1);
+      //print_r ($h1[0]);
+      $a1 =  $h1[0]->src;
+      //die();
+   //$l1=str_between($h1,'src":"','"');
+   $l1="http://vumoo.li".$a1;
+   $google=$l1;
  $google=$l1;
 }
 /////////////////////////////////////////////////////////
@@ -362,7 +444,7 @@ if ($google) {
      </onClick>
     <image>'.$image.'</image>
     <tit>'.trim($title).'</tit>
-    <tit1>'.urlencode(trim($title)).'</tit1>
+    <tit1>'.urlencode(trim(str_replace(",","^",$title))).'</tit1>
     <an>'.$year.'</an>
     <id>'.$id1.'</id>
     <idt>'.$id_t.'</idt>
@@ -409,7 +491,7 @@ if ($google) {
      </onClick>
     <image>'.$image.'</image>
     <tit>'.trim($title).'</tit>
-    <tit1>'.urlencode(trim($title)).'</tit1>
+    <tit1>'.urlencode(trim(str_replace(",","^",$title))).'</tit1>
     <an>'.$year.'</an>
     <id>'.$id1.'</id>
     <idt>'.$id_t.'</idt>
@@ -458,7 +540,7 @@ $id_t=$episod;
      </onClick>
     <image>'.$image.'</image>
     <tit>'.trim($title).'</tit>
-    <tit1>'.urlencode(trim($title)).'</tit1>
+    <tit1>'.urlencode(trim(str_replace(",","^",$title))).'</tit1>
     <an>'.$year.'</an>
     <id>'.$id1.'</id>
     <idt>'.$id_t.'</idt>
@@ -506,11 +588,12 @@ $id_t=$episod;
      </onClick>
     <image>'.$image.'</image>
     <tit>'.trim($title).'</tit>
-    <tit1>'.urlencode(trim($title)).'</tit1>
+    <tit1>'.urlencode(trim(str_replace(",","^",$title))).'</tit1>
     <an>'.$year.'</an>
     <id>'.$id1.'</id>
     <idt>'.$id_t.'</idt>
     <movie>'.trim($google).'</movie>
+    <serial>'.urlencode($serial).'</serial>
     <movie1>'.urlencode(trim($google)).'</movie1>
      </item>
      ';

@@ -27,6 +27,10 @@ function round_fix($s) {
    $r=$i+1;
  return $r;
 }
+//$data = gzdecode(base64_decode($res['data'][0]['data']));
+//PHP: if you download subtitles from XML-RPC,
+//use: gzinflate(substr(base64_decode($subs_b64_data_from_xmlrpc),10)),
+//if gz from web: gzinflate(substr($gz_subtitles),10);
 //error_reporting(0);
 $f="/tmp/opensub.txt";
 $token=file_get_contents($f);

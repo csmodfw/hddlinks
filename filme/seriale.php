@@ -218,14 +218,14 @@ echo '
 <annotation>http://www.seriale-filme.net/tv-shows</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-<!--
+
 <item>
 <title>moviesplanet</title>
-<link><?php echo $host; ?>/scripts/filme/php/moviesplanet_seriale.php?query=,http://www.moviesplanet.is/tv-shows</link>
+<link><?php echo $host; ?>/scripts/filme/php/moviesplanet_seriale.php?query=,https://www.moviesplanet.tv/tv-shows</link>
 <annotation>http://moviesplanet.is</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
-->>
+
 <!--
 <item>
 <title>serial-online</title>
@@ -294,14 +294,14 @@ echo '
 <annotation>http://vumoo.at</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
-<!--
+
 <item>
 <title>flixanity - seriale</title>
 <link><?php echo $host; ?>/scripts/filme/php/flixanity_s.php?page=1,release,,seriale</link>
 <annotation>http://flixanity.watch</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
--->
+
 <item>
 <title>watchfree</title>
 <link><?php echo $host; ?>/scripts/filme/php/putlocker_s.php?page=1,release,,seriale</link>
