@@ -94,6 +94,7 @@ if(preg_match('/(\d\d):(\d\d):(\d\d)(\.|,)(\d\d\d) --> (\d\d):(\d\d):(\d\d)(\.|,
     $line = trim($line);
     //print $line."<BR>";
     $line = preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$line);
+    if (preg_match("/opensubtitles/i",$line)) $line="";
         if(preg_match('/(\d\d):(\d\d):(\d\d)(\.|,)(\d\d\d) --> (\d\d):(\d\d):(\d\d)(\.|,)(\d\d\d)/', $line, $match))
         {
           //print_r ($match);

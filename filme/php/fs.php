@@ -219,9 +219,8 @@ else if (userInput == "five" || userInput == "5")
  showIdle();
  tip=getItemInfo(getFocusItemIndex(),"tip");
  file=getItemInfo(getFocusItemIndex(),"file");
- token=getItemInfo(getFocusItemIndex(),"token");
  id=getItemInfo(getFocusItemIndex(),"id");
- movie_info = "http://uphero.xpresso.eu/srt/open.php?tip=" + tip + "," + file + "," + token + "," + id;
+ movie_info = "http://uphero.xpresso.eu/srt/open.php?tip=" + tip + "," + file + "," + id;
  rezultat = getURL(movie_info);
  cancelIdle();
  x=0;
@@ -454,7 +453,7 @@ $request="<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>
 </methodCall>";
 //echo $request;
 $response = generateResponse($request);
-echo $response;
+//echo $response;
 $videos=explode("MatchedBy",$response);
 unset($videos[0]);
 $videos = array_values($videos);
@@ -516,7 +515,6 @@ for ($k=0;$k<$nn;$k++) {
         </script>
         </onClick>
         <tip>'.$tip.'</tip>
-        <token>'.$token.'</token>
         <file>'.$arrsub[$k][2].'</file>
         <id>'.$id.'</id>
         <annotation>Alegeti o subtitrare</annotation>

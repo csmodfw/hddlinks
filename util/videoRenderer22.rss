@@ -532,6 +532,7 @@ else if (input == "right" || input == "left" || input == "R" || input == "L")
 {
 	if (playStatus == "2")
 	{
+                setRefreshTime(-1);
 		setEnv("videoStatus", status);
 		playItemURL(-1, 2);
 		print("LOUIS - link to seekpop");
@@ -539,7 +540,12 @@ else if (input == "right" || input == "left" || input == "R" || input == "L")
 		if (timePoint != -1)
 		{
 			playAtTime(timePoint);
+                        setRefreshTime(250);
 		}
+                else
+                {
+                 setRefreshTime(250);
+                }
 
 		ret = "true";
 	}

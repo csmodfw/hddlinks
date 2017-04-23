@@ -218,13 +218,14 @@ echo '
 <annotation>http://www.seriale-filme.net/tv-shows</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+<!--
 <item>
 <title>moviesplanet</title>
-<link><?php echo $host; ?>/scripts/filme/php/moviesplanet_seriale.php?query=,https://www.moviesplanet.tv/tv-shows</link>
+<link><?php echo $host; ?>/scripts/filme/php/moviesplanet_seriale.php?query=1,https://www.moviesplanet.tv/tv-shows</link>
 <annotation>http://moviesplanet.is</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
+-->
 
 <!--
 <item>
@@ -359,9 +360,11 @@ echo '
 <media:thumbnail url="image/movies.png" />
 </item>
 -->
+
+
 <item>
 <title>vezi-online.ro</title>
-<link>http://uphero.xpresso.eu/movietv/vezi-online_ro_main.php</link>
+<link><?php echo $host; ?>/scripts/filme/php/vezi-online_ro_main.php</link>
 <media:thumbnail url="image/movies.png" />
 </item>
 <!--
@@ -384,6 +387,13 @@ echo '
 <link><?php echo $host; ?>/scripts/filme/php/serialetv_main.php</link>
 <annotation>http://serialetv.net/seriale-online-subtitrate-in-romana</annotation>
 <mediaDisplay name="threePartsView"/>
+</item>
+
+<item>
+<title>serialenoi.online</title>
+<link><?php echo $host; ?>/scripts/filme/php/serialenoi_online.php?page=1,release,,seriale</link>
+<annotation>http://serialenoi.online</annotation>
+<media:thumbnail url="image/movies.png" />
 </item>
 
 <item>
@@ -548,13 +558,13 @@ echo '
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
-
+<!--
 <item>
 <title>filmesubtitrate.info</title>
 <link><?php echo $host; ?>/scripts/filme/php/fsplay_main.php</link>
 <annotation>http://www.playfs.com/lista-noua-seriale-online-subtitrate.html</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 </channel>
 </rss>

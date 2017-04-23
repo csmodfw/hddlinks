@@ -1,24 +1,29 @@
 #!/usr/local/bin/Resource/www/cgi-bin/php
 <?php echo "<?xml version='1.0' encoding='UTF8' ?>";
-//error_reporting(0);
+error_reporting(0);
 $new_file = "/tmp/fs.dat";
 $f=file_get_contents($new_file);
 //echo $f;
 $t1=explode("\n",$f);
 //print_r ($t1);
-$tip="series";
+$tip=trim($t1[5]);
+//echo $tip;
 $link=urldecode($t1[1]);
-$tit2=urldecode($t1[0]);
-  $tit2=str_replace("\\","",$tit2);
-  $tit2=str_replace("^",",",$tit2);
-$tit=urldecode($t1[2]);
+
+  $tit=urldecode($t1[2]);
   $tit=str_replace("\\","",$tit);
   $tit=str_replace("^",",",$tit);
+
   $tit=str_replace("&amp;","&",$tit);
+  $tit2=urldecode($t1[0]);
+  $tit2=str_replace("\\","",$tit2);
+  $tit2=str_replace("^",",",$tit2);
+if ($tip=="series") {
   preg_match("/(\d+)x(\d+)/",$tit2,$m);
   $sezon=$m[1];
   $episod=intval($m[2]);
 //echo $sezon." ".$episod."ceva";
+}
 ?>
 <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
 <onEnter>
@@ -186,7 +191,7 @@ function get_value($q, $string) {
 $year="";
 
 $IMDB_API_URL = "http://www.omdbapi.com/?t=".urlencode($tit)."&y=".$year."&type=".$tip;
-//echo $IMDB_API_URL;
+echo $IMDB_API_URL;
 $Data = file_get_contents($IMDB_API_URL);
 //echo $Data;
 $JSON = json_decode($Data,1);

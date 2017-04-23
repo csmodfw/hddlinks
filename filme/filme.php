@@ -234,18 +234,25 @@ ret;
 <annotation>http://vumoo.at</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+<!--
 <item>
 <title>moviesplanet</title>
 <link><?php echo $host; ?>/scripts/filme/php/moviesplanet_main.php</link>
 <annotation>http://moviesplanet.is</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <item>
 <title>flixanity</title>
 <link><?php echo $host; ?>/scripts/filme/php/flixanity_f.php?page=1,release,,filme</link>
 <annotation>http://flixanity.watch</annotation>
+<media:thumbnail url="image/movies.png" />
+</item>
+
+<item>
+<title>watchfree</title>
+<link><?php echo $host; ?>/scripts/filme/php/putlocker_f.php?page=1,release,,movie</link>
+<annotation>http://www.watchfree.to</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
 
@@ -257,14 +264,14 @@ ret;
 <media:thumbnail url="image/movies.png" />
 </item>
 -->
-<!--
+
 <item>
-<title>vplus</title>
-<link><?php echo $host; ?>/scripts/filme/php/vplay_main_filme.php</link>
-<annotation>http://vplus.ro/movies/</annotation>
+<title>pefilme</title>
+<link><?php echo $host; ?>/scripts/filme/php/pefilme_main.php</link>
+<annotation>https://pefilme.com/</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
--->
+
 
 <item>
 <title>filmeseriale.online</title>
@@ -276,23 +283,29 @@ ret;
 <!--
 
 -->
-<!--
-<item>
-<title>inviatapenet</title>
-<link><?php echo $host; ?>/scripts/filme/php/inviatapenet_main.php</link>
-<annotation>http://inviatapenet.gethost.ro</annotation>
-<mediaDisplay name="threePartsView"/>
-</item>
--->
 
-<!--
 <item>
-<title>zfilme-online</title>
-<link><?php echo $host; ?>/scripts/filme/php/zfilme_main.php</link>
-<annotation>http://www.zfilme-online.com/</annotation>
+<title>filmeonline.biz</title>
+<link><?php echo $host; ?>/scripts/filme/php/filmeonline_biz_main.php</link>
+<annotation>http://www.filmeonline.biz</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
--->
+
+<item>
+<title>filme-seriale.online</title>
+<link><?php echo $host; ?>/scripts/filme/php/filme-seriale_online_main.php</link>
+<annotation>http://filme-seriale.online/filme-online/</annotation>
+<mediaDisplay name="threePartsView"/>
+</item>
+
+
+<item>
+<title>topfilmeonline</title>
+<link><?php echo $host; ?>/scripts/filme/php/topfilmeonline_main.php</link>
+<annotation>http://topfilmeonline.net/</annotation>
+<mediaDisplay name="threePartsView"/>
+</item>
+
 <item>
 <title>zfilmeonline</title>
 <link><?php echo $host; ?>/scripts/filme/php/zfilmeonline_main.php</link>
@@ -317,7 +330,7 @@ ret;
 -->
 <item>
 <title>vezi-online</title>
-<link>http://uphero.xpresso.eu/movietv/vezi-online_filme_main.php</link>
+<link><?php echo $host; ?>/scripts/filme/php/vezi-online_filme_main.php</link>
 <annotation>http://vezi-online.net/filme</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>

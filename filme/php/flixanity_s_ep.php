@@ -234,21 +234,96 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini;
 	return substr($string,$ini,$len);
 }
-error_reporting(0);
-
+//error_reporting(0);
+if (strpos($link,"tv-show") === false) {
+  $link=str_replace("flixanity.watch/show/","flixanity.watch/tv-show/",$link);
+}
+if (strpos($link,"tv-show") === false) {
+  $link=str_replace("flixanity.watch/","flixanity.watch/tv-show/",$link);
+}
 $requestLink=$link;
-$html= file_get_contents("http://uphero.xpresso.eu/movietv/f_ep.php?file=".$link);
-$r=json_decode($html,1);
+//echo $requestLink;
+$episoade=array();
+      $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
+      $exec = '--max-redirect 0 -U "'.$ua.'" --referer="'.$requestLink.'" --no-check-certificate "'.$requestLink.'" -O -';
+      $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+      $html=shell_exec($exec);
+      //echo $html;
+  $s=str_between($html,"Seasons:","</p");
+  $t=explode('href="',$s);
+  $c=count($t);
+  //$t2=array();
+  //print_r ($t);
+  $t1=explode('"',$t[$c-1]);
+  $min=substr($t1[0], -1, 1);
+  $t1=explode('"',$t[1]);
+  $max=substr($t1[0], -1, 1);
+if ($min<=$max) {
+$n=0;
+for ($i=$c;$i>0;$i--) {
+  $t2=explode('"',$t[$i]);
+  //echo $t2[0];
+      $exec = '--max-redirect 0 -U "'.$ua.'" --referer="'.$t2[0].'" --no-check-certificate "'.$t2[0].'" -O -';
+      $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+      $h=shell_exec($exec);
+ $videos = explode('class="episode-title"', $h);
+unset($videos[0]);
+$videos = array_values($videos);
+foreach($videos as $video) {
+  $link1="";
+  $ep_tit=str_between($video,'title="','"');
+  //$ep_tit=str_replace(",","^",$ep_tit);
+  $t1=explode('href="',$video);
+  $t2=explode('"',$t1[1]);
+  $link1=$t2[0];
+
+  preg_match("/S(\d+)\s*E(\d+)/",$ep_tit,$m);
+  //print_r ($m);
+  $season=$m[1];
+  $episod=$m[2];
+  array_push($episoade,array("title" => $ep_tit,"saason" => $season, "episod" => $episod, "link" => $link1));
+}
+}
+} else {
+for ($i=1;$i<$c;$i++) {
+  $t2=explode('"',$t[$i]);
+  //echo $t2[0];
+      $exec = '--max-redirect 0 -U "'.$ua.'" --referer="'.$t2[0].'" --no-check-certificate "'.$t2[0].'" -O -';
+      $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+      $h=shell_exec($exec);
+ $videos = explode('class="episode-title"', $h);
+unset($videos[0]);
+$videos = array_values($videos);
+foreach($videos as $video) {
+  $link1="";
+  $ep_tit=str_between($video,'title="','"');
+  //$ep_tit=str_replace(",","^",$ep_tit);
+  $t1=explode('href="',$video);
+  $t2=explode('"',$t1[1]);
+  $link1=$t2[0];
+
+  preg_match("/S(\d+)\s*E(\d+)/",$ep_tit,$m);
+  //print_r ($m);
+  $season=$m[1];
+  $episod=$m[2];
+  array_push($episoade,array("title" => $ep_tit,"saason" => $season, "episod" => $episod, "link" => $link1));
+}
+}
+}
+//$requestLink=$link;
+//$html= file_get_contents("http://uphero.xpresso.eu/movietv/f_ep.php?file=".$link);
+//$x=json_encode($episoade);
+//$r=json_decode($html,1);
 //print_r ($r);
-$c=count($r);
+$c=count($episoade);
 //die();
 
 for ($i=0;$i<$c;$i++) {
 
-  $season=$r[$i]["saason"];
-  $episod=$r[$i]["episod"];
-  $ep_tit=$r[$i]["title"];
-  $link1=$r[$i]["link"];
+  $season=$episoade[$i]["saason"];
+  $episod=$episoade[$i]["episod"];
+  $ep_tit=$episoade[$i]["title"];
+  $link1=$episoade[$i]["link"];
    $title1=$series_title."|".$ep_tit;
    $title=$ep_tit;
    $image1=$image;

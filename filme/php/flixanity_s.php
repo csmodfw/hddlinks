@@ -302,8 +302,26 @@ $url = $sThisFile."?page=".($page-1).",".$tip.",".urlencode($link).",".urlencode
 
 
 /////////////////////////////////////////////////////////////
-$html= file_get_contents("http://uphero.xpresso.eu/movietv/f_s_search.php?page=".$page.",".$tip.",".urlencode($link).",".urlencode($link));
-
+//$html= file_get_contents("http://uphero.xpresso.eu/movietv/f_s_search.php?page=".$page.",".$tip.",".urlencode($link).",".urlencode($link));
+$v1="0A6ru35yevokjaqbb8";
+$s1="52b1b99472b9ce7f990647349ed08f75";
+if ($tip=="search")
+   $requestLink="https://api.flixanity.watch/api/v1/".$v1;
+else
+   $requestLink = "https://flixanity.watch/tv-shows/default/".$page;
+if ($tip=="release") {
+      $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
+      $exec = '--max-redirect 0 -U "'.$ua.'" --referer="'.$requestLink.'" --no-check-certificate "'.$requestLink.'" -O -';
+      $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+      $html=shell_exec($exec);
+} else {
+$post="q=".str_replace(" ","+",$link)."&limit=100&timestamp=&verifiedCheck=".$tok."&set=&sl=".$s1;
+      $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
+      $exec = '--header="Content-Type: application/x-www-form-urlencoded"  --post-data="'.$post.'" --max-redirect 0 -U "'.$ua.'" --referer="'.$requestLink.'" --no-check-certificate "'.$requestLink.'" -O -';
+      $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+      $html=shell_exec($exec);
+}
+//////////////////////////////////////////////////////////////////////////
 if ($tip=="release") {
  $videos = explode('class="flipBox">', $html);
 unset($videos[0]);

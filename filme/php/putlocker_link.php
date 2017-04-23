@@ -23,6 +23,8 @@ if ($tip == "series") {
   //print_r ($m);
   //$season=$m[1];
   //$episod=$m[2];
+} else {
+  $serial=$id1;
 }
 $year="";
 ?>
@@ -192,7 +194,8 @@ else if (userInput == "zero" || userInput == "0" || userInput == "option_blue")
   id=getItemInfo(getFocusItemIndex(),"serial");
   hhd=getItemInfo(getFocusItemIndex(),"serial");
   idt=getItemInfo(getFocusItemIndex(),"idt");
-    movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/fs_det.php?file=" + t + "," + l + "," + id + "," + idt + "," + hhd + ",0";
+  tip=getItemInfo(getFocusItemIndex(),"tip");
+    movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/fs_det.php?file=" + t + "," + l + "," + id + "," + idt + "," + hhd + "," + tip;
     dummy = getURL(movie_info);
     jumpToLink("fs");
     "true";
@@ -360,6 +363,7 @@ foreach($videos as $video) {
     <an>'.$year.'</an>
     <id>'.$id1.'</id>
     <idt>'.$id_t.'</idt>
+    <tip>'.$tip.'</tip>
     <movie>'.trim($openload).'</movie>
     <serial>'.urlencode($serial).'</serial>
     <movie1>'.urlencode(trim($openload)).'</movie1>

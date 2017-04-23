@@ -285,8 +285,24 @@ if($requestPage->status->http_code == 503) {
 $id1=$season;
 $id_t=$episod;
 
-$h= file_get_contents("http://uphero.xpresso.eu/movietv/f_link.php?file=".urlencode($link).",".$tip);
-
+//$h= file_get_contents("http://uphero.xpresso.eu/movietv/f_link.php?file=".urlencode($link).",".$tip);
+      $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
+      $exec = '--max-redirect 0 -U "'.$ua.'" --referer="'.$link.'" --no-check-certificate "'.$link.'" -O -';
+      $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+      $html=shell_exec($exec);
+$elid=str_between($html,'elid = "','"');
+$tok=str_between($html,"tok    = '","'");
+$l="https://flixanity.watch/ajax/embeds.php";
+$l="https://flixanity.watch/ajax/jne.php";
+if ($tip == "series")
+$post="action=getEpisodeEmb&idEl=".$elid."&token=".$tok."&elid=";
+else
+$post="action=getMovieEmb&idEl=".$elid."&token=".$tok."&elid=";
+      $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
+      $exec = '--header="Content-Type: application/x-www-form-urlencoded"  --post-data="'.$post.'" --max-redirect 0 -U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
+      $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+      $h=shell_exec($exec);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $r=json_decode($h,1);
 //print_r ($r);
 foreach ($r as $key => $value) {

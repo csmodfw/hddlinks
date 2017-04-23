@@ -13,57 +13,30 @@ function round_fix($s) {
    $r=$i+1;
  return $r;
 }
-$cookie="/tmp/moviesplanet.txt";
 //$cookie="D://m.txt";
 error_reporting(0);
 set_time_limit(60);
-$res=file_get_contents($cookie);
 $l= $_GET["file"];
 
-//if ($tv=="0")
-  //$l=$l."&hd=1";
-//http://noobroom1.com/?1238&hd=1
-//echo $l;
-/*
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $l);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
-  curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
-  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-  $html = curl_exec($ch);
-  curl_close($ch);
+$cookie="/tmp/moviesplanet.txt";
+$ua="proxyFactory";
+$exec_path="/usr/local/bin/Resource/www/cgi-bin/scripts/wget ";
+$exec = '-q --load-cookies '.$cookie.' --save-cookies '.$cookie.' -U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
+$exec = $exec_path.$exec;
+$html=shell_exec($exec);
 $t1=explode("embeds[",$html);
 $t2=explode('src="',$t1[1]);
 $t3=explode('"',$t2[1]);
 $l=$t3[0];
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $l);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
-  curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
-  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-  $html = curl_exec($ch);
-  curl_close($ch);
+$exec = '-q --load-cookies '.$cookie.' --save-cookies '.$cookie.' -U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
+$exec = $exec_path.$exec;
+$html=shell_exec($exec);
+$movie=str_replace("https","http",str_between($html,'source src="','"'));
+if (!$movie) $movie=str_replace("https","http",str_between($html,'source src= "','"'));
+preg_match('/([http|https][\.\d\w\-\.\/\\\:\?\&\#\%\_\,]*(_en\.(srt|vtt)))/', $html, $m);
+$file=$m[1];
 
-  $movie=str_replace("https","http",str_between($html,'source src="','"'));
-$t1=explode('subtitles" src="',$html);
-$k=count($t1);
-$t2=explode('"',$t1[$k-1]);
-$file=$t2[0];
-*/
-///////////////////////////////////////////////////////////
-//echo "http://uphero.xpresso.eu/movietv/m2.php?file=".$l."&res=".$res;
-$h= file_get_contents("http://uphero.xpresso.eu/movietv/m2.php?file=".$l."&res=".$res);
-//echo $h;
-$t1=explode(",",$h);
-$movie=$t1[0];
-if (strpos($movie,"end=600") !-- false) $movie=str_replace("end=600","",$movie);
-$file=$t1[1];
+if (strpos($movie,"end=600") !== false) $movie=str_replace("end=600","",$movie);
 if (!$movie || strpos($movie,"google") !== false || strpos($movie,"blogspot.com") !== false) {
   //echo $html;
   $link = str_replace("http","https",$movie);
@@ -107,7 +80,10 @@ $movie="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
 //////////////////////////////////////////////////////////////////
 exec ("rm -f /tmp/test.xml");
 if ($file) {
-$h= file_get_contents("http://uphero.xpresso.eu/movietv/m3.php?file=".$file."&res=".$res);
+//$h= file_get_contents("http://uphero.xpresso.eu/movietv/m3.php?file=".$file."&res=".$res);
+$exec = '-q --load-cookies '.$cookie.' --save-cookies '.$cookie.' -U "'.$ua.'" --referer="'.$file.'" --no-check-certificate "'.$file.'" -O -';
+$exec = $exec_path.$exec;
+$h=shell_exec($exec);
   /*
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $file);

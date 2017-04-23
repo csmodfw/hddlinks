@@ -215,13 +215,13 @@ ret;
 
 <item>
 <title>pornburst</title>
-  <link>http://uphero.xpresso.eu/movietv/pornburst_main.php</link>
+  <link><?php echo $host; ?>/scripts/adult/php/pornburst_main.php</link>
 <mediaDisplay name="threePartsView"/>
 </item>
 
 <item>
 <title>pornjam</title>
-  <link>http://uphero.xpresso.eu/movietv/pornjam_main.php</link>
+  <link><?php echo $host; ?>/scripts/adult/php/pornjam_main.php</link>
 <mediaDisplay name="threePartsView"/>
 </item>
 <!--

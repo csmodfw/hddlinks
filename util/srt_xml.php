@@ -27,18 +27,11 @@ $ttxml     = '';
 $full_line = '';
 $sub_max = 53;
 $last_end=0;
-if (strpos($file,"vidlox.tv") !== false || strpos($file,"raptu") !== false) {
-  $x="http://uphero.xpresso.eu/movietv/vidox_s.php?file=".$file;
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $x);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-  //curl_setopt($ch, CURLOPT_HEADER,1);
-  //curl_setopt($ch, CURLOPT_NOBODY,1);
-  $h = curl_exec($ch);
-  curl_close($ch);
+if (strpos($file,"vidlox.tv") !== false || strpos($file,"raptu") !== false  || strpos($file,"rapidvideo") !== false) {
+  $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
+  $exec = '--max-redirect 0 --user-agent= "'.$ua.'" --referer="'.$file.'" --no-check-certificate "'.$file.'" -O -';
+  $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+  $h=shell_exec($exec);
 } else {
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $file);
@@ -59,8 +52,10 @@ if(preg_match('/(\d\d):(\d\d):(\d\d)(\.|,)(\d\d\d) --> (\d\d):(\d\d):(\d\d)(\.|,
   foreach($file_array as $line)
   {
     $line = trim($line);
+
     //print $line."<BR>";
     $line = preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$line);
+    if (preg_match("/opensubtitles/i",$line)) $line="";
         if(preg_match('/(\d\d):(\d\d):(\d\d)(\.|,)(\d\d\d) --> (\d\d):(\d\d):(\d\d)(\.|,)(\d\d\d)/', $line, $match))
         {
           //print_r ($match);

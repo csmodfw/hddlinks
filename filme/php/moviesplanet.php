@@ -319,29 +319,19 @@ if($requestPage->status->http_code == 503) {
 */
 //echo $html;
 //http://www.moviesplanet.is/movies/date/1
-$cookie="/tmp/moviesplanet.txt";
-//$cookie="D://m.txt";
-$res=file_get_contents($cookie);
+
 //$l="http://www.moviesplanet.is/".str_replace(" ","%20",$link)."/date/".$page."";
 $l=str_replace(" ","%20",$link)."/date/".$page."";
 //$l="http://www.moviesplanet.is/movies/date/1";
-$html= file_get_contents("http://uphero.xpresso.eu/movietv/m1.php?file=".$l."&res=".$res);
-/*
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $l);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0');
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt ($ch, CURLOPT_REFERER, "https://www.moviesplanet.is/");
-  curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
-  curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
-  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-  //curl_setopt($ch, CURLOPT_HEADER,1);
-  $html = curl_exec($ch);
-  curl_close($ch);
-  */
+//echo $l;
+$cookie="/tmp/moviesplanet.txt";
+$ua="proxyFactory";
+$exec_path="/usr/local/bin/Resource/www/cgi-bin/scripts/wget ";
+$exec = '-q --load-cookies '.$cookie.' --save-cookies '.$cookie.' -U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
+$exec = $exec_path.$exec;
+//echo $exec;
+$html=shell_exec($exec);
 //echo $html;
-  
 $videos = explode('<div class="ml-item"', $html);
 unset($videos[0]);
 $videos = array_values($videos);
