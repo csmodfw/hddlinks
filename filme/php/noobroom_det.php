@@ -118,6 +118,8 @@ $desc = trim(preg_replace("/<(.*)>|(\{(.*)\})/e","",$desc));
 } else {
 //http://www.omdbapi.com/?t=Rizzoli+%26+Isles&plot=full
 $tit=urldecode($id);
+$t1=explode("- Season",$tit);
+$tit=trim($t1[0]);
 if (substr($id, 0, 6) == "series") {
   $tip="series";
   $tit = str_replace("series","",$tit);

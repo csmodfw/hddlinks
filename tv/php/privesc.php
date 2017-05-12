@@ -243,14 +243,15 @@ foreach($videos as $video) {
   $t2 = explode("'",$t1[1]);
   $link="https://www.privesc.eu".$t2[0];
   
-  $t1=explode("alt='",$video);
+  $t1=explode("title='",$video);
   $t2=explode("'",$t1[1]);
   $title=trim($t2[0]);
   $title=fix_s($title);
 //http://storage.privesc.eu/thumnails/49569.jpg
   $t1=explode("src='",$video);
   $t2=explode("'",$t1[1]);
-  $image="http:".$t2[0];
+  $image=$t2[0];
+  $image=str_replace("https","http",$image);
   
   $data=str_between($video,"<p class='text-muted'>",'</p>');
   $descriere = $title;
@@ -258,7 +259,7 @@ foreach($videos as $video) {
   $descriere = str_replace("&nbsp;","/",$descriere);
   $descriere = fix_s($descriere);
   $name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".mp4";
-  if ($title <> "") {
+  if ($title <> "" && strpos($title,"Eveniment restric") === false) {
     echo '
     <item>
     <title>'.$title.'</title>

@@ -173,9 +173,48 @@ ret;
 <channel>
   <title>TV Romania</title>
 <?php
+function print_t($title,$l) {
+    $host = "http://127.0.0.1/cgi-bin";
+    $link = $host.'/scripts/tv/php/telekom_link.php?file='.urlencode($l);
+	echo'
+	<item>
+	<title>'.$title.'</title>
+    <onClick>
+    <script>
+    showIdle();
+    url="'.$link.'";
+    movie=getUrl(url);
+    cancelIdle();
+    if (movie == "" || movie == " " || movie == null)
+    {
+    playItemUrl(-1,1);
+    }
+    else
+    {
+    storagePath = getStoragePath("tmp");
+    storagePath_stream = storagePath + "stream.dat";
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/x-flv);
+    streamArray = pushBackStringArray(streamArray, "'.str_replace('"',"'",$title).'");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
+    }
+    </script>
+    </onClick>
+    <location>'.$title.'</location>
+    <annotation>'.$title.'</annotation>
+    <mediaDisplay name="threePartsView"/>
+	</item>
+	';
+}
 function print_c($title,$l) {
     $host = "http://127.0.0.1/cgi-bin";
-    $link = $host.'/scripts/tv/php/protvmd_link.php?file='.$l;
+    $link = $host.'/scripts/tv/php/protvmd_link.php?file='.urlencode($l);
 	echo'
 	<item>
 	<title>'.$title.'</title>
@@ -390,6 +429,42 @@ foreach($videos as $video) {
 print_c("ProTV","http://stream1.protv.ro/news/stream:1.stream/playlist.m3u8");
 print_c("ProTV Chisinau","http://hls.protv.md/hls/protv.m3u8");
 print_c("DIGI24","http://82.76.40.81:80/digi24edge/digi24hdhqhls/index.m3u8");
+print_ch("Moldova 1", "http://127.0.0.1/cgi-bin/scripts/util/translate.cgi?stream,,rtmp://212.0.209.209:1935/live/MoldovaUnu1",$a["Moldova 1"]);
+print_ch("Moldova 2", "http://127.0.0.1/cgi-bin/scripts/util/translate.cgi?stream,,rtmp://live.trm.md:1935/live/mp4:MoldovaDoi2",$a["Moldova 2"]);
+print_ch("10TV", "http://127.0.0.1/cgi-bin/scripts/util/translate.cgi?stream,,rtmp://ro.privesc.eu/10tv/myStream",$a["10TV"]);
+
+print_ch("Prahova TV", "http://127.0.0.1/cgi-bin/translate?stream,Rtmp-options:-W%20http://www.prahovatv.ro/player/player.swf%20-T%206c69766568642e747620657374652063656c206d616920746172652121%20http://www.infopescar.tv/yyy/player.swf%20-p%20http://www.prahovatv.ro/,rtmp://89.45.186.26:1935/live/prahovatv",$a["Prahova TV"]);
+print_ch("Jurnal TV", "http://flux.jtv.md/jtv-540p.flv",$a["Jurnal TV"]);
+print_ch("TvM", "http://tvm.ambra.ro",$a["TvM"]);
+$f="/usr/local/etc/dvdplayer/Telekom.m3u";
+//$f="D:\EasyPHP\data\localweb\scripts1\digi.m3u";
+if (file_exists($f)) {
+$m3uFile = file($f);
+foreach($m3uFile as $key => $line) {
+  if(strtoupper(substr($line, 0, 7)) === "#EXTINF") {
+   $t1=explode(",",$line);
+   $title=trim($t1[1]);
+   //$title1=$title;
+   $link = trim($m3uFile[$key + 1]);
+   print_t($title,$link);
+}
+}
+}
+$f="/usr/local/etc/dvdplayer/digi.m3u";
+//$f="D:\EasyPHP\data\localweb\scripts1\digi.m3u";
+if (file_exists($f)) {
+$m3uFile = file($f);
+foreach($m3uFile as $key => $line) {
+  if(strtoupper(substr($line, 0, 7)) === "#EXTINF") {
+   $t1=explode(",",$line);
+   $title=trim($t1[1]);
+   //$title1=$title;
+   $link = trim($m3uFile[$key + 1]);
+   print_c($title,$link);
+}
+}
+}
+//print_c("DIGI SPORT 1","http://dgf.icx.ro/digiedge/digisport1ehq/index.m3u8?is=1&src=digi-online.ro&t=00000000000000000000000000000000");
 /*
 print_c("JurnalTV","http://cdnworld.magictvbox.eu/live/live-hd/id_1_qhd/index.m3u8");
 print_c("PRIME TV","http://cdnworld.magictvbox.eu/live/live-hd/id_2_qhd/index.m3u8");
@@ -397,13 +472,7 @@ print_c("CANAL2 HD","http://cdnworld.magictvbox.eu/live/live-hd/id_3_qhd/index.m
 print_c("CANAL3 HD","http://cdnworld.magictvbox.eu/live/live-hd/id_4_qhd/index.m3u8");
 print_c("PUBLIKA TV","http://cdnworld.magictvbox.eu/live/live-hd/id_5_qhd/index.m3u8");
 */
-print_ch("Moldova 1", "http://127.0.0.1/cgi-bin/scripts/util/translate.cgi?stream,,rtmp://212.0.209.209:1935/live/MoldovaUnu1",$a["Moldova 1"]);
-print_ch("Moldova 2", "http://127.0.0.1/cgi-bin/scripts/util/translate.cgi?stream,,rtmp://live.trm.md:1935/live/mp4:MoldovaDoi2",$a["Moldova 2"]);
-print_ch("10TV", "http://127.0.0.1/cgi-bin/scripts/util/translate.cgi?stream,,rtmp://videostar.privesc.eu/10tv/myStream",$a["10TV"]);
 
-print_ch("Prahova TV", "http://127.0.0.1/cgi-bin/translate?stream,Rtmp-options:-W%20http://www.prahovatv.ro/player/player.swf%20-T%206c69766568642e747620657374652063656c206d616920746172652121%20http://www.infopescar.tv/yyy/player.swf%20-p%20http://www.prahovatv.ro/,rtmp://89.45.186.26:1935/live/prahovatv",$a["Prahova TV"]);
-print_ch("Jurnal TV", "http://flux.jtv.md/jtv-540p.flv",$a["Jurnal TV"]);
-print_ch("TvM", "http://tvm.ambra.ro",$a["TvM"]);
 ?>
 </channel>
 </rss>

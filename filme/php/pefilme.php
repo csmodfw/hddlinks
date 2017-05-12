@@ -14,7 +14,7 @@
 <mediaDisplay name="threePartsView"
 	sideLeftWidthPC="0"
 	sideRightWidthPC="0"
-	
+
 	headerImageWidthPC="0"
 	selectMenuOnRight="no"
 	autoSelectMenu="no"
@@ -212,12 +212,13 @@ foreach($videos as $video) {
   $title=trim(preg_replace("/Online Subtitrat in Romana|Filme Online Subtitrat HD 720p|Online HD 720p Subtitrat in Romana|Online Subtitrat Gratis|Online Subtitrat in HD Gratis|Film HD Online Subtitrat/i","",$title));
   $title=trim(preg_replace("/(subtitrat|onlin|film)(.*)/i","",$title));
 
-  $t1 = explode('src="', $video);
+  $t1 = explode('data-src="', $video);
   $t2 = explode('"', $t1[1]);
   $image = $t2[0];
   $image=htmlentities($image,ENT_QUOTES,'UTF-8');
-  $image=str_replace("https","http",$image);
-  $image="/usr/local/bin/Resource/www/cgi-bin/scripts/filme/image/nocover.jpg";
+  //$image=str_replace("https","http",$image);
+  //$image="/usr/local/bin/Resource/www/cgi-bin/scripts/filme/image/nocover.jpg";
+  $image="http://127.0.0.1/cgi-bin/scripts/filme/php/r_wget.php?file=".$image;
   //$descriere=str_between($video,'<p>','<');
   //$descriere=str_replace("[&hellip;]","...",$descriere);
 //  descriere

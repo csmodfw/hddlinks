@@ -213,6 +213,7 @@ $arr[]=array($title,$link,$image,$year,$id);
 asort($arr);
 foreach ($arr as $key => $val) {
   $link=$arr[$key][1];
+  $link=str_replace("https://flixanity.watch","https://istream.is",$link);
   $image=$arr[$key][2];
   $image1="http://127.0.0.1/cgi-bin/scripts/filme/php/https.php?file=series".urlencode(trim(str_replace(",","^",$title)));
   //echo $image1;

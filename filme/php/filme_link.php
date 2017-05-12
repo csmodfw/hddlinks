@@ -10,19 +10,14 @@ function decode_entities($text) {
 }
 //if (file_exists("D:\\Adobe"))
   $filelink = $_GET["file"];
-  //$filelink=str_replace(",","%2C",$filelink);
-  //echo $filelink;
-//else
-//  $filelink=$_ENV["QUERY_STRING"];
-//$filelink = $_GET["file"];
-//$filelink="http://www.seriale.filmesubtitrate.info/2011/08/against-wall-sezon-1-ep-1-pilot-serial.html";
+
 $t1=explode(",",$filelink);
 $filelink = urldecode($t1[0]);
 $filelink = str_replace("*",",",$filelink);
 $filelink = str_replace("@","&",$filelink); //seriale.subtitrate.info
 //echo $filelink;
-if (strpos($filelink,"player-serial") === false) exec("rm -f /tmp/990.dat");
 $pg = urldecode($t1[1]);
+$pg=str_replace("^",",",$pg);
 $pg=fix_s($pg);
 if ($pg == "") {
    $pg_title = "Link";
@@ -303,168 +298,10 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini;
 	return substr($string,$ini,$len);
 }
-function unpack_DivXBrowserPlugin1($n_func,$html_cod,$sub=false) {
-  $f=explode("return p}",$html_cod);
-  $e=explode("'.split",$f[$n_func]);
-  $ls=$e[0];
-  //echo $ls;
-  $a=explode(",",$ls);
-  //print_r($a); //for debug only
-  $a1=explode("'",$a[count($a)-1]); //char list for replace
-  $b1=explode(",",$a1[1]);
-  $base_enc=$a1[1];
-
-  $base_enc=$a[count($a)-2];
-  //echo $base_enc;
-  $w=explode("|",$a1[1]);
-  //print_r ($w);
-  $ch="0123456789abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz";
-  $ch="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-  $ch="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  $fl="";
-  for ($i=0;$i<count($a)-1;$i++) {
-    $fl=$fl.$a[$i];
-  }
-  $r="";
-  $x=strlen($fl);
-  //echo $fl;
-  for ($i=0;$i<strlen($fl);$i++) {
-    if (!preg_match('/[A-Za-z0-9]/',$fl[$i])) { //nu e alfanumeric
-       $r=$r.$fl[$i];
-    } elseif (($i<$x) && (preg_match('/[A-Za-z0-9]/',$fl[$i])) && (preg_match('/[A-Za-z0-9]/',$fl[$i+1]))) {
-       $pos=strpos($ch,$fl[$i+1]);
-       $pos=$base_enc*$fl[$i] + $pos;
-       if ($w[$pos] <> "")
-         $r=$r.$w[$pos];
-       else
-         $r=$r.$fl[$i].$fl[$i+1];
-     } elseif (($i>0) && (preg_match('/[A-Za-z0-9]/',$fl[$i])) && (preg_match('/[A-Za-z0-9]/',$fl[$i-1]))) {
-       // nothing
-     } else {
-       $pos=strpos($ch,$fl[$i]);
-        if ($w[$pos] <> "")
-          $r=$r.$w[$pos];
-        else
-          $r=$r.$fl[$i];
-     }
-  }
-  $r=str_replace("\\","",$r);
-  //echo $r;
-  $ret_val=str_between($r,'param name="src"value="','"');
-  if ($ret_val == "")
-    $ret_val = str_between($r,"file','","'");
-  if ($ret_val == "")
-    $ret_val = str_between($r,"playlist=","&");  //nosvideo
-  if ($ret_val == "")
-    $ret_val=str_between($r,'file:"','"');
-  if ($ret_val=="")
-    $ret_val=str_between($r,'attr("src","','"');
-  if ($ret_val=="")
-    $ret_val=str_between($r,'attr("src""','"');
-  if ($sub==true) {
-    $srt=str_between($r,"captions.file','","'");
-    $srt = str_replace(" ","%20",$srt);
-    $ret_val=$ret_val.",".$srt;
-  }
-  if ($ret_val == "") $ret_val=$r;
-  return $ret_val;
-}
-function unpack_DivXBrowserPlugin($n_func,$html_cod,$sub=false) {
-  $f=explode("return p}",$html_cod);
-  $e=explode("'.split",$f[$n_func]);
-  $ls=$e[0];
-  //echo $ls;
-  $a=explode(";",$ls);
-  //print_r($a); //for debug only
-  $a1=explode("'",$a[count($a)-1]); //char list for replace
-  $b1=explode(",",$a1[1]);
-  $base_enc=$b1[1];
-  //echo $base_enc;
-  $w=explode("|",$a1[2]);
-  //print_r ($w);
-  $ch="0123456789abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz";
-  $ch="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-  $ch="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  $fl="";
-  for ($i=0;$i<count($a)-1;$i++) {
-    $fl=$fl.$a[$i];
-  }
-  $r="";
-  $x=strlen($fl);
-  for ($i=0;$i<strlen($fl);$i++) {
-    if (!preg_match('/[A-Za-z0-9]/',$fl[$i])) { //nu e alfanumeric
-       $r=$r.$fl[$i];
-    } elseif (($i<$x) && (preg_match('/[A-Za-z0-9]/',$fl[$i])) && (preg_match('/[A-Za-z0-9]/',$fl[$i+1]))) {
-       $pos=strpos($ch,$fl[$i+1]);
-       $pos=$base_enc*$fl[$i] + $pos;
-       if ($w[$pos] <> "")
-         $r=$r.$w[$pos];
-       else
-         $r=$r.$fl[$i].$fl[$i+1];
-     } elseif (($i>0) && (preg_match('/[A-Za-z0-9]/',$fl[$i])) && (preg_match('/[A-Za-z0-9]/',$fl[$i-1]))) {
-       // nothing
-     } else {
-       $pos=strpos($ch,$fl[$i]);
-        if ($w[$pos] <> "")
-          $r=$r.$w[$pos];
-        else
-          $r=$r.$fl[$i];
-     }
-  }
-  $r=str_replace("\\","",$r);
-  //echo $r;
-  $ret_val=str_between($r,'param name="src"value="','"');
-  if ($ret_val == "")
-    $ret_val = str_between($r,"file','","'");
-  if ($sub==true) {
-    $srt=str_between($r,"captions.file','","'");
-    $srt = str_replace(" ","%20",$srt);
-    $ret_val=$ret_val.",".$srt;
-  }
-  if ($ret_val == "") $ret_val=$r;
-  return $ret_val;
-}
-
 /**####################################**/
 /** Here we start.......**/
 $last_link = "";
-//if (strpos($filelink,"onlinemoca") === false) {
-if (strpos($filelink,"voxfilmeonline1") !== false) {
-//echo $filelink;
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $filelink);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
-  $html = curl_exec($ch);
-  curl_close($ch);
-  $a=str_between($html,'"filmcontent">','</script');
-  //echo $a;
-  $t1=explode("'",$a);
-  $k=count($t1);
-  $html="";
-  //print_r ($t1);
-  for ($p=1;$p<$k;$p++) {
-   if (strlen($t1[$p]) > 20) $html=$html." ".base64_decode($t1[$p]);
-  }
-//echo $html;
-//die();
-}
-elseif (strpos($filelink,"vezi-online1.com") !== false) {
-  $ch = curl_init($filelink);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
-  curl_setopt($ch,CURLOPT_REFERER,$filelink);
-  //curl_setopt ($ch, CURLOPT_POST, 1);
-  //curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
-  //curl_setopt($ch, CURLOPT_HEADER, true);
-  $html = curl_exec($ch);
-  curl_close ($ch);
-  $html=html_entity_decode($html);
-}
-elseif (strpos($filelink,"filmeserialeonline.org") !== false) {
+if (strpos($filelink,"filmeserialeonline.org") !== false) {
   $ch = curl_init($filelink);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch,CURLOPT_REFERER,$filelink);
@@ -484,16 +321,7 @@ elseif (strpos($filelink,"filmeserialeonline.org") !== false) {
     $id=str_between($h2,'data:{id:','}');
     $l="http://www.filmeserialeonline.org/wp-content/themes/grifus/loop/second.php";
   }
-  //$l="http://www.filmeserialeonline.org/wp-admin/admin-ajax.php";
-  //$l="http://www.filmeserialeonline.org/wp-content/themes/grifus/includes/single/second.php";
-  //$l="http://www.filmeserialeonline.org/wp-content/themes/grifus/includes/single/second.php";
-  //$l="http://www.filmeserialeonline.org/wp-content/themes/grifus/includes/single/second.php";
   $post="id=".$id;
-  //$post="id=47938";
-  //echo $post;
-  //$post="id=45798";
-  //https://www.raptu.com/embed/eKBtLeEH
-  //v%3DeKBtLeEH
   $cookie="Cookie: _ga=GA1.2.226532075.1472192307; _gat=1; GoogleCaptcha=c07edfad41d0f118e5d44ec9a725f017";
   $headers = array('Accept: text/html, */*; q=0.01',
    'Accept-Language: ro-RO,ro;q=0.8,en-US;q=0.6,en-GB;q=0.4,en;q=0.2',
@@ -513,9 +341,6 @@ elseif (strpos($filelink,"filmeserialeonline.org") !== false) {
   //curl_setopt($ch, CURLOPT_HEADER, true);
   $html = curl_exec($ch);
   curl_close ($ch);
-  //echo $html;
-  //https://vidlox.tv/embed-6pgn57s9gkfq.html
-
 }
 elseif (strpos($filelink,"filmeseriale.online") !== false) {
   $ch = curl_init($filelink);
@@ -553,86 +378,11 @@ elseif (strpos($filelink,"filmeseriale.online") !== false) {
   curl_close ($ch);
   $html .=$h3;
 }
-  //echo $html;
-    //$videos = explode("id:",$h2);
-    //unset($videos[0]);
-    //$videos = array_values($videos);
-    //foreach($videos as $video) {
-      //$t1=explode('"',$video);
-}
-elseif (strpos($filelink,"filmeonlinesubtitrate") !== false) {
-
-  $post="pageviewnr=1";
-  $ch = curl_init($filelink);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
-  curl_setopt($ch,CURLOPT_REFERER,$filelink);
-  //curl_setopt ($ch, CURLOPT_POST, 1);
-  //curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
-  curl_setopt($ch, CURLOPT_HEADER, true);
-  $html = curl_exec($ch);
-  curl_close ($ch);
-  //$l = str_between($html,"Link: <",">;");
-  //echo $l;
-  //Link: <http://www.filmeonlinesubtitrate.tv/?p=5382>; rel=shortlink
-  //$AgetHeaders = @get_headers($filelink);
-  //echo $AgetHeaders;
-} elseif (strpos($filelink,"990.ro") !== false) {
-//echo $filelink;
-    //$link1 = str_replace("download","",$filelink);
-    //$link1 = str_replace("seriale2","player-seriale",$link1);
-  $link1=$filelink;
-    if (strpos($filelink,"seriale") !== false) {
-    //$link1 = str_replace("seriale2","player-serial",$link1);
-      $ch = curl_init($link1);
-      curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
-      curl_setopt($ch,CURLOPT_REFERER,$filelink);
-      //curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
-      $html11 = curl_exec($ch);
-      curl_close ($ch);
-      $t1=explode("player-serial",$html11);
-      $t2=explode("'",$t1[1]);
-      $link1="http://www.990.ro/player-serial".$t2[0];
-//echo $link1;
-//http://www.990.ro/player-serial-224607-28309-sfast-26051.html
-//http://www.990.ro/player-serial-224607-28309-sfast.html
-  }
-  $ch = curl_init($link1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
-  curl_setopt($ch,CURLOPT_REFERER,$filelink);
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
-  $html = curl_exec($ch);
-  curl_close ($ch);
-
-  $link1=str_replace(urldecode("%0D"),"",$link1);
-  $filelink=$link1;
-  if (strpos($html,"mastervid") !== false) {
-    $t1=explode("mastervid",$html);
-    $t2=explode("'",$t1[1]);
-    $link1="http://mastervid".$t2[0];
-    //echo $link1;
-    $ch = curl_init($link1);
-    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
-    curl_setopt($ch,CURLOPT_REFERER,$filelink);
-    //curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
-    $html = curl_exec($ch);
-    curl_close ($ch);
-    //$html=$html." ".$html22;
-    //echo $html;
-  }
-//} elseif (strpos($filelink,"filmedivix") !== false) {
-//  $html=file_get_contents($filelink);
-//  $filelink="http://filmedivix.com/filmeonline/".str_between($html,"filmedivix.com/filmeonline/",'"');
-//  $html = file_get_contents($filelink);
 } elseif (strpos($filelink,"vezi-online.com") !== false) {
     //require_once("JavaScriptUnpacker.php");
    //$jsu = new JavaScriptUnpacker();
       $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
-      $exec = '--max-redirect 0 -U "'.$ua.'" --referer="'.$filelink.'" --no-check-certificate "'.$filelink.'" -O -';
+      $exec = '-q -U "'.$ua.'" --referer="'.$filelink.'" --no-check-certificate "'.$filelink.'" -O -';
       $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
       $html22=shell_exec($exec);
     $out="";
@@ -649,14 +399,13 @@ elseif (strpos($filelink,"filmeonlinesubtitrate") !== false) {
       $post="h=".$t2[0];
       //echo $html1;
       $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
-      $exec = '--header="Content-Type: application/x-www-form-urlencoded"  --post-data="'.$post.'" --max-redirect 0 -U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
+      $exec = '--header="Content-Type: application/x-www-form-urlencoded"  --post-data="'.$post.'" -U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
       $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
       $out=shell_exec($exec);
 
       $html .=" ".$out;
     }
-//$html=file_get_contents("http://uphero.xpresso.eu/movietv/filme_link1.php?file=".$filelink);
-} elseif (strpos($filelink,"http://filmehd.net") !== false) {
+} elseif (strpos($filelink,"filmehd.net") !== false) {
   require_once("JavaScriptUnpacker.php");
   //echo $filelink;
   $html1=file_get_contents($filelink);
@@ -670,23 +419,6 @@ elseif (strpos($filelink,"filmeonlinesubtitrate") !== false) {
   //echo $out;
   $html .=" ".$out;
   $html = $html1." ".$html;
-  //https://hqq.tv/sec/player/embed_player.php?iss=ODIuMjEwLjE3OC4xMjk=&vid=259208274208242226277227238246231270194271217271255&at=6e3a6f5ec3f5f8b95c37275f9bbcd346&autoplayed=yes&referer=on&http_referer=aHR0cDovL2hxcS50di9wbGF5ZXIvZW1iZWRfcGxheWVyLnBocD92aWQ9MjU5MjA4Mjc0MjA4MjQyMjI2Mjc3MjI3MjM4MjQ2MjMxMjcwMTk0MjcxMjE3MjcxMjU1JmF1dG9wbGF5PW5vbmUmaGFzaF9mcm9tPTZlM2E2ZjVlYzNmNWY4Yjk1YzM3Mjc1ZjliYmNkMzQ2&pass=&embed_from=&need_captcha=0&hash_from=6e3a6f5ec3f5f8b95c37275f9bbcd346
-
-  //echo $t2;
-  //$t2=$ls;
-  /*
-  if (strpos($t2,"ok") !== false) {
-  //echo $t2;
-  preg_match_all("/\d+/",$t2,$m);
-  //print_r ($m);
-  if (strlen($m[0][2])< 14)
-  $id=$m[0][2];
-  else
-  $id=$m[0][3];
-  //echo $id;
-  $html=' "http://ok.ru/videoembed/'.$id.'" '.$html;
-  */
-  //echo $html;
 } elseif (strpos($filelink,"pefilme.com") !== false) {
     require_once("JavaScriptUnpacker.php");
    $jsu = new JavaScriptUnpacker();
@@ -721,16 +453,6 @@ $h3=shell_exec($exec);
       //$html .=" ".$out;
     }
     //echo $html;
-} elseif (strpos($filelink,"fsplay.net") !== false) {
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $filelink);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch,CURLOPT_REFERER,"http://www.fsplay.net");
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:14.0) Gecko/20100101 Firefox/14.0.1');
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  $html=curl_exec($ch);
-  curl_close($ch);
-  $html= decode_entities($html);
 } else {
 $filelink=str_replace(" ","%20",$filelink);
   $ch = curl_init();
@@ -743,65 +465,6 @@ $filelink=str_replace(" ","%20",$filelink);
   $html=curl_exec($ch);
   curl_close($ch);
   //echo $html;
-  if (strpos($filelink,"vezi-online.net") !== false) {
-    //$h1=str_between($html,'class="player">','</div');
-    $h1=explode('class="player">',$html);
-    $t1=explode("document.write(unescape('",$h1[1]);
-    $t2=explode("'",$t1[1]);
-    if ($t2[0]) $html=urldecode($t2[0]);
-  }
-}
-//echo $html;
-$mysrt=str_between($html,"captions.file=","&");
-if(!$mysrt)
- $mysrt=str_between($html,'captions-2": { file: "','"');
-$mysrt = str_replace(" ","%20",$mysrt);
-if (strpos($mysrt,"http") === false && $mysrt) {
-  $t=explode("/",$filelink);
-  $mysrt="http://".$t[2].$mysrt;
-}
-//echo $mysrt;
-if (strpos($html,"movieSrc=") !== false) {
-$last_link="";
-$videos = explode("movieSrc=", $html);
-unset($videos[0]);
-$videos = array_values($videos);
-foreach($videos as $video) {
-  $t1=explode("&",$video);
-  $title="imgsmail.ru";
-  //mail/alex.costantin/_myvideo/162
-  $cur_link="http://api.video.mail.ru/videos/".$t1[0].".json";
-  if ($cur_link <> $last_link) {
-  $last_link=$cur_link;
-  $link="http://127.0.0.1/cgi-bin/scripts/filme/php/link.php?file=".urlencode($cur_link);
-	    echo'
-	    <item>
-	    <title>'.$title.'</title>
-        <onClick>
-        <script>
-        showIdle();
-        movie="'.$link.'";
-        url=getUrl(movie);
-        cancelIdle();
-        streamArray = null;
-        streamArray = pushBackStringArray(streamArray, "");
-        streamArray = pushBackStringArray(streamArray, "");
-        streamArray = pushBackStringArray(streamArray, url);
-        streamArray = pushBackStringArray(streamArray, url);
-        streamArray = pushBackStringArray(streamArray, video/x-flv);
-        streamArray = pushBackStringArray(streamArray, "'.$pg_title.'");
-        streamArray = pushBackStringArray(streamArray, "1");
-        writeStringToFile(storagePath_stream, streamArray);
-        doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer.rss");
-        </script>
-        </onClick>
-        <download>'.$link.'</download>
-        <tip>1</tip>
-        <name>'.$titledownload.'.flv</name>
-        </item>
-        ';
-     }
-}
 }
 /**################ All links ################**/
 if (preg_match("/roshare|rosharing/",$html)) {
@@ -831,7 +494,7 @@ $s=$s."|trilulilu|proplayer\/playlist-controller.php|viki\.com|modovideo\.com|ro
 $s=$s."filebox\.com|glumbouploads\.com|uploadc\.com|sharefiles4u\.com|zixshare\.com|uploadboost\.com|hqq\.tv|vidtodo\.com|vshare\.eu";
 $s=$s."|nowvideo\.eu|nowvideo\.co|vreer\.com|180upload\.com|dailymotion\.com|nosvideo\.com|vidbull\.com|purevid\.com|videobam\.com|streamcloud\.eu|donevideo\.com|upafile\.com|docs\.google|mail\.ru|superweb|moviki\.ru|entervideos\.com";
 $s=$s."|indavideo\.hu|redfly\.us|videa\.hu|videakid\.hu|mooshare\.biz|streamin\.to|kodik\.biz|videomega\.tv|ok\.ru|realvid\.net|up2stream\.com|openload\.co|allvid\.ch|";
-$s=$s."divxme\.com|movdivx\.com|thevideobee\.to|speedvid\.net|streamango\.com|streamplay\.to|gorillavid\.in|daclips\.in|movpod\.in|vodlocker\.com|filehoot\.com|bestreams\.net|vidto\.me|cloudyvideos\.com|allmyvideos\.net|goo\.gl|cloudy\.ec|rapidvideo\.com|megavideo\.pro|raptu\.com|vidlox\.tv|flashservice\.xvideos\.com|xhamster\.com/i";
+$s=$s."streamflv\.com|streamdefence\.com|veehd\.com|coo5shaine\.com|divxme\.com|movdivx\.com|thevideobee\.to|speedvid\.net|streamango\.com|streamplay\.to|gorillavid\.in|daclips\.in|movpod\.in|vodlocker\.com|filehoot\.com|bestreams\.net|vidto\.me|cloudyvideos\.com|allmyvideos\.net|goo\.gl|cloudy\.ec|rapidvideo\.com|megavideo\.pro|raptu\.com|vidlox\.tv|flashservice\.xvideos\.com|xhamster\.com/i";
 
 for ($i=0;$i<count($links);$i++) {
   if (strpos($links[$i],"http") !== false) {
@@ -860,23 +523,78 @@ for ($i=0;$i<count($links);$i++) {
   $cur_link=trim($t2[0]);
   
   }
+  if (strpos($links[$i],"streamdefence.com") !== false) {
+function indexOf($hack,$pos) {
+    $ret= strpos($hack,$pos);
+    return ($ret === FALSE) ? -1 : $ret;
+}
+
+function dhYas638H($input) {
+  $base64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef"."ghijklmnopqrstuvwxyz0123456789+/=";
+  $output = "";
+  //var ch1, ch2, ch3, enc1, enc2, enc3, enc4;
+  $i = 0;
+
+  $input = preg_replace("/[^A-Za-z0-9\+=]/", "",$input);
+  do {
+    $enc1 = indexOf($base64,$input[$i++]);
+    $enc2 = indexOf($base64,$input[$i++]);
+    $enc3 = indexOf($base64,$input[$i++]);
+    $enc4 = indexOf($base64,$input[$i++]);
+
+    $ch1 = ($enc1 << 2) | ($enc2 >> 4);
+    $ch2 = (($enc2 & 15) << 4) | ($enc3 >> 2);
+    $ch3 = (($enc3 & 3) << 6) | $enc4;
+
+    $output = $output . chr($ch1);
+
+    if ($enc3 != 64) $output = $output . chr($ch2);
+    if ($enc4 != 64) $output = $output . chr($ch3);
+
+    $ch1 = $ch2 = $ch3 = "";
+    $enc1 = $enc2 = $enc3 = $enc4 = "";
+
+  } while ($i < strlen($input));
+
+  return $output;
+}
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $links[$i]);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt ($ch, CURLOPT_REFERER, "http://serialefilme.net");
+  //curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
+  //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+  curl_setopt($ch, CURLOPT_HEADER,1);
+  $html = curl_exec($ch);
+  curl_close($ch);
+  //echo $html;
+  $t1=explode("document.write",$html);
+  $t2=explode('"',$t1[1]);
+  $h=$t2[1];
+  //echo $h;
+  $h1=dhYas638H($h);
+  $h2=dhYas638H($h1);
+
+  $t1=explode("document.write",$h2);
+  $t2=explode('"',$t1[1]);
+  $h=$t2[1];
+  //echo $h;
+  $h1=dhYas638H($h);
+  $h2=dhYas638H($h1);
+
+  //echo $h2;
+  $t1=explode('src="',$h2);
+  $t2=explode('"',$t1[1]);
+  $cur_link=$t2[0];
+  
+  }
   $t1=explode(" ",$cur_link);     //vezi-online
   $cur_link=$t1[0];
   $t1=explode("&stretching",$cur_link);    //vezi-online
   $cur_link=$t1[0];
-  if (strpos($cur_link,"raptu.com1") !== false) {
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $cur_link);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-  //curl_setopt($ch, CURLOPT_HEADER,1);
-  //curl_setopt($ch, CURLOPT_NOBODY,1);
-  $h2 = curl_exec($ch);
-  curl_close($ch);
-  $cur_link=str_between($h2,'property="og:url" content="','"');
-  }
+
   if (strpos($cur_link,"entervideos.com/vidembed") !==false) {
   $t1=explode("&",$cur_link);    //
   $cur_link=$t1[0];
@@ -896,15 +614,6 @@ for ($i=0;$i<count($links);$i++) {
         if ($t1[1] <> "") {
         $cur_link=$t1[1];
         }
-        if (strpos($cur_link,"captions.file") !== false) {  //http://vezi-online.net
-        $a=explode("&captions.file",$cur_link);
-        $mysrt=str_between($cur_link,"captions.file=","&");
-        if (strpos($mysrt,"http") === false && $mysrt) {
-         $t=explode("/",$filelink);
-         $mysrt="http://".$t[2].$mysrt;
-        }
-        $cur_link=$a[0];
-        }
         //echo $cur_link;
         $link="http://127.0.0.1/cgi-bin/scripts/filme/php/link.php?file=".urlencode($cur_link);
         if (strpos($cur_link,"adf.ly") !==false) { //onlinemoca
@@ -918,241 +627,14 @@ for ($i=0;$i<count($links);$i++) {
         }
         $last_link=$cur_link;
         //echo $cur_link;
-        $mysrt_google="";
-        $mysrt_roshare="";
-        $mysrt="";
-        if (strpos($cur_link,"google") !==false) {
-          $t1=explode("docid=",$cur_link);
-          $t2=explode("&",$t1[1]);
-          $docid=$t2[0];
-          $mysrt_google="http://video.google.com/videotranscript?frame=c&docid=".$docid."&hl=ro&type=track&name=ro&lang=ro";
-        }
-        if (strpos($cur_link,"viki.com") !==false) {
-          preg_match('/(viki\.com\/player\/medias\/)([\w\-]+)/', $cur_link, $match);
-          $viki_id = $match[2];
-        }
-        if (strpos($cur_link,"roshare.info") !==false || strpos($cur_link,"rosharing.com") !==false || strpos($cur_link,"rosharing.net") !==false) {
-          $mysrt_roshare="asasas";
-        }
-        if ((strpos($cur_link, 'fastupload.rol.ro') !== false)  || (strpos($cur_link, 'fastupload.ro') !== false) || (strpos($cur_link, 'superweb') !==false)) {
-          $mysrt_roshare="asasas";
-        }
-        if (strpos($cur_link, 'videomega') !== false || strpos($cur_link, 'up2stream.com') !== false || strpos($cur_link, 'openload.co') !== false)
-          $mysrt_roshare="asasas";
         $mysrt="asasas"; // IMPORTANT PENTRU TOATE LINK-URILE 990 !!!!!!!!!!!!!!!!!!!!
-        //if (strpos($cur_link,"hqq.tv") !== false) $mysrt="";
-          //echo $cur_link;
-          /*
-          $ch = curl_init($cur_link);
-          curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-          curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
-          $h = curl_exec($ch);
-          $id=str_between($h,'id" value="','"');
-          $rand=str_between($h,'rand" value="','"');
-          sleep(21);
-          $post="op=download2&id=".$id."&rand=".$rand."&referer=&method_free=&method_premium=&down_direct=1";
-          //echo $post;
-          curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-          curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
-          curl_setopt ($ch, CURLOPT_POST, 1);
-          curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
-          $h = curl_exec($ch);
-          curl_close ($ch);
-          $ret=unpack_DivXBrowserPlugin(2,$h,true);
-          $ret1=explode(",",$ret);
-          $mysrt=$ret1[1];
-          */
-        //}
-        //echo "mysrt=".$mysrt;
         if (!$server) $server = "LINK";
         if (strpos($server,"openload") !== false) $server=$server. " - activati ip-ul openload.co/pair";
         if (strpos($server,"thevideo.me") !== false) $server=$server. " - activati ip-ul thevideo.me/pair";
         $title=$server;
-        if (preg_match("/vk\.com/",$cur_link)) {
-         if (preg_match("/hd=1/",$cur_link)) $title=$server." (360p)";
-         elseif (preg_match("/hd=2/",$cur_link)) $title=$server." (480p)";
-         elseif (preg_match("/hd=3/",$cur_link)) $title=$server." (720p)";
-        }
-        if (!($mysrt || $mysrt_google || $viki_id || $mysrt_roshare)){
-	    echo'
-	    <item>
-	    <title>'.$title.'</title>
-        <onClick>
-        <script>
-        showIdle();
-        movie="'.$link.'";
-        url=getUrl(movie);
-        cancelIdle();
-        streamArray = null;
-        streamArray = pushBackStringArray(streamArray, "");
-        streamArray = pushBackStringArray(streamArray, "");
-        streamArray = pushBackStringArray(streamArray, url);
-        streamArray = pushBackStringArray(streamArray, url);
-        streamArray = pushBackStringArray(streamArray, video/x-flv);
-        streamArray = pushBackStringArray(streamArray, "'.$pg_title.'");
-        streamArray = pushBackStringArray(streamArray, "1");
-        writeStringToFile(storagePath_stream, streamArray);
-        doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer.rss");
-        </script>
-        </onClick>
-        <download>'.$link.'</download>
-        <tip>1</tip>
-        <name>'.$titledownload.'.flv</name>
-        </item>
-        ';
-        }
-        if (preg_match("/vk\.com/",$cur_link) && preg_match("/hd=3/",$cur_link)) {
-        $cur_link1=str_replace("hd=3","hd=2",$cur_link);
-        $link="http://127.0.0.1/cgi-bin/scripts/filme/php/link.php?file=".urlencode($cur_link1);
-        $title=$server." (480p)";
-	    echo'
-	    <item>
-	    <title>'.$title.'</title>
-        <onClick>
-        <script>
-        showIdle();
-        movie="'.$link.'";
-        url=getUrl(movie);
-        cancelIdle();
-        streamArray = null;
-        streamArray = pushBackStringArray(streamArray, "");
-        streamArray = pushBackStringArray(streamArray, "");
-        streamArray = pushBackStringArray(streamArray, url);
-        streamArray = pushBackStringArray(streamArray, url);
-        streamArray = pushBackStringArray(streamArray, video/x-flv);
-        streamArray = pushBackStringArray(streamArray, "'.$pg_title.'");
-        streamArray = pushBackStringArray(streamArray, "1");
-        writeStringToFile(storagePath_stream, streamArray);
-        doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer.rss");
-        </script>
-        </onClick>
-        <download>'.$link.'</download>
-        <tip>1</tip>
-        <name>'.$titledownload.'.flv</name>
-        </item>
-        ';
-        $cur_link1=str_replace("hd=2","hd=1",$cur_link1);
-        $link="http://127.0.0.1/cgi-bin/scripts/filme/php/link.php?file=".urlencode($cur_link1);
-        $title=$server." (360p)";
-	    echo'
-	    <item>
-	    <title>'.$title.'</title>
-        <onClick>
-        <script>
-        showIdle();
-        movie="'.$link.'";
-        url=getUrl(movie);
-        cancelIdle();
-        streamArray = null;
-        streamArray = pushBackStringArray(streamArray, "");
-        streamArray = pushBackStringArray(streamArray, "");
-        streamArray = pushBackStringArray(streamArray, url);
-        streamArray = pushBackStringArray(streamArray, url);
-        streamArray = pushBackStringArray(streamArray, video/x-flv);
-        streamArray = pushBackStringArray(streamArray, "'.$pg_title.'");
-        streamArray = pushBackStringArray(streamArray, "1");
-        writeStringToFile(storagePath_stream, streamArray);
-        doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer.rss");
-        </script>
-        </onClick>
-        <download>'.$link.'</download>
-        <tip>1</tip>
-        <name>'.$titledownload.'.flv</name>
-        </item>
-        ';
-        } elseif (preg_match("/vk\.com/",$cur_link) && preg_match("/hd=1/",$cur_link)) {
-        $cur_link1=str_replace("hd=1","hd=2",$cur_link);
-        $link="http://127.0.0.1/cgi-bin/scripts/filme/php/link.php?file=".urlencode($cur_link1);
-        $title=$server." (480p)";
-	    echo'
-	    <item>
-	    <title>'.$title.'</title>
-        <onClick>
-        <script>
-        showIdle();
-        movie="'.$link.'";
-        url=getUrl(movie);
-        cancelIdle();
-        streamArray = null;
-        streamArray = pushBackStringArray(streamArray, "");
-        streamArray = pushBackStringArray(streamArray, "");
-        streamArray = pushBackStringArray(streamArray, url);
-        streamArray = pushBackStringArray(streamArray, url);
-        streamArray = pushBackStringArray(streamArray, video/x-flv);
-        streamArray = pushBackStringArray(streamArray, "'.$pg_title.'");
-        streamArray = pushBackStringArray(streamArray, "1");
-        writeStringToFile(storagePath_stream, streamArray);
-        doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer.rss");
-        </script>
-        </onClick>
-        <download>'.$link.'</download>
-        <tip>1</tip>
-        <name>'.$titledownload.'.flv</name>
-        </item>
-        ';
-        } elseif (preg_match("/vk\.com/",$cur_link) && preg_match("/hd=2/",$cur_link)) {
-        $cur_link1=str_replace("hd=2","hd=1",$cur_link);
-        $link="http://127.0.0.1/cgi-bin/scripts/filme/php/link.php?file=".urlencode($cur_link1);
-        $title=$server." (360p)";
-	    echo'
-	    <item>
-	    <title>'.$title.'</title>
-        <onClick>
-        <script>
-        showIdle();
-        movie="'.$link.'";
-        url=getUrl(movie);
-        cancelIdle();
-        streamArray = null;
-        streamArray = pushBackStringArray(streamArray, "");
-        streamArray = pushBackStringArray(streamArray, "");
-        streamArray = pushBackStringArray(streamArray, url);
-        streamArray = pushBackStringArray(streamArray, url);
-        streamArray = pushBackStringArray(streamArray, video/x-flv);
-        streamArray = pushBackStringArray(streamArray, "'.$pg_title.'");
-        streamArray = pushBackStringArray(streamArray, "1");
-        writeStringToFile(storagePath_stream, streamArray);
-        doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer.rss");
-        </script>
-        </onClick>
-        <download>'.$link.'</download>
-        <tip>1</tip>
-        <name>'.$titledownload.'.flv</name>
-        </item>
-        ';
-        }
-        if (preg_match("/vk\.com/",$cur_link) && preg_match("/youtubevideo/",$filelink)) {
-        $cur_link=str_replace("hd=1","hd=2",$cur_link);
-        $link="http://127.0.0.1/cgi-bin/scripts/filme/php/link.php?file=".urlencode($cur_link);
-        $title=$server." (480p)";
-	    echo'
-	    <item>
-	    <title>'.$title.'</title>
-        <onClick>
-        <script>
-        showIdle();
-        movie="'.$link.'";
-        url=getUrl(movie);
-        cancelIdle();
-        streamArray = null;
-        streamArray = pushBackStringArray(streamArray, "");
-        streamArray = pushBackStringArray(streamArray, "");
-        streamArray = pushBackStringArray(streamArray, url);
-        streamArray = pushBackStringArray(streamArray, url);
-        streamArray = pushBackStringArray(streamArray, video/x-flv);
-        streamArray = pushBackStringArray(streamArray, "'.$pg_title.'");
-        streamArray = pushBackStringArray(streamArray, "1");
-        writeStringToFile(storagePath_stream, streamArray);
-        doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer.rss");
-        </script>
-        </onClick>
-        <download>'.$link.'</download>
-        <tip>1</tip>
-        <name>'.$titledownload.'.flv</name>
-        </item>
-        ';
-        }
-        if ($mysrt || $mysrt_google || $viki_id || $mysrt_roshare){
+
+
+        if ($mysrt){
         //if (strpos($server,"openload") !== false) $server=$server." (apasati 6 pentru captcha)";
         $f = "/usr/local/bin/home_menu";
 	    echo'
@@ -1161,15 +643,6 @@ for ($i=0;$i<count($links);$i++) {
         <onClick>
         <script>
         showIdle();
-        ';
-        if ($mysrt_google <> "") {
-        echo '
-        dummy=getURL("http://127.0.0.1/cgi-bin/scripts/util/google_xml.php?file='.urlencode($mysrt_google).'");';
-        } else if ($viki_id <> "") {
-        echo '
-        dummy=getURL("http://127.0.0.1/cgi-bin/scripts/util/viki_xml.php?file='.$viki_id.'");';
-        }
-        echo '
         movie="'.$link.'";
         url=getUrl(movie);
         cancelIdle();
@@ -1181,13 +654,13 @@ for ($i=0;$i<count($links);$i++) {
         streamArray = pushBackStringArray(streamArray, url);
         streamArray = pushBackStringArray(streamArray, url);
         streamArray = pushBackStringArray(streamArray, video/mp4);
-        streamArray = pushBackStringArray(streamArray, "'.$pg_title.'");
+        streamArray = pushBackStringArray(streamArray, "'.str_replace('"',"'",$pg_title).'");
         streamArray = pushBackStringArray(streamArray, "1");
         writeStringToFile(storagePath_stream, streamArray);
         ';
         if (file_exists($f)) {
         echo '
-        doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer2.rss");
+        doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer22.rss");
         ';
         } else {
         echo '
@@ -1203,337 +676,15 @@ for ($i=0;$i<count($links);$i++) {
         </item>
        ';
 
-  }
+       }
       }
     }
   }
 }
 /**################ special links ##############**/
-if (preg_match_all('/<(iframe\b|object\b)[^>]+src\s?=\s?([\'|\"])(.*?)(\"|\')+/is', $html, $matches)) {
-$links=$matches[3];
-}
-$link="";
-$srt="";
-$tip="";
-for ($i=0;$i<count($links);$i++) {
-  $cur_link=$links[$i];
-    if (strpos($cur_link,"rofilm.info") !==false) {
-     $baza = file_get_contents($cur_link);
-     $t1=explode('value="file=',$baza);
-     $t2=explode("&",$t1[1]);
-     $link = $t2[0];
-     if ($link=="") {
-       $t1=explode("value='file=",$baza);
-       $t2=explode("&",$t1[1]);
-       $link=$t2[0];
-     }
-     if ($link == "") {
-       $link1=str_between($baza,'proxy.link=','"');
-       $tip="1";
-        $link2="http://127.0.0.1/cgi-bin/scripts/filme/php/link.php?file=".urlencode($link1);
-        $server = str_between($link1,"http://","/");
-        $title=$server;
-        if ($link1 <> "") {
-	    echo'
-	    <item>
-	    <title>'.$title.'</title>
-        <onClick>
-        <script>
-        showIdle();
-        movie="'.$link2.'";
-        url=getUrl(movie);
-        cancelIdle();
-        streamArray = null;
-        streamArray = pushBackStringArray(streamArray, "");
-        streamArray = pushBackStringArray(streamArray, "");
-        streamArray = pushBackStringArray(streamArray, url);
-        streamArray = pushBackStringArray(streamArray, url);
-        streamArray = pushBackStringArray(streamArray, video/x-flv);
-        streamArray = pushBackStringArray(streamArray, "'.$pg_title.'");
-        streamArray = pushBackStringArray(streamArray, "1");
-        writeStringToFile(storagePath_stream, streamArray);
-        doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer.rss");
-        </script>
-        </onClick>
-        <download>'.$link2.'</download>
-        <tip>1</tip>
-        <name>'.$titledownload.'.flv</name>
-        </item>
-        ';
-        }
 
-     $t1=explode('captions.file=',$baza);
-     $t2=explode("&",$t1[1]);
-     $srt=$t2[0];
-     $srt = str_replace(" ","%20",$srt);
-    	$f = "/usr/local/bin/home_menu";
-	    echo'
-	    <item>
-	    <title>Play cu subtitrare</title>
-        <onClick>
-        <script>
-        showIdle();
-        dummy=getURL("http://127.0.0.1/cgi-bin/scripts/util/srt_xml.php?file='.urlencode($srt).'");
-        movie="'.$link2.'";
-        url=getUrl(movie);
-        cancelIdle();
-        streamArray = null;
-        streamArray = pushBackStringArray(streamArray, "");
-        streamArray = pushBackStringArray(streamArray, "");
-        streamArray = pushBackStringArray(streamArray, url);
-        streamArray = pushBackStringArray(streamArray, url);
-        streamArray = pushBackStringArray(streamArray, video/x-flv);
-        streamArray = pushBackStringArray(streamArray, "'.$pg_title.'");
-        streamArray = pushBackStringArray(streamArray, "1");
-        writeStringToFile(storagePath_stream, streamArray);
-        ';
-        if (file_exists($f)) {
-        echo '
-        doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer2.rss");
-        ';
-        } else {
-        echo '
-        doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer1.rss");
-        ';
-        }
-        echo '
-        </script>
-        </onClick>
-        <download>'.$link2.'</download>
-        <tip>1</tip>
-        <name>'.$titledownload.'.flv</name>
-        </item>
-        ';
-     }
-    } elseif (strpos($cur_link,"serialetvonline.info") !==false) {
-      if (strpos($cur_link,"gettvguide2.php") === false) {
-       $baza = file_get_contents($cur_link);
-       $link = str_between($baza,'"flashvars" value="file=','&');
-       $t1=explode('captions.file=',$baza);
-       $t2=explode("&",$t1[1]);
-       $srt=$t2[0];
-       $srt = str_replace(" ","%20",$srt);
-      }
-     } elseif (strpos($cur_link,"rosharing.info") !==false){
-       $baza = file_get_contents($cur_link);
-       $ret=unpack_DivXBrowserPlugin(2,$baza,true);
-       $ret1=explode(",",$ret);
-       $srt=$ret1[1];
-       $link=$ret1[0];
-     } elseif (strpos($cur_link,"roshare.info") !==false){
-       $baza = file_get_contents($cur_link);
-       $ret=unpack_DivXBrowserPlugin(2,$baza,true);
-       $ret1=explode(",",$ret);
-       $srt=$ret1[1];
-       $link=$ret1[0];
-     } elseif (strpos($cur_link,"rosharing.com") !==false) {
-       $baza = file_get_contents($cur_link);
-       $link = str_between($baza,'value="file=','&');
-       $t1=explode('captions.file=',$baza);
-       $t2=explode("&",$t1[1]);
-       $srt=$t2[0];
-       $srt = str_replace(" ","%20",$srt);
-     } else {
-       $link="";
-       $srt="";
-     }
-//  if ($link <> $last_link) {
-  if ($link <> "") {
-        $server = str_between($link,"http://","/");
-        $title=$server;
-	    echo'
-	    <item>
-	    <title>'.$title.'</title>
-        <onClick>
-        <script>
-        showIdle();
-        url="'.$link.'";
-        cancelIdle();
-        streamArray = null;
-        streamArray = pushBackStringArray(streamArray, "");
-        streamArray = pushBackStringArray(streamArray, "");
-        streamArray = pushBackStringArray(streamArray, url);
-        streamArray = pushBackStringArray(streamArray, url);
-        streamArray = pushBackStringArray(streamArray, video/x-flv);
-        streamArray = pushBackStringArray(streamArray, "'.$pg_title.'");
-        streamArray = pushBackStringArray(streamArray, "1");
-        writeStringToFile(storagePath_stream, streamArray);
-        doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer.rss");
-        </script>
-        </onClick>
-        <download>'.$link.'</download>
-        <tip>2</tip>
-        <name>'.$titledownload.'.flv</name>
-        </item>
-        ';
-  if (($srt <> "") && (strpos($srt,".srt") !==false)) {
-    	$f = "/usr/local/bin/home_menu";
-	    echo'
-	    <item>
-	    <title>Play cu subtitrare</title>
-        <onClick>
-        <script>
-        showIdle();
-        dummy=getURL("http://127.0.0.1/cgi-bin/scripts/util/srt_xml.php?file='.urlencode($srt).'");
-        url="'.$link.'";
-        cancelIdle();
-        streamArray = null;
-        streamArray = pushBackStringArray(streamArray, "");
-        streamArray = pushBackStringArray(streamArray, "");
-        streamArray = pushBackStringArray(streamArray, url);
-        streamArray = pushBackStringArray(streamArray, url);
-        streamArray = pushBackStringArray(streamArray, video/x-flv);
-        streamArray = pushBackStringArray(streamArray, "'.$pg_title.'");
-        streamArray = pushBackStringArray(streamArray, "1");
-        writeStringToFile(storagePath_stream, streamArray);
-        ';
-        if (file_exists($f)) {
-        echo '
-        doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer2.rss");
-        ';
-        } else {
-        echo '
-        doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer1.rss");
-        ';
-        }
-        echo '
-        </script>
-        </onClick>
-        <download>'.$link.'</download>
-        <tip>2</tip>
-        <name>'.$titledownload.'.flv</name>
-        </item>
-        ';
-     }
-  }
-  $last_link = $link;
-//  }
-}
 /**################ flash... mediafile,file.....############**/
 
-//http://www.filmesubtitrate.info/2010/06/10-things-i-hate-about-you-sez1-ep1.html
-//http://www.seriale.filmesubtitrate.info/2010/06/10-things-i-hate-about-you-sez1-ep1.html
-//www.seriale.filmesubtitrate.info
-if (strpos($filelink,"fsplay.net") !== false) {
-///playerfs/plmfilmesub.php?lk=a8u25iq4cach
-///playerfs/plmnowvideo.php?lk=2rzm75lkxawps
-//peteava - http://www.seriale.filmesubtitrate.info/playerfs/peteava.php?lk=503993
-//videoweed - http://www.seriale.filmesubtitrate.info/playerfs/plmweed.php?lk=gdubcouik7ogu&km=A.Seriale/Alcatraz%20S01E01
-//novamov - http://www.seriale.filmesubtitrate.info/playerfs/plmnova.php?lk=f6uol0yy3s2sp&km=A.Seriale/Alcatraz%20S01E01
-//vidbux - http://www.seriale.filmesubtitrate.info/playerfs/plmvidb.php?lk=e2tjkd08bok4&km=A.Seriale/Alcatraz%20S01E01
-//vidxden - http://www.seriale.filmesubtitrate.info/playerfs/plmvidx.php?lk=1798z8fap6g3/Touch_S01E01.flv.html
-///playerfs/plmvk.php?lk=106177506&id=163445800&hash=7fa53905d105372e&hd=1
-$title = "";
-$f = "/usr/local/bin/home_menu";
-$videos = explode('player5', $html);
-unset($videos[0]);
-$videos = array_values($videos);
-foreach($videos as $video) {
- $t1=explode('"',$video);
- $link="http://www.fsplay.net/player5".$t1[0];
-
- if (strpos($link,"plmfilmesub") !== false) $title="roshare";
- if (strpos($link,"peteava") !== false) $title="peteava";
- if (strpos($link,"plmweed") !== false) $title="videoweed";
- if (strpos($link,"plmnova") !== false) $title="novamov";
- if (strpos($link,"plmvidb") !== false) $title="vidbux";
- if (strpos($link,"plmvidx") !== false) $title="vidxden";
- if (strpos($link,"plmnowvideo") !== false) $title="nowvideo";
- if (strpos($link,"plmvk") !== false) $title="vk";
- $link="http://127.0.0.1/cgi-bin/scripts/filme/php/link.php?file=".urlencode($link);
- if ($title <> "") {
-	    echo'
-	    <item>
-	    <title>'.$title.'</title>
-        <onClick>
-        <script>
-        showIdle();
-        movie="'.$link.'";
-        url=getUrl(movie);
-        cancelIdle();
-        streamArray = null;
-        streamArray = pushBackStringArray(streamArray, "");
-        streamArray = pushBackStringArray(streamArray, "");
-        streamArray = pushBackStringArray(streamArray, url);
-        streamArray = pushBackStringArray(streamArray, url);
-        streamArray = pushBackStringArray(streamArray, video/x-flv);
-        streamArray = pushBackStringArray(streamArray, "'.$pg_title.'");
-        streamArray = pushBackStringArray(streamArray, "1");
-        writeStringToFile(storagePath_stream, streamArray);
-        ';
-        if (file_exists($f)) {
-        echo '
-        doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer2.rss");
-        ';
-        } else {
-        echo '
-        doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer1.rss");
-        ';
-        }
-        echo '
-        </script>
-        </onClick>
-        <download>'.$link.'</download>
-        <tip>1</tip>
-        <name>'.$titledownload.'.flv</name>
-        </item>
-        ';
-        if (($mysrt <> "") || ($mysrt_google <> "") || ($viki_id <> "")){
-        $f = "/usr/local/bin/home_menu";
-	    echo'
-	    <item>
-	    <title>Play cu subtitrare</title>
-        <onClick>
-        <script>
-        showIdle();
-        ';
-        if ($mysrt_google <> "") {
-        echo '
-        dummy=getURL("http://127.0.0.1/cgi-bin/scripts/util/google_xml.php?file='.urlencode($mysrt_google).'");';
-        } else if ($viki_id <> "") {
-        echo '
-        dummy=getURL("http://127.0.0.1/cgi-bin/scripts/util/viki_xml.php?file='.$viki_id.'");';
-        } else {
-        echo '
-        dummy=getURL("http://127.0.0.1/cgi-bin/scripts/util/srt_xml.php?file='.urlencode($mysrt).'");';
-        }
-        echo '
-        movie="'.$link.'";
-        url=getUrl(movie);
-        cancelIdle();
-        storagePath = getStoragePath("tmp");
-        storagePath_stream = storagePath + "stream.dat";
-        streamArray = null;
-        streamArray = pushBackStringArray(streamArray, "");
-        streamArray = pushBackStringArray(streamArray, "");
-        streamArray = pushBackStringArray(streamArray, url);
-        streamArray = pushBackStringArray(streamArray, url);
-        streamArray = pushBackStringArray(streamArray, video/mp4);
-        streamArray = pushBackStringArray(streamArray, "'.$pg_title.'");
-        streamArray = pushBackStringArray(streamArray, "1");
-        writeStringToFile(storagePath_stream, streamArray);
-        ';
-        if (file_exists($f)) {
-        echo '
-        doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer2.rss");
-        ';
-        } else {
-        echo '
-        doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer1.rss");
-        ';
-        }
-         echo '
-        </script>
-        </onClick>
-        <download>'.$link.'</download>
-        <tip>1</tip>
-        <name>'.$titledownload.'.flv</name>
-        </item>
-        ';
-     }
- }
-}
-}
 //movieSrc=
 
 ?>

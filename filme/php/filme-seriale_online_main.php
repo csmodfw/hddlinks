@@ -159,6 +159,7 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
+include("../../common.php");
 //$html = file_get_contents("http://divxonline.biz/");
 $l="http://www.filmeonline2016.biz/";
 $l="http://filme-seriale.online/filme-online/";
@@ -181,7 +182,7 @@ $title="Filme Noi";
 				<mediaDisplay name="threePartsView"/>
     	</item>
     	';
-$html = str_between($html,'Categorii filme',"</ul>" );
+$html = str_between($html,'Categorii filme','class="filtro' );
 
 $videos = explode('<li', $html);
 unset($videos[0]);
@@ -194,6 +195,7 @@ foreach($videos as $video) {
     $t2 = explode('>', $t0[1]);
     $t3 = explode('<', $t2[1]);
     $title = $t3[0];
+    $title=diacritice($title);
 		if (($link <> "") && (strpos($title,"Adult") === false)) {
 			$link = $host."/scripts/filme/php/filme-seriale_online.php?query=,".$link;
     	echo '

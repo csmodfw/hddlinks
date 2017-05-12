@@ -193,6 +193,60 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
+function indexOf($hack,$pos) {
+    $ret= strpos($hack,$pos);
+    return ($ret === FALSE) ? -1 : $ret;
+}
+function substring($str, $from = 0, $to = FALSE)
+{
+    if ($to !== FALSE) {
+        if ($from == $to || ($from <= 0 && $to < 0)) {
+            return '';
+        }
+
+        if ($from > $to) {
+            $from_copy = $from;
+            $from = $to;
+            $to = $from_copy;
+        }
+    }
+
+    if ($from < 0) {
+        $from = 0;
+    }
+
+    $substring = $to === FALSE ? substr($str, $from) : substr($str, $from, $to - $from);
+    return ($substring === FALSE) ? '' : $substring;
+}
+function dhYas638H($input) {
+  $base64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef"."ghijklmnopqrstuvwxyz0123456789+/=";
+  $output = "";
+  //var ch1, ch2, ch3, enc1, enc2, enc3, enc4;
+  $i = 0;
+
+  $input = preg_replace("/[^A-Za-z0-9\+=]/", "",$input);
+  do {
+    $enc1 = indexOf($base64,$input[$i++]);
+    $enc2 = indexOf($base64,$input[$i++]);
+    $enc3 = indexOf($base64,$input[$i++]);
+    $enc4 = indexOf($base64,$input[$i++]);
+
+    $ch1 = ($enc1 << 2) | ($enc2 >> 4);
+    $ch2 = (($enc2 & 15) << 4) | ($enc3 >> 2);
+    $ch3 = (($enc3 & 3) << 6) | $enc4;
+
+    $output = $output . chr($ch1);
+
+    if ($enc3 != 64) $output = $output . chr($ch2);
+    if ($enc4 != 64) $output = $output . chr($ch3);
+
+    $ch1 = $ch2 = $ch3 = "";
+    $enc1 = $enc2 = $enc3 = $enc4 = "";
+
+  } while ($i < strlen($input));
+
+  return $output;
+}
 $host = "http://127.0.0.1/cgi-bin";
 $html = urldecode(file_get_contents($link));
 //echo $html;
@@ -210,7 +264,42 @@ foreach($videos as $video) {
     $t4=explode('"',$t3[1]);
     $link=urldecode($t4[0]);
     }
+    if (strpos($link,"streamdefence.com") !== false) {
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $link);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt ($ch, CURLOPT_REFERER, "http://serialefilme.net");
+  //curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
+  //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+  curl_setopt($ch, CURLOPT_HEADER,1);
+  $html = curl_exec($ch);
+  curl_close($ch);
+  //echo $html;
+  $t1=explode("document.write",$html);
+  $t2=explode('"',$t1[1]);
+  $h=$t2[1];
+  //echo $h;
+  $h1=dhYas638H($h);
+  $h2=dhYas638H($h1);
+
+  $t1=explode("document.write",$h2);
+  $t2=explode('"',$t1[1]);
+  $h=$t2[1];
+  //echo $h;
+  $h1=dhYas638H($h);
+  $h2=dhYas638H($h1);
+
+  //echo $h2;
+  $t1=explode('src="',$h2);
+  $t2=explode('"',$t1[1]);
+  $link=$t2[0];
+    
+    }
     $title = str_between($link,"http://","/");
+    if (!$title) $title = str_between($link,"https://","/");
+
     $link="http://127.0.0.1/cgi-bin/scripts/filme/php/link.php?file=".urlencode($link);
     exec ("rm -f /tmp/test.xml");
 

@@ -82,23 +82,79 @@ $f="/tmp/opensub.srt.gz";
 file_put_contents($f,$a1);
 $exec="/usr/local/bin/Resource/www/cgi-bin/scripts/funzip /tmp/opensub.srt.gz";
 $h = shell_exec($exec);
-  $file_array=explode("\n",$h);
-//echo $h;
+if (strpos($h,"WEBVTT") !== false) {
+  //convert to srt;
+    function split_vtt($contents)
+    {
+        $lines = explode("\n", $contents);
+        if (count($lines) === 1) {
+            $lines = explode("\r\n", $contents);
+            if (count($lines) === 1) {
+                $lines = explode("\r", $contents);
+            }
+        }
+        return $lines;
+    }
+    function convert_vtt($contents)
+    {
+        $lines = split_vtt($contents);
+        array_shift($lines); // removes the WEBVTT header
+        $output = '';
+        $i = 0;
+        foreach ($lines as $line) {
+            /*
+             * at last version subtitle numbers are not working
+             * as you can see that way is trustful than older
+             *
+             *
+             * */
+            $pattern1 = '#(\d{2}):(\d{2}):(\d{2})\.(\d{3})#'; // '01:52:52.554'
+            $pattern2 = '#(\d{2}):(\d{2})\.(\d{3})#'; // '00:08.301'
+            $m1 = preg_match($pattern1, $line);
+            if (is_numeric($m1) && $m1 > 0) {
+                $i++;
+                $output .= $i;
+                $output .= PHP_EOL;
+                $line = preg_replace($pattern1, '$1:$2:$3,$4' , $line);
+            }
+            else {
+                $m2 = preg_match($pattern2, $line);
+                if (is_numeric($m2) && $m2 > 0) {
+                    $i++;
+                    $output .= $i;
+                    $output .= PHP_EOL;
+                    $line = preg_replace($pattern2, '00:$1:$2,$3', $line);
+                }
+            }
+            $output .= $line . PHP_EOL;
+        }
+        return $output;
+    }
+    $h=convert_vtt($h);
+}
+$file_array=explode("\n",$h);
 if($file_array)
 {
 $k=0;
+$m=0;
+$ttxml     = '';
+$index="";
+$full_line = '';
+$sub_max = 53;
+$last_end=0;
 if(preg_match('/(\d\d):(\d\d):(\d\d)(\.|,)(\d\d\d) --> (\d\d):(\d\d):(\d\d)(\.|,)(\d\d\d)/', $h)) {
   //print_r ($file_array);
   foreach($file_array as $line)
   {
     $line = trim($line);
+
     //print $line."<BR>";
     $line = preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$line);
-    if (preg_match("/opensubtitles/i",$line)) $line="";
+    if (preg_match("/opensubtitles|produsul dvs.sau a unei marci/i",$line)) $line="   ";
         if(preg_match('/(\d\d):(\d\d):(\d\d)(\.|,)(\d\d\d) --> (\d\d):(\d\d):(\d\d)(\.|,)(\d\d\d)/', $line, $match))
         {
           //print_r ($match);
-          $k++;
+
           $begin = round_fix(3600 * $match[1] + 60 * $match[2] + $match[3] + $match[5]/1000);
           $end   = round_fix(3600 *$match[6] + 60 * $match[7] + $match[8] + $match[10]/1000);
           $line1 = '';
@@ -107,10 +163,18 @@ if(preg_match('/(\d\d):(\d\d):(\d\d)(\.|,)(\d\d\d) --> (\d\d):(\d\d):(\d\d)(\.|,
           //print $begin. "-".$end;
           if ($begin > $last_end)
           {
-           $ttxml .=$last_end."\n";
-           $ttxml .=$begin."\n";
+           for ($i=$last_end;$i<$begin;$i++) {
+           //$ttxml .=$last_end."\n";
+           //$ttxml .=$i."\n";
+           //$ttxml .=$begin."\n";
+           //$ttxml .=($i+1)."\n";
+           //$index .="time=".$k." index file=".$m." text=nimic"."\n";
+           $index .=$m."\n";
+           $k++;
+           }
            $ttxml .="\n";
            $ttxml .="\n";
+           $m = $m+2;
           }
 
           $last_end=$end;
@@ -128,6 +192,8 @@ if(preg_match('/(\d\d):(\d\d):(\d\d)(\.|,)(\d\d\d) --> (\d\d):(\d\d):(\d\d)(\.|,
 
         // if the next line is blank, write
         if($line == '')
+        //if (preg_match("/opensubtitles|produsul dvs.sau a unei marci/i",$line1)) $line1="";
+        //if (preg_match("/opensubtitles|produsul dvs.sau a unei marci/i",$line2)) $line2="";
         {
         if (strlen($line1) >= $sub_max) {
          $newtext = $line1." ".$line2." ".$line3;
@@ -148,33 +214,65 @@ if(preg_match('/(\d\d):(\d\d):(\d\d)(\.|,)(\d\d\d) --> (\d\d):(\d\d):(\d\d)(\.|,
          $line2=$t1[1];
         }
         if ($line2=="") {
-          $ttxml .=$begin."\n";
-          $ttxml .=$end."\n";
+          for ($i=$begin;$i<$last_end;$i++) {
+          //$ttxml .=$i."\n";
+          //$ttxml .=($i+1)."\n";
+          //$index .="time=".$k."index file=".$m."text=".$line2." ".$line1."\n";
+          $index .=$m."\n";
+          $k++;
+          }
           $ttxml .=$line2."\n";
           $ttxml .=$line1."\n";
+          $m =$m+2;
         } else {
-          $ttxml .=$begin."\n";
-          $ttxml .=$end."\n";
+          for ($i=$begin;$i<$last_end;$i++) {
+          //$ttxml .=$i."\n";
+          //$ttxml .=($i+1)."\n";
+          //$index .=$begin."\n";
+          //$index .="time=".$k."index file=".$m."text=".$line2." ".$line1."\n";
+          $index .=$m."\n";
+          $k++;
+          }
           $ttxml .=$line1."\n";
           $ttxml .=$line2."\n";
+          $m =$m+2;
         }
           $line1 = '';
           $line2 = '';
           $line3 = '';
         }
+      //if ($k>1000) break;
       }
 //dummy sub
-if ($end > 0) {
-   $ttxml .=$end."\n";
-$ttxml .="10002"."\n";
+//if ($end > 0) {
+$index .=$m."\n";
+$index .=$m."\n";
+$index .=$m."\n";
+$index .=$m."\n";
 $ttxml .="\n";
 $ttxml .="\n";
-}
-//echo $ttxml;
+$ttxml .="\n";
+$ttxml .="\n";
+//}
+//echo ($k/1)."\n";
+//echo $index;
+$t1=explode("\n",$index);
+$c=count($t1);
+$index =$c."\n".$index;
+//print_r ($t1);
+$t2=explode("\n",$ttxml);
+
+//die();
 if ($k>5) {
 $new_file = "/tmp/test.xml";
+//$new_file = "sub.txt";
 $fh = fopen($new_file, 'w');
 fwrite($fh, $ttxml);
+fclose($fh);
+$new_file = "/tmp/index.xml";
+//$new_file = "index.txt";
+$fh = fopen($new_file, 'w');
+fwrite($fh, $index);
 fclose($fh);
 }
 } else {

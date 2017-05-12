@@ -109,7 +109,7 @@ setRefreshTime(-1);
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
 		</text>
-		<text align="justify" redraw="yes"
+		<text align="left" redraw="yes"
           lines="8" fontSize=17
 		      offsetXPC=55 offsetYPC=58 widthPC=40 heightPC=32
 		      backgroundColor=0:0:0 foregroundColor=200:200:200>
@@ -294,7 +294,7 @@ function str_between($string, $start, $end){
 //echo $html;
 echo '
 	<channel>
-		<title>'.$tit.'</title>
+		<title>'.str_replace("&","&amp;",str_replace("&amp;","&",$tit)).'</title>
 		<menu>main menu</menu>
 		';
 if($page > 1) { ?>
@@ -326,7 +326,8 @@ for ($k=0;$k<25;$k++) {
 	$durata="";
 	$data= $p["items"][$k]["snippet"]["publishedAt"];
 	$descriere= $p["items"][$k]["snippet"]["description"];
-	$descriere=fix_s($descriere);
+	$title=diacritice($title);
+	$descriere=diacritice($descriere);
 
 	$link1= "http://127.0.0.1/cgi-bin/scripts/util/youtube.cgi?stream,,".urlencode($link);
     $link="http://127.0.0.1/cgi-bin/scripts/util/yt.php?file=".$link;
@@ -335,7 +336,7 @@ for ($k=0;$k<25;$k++) {
 	if ($title) {
     echo '
     <item>
-    <title>'.$title.'</title>
+    <title>'.str_replace("&","&amp;",str_replace("&amp;","&",$title)).'</title>
     <onClick>
     <script>
     showIdle();

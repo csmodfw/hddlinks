@@ -201,7 +201,7 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
-
+include("../../common.php");
  $videos = explode('<div id="', $html);
 //echo $html;
 unset($videos[0]);
@@ -213,6 +213,7 @@ foreach($videos as $video) {
   $title=html_entity_decode($title,ENT_QUOTES,'UTF-8');
   $title=trim(preg_replace("/Online Subtitrat in Romana|Filme Online Subtitrat HD 720p|Online HD 720p Subtitrat in Romana|Online Subtitrat Gratis|Online Subtitrat in HD Gratis|Film HD Online Subtitrat/i","",$title));
   $title=trim(preg_replace("/(onlin|film)(.*)/i","",$title));
+  $title=diacritice($title);
 
   $t1 = explode('src="', $video);
   $t2 = explode('"', $t1[1]);
@@ -220,6 +221,7 @@ foreach($videos as $video) {
   $image="http://127.0.0.1/cgi-bin/scripts/filme/php/r.php?file=".$image;
   $descriere=str_between($video,'class="ttx">','<');
   $descriere=html_entity_decode($descriere,ENT_QUOTES,'UTF-8');
+  $descriere=diacritice($descriere);
   //$descriere=str_replace("[&hellip;]","...",$descriere);
 //  descriere
 /*

@@ -250,6 +250,13 @@ ret;
 </item>
 
 <item>
+<title>gomovies</title>
+<link><?php echo $host; ?>/scripts/filme/php/gomovies_f.php?page=1,release,,movie</link>
+<annotation>https://gomovies.to/</annotation>
+<media:thumbnail url="image/movies.png" />
+</item>
+
+<item>
 <title>watchfree</title>
 <link><?php echo $host; ?>/scripts/filme/php/putlocker_f.php?page=1,release,,movie</link>
 <annotation>http://www.watchfree.to</annotation>

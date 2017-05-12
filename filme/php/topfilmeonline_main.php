@@ -161,6 +161,15 @@ function str_between($string, $start, $end){
 }
 //$html = file_get_contents("http://divxonline.biz/");
 $l="http://topfilmeonline.net/";
+	echo '
+	<item>
+	<title>Filme noi</title>
+	<link>'.$host.'/scripts/filme/php/topfilmeonline.php?query=,'.$l.'</link>
+	<annotation>Filme noi</annotation>
+	<mediaDisplay name="threePartsView"/>
+	</item>
+	';
+
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -179,7 +188,10 @@ $videos = array_values($videos);
 foreach($videos as $video) {
     $t0 = explode('href="',$video);
     $t1 = explode('"', $t0[1]);
-    $link = "http://topfilmeonline.net/".$t1[0];
+    if (strpos($t1[0],"http") === false)
+       $link = "http://topfilmeonline.net/".$t1[0];
+    else
+       $link=$t1[0];
     $t2 = explode('>', $t0[1]);
     $t3 = explode('<', $t2[1]);
     $title = $t3[0];

@@ -179,7 +179,7 @@ function str_between($string, $start, $end){
   		<title>New</title>
   		<link>'.$link.'</link>
   	</item>';
-$l="https://xhamster.com/channels.php";
+$l="https://xhamster.com";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -189,7 +189,7 @@ $l="https://xhamster.com/channels.php";
   curl_setopt($ch, CURLOPT_REFERER, "https://xhamster.com");
   $html = curl_exec($ch);
   curl_close($ch);
-$html=str_between($html,'<div class="letter-categories"','<div id="footer"');
+$html=str_between($html,'Categories  ','All Categories');
 $videos = explode('<a', $html);
 unset($videos[0]);
 $videos = array_values($videos);

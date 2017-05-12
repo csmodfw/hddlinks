@@ -296,15 +296,18 @@ $url = $sThisFile."?page=".($page-1).",".$tip.",".urlencode($link).",".urlencode
 //echo $k;
 //$html= file_get_contents("http://uphero.xpresso.eu/movietv/f_search.php?page=".$page.",".$tip.",".urlencode($link).",".urlencode($link));
 //echo $html;
+//https://api.flixanity.watch
+//https://api.flixanity.watch/api/v1/0A6ru35yevokjaqbb8
+//q=s&limit=100&timestamp=1493231819378&verifiedCheck=eCNBuxFGpRmFlWjUJjmjguCJI&set=KvZULKjBqGzojgLKiCneksRKC&rt=rPAOhkSTcEzSyJwHWwzwthPWVXiMHYXwOdTmbwtYXvParxfEXP&sl=52b1b99472b9ce7f990647349ed08f75
 $v1="0A6ru35yevokjaqbb8";
 $s1="52b1b99472b9ce7f990647349ed08f75";
 if ($tip=="search")
    $requestLink="https://api.flixanity.watch/api/v1/".$v1;
 else
-   $requestLink = "https://flixanity.watch/movies/date/".$page;
+   $requestLink = "https://istream.is/movies/date/".$page;
 if ($tip=="release") {
       $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
-      $exec = '--max-redirect 0 -U "'.$ua.'" --referer="'.$requestLink.'" --no-check-certificate "'.$requestLink.'" -O -';
+      $exec = '-q -U "'.$ua.'" --referer="'.$requestLink.'" --no-check-certificate "'.$requestLink.'" -O -';
       $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
       $html=shell_exec($exec);
 } else {
@@ -315,7 +318,7 @@ $post="q=".str_replace(" ","+",$link)."&limit=100&timestamp=&verifiedCheck=".$to
 //q=star&limit=100×tamp=&verifiedCheck=&set=&sl=52b1b99472b9ce7f990647349ed08f75
   $head=array('Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8','Accept-Language: ro-ro,ro;q=0.8,en-us;q=0.6,en-gb;q=0.4,en;q=0.2','Accept-Encoding: deflate','Content-Type: application/x-www-form-urlencoded','Content-Length: '.strlen($post));
       $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
-      $exec = '--header="Content-Type: application/x-www-form-urlencoded"  --post-data="'.$post.'" --max-redirect 0 -U "'.$ua.'" --referer="'.$requestLink.'" --no-check-certificate "'.$requestLink.'" -O -';
+      $exec = '-q --header="Content-Type: application/x-www-form-urlencoded"  --post-data="'.$post.'" -U "'.$ua.'" --referer="'.$requestLink.'" --no-check-certificate "'.$requestLink.'" -O -';
       $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
       $html=shell_exec($exec);
   //echo $html;
@@ -377,9 +380,9 @@ $r=json_decode($html,1);
 for ($k=0;$k<count($r);$k++) {
   $season="";
   $episod="";
-  $link1="https://flixanity.watch".$r[$k]["permalink"];
+  $link1="https://istream.is".$r[$k]["permalink"];
   $title=$r[$k]["title"];
-  $image="http://flixanity.watch".$r[$k]["image"];
+  $image="https://istream.is".$r[$k]["image"];
   $image1="http://127.0.0.1/cgi-bin/scripts/filme/php/https.php?file=movie".urlencode(trim(str_replace(",","^",$title)));
    $link2=$host."/scripts/filme/php/flixanity_link.php?file=".urlencode($link1).",".urlencode(str_replace(",","^",$title)).",".$season.",".$episod.",movies,".urlencode($image);
    if (strpos($link1,"/movie/") !==false) {

@@ -208,6 +208,8 @@ foreach($videos as $video) {
   $v4 = explode('<',$v3[1]);
   $v5=explode(", film",$v4[0]);
   $titlu = trim($v5[0]);
+  $titlu=trim(preg_replace("/(onlin|film)(.*)/i","",$titlu));
+  $titlu=diacritice($titlu);
 
 //  imagine
   //$v0=explode("images--",$video);
@@ -222,7 +224,7 @@ foreach($videos as $video) {
 
 	$descriere = preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$descriere);
     $descriere = fix_s($descriere);
-
+    $descriere=diacritice($descriere);
 	if (strlen($descriere)>=300) {
        $descriere = substr($descriere,0,300);
        $descriere = substr($descriere,0,-strlen(strrchr($descriere," ")))."...";

@@ -27,7 +27,7 @@ $t2=explode('"',$t1[1]);
 $img=$t2[0];
 if (strpos($img,"http") === false)
   $img="http://serialetv.net/Seriale/".$t2[0];
-$desc=str_between($html,'class="filmaltiaciklama">','<div');
+$desc=str_between($html,'itemprop="description">','<div');
 $desc=str_replace("&#x27;","'",$desc);
 $desc=str_replace("&nbsp;"," ",$desc);
 $desc=str_replace("&raquo;",">>",$desc);

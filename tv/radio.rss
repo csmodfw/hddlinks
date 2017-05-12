@@ -257,7 +257,7 @@ columnCount=5
 <channel>
   <title>Internet Radio</title>
   <item>
-		<link>rss_file:///usr/local/etc/www/cgi-bin/scripts/tv/rom.rss</link>
+		<link>http://127.0.0.1/cgi-bin/scripts/tv/rom.php</link>
     <title>Posturi româneşti</title>
     <annotation>Selecţie posturi radio din România</annotation>
     <image>../etc/translate/rss/image/radio_online.png</image>
@@ -293,7 +293,7 @@ columnCount=5
     <mediaDisplay name="photoView"/>
   </item>
 --->
-
+<!--
   <item>
 <link>http://127.0.0.1/cgi-bin/scripts/tv/php/sky.php</link>
     <title>Sky FM</title>
@@ -309,14 +309,15 @@ columnCount=5
     <image>/usr/local/etc/www/cgi-bin/scripts/tv/image/nrj.jpg</image>
     <mediaDisplay name="photoView"/>
   </item>
-
+-->
   <item>
 		<link>rss_file:///usr/local/etc/www/cgi-bin/scripts/tv/etc-playlists-radio-rautemusik.rss</link>
     <title>RauteMusik.FM (#Musik)</title>
     <annotation>RauteMusik.FM (#Musik) ist Europas größtes Internetradio. Das Webradio bietet auf 12 Streams jede erdenkliche Musikrichtung an. Musik für Dich!</annotation>
     <image>/usr/local/etc/www/cgi-bin/scripts/tv/image/rautemusik.png</image>
     <mediaDisplay name="threePartsView"/>
-  </item>  
+  </item>
+<!--  
   <item>
 		<link>rss_file:///usr/local/etc/www/cgi-bin/scripts/tv/radio-romania.rss</link>
     <title>Radio România</title>
@@ -331,6 +332,7 @@ columnCount=5
     <image>/usr/local/etc/www/cgi-bin/scripts/tv/image/radio_prahova.png</image>
     <mediaDisplay name="threePartsView"/>
   </item>
+-->
 </channel>
 
 

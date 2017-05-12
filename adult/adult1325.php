@@ -160,6 +160,12 @@ ret;
 </item>
 
 <item>
+<title>4tube</title>
+  <link><?php echo $host; ?>/scripts/adult/php/4tube_main.php</link>
+<mediaDisplay name="threePartsView"/>
+</item>
+
+<item>
 <title>extremetube</title>
   <link><?php echo $host; ?>/scripts/adult/php/extremetube_main.php</link>
 <mediaDisplay name="threePartsView"/>
@@ -224,6 +230,12 @@ ret;
   <link><?php echo $host; ?>/scripts/adult/php/pornjam_main.php</link>
 <mediaDisplay name="threePartsView"/>
 </item>
+
+<item>
+<title>madthumbs</title>
+  <link><?php echo $host; ?>/scripts/adult/php/madthumbs_main.php</link>
+<mediaDisplay name="threePartsView"/>
+</item>
 <!--
 <item>
 <title>pornjam</title>
@@ -278,6 +290,12 @@ XXX4PODS
   <item>
 <title>xvideos</title>
 <link><?php echo $host; ?>/scripts/adult/php/xvideos_main.php</link>
+<mediaDisplay name="threePartsView"/>
+</item>
+
+  <item>
+<title>milfzr</title>
+<link><?php echo $host; ?>/scripts/adult/php/milfzr_main.php</link>
 <mediaDisplay name="threePartsView"/>
 </item>
 

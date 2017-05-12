@@ -219,7 +219,7 @@ foreach($videos as $video) {
   $t3=str_replace("Vizioneaza Film Online","",$t2_0[0]);
   $t4=explode("&#8211;",$t3);
   $title=trim($t4[0]);
-  $title=trim(preg_replace("/(onlin|film)(.*)/i","",$title));
+  $title=trim(preg_replace("/(gratis|subtitrat|onlin|film)(.*)/i","",$title));
   $t1=explode('src="',$video);
   $t2=explode('"',$t1[1]);
   $image=$t2[0];

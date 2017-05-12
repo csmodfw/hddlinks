@@ -1,115 +1,74 @@
 #!/usr/local/bin/Resource/www/cgi-bin/php
 <?php
-error_reporting(0);
-date_default_timezone_set('Europe/Athens');
 function str_between($string, $start, $end){ 
 	$string = " ".$string; $ini = strpos($string,$start); 
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
+$id= urldecode($_GET["file"]);
+if (strpos($l,"digiedge") !== false)
+  $com="-c --tries=0 --read-timeout=10 --wait=5";
+else
+  $com="";
+//$link = urldecode($_GET["file"]);
+exec("rm -f /tmp/list.txt");
+//$l="http://hls.protv.md/hls/protv.m3u8";
+$l="http://telekomtv.ro.edgesuite.net/shls/LIVE$".$id."/index.m3u8/S\$d2ESSExTLUxJVkUtUEMtU0QtQ0xSEgaf/Level(1677721)?start=LIVE&end=END";
+//$out="http://telekomtv.ro.edgesuite.net/shls/LIVE$".$id."/index.m3u8/S\$d2EdSExTLUxJVkUtQW5kcm9pZFRhYmxldC1TRC1FTkMSBp8_/Level(1677721)?start=LIVE&end=END";
+$ua="Mozilla/5.0 (iPhone; CPU iPhone OS 5_0_1 like Mac OS X)";
 
-$query = $_GET["file"];
-$title = "";
-$add = "";
-if($query) {
-   $queryArr = explode(',', $query);
-   $id = urldecode($queryArr[0]);
-   if (sizeof($queryArr)>1)$title = $queryArr[1];
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, $l);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+      curl_setopt($ch, CURLOPT_USERAGENT, $ua);
+      //curl_setopt($ch, CURLOPT_HEADER,1);
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+      //curl_setopt($ch, CURLOPT_REFERER, "http://hqq.tv/");
+      $h = curl_exec($ch);
+      curl_close($ch);
+//echo $h."\r\n";
+$base=str_replace(strrchr($l, "/"),"/",$l);
+$t1=explode("?",$l);
+if (sizeof ($t1) > 1 )
+  $base2="?".$t1[1];
+else
+  $base2="";
+preg_match("/#EXT-X-MEDIA-SEQUENCE:(\d+)/",$h,$m);
+$base_inc=$m[1];
+$s="/([a-z0-9A-Z=-]+)(\.ts|\.mp4)/";
+preg_match("/#EXT-X-TARGETDURATION:(\d+)/",$h,$m);
+$sec=$m[1];
+//Level(1677721)/Segment(14940982928943140).ts
+//echo $base_inc." ".$sec."\r\n";
+$s="/Level\((\d+)\)\/Segment\((\d+)\)\.ts/";
+preg_match_all($s,$h,$m);
+//print_r ($m);
+//$rest = substr("abcdef", 0, -1);  // returns "abcde"
+//echo $m[2][0];
+$part1 = substr($m[2][0], 0, -7);
+//echo $part1."\r\n";;
+//$rest = substr("abcdef", -2);    // returns "ef"
+$part2 = substr($m[2][0], -7);
+//echo $part2."\r\n";
+$out="";
+$total=intval(3600/$sec);
+for ($k=0;$k<$total;$k++) {
+$out .=$base."Level(".$m[1][0].")/Segment(".($part1 + $sec*$k).$part2.").ts"."\r\n";
 }
-if ( file_exists("/tmp/www/cgi-bin/scripts/util/kks.cgi") ) {
-unlink("/tmp/www/cgi-bin/scripts/util/kk.cgi");
-unlink("/tmp/www/cgi-bin/scripts/util/kks.cgi");
-unlink("/tmp/www/cgi-bin/scripts/tv/telekom_link.php");
-unlink("/tmp/www/cgi-bin/scripts/tv/telekom_m3u8.php");
-}
+//echo $out;
+file_put_contents("/tmp/list.txt",$out);
+$out='#!/bin/sh
+cat <<EOF
+Content-type: video/mp4
 
-  $test_file="/tmp/www/".$add."play.id.dat";
-   $fh = fopen($test_file, 'w');
-   fwrite($fh, $id, strlen($id));
-   fclose($fh);
-   
-if ( ! file_exists("/tmp/www/play.id.dat") ) $add = "cgi-bin/scripts/util/";
-
-  $test_file="/tmp/www/".$add."play.id.dat";
-   $fh = fopen($test_file, 'w');
-   fwrite($fh, $id, strlen($id));
-   fclose($fh);
-
-if ( ! file_exists("/tmp/www/".$add."/play.id.dat") ) $done = exec('mount -o remount,rw /');
-
-
-$list = glob("/tmp/www/".$add."*.m3u8");
-   foreach ($list as $l) {
-    str_replace(" ","%20",$l);
-    unlink($l);
-}
-
-$link = "http://restrictions.directone.ro/timestamp.php";
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $link);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:14.0) Gecko/20100101 Firefox/14.0.1');
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  $time = curl_exec($ch);
-  curl_close($ch);
-
-$link = "http://127.0.0.1/cgi-bin/scripts/tv/extk.php?id=".$id;
-//$out=file_get_contents($link);
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $link);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:14.0) Gecko/20100101 Firefox/14.0.1');
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  $out = curl_exec($ch);
-  curl_close($ch);
-
-$t2 =  explode("\n", $out);
-$idc = substr(str_between($t2[6],'Segment(',').ts'), -7);
-$time1 = substr(str_between($t2[6],'Segment(',').ts'),0 , -7);
-$time2 = substr(str_between($t2[8],'Segment(',').ts'),0 , -7);
-
-$t1 = time - 6;
-if ($t1 > $time2)
-$t1 = $time2;
-else 
-$t1 = $time1;
-$t3 =  explode(":", $t2[4]);
-$seq = $t3[1] + 1;
-
-$playtime=900;
-if ($title) $playtime=300;
-
-//5280720 - DisneyChannel
-//7275180 - EurosportHD2
-$out='#EXTM3U
-#EXT-X-VERSION:3
-#EXT-X-TARGETDURATION:6
-#EXT-X-PROGRAM-DATE-TIME:'.date("Y-m-d").'T'.date("H:i:s").'Z
-#EXT-X-MEDIA-SEQUENCE:'.$seq.'
-#EXTINF:6,
-http://telekomtv.ro.edgesuite.net/shls/LIVE$'.$id.'/6.m3u8/Level(545259)/Segment('.$t1.$idc.').ts
-';
-for( $i=1; $i<$playtime; $i++ ) {
-$k=$t1+$i*6;
-$out=$out.'#EXTINF:6,
-http://telekomtv.ro.edgesuite.net/shls/LIVE$'.$id.'/6.m3u8/Level(545259)/Segment('.($k).$idc.').ts
-';
-}
-
-// echo $out
-  $channel_file="/tmp/www/".$add.$id.".m3u8";
-   $fh = fopen($channel_file, 'w');
-   fwrite($fh, $out, strlen($out));
-   fclose($fh);
-
-$out="http://127.0.0.1/".$add.$id.".m3u8";
-
-if ($title) {
-header('Content-type: application/vnd.apple.mpegURL');
-header('Content-Disposition: attachment; filename="'.$title.'".m3u8"');
-header("Location: $out");
-} else
-
-print $out;
-
+EOF
+exec /usr/local/bin/Resource/www/cgi-bin/scripts/wget wget -q -U "Mozilla/5.0 (iPhone; CPU iPhone OS 5_0_1 like Mac OS X)" -i /tmp/list.txt -O - ';
+$fp = fopen('/usr/local/etc/www/cgi-bin/scripts/util/m.cgi', 'w');
+fwrite($fp, $out);
+fclose($fp);
+exec("chmod +x /usr/local/etc/www/cgi-bin/scripts/util/m.cgi");
+sleep (1);
+$link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
+print $link;
 ?>

@@ -1,6 +1,7 @@
 #!/usr/local/bin/Resource/www/cgi-bin/php
 <?php
 include ("y.php");
+$ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
 ############################################################################
 # Copyright: ©2011, ©2012 wencaS <wenca.S@seznam.cz>
 # This file is part of xListPlay.
@@ -94,7 +95,7 @@ cat <<EOF
 Content-type: video/mp4
 
 EOF
-exec /usr/local/bin/Resource/www/cgi-bin/scripts/curl -k -s -A "Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0" "'.$link.'"';
+exec /usr/local/bin/Resource/www/cgi-bin/scripts/wget wget -q --no-check-certificate -U "'.$ua.'" "'.$link.'"  -O -';
 $fp = fopen('/usr/local/etc/www/cgi-bin/scripts/util/m.cgi', 'w');
 fwrite($fp, $out);
 fclose($fp);

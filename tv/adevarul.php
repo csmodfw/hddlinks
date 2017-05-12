@@ -4,6 +4,7 @@
 <onEnter>
   startitem = "middle";
   setRefreshTime(1);
+  buf = "0";
 </onEnter>
 
 <onRefresh>
@@ -44,7 +45,9 @@
   	<text align="center" offsetXPC="0" offsetYPC="0" widthPC="100" heightPC="20" fontSize="30" backgroundColor="10:105:150" foregroundColor="100:200:255">
 		  <script>getPageInfo("pageTitle");</script>
 		</text>
-
+  	<text align="left" redraw="yes" offsetXPC="8" offsetYPC="15" widthPC="92" heightPC="4" fontSize="16" backgroundColor="10:105:150" foregroundColor="100:200:255">
+    <script>"Apasati 2 pentru modificare calitate. Setare: " + buf;</script>
+		</text>
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
 		</text>
@@ -127,6 +130,21 @@ if (userInput == "pagedown" || userInput == "pageup")
 	setItemFocus(0);
   redrawDisplay();
   "true";
+}
+else if (userInput == "two" || userInput == "2")
+{
+		if (buf == "0")
+           buf = "1";
+		else if (buf == "1")
+           buf = "2";
+        else if (buf == "2")
+          buf = "3";
+        else if (buf == "3")
+          buf = "0";
+        else
+		 buf = "0";
+  redrawDisplay();
+  ret = "true";
 }
 ret;
 </script>
@@ -221,7 +239,7 @@ foreach($videos as $video) {
   $t2=explode('"',$t1[1]);
   $image="http://adevarul.ro".$t2[0];
     
-		$link = $host.'/scripts/tv/php/adevarul_link.php?file='.urlencode($link);
+		//$link = $host.'/scripts/tv/php/adevarul_link.php?file='.urlencode($link);
 
 	echo'
 	<item>
@@ -229,7 +247,7 @@ foreach($videos as $video) {
     <onClick>
     <script>
     showIdle();
-    url="'.$link.'";
+    url="http://127.0.0.1/cgi-bin/scripts/tv/php/adevarul_link.php?file='.urlencode($link).'," + buf;
     movie=getUrl(url);
     cancelIdle();
     if (movie == "" || movie == " " || movie == null)

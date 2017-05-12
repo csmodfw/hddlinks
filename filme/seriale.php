@@ -304,6 +304,13 @@ echo '
 </item>
 
 <item>
+<title>gomovies</title>
+<link><?php echo $host; ?>/scripts/filme/php/gomovies_s.php?page=1,release,,seriale</link>
+<annotation>https://gomovies.to/</annotation>
+<media:thumbnail url="image/movies.png" />
+</item>
+
+<item>
 <title>watchfree</title>
 <link><?php echo $host; ?>/scripts/filme/php/putlocker_s.php?page=1,release,,seriale</link>
 <annotation>http://www.watchfree.to</annotation>
@@ -394,6 +401,13 @@ echo '
 <link><?php echo $host; ?>/scripts/filme/php/serialenoi_online.php?page=1,release,,seriale</link>
 <annotation>http://serialenoi.online</annotation>
 <media:thumbnail url="image/movies.png" />
+</item>
+
+<item>
+<title>clickplus</title>
+<link><?php echo $host; ?>/scripts/filme/php/clickplus_main.php</link>
+<annotation>http://www.clickplus.online/p/lista-seriale.html</annotation>
+<mediaDisplay name="threePartsView"/>
 </item>
 
 <item>

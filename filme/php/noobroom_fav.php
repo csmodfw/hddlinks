@@ -491,7 +491,7 @@ foreach ($arr as $key => $val) {
     $f = "/usr/local/bin/home_menu";
     if (file_exists($f)) {
     echo '
-    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer22.rss");
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer2.rss");
     ';
     } else {
     echo '

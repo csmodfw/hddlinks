@@ -19,7 +19,8 @@ function str_between($string, $start, $end){
 $cookie="D://cookie.txt";
 $cookie="/tmp/cookie.txt";
 $id = $_GET["file"];
-//$id=urldecode($id);
+$id=str_replace(" ","+",$id);
+$id=urldecode($id);
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $id);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -36,9 +37,12 @@ $id1=$t2[0];
 $link="http://s2.digisport.ro//".$id1.".360p.mp4";
 $link=str_replace("onedb","onedb/transcode",$link);
 */
-$t1=explode('id="test" src="onedb/',$html);
+$t1=explode('data-src="onedb/',$html);
 $t2=explode('"',$t1[1]);
 $id1=$t2[0];
-$out="http://s6.digisport.ro//onedb:transcode/".$id1.".480p.mp4";
+//$id1="590113a395f9cfbbd9321dab";
+$out="http://s6.digisport.ro//onedb/transcode/".$id1.".480p.mp4";
+//http://s5.digisport.ro//onedb/transcode/5901113a95f9cf3cd9321db0.480p.mp4
+
 print $out;
 ?>

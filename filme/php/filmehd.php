@@ -198,6 +198,7 @@ if($search) {
 
 <?php } ?>
 <?php
+include("../../common.php");
 $html=urlencode($html);
 
 $videos = explode('d%3D%22post', $html);
@@ -227,6 +228,7 @@ foreach($videos as $video) {
 	$title=preg_replace("/online|subtitrat(e*)|film(e*)|vezi(.*)(:)|gratis/si","",$title);
 	$title=trim(str_replace("&nbsp;","",$title));
     $title=html_entity_decode($title,ENT_QUOTES,'UTF-8');
+    $title=diacritice($title);
 	$pos = strpos($image, '.jpg');
 	if (($pos !== false) && ($title <> "")){
     $link = 'http://127.0.0.1/cgi-bin/scripts/filme/php/filme_link.php?file='.$link.','.urlencode($title);

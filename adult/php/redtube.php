@@ -192,7 +192,9 @@ if($query) {
    $tip = $queryArr[2];
 }
 if ($tip=="release") {
+
 $search3 = $search."?page=".$page;
+
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $search3);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -245,7 +247,8 @@ function str_between($string, $start, $end){
 	return substr($string,$ini,$len); 
 }
 //$videos = explode('<div class="video">', $html);
-$videos=explode('class="video-thumb"',$html);
+//$videos=explode('class="video-thumb"',$html);
+$videos=explode('class="widget-video-holder"',$html);
 unset($videos[0]);
 $videos = array_values($videos);
 

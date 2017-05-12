@@ -57,7 +57,7 @@ $host = "http://127.0.0.1/cgi-bin";
 		<image  redraw="yes" offsetXPC=56 offsetYPC=22.5 widthPC=35 heightPC=30>
 		<script>print(img); img;</script>
 		</image>
-  	<text  redraw="yes" align="center" offsetXPC="0" offsetYPC="90" widthPC="100" heightPC="8" fontSize="17" backgroundColor="10:105:150" foregroundColor="100:200:255">
+  	<text redraw="yes" align="center" offsetXPC="0" offsetYPC="90" widthPC="100" heightPC="8" fontSize="17" backgroundColor="10:105:150" foregroundColor="100:200:255">
 		  <script>print(titlu); titlu;</script>
 		</text>
 
@@ -192,6 +192,66 @@ function x_dec($string) {
  $v=str_replace("&#x05F;","s",$v);
  return $v;
 }
+function normal_chars($string)
+{
+    $string = htmlentities($string, ENT_QUOTES, 'UTF-8');
+    $string = preg_replace('~&([a-z]{1,2})(acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~i', '$1', $string);
+    $string = preg_replace(array('~[^0-9a-z]~i', '~-+~'), ' ', $string);
+    return trim($string);
+}
+/*
+function diacritice($input) {
+$string = urlencode($input);
+$search = array("%C4%82", "%C4%83", "%C3%82", "%C3%A2", "%C3%8E", "%C3%AE", "%C8%98", "%C8%99", "%C8%9A", "%C8%9B", "%C5%9E", "%C5%9F", "%C5%A2", "%C5%A3");
+$replace = array('A', 'a', 'A', 'a', 'I', 'i', 'S', 's', 'T', 't', 'S', 's', 'T', 't');
+$out = str_replace($search, $replace, $string);
+return urldecode($out);
+}
+*/
+function solve_html5($input) {
+        //$trans = get_html_translation_table(HTML_ENTITIES);
+        $trans[chr(130)] = '&sbquo;';    // Single Low-9 Quotation Mark
+        $trans[chr(131)] = '&fnof;';    // Latin Small Letter F With Hook
+        $trans[chr(132)] = '&bdquo;';    // Double Low-9 Quotation Mark
+        $trans[chr(133)] = '&hellip;';    // Horizontal Ellipsis
+        $trans[chr(134)] = '&dagger;';    // Dagger
+        $trans[chr(135)] = '&Dagger;';    // Double Dagger
+        $trans[chr(136)] = '&circ;';    // Modifier Letter Circumflex Accent
+        $trans[chr(137)] = '&permil;';    // Per Mille Sign
+        $trans[chr(138)] = '&Scaron;';    // Latin Capital Letter S With Caron
+        $trans[chr(139)] = '&lsaquo;';    // Single Left-Pointing Angle Quotation Mark
+        $trans[chr(140)] = '&OElig;';    // Latin Capital Ligature OE
+        $trans[chr(145)] = '&lsquo;';    // Left Single Quotation Mark
+        $trans[chr(146)] = '&rsquo;';    // Right Single Quotation Mark
+        $trans[chr(147)] = '&ldquo;';    // Left Double Quotation Mark
+        $trans[chr(148)] = '&rdquo;';    // Right Double Quotation Mark
+        $trans[chr(149)] = '&bull;';    // Bullet
+        $trans[chr(150)] = '&ndash;';    // En Dash
+        $trans[chr(151)] = '&mdash;';    // Em Dash
+        $trans[chr(152)] = '&tilde;';    // Small Tilde
+        $trans[chr(153)] = '&trade;';    // Trade Mark Sign
+        $trans[chr(154)] = '&scaron;';    // Latin Small Letter S With Caron
+        $trans[chr(155)] = '&rsaquo;';    // Single Right-Pointing Angle Quotation Mark
+        $trans[chr(156)] = '&oelig;';    // Latin Small Ligature OE
+        $trans[chr(159)] = '&Yuml;';    // Latin Capital Letter Y With Diaeresis
+        $trans['euro'] = '&euro;';    // euro currency symbol
+        $trans['%'] = '&percnt;';
+        //ksort($trans);
+        $words = array_flip($trans);
+        $out=str_replace($trans,$words,$input);
+        /*
+        preg_match_all("/\&[a-zA-Z0-9]+\;/",$input,$m);
+        $c=count($m[0]);
+        //$out=$input;
+        //print_r ($m[0]);
+        for ($k=0;$k<$c;$k++) {
+           $find=$m[0][$k];
+           $out=str_replace($find,isset($words[$find])? $words[$find] : $find,$input);
+        }
+        */
+        //$out = preg_replace_callback("/\&[a-zA-Z0-9]+\;/",function($match) use ($words) {    if(isset($words[$match[0]])){ return ($words[$match[0]]); }else{ return($match[0]); } },$input);
+        return $out;
+}
 $link="http://www.digi24.ro/video";
 $cookie="/tmp/digi1.dat";
   $ch = curl_init();
@@ -217,18 +277,30 @@ $videos = array_values($videos);
 foreach($videos as $video) {
  $video=html_entity_decode($video);
  //echo $video;
- $title=x_dec(html_entity_decode(str_between($video,'title="','"')));
+ $title=str_between($video,'title="','"');
+ $title=html_entity_decode($title,ENT_QUOTES,'UTF-8');
+
+ $title = solve_html5($title);
+ $title = diacritice($title);
+ //echo urlencode($title);
  //$title=html_entity_decode($title,ENT_HTML5);
+
  $title=str_replace("&period;",".",$title);
  $title=str_replace("&comma;",",",$title);
  $title=str_replace("&abreve;","a",$title);
  $title=str_replace("&tcedil;","t",$title);
  $title=str_replace("&colon;",":",$title);
- $title=str_replace("vert;","|",$title);
- $title=str_replace("quest;","?",$title);
- $title=str_replace("scedil;","s",$title);
- $title=str_replace("bdquo;",'"',$title);
+ $title=str_replace("&vert;","|",$title);
+ $title=str_replace("&quest;","?",$title);
+ $title=str_replace("&scedil;","s",$title);
+ $title=str_replace("&bdquo;",'"',$title);
+ $title=str_replace("&rdquo;",'"',$title);
+
+ //$title=html_entity_decode($title,ENT_QUOTES,'UTF-8');
+ //$title=normal_chars($title);
+ //$title=preg_replace('/[^a-zA-Z0-9.]/','',iconv('UTF-8', 'ASCII//TRANSLIT', $title));
  //&tcedil;ig&abreve;ri
+ //$title=htmlentities($title,ENT_HTML5);
  $descriere=$title;
  $image=urldecode(str_between($video,'src="','"'));
  $link="http://www.digi24.ro".str_between($video,'href="','"');

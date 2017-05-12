@@ -271,7 +271,7 @@ foreach($directories as $entry) {
  <onClick>
  <script>
  showIdle();
- dummy=getURL("http://127.0.0.1/cgi-bin/scripts/util/srt1_xml.php?file='.urlencode($mysrt).'");';
+ dummy=getURL("http://127.0.0.1/cgi-bin/scripts/util/srt_xml.php?file='.urlencode($mysrt).'");';
  echo '
  url="'.$dir_path1.$entry1.'";
  cancelIdle();
@@ -289,7 +289,7 @@ foreach($directories as $entry) {
  ';
  if (file_exists($f)) {
  echo '
- doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer2.rss");
+ doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer22.rss");
  ';
  } else {
  echo '

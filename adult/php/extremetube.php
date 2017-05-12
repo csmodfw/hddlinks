@@ -248,9 +248,9 @@ foreach($videos as $video) {
     $link = $t2[0];
 
     $t1 = explode('onmouseout="', $video);
-    $t2 = explode('http', $t1[1]);
+    $t2 = explode('//', $t1[1]);
     $t3=explode("'",$t2[1]);
-    $image = "http".$t3[0];
+    $image = "http://".$t3[0];
 
     $t1 = explode('title="', $video);
     $t2 = explode('"', $t1[1]);

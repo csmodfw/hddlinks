@@ -324,6 +324,114 @@ if($search) {
 </item>
 <?php } ?>
 <?php
+for ($k=0;$k<count($p["items"]);$k++) {
+	$title = $p["items"][$k]["snippet"]["title"];
+	$image = $p["items"][$k]["snippet"]["thumbnails"]["medium"]["url"];
+	$image=str_replace("https","http",$image);
+	$data= $p["items"][$k]["snippet"]["publishedAt"];
+	$descriere= $p["items"][$k]["snippet"]["description"];
+    $kind=$p["items"][$k]["id"]["kind"];
+	$title=diacritice($title);
+	$descriere=diacritice($descriere);
+ if ($kind=="youtube#video") {
+    $video_ID=$p["items"][$k]["id"]["videoId"];
+    print_video($title,$image,$data,$descriere,$video_ID);
+ } else if ($kind=="youtube#channel") {
+    $channel_id= $p["items"][$k]["id"]["channelId"];
+    print_channel($title,$image,$data,$descriere,$channel_id);
+ } else if ($kind=="youtube#playlist") {
+    $playlist_id =$p["items"][$k]["id"]["playlistId"];
+    print_playlist($title,$image,$data,$descriere,$playlist_id);
+}
+}
+function print_channel($title,$image,$data,$descriere,$channel_id) {
+    $link1=$channel_id;
+	$link = "http://127.0.0.1/cgi-bin/scripts/php1/youtube_user.php?query=1,".$channel_id.",,,".urlencode($title);
+    $name="video.mp4";
+    $title="(user) ".$title;
+    $durata="";
+    echo '
+    <item>
+    <title>'.str_replace("&","&amp;",str_replace("&amp;","&",$title)).'</title>
+    <link>'.$link.'</link>
+    <download>'.$link.'</download>
+    <paurl>'.$link.'</paurl>
+    <name>'.$name.'</name>
+    <annotation>'.$descriere.'</annotation>
+    <image>'.$image.'</image>
+    <durata>'.$durata.'</durata>
+    <pub>'.$data.'</pub>
+    <link1>'.$link1.'</link1>
+    <title1>'.urlencode($title).'</title1>
+    <media:thumbnail url="'.$image.'" />
+    </item>
+    ';
+}
+function print_playlist($title,$image,$data,$descriere,$playlist_id) {
+	$link = "http://127.0.0.1/cgi-bin/scripts/php1/yt_playlist.php?query=1,".$playlist_id.",".urlencode($title);
+	$link1=$playlist_id;
+	$name="video.mp4";
+	$title="(playlist) ".$title;
+	$durata="";
+    echo '
+    <item>
+    <title>'.str_replace("&","&amp;",str_replace("&amp;","&",$title)).'</title>
+    <link>'.$link.'</link>
+    <download>'.$link.'</download>
+    <paurl>'.$link.'</paurl>
+    <name>'.$name.'</name>
+    <annotation>'.$descriere.'</annotation>
+    <image>'.$image.'</image>
+    <durata>'.$durata.'</durata>
+    <pub>'.$data.'</pub>
+    <link1>'.$link1.'</link1>
+    <title1>'.urlencode($title).'</title1>
+    <media:thumbnail url="'.$image.'" />
+    </item>
+    ';
+}
+function print_video($title,$image,$data,$descriere,$video_id) {
+	$link1 = "http://www.youtube.com/watch?v=".$video_id;
+	$link="http://127.0.0.1/cgi-bin/scripts/util/yt.php?file=".$link1;
+	$name="video.mp4";
+	$durata="";
+    echo '
+    <item>
+    <title>'.str_replace("&","&amp;",str_replace("&amp;","&",$title)).'</title>
+    <onClick>
+    <script>
+    showIdle();
+    url="'.$link.'";
+    movie=getUrl(url);
+    cancelIdle();
+    storagePath = getStoragePath("tmp");
+    storagePath_stream = storagePath + "stream.dat";
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/mp4);
+    streamArray = pushBackStringArray(streamArray, "'.str_replace('"',"'",$title).'");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer.rss");
+    </script>
+    </onClick>
+    <download>'.$link.'</download>
+    <link1></link1>
+    <title1></title1>
+    <paurl>'.$link.'</paurl>
+    <name>'.$name.'</name>
+    <annotation>'.$descriere.'</annotation>
+    <image>'.$image.'</image>
+    <durata>'.$durata.'</durata>
+    <pub>'.$data.'</pub>
+    <media:thumbnail url="'.$image.'" />
+    </item>
+    ';
+}
+/*
 for ($k=0;$k<25;$k++) {
     $link = "";
     $id=$p["items"][$k]["id"]["videoId"];
@@ -400,8 +508,9 @@ for ($k=0;$k<25;$k++) {
     ';
   }
   if (array_key_exists("channelId",$p["items"][$k]["id"])) {
-    $id=$p["items"][$k]["snippet"]["channelTitle"];
-    if (!$id) $id=$p["items"][$k]["snippet"]["channelId"];
+    //$id=$p["items"][$k]["snippet"]["channelTitle"];
+    //if (!$id)
+    $id=$p["items"][$k]["snippet"]["channelId"];
     $link1=$id;
 	$link = "http://127.0.0.1/cgi-bin/scripts/php1/youtube_user.php?query=1,".$id.",,,".urlencode($title);
 	//$link = "http://127.0.0.1/cgi-bin/scripts/php1/yt_playlist.php?query=1,".$id.",".urlencode($title);
@@ -427,6 +536,7 @@ for ($k=0;$k<25;$k++) {
 
 
 }
+*/
 ?>
 <item>
 <?php

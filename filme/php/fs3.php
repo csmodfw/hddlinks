@@ -191,13 +191,14 @@ function get_value($q, $string) {
 $year="";
 
 $IMDB_API_URL = "http://www.omdbapi.com/?t=".urlencode($tit)."&y=".$year."&type=".$tip;
-echo $IMDB_API_URL;
+//echo $IMDB_API_URL;
 $Data = file_get_contents($IMDB_API_URL);
 //echo $Data;
 $JSON = json_decode($Data,1);
 $imdbid=$JSON["imdbID"];
 $imdbid = str_replace("tt","",$imdbid);
 //echo $imdbid;
+//$imdbid="";
 $f="/tmp/opensub.txt";
 exec("rm -f /tmp/opensub.txt");
 if (file_exists($f)) {
@@ -234,6 +235,7 @@ $token=get_value("token",$response);
 file_put_contents($f,$token);
 }
 if ($tip=="movie") {
+$imdbid="";
 $request="<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>
 <methodCall>
 <methodName>SearchSubtitles</methodName>

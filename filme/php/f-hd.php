@@ -155,6 +155,7 @@ ret;
 
 <?php
 $query = $_GET["query"];
+include("../../common.php");
 if($query) {
    $queryArr = explode(',', $query);
    $page = $queryArr[0];
@@ -212,13 +213,14 @@ foreach($videos as $video) {
   $title=str_between($video,'itemprop="name">','<');
   $title=trim(preg_replace("/Online Subtitrat in Romana|Filme Online Subtitrat HD 720p|Online HD 720p Subtitrat in Romana|Online Subtitrat Gratis|Online Subtitrat in HD Gratis|Film HD Online Subtitrat/i","",$title));
   $title=trim(preg_replace("/(onlin|film)(.*)/i","",$title));
-
+  $title=diacritice($title);
   $t1 = explode('image" content="', $video);
   $t2 = explode('"', $t1[1]);
   $image = $t2[0];
   $image=str_replace("https","http",$image);
   $descriere=str_between($video,'<p>','<');
   $descriere=str_replace("[&hellip;]","...",$descriere);
+  $descriere=diacritice($descriere);
 //  descriere
 /*
   $v1 = explode('<div class="movie-description dpad">', $video);

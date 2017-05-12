@@ -173,6 +173,7 @@ ret;
    </onClick>
 </item>
 <?php
+include ("../common.php");
 function str_between($string, $start, $end){
 	$string = " ".$string; $ini = strpos($string,$start);
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini;
@@ -196,6 +197,7 @@ asort($arr);
 foreach ($arr as $key => $val) {
   $l=$arr[$key][1];
   $title=$arr[$key][0];
+  $title=diacritice($title);
   if (strpos($title,"playlist") !== false)
    $link = "http://127.0.0.1/cgi-bin/scripts/php1/yt_playlist.php?query=1,".$l.",".urlencode($title);
   elseif (strpos($title,"user") !== false)
@@ -203,8 +205,8 @@ foreach ($arr as $key => $val) {
    $link = "http://127.0.0.1/cgi-bin/scripts/php1/youtube_user.php?query=1,".$l.",,,".urlencode($title);
     echo '
     <item>
-    <title>'.$title.'</title>
-    <annotation>'.$title.'</annotation>
+    <title>'.str_replace("&","&amp;",str_replace("&amp;","&",$title)).'</title>
+    <annotation>'.str_replace("&","&amp;",str_replace("&amp;","&",$title)).'</annotation>
     <link>'.$link.'</link>
     <title1>'.urlencode($title).'</title1>
     <link1>'.$l.'</link1>

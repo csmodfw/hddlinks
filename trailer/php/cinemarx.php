@@ -230,71 +230,49 @@ foreach($videos as $video) {
     $name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".flv";
 
 
-    $link=$host.'/scripts/trailer/php/cinemarx_link.php?file='.$link;
+    //$link=$host.'/scripts/trailer/php/cinemarx_link.php?file='.$link;
+    $link="http://127.0.0.1/cgi-bin/scripts/filme/php/link.php?file=".urlencode($link);
 
-    if (file_exists($f)) {
-	echo'
-	<item>
-	<title>'.$title.'</title>
-    <onClick>
-    <script>
-    showIdle();
-    url1="'.$link.'";
-    url=getURL(url1);
-    cancelIdle();
-    storagePath = getStoragePath("tmp");
-    storagePath_stream = storagePath + "stream.dat";
-    streamArray = null;
-    streamArray = pushBackStringArray(streamArray, "");
-    streamArray = pushBackStringArray(streamArray, "");
-    streamArray = pushBackStringArray(streamArray, url);
-    streamArray = pushBackStringArray(streamArray, url);
-    streamArray = pushBackStringArray(streamArray, video/mp4);
-    streamArray = pushBackStringArray(streamArray, "'.$tit.'");
-    streamArray = pushBackStringArray(streamArray, "1");
-    writeStringToFile(storagePath_stream, streamArray);
-    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer2.rss");
-    </script>
-    </onClick>
-    <name>'.$name.'</name>
-    <image>'.$image.'</image>
-    <download>'.$link.'</download>
-    <name>'.$name.'</name>
-    <media:thumbnail url="'.$image.'" />
-  </item>
-  ';
-  } else {
-	echo'
-	<item>
-	<title>'.$title.'</title>
-    <onClick>
-    <script>
-    showIdle();
-    url1="'.$link.'";
-    url=getURL(url1);
-    cancelIdle();
-    storagePath = getStoragePath("tmp");
-    storagePath_stream = storagePath + "stream.dat";
-    streamArray = null;
-    streamArray = pushBackStringArray(streamArray, "");
-    streamArray = pushBackStringArray(streamArray, "");
-    streamArray = pushBackStringArray(streamArray, url);
-    streamArray = pushBackStringArray(streamArray, url);
-    streamArray = pushBackStringArray(streamArray, video/mp4);
-    streamArray = pushBackStringArray(streamArray, "'.$tit.'");
-    streamArray = pushBackStringArray(streamArray, "1");
-    writeStringToFile(storagePath_stream, streamArray);
-    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer1.rss");
-    </script>
-    </onClick>
-    <name>'.$name.'</name>
-    <image>'.$image.'</image>
-    <download>'.$link.'</download>
-    <name>'.$name.'</name>
-    <media:thumbnail url="'.$image.'" />
-  </item>
-  ';
-  }
+        $f = "/usr/local/bin/home_menu";
+	    echo'
+	    <item>
+	    <title>'.$title.'</title>
+        <onClick>
+        <script>
+        showIdle();
+        movie="'.$link.'";
+        url=getUrl(movie);
+        cancelIdle();
+        storagePath = getStoragePath("tmp");
+        storagePath_stream = storagePath + "stream.dat";
+        streamArray = null;
+        streamArray = pushBackStringArray(streamArray, "");
+        streamArray = pushBackStringArray(streamArray, "");
+        streamArray = pushBackStringArray(streamArray, url);
+        streamArray = pushBackStringArray(streamArray, url);
+        streamArray = pushBackStringArray(streamArray, video/mp4);
+        streamArray = pushBackStringArray(streamArray, "'.$title.'");
+        streamArray = pushBackStringArray(streamArray, "1");
+        writeStringToFile(storagePath_stream, streamArray);
+        ';
+        if (file_exists($f)) {
+        echo '
+        doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer22.rss");
+        ';
+        } else {
+        echo '
+        doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer1.rss");
+        ';
+        }
+        echo '
+        </script>
+        </onClick>
+        <download>'.$link.'</download>
+        <tip>1</tip>
+        <image>'.$image.'</image>
+        <name>'.$name.'.mp4</name>
+        </item>
+       ';
 }
 
 

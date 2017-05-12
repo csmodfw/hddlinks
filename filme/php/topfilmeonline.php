@@ -208,7 +208,11 @@ unset($videos[0]);
 $videos = array_values($videos);
 
 foreach($videos as $video) {
-  $link = "http://topfilmeonline.net/".trim(str_between($video,'href="','"'));
+  $l1=trim(str_between($video,'href="','"'));
+  if (strpos($l1,"http") === false)
+  $link = "http://topfilmeonline.net/".$l1;
+  else
+  $link=$l1;
   $title=str_between($video,'alt="','"');
   $title=html_entity_decode($title,ENT_QUOTES,'UTF-8');
   $title=trim(preg_replace("/Online Subtitrat in Romana|Filme Online Subtitrat HD 720p|Online HD 720p Subtitrat in Romana|Online Subtitrat Gratis|Online Subtitrat in HD Gratis|Film HD Online Subtitrat/i","",$title));
@@ -216,7 +220,14 @@ foreach($videos as $video) {
 
   $t1 = explode('src="', $video);
   $t2 = explode('"', $t1[1]);
-  $image = "http://topfilmeonline.net".$t2[0];
+  if (strpos($t2[0],"http") !== false) {
+    $image=$t2[0];
+  } else {
+  if ($t2[0][0] == "/")
+    $image = "http://topfilmeonline.net".$t2[0];
+  else
+    $image = "http://topfilmeonline.net/".$t2[0];
+  }
   $image=htmlentities($image,ENT_QUOTES,'UTF-8');
   $image=str_replace("https","http",$image);
   //$descriere=str_between($video,'<p>','<');

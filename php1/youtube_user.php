@@ -134,7 +134,7 @@ setRefreshTime(-1);
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
 		</text>
-		<text align="justify" redraw="yes"
+		<text align="left" redraw="yes"
           lines="8" fontSize=17
 		      offsetXPC=55 offsetYPC=58 widthPC=40 heightPC=38
 		      backgroundColor=0:0:0 foregroundColor=200:200:200>
@@ -326,13 +326,13 @@ if(!$page) {
 if ($tit) {
 echo '
 	<channel>
-		<title>Uploads by '.$tit.'</title>
+		<title>Uploads by '.str_replace("&","&amp;",str_replace("&amp;","&",$tit)).'</title>
 		<menu>main menu</menu>
 		';
  } else {
  echo '
 	<channel>
-		<title>Uploads by '.$search.'</title>
+		<title>Uploads by '.str_replace("&","&amp;",str_replace("&amp;","&",$search)).'</title>
 		<menu>main menu</menu>
 		';
  }
@@ -368,10 +368,13 @@ for ($k=0;$k<25;$k++) {
 	$link1= "http://127.0.0.1/cgi-bin/scripts/util/youtube.cgi?stream,,".urlencode($link);
     $link="http://127.0.0.1/cgi-bin/scripts/util/yt.php?file=".$link;
 	$name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".mp4";
+	$title=diacritice($title);
+	$descriere=diacritice($descriere);
+	
 	if ($title) {
     echo '
     <item>
-    <title>'.$title.'</title>
+    <title>'.str_replace("&","&amp;",str_replace("&amp;","&",$title)).'</title>
     <onClick>
     <script>
     showIdle();
@@ -386,10 +389,10 @@ for ($k=0;$k<25;$k++) {
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, video/mp4);
-    streamArray = pushBackStringArray(streamArray, "'.$title.'");
+    streamArray = pushBackStringArray(streamArray, "'.str_replace('"',"'",$title).'");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
-    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_yt.rss");
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer.rss");
     </script>
     </onClick>
     <download>'.$link.'</download>

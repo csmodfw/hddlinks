@@ -5,7 +5,13 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
-$link = urldecode($_GET["file"]);
+//$link = urldecode($_GET["file"]);
+$query = $_GET["file"];
+if($query) {
+   $queryArr = explode(',', $query);
+   $link = urldecode($queryArr[0]);
+   $buf = $queryArr[1];
+}
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $link);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -38,6 +44,7 @@ $ua="Mozilla/5.0 (iPhone; CPU iPhone OS 5_0_1 like Mac OS X)";
       curl_setopt($ch, CURLOPT_REFERER, "http://adevarul.ro");
       $h = curl_exec($ch);
       curl_close($ch);
+      //echo $h;
 preg_match_all("/(\d+)k\.m3u8/",$h,$m);
 //print_r ($m);
 //die();
@@ -46,7 +53,8 @@ $find = substr(strrchr($l, "/"), 1);
 $base=str_replace($find,"",$l);
 //$l=str_replace(".m3u8","-1128k.m3u8",$l);
 //528k
-$l=str_replace(".m3u8","-".$m[0][0],$l);
+$l=str_replace(".m3u8","-".$m[0][$buf],$l);
+$q=$m[1][$buf];
 //$base=str_replace($find,"",$l);
 $ua="Mozilla/5.0 (iPhone; CPU iPhone OS 5_0_1 like Mac OS X)";
       $ch = curl_init();
@@ -80,6 +88,6 @@ fwrite($fp, $out);
 fclose($fp);
 exec("chmod +x /usr/local/etc/www/cgi-bin/scripts/util/m.cgi");
 sleep (1);
-$link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
+$link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand()."-".$q;
 print $link;
 ?>

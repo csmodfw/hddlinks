@@ -236,16 +236,16 @@ function str_between($string, $start, $end){
 }
 //error_reporting(0);
 if (strpos($link,"tv-show") === false) {
-  $link=str_replace("flixanity.watch/show/","flixanity.watch/tv-show/",$link);
+  $link=str_replace("istream.is/show/","istream.is/tv-show/",$link);
 }
 if (strpos($link,"tv-show") === false) {
-  $link=str_replace("flixanity.watch/","flixanity.watch/tv-show/",$link);
+  $link=str_replace("istream.is/","istream.is/tv-show/",$link);
 }
 $requestLink=$link;
 //echo $requestLink;
 $episoade=array();
       $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
-      $exec = '--max-redirect 0 -U "'.$ua.'" --referer="'.$requestLink.'" --no-check-certificate "'.$requestLink.'" -O -';
+      $exec = '-q -U "'.$ua.'" --referer="'.$requestLink.'" --no-check-certificate "'.$requestLink.'" -O -';
       $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
       $html=shell_exec($exec);
       //echo $html;
@@ -263,7 +263,7 @@ $n=0;
 for ($i=$c;$i>0;$i--) {
   $t2=explode('"',$t[$i]);
   //echo $t2[0];
-      $exec = '--max-redirect 0 -U "'.$ua.'" --referer="'.$t2[0].'" --no-check-certificate "'.$t2[0].'" -O -';
+      $exec = '-q -U "'.$ua.'" --referer="'.$t2[0].'" --no-check-certificate "'.$t2[0].'" -O -';
       $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
       $h=shell_exec($exec);
  $videos = explode('class="episode-title"', $h);
@@ -288,7 +288,7 @@ foreach($videos as $video) {
 for ($i=1;$i<$c;$i++) {
   $t2=explode('"',$t[$i]);
   //echo $t2[0];
-      $exec = '--max-redirect 0 -U "'.$ua.'" --referer="'.$t2[0].'" --no-check-certificate "'.$t2[0].'" -O -';
+      $exec = '-q -U "'.$ua.'" --referer="'.$t2[0].'" --no-check-certificate "'.$t2[0].'" -O -';
       $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
       $h=shell_exec($exec);
  $videos = explode('class="episode-title"', $h);

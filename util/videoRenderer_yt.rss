@@ -102,7 +102,6 @@ else
 	    nCurSub=0;
 	    delay=0;
 	    nRef=0;
-		  ntime_end = delay + getStringArrayAt(subs,1 + 4*nCurSub);
 		  tline1 = "";
 		  tline2 = stream_title;
 	    stream_elapsed1 = "Wait..."; 

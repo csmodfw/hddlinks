@@ -410,6 +410,16 @@ else if (input == "zoom" || input == "zoom_in" || input == "zoom_out")
 {
   ret="false";
 }
+ else if (input == "video_completed")
+{
+    playItemURL(-1, 1);
+    postMessage("return");
+    postMessage("down");
+    postMessage("enter");
+    postMessage("down");
+    postMessage("enter");
+    ret="true";
+}
 		ret;
 	</onUserInput>
 	
