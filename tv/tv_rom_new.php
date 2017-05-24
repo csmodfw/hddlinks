@@ -173,6 +173,45 @@ ret;
 <channel>
   <title>TV Romania</title>
 <?php
+function print_a($title,$l) {
+    $host = "http://127.0.0.1/cgi-bin";
+    $link = $host.'/scripts/tv/php/aplay_link.php?file='.urlencode($l);
+	echo'
+	<item>
+	<title>'.$title.'</title>
+    <onClick>
+    <script>
+    showIdle();
+    url="'.$link.'";
+    movie=getUrl(url);
+    cancelIdle();
+    if (movie == "" || movie == " " || movie == null)
+    {
+    playItemUrl(-1,1);
+    }
+    else
+    {
+    storagePath = getStoragePath("tmp");
+    storagePath_stream = storagePath + "stream.dat";
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/x-flv);
+    streamArray = pushBackStringArray(streamArray, "'.str_replace('"',"'",$title).'");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
+    }
+    </script>
+    </onClick>
+    <location>'.$title.'</location>
+    <annotation>'.$title.'</annotation>
+    <mediaDisplay name="threePartsView"/>
+	</item>
+	';
+}
 function print_t($title,$l) {
     $host = "http://127.0.0.1/cgi-bin";
     $link = $host.'/scripts/tv/php/telekom_link.php?file='.urlencode($l);
@@ -436,6 +475,17 @@ print_ch("10TV", "http://127.0.0.1/cgi-bin/scripts/util/translate.cgi?stream,,rt
 print_ch("Prahova TV", "http://127.0.0.1/cgi-bin/translate?stream,Rtmp-options:-W%20http://www.prahovatv.ro/player/player.swf%20-T%206c69766568642e747620657374652063656c206d616920746172652121%20http://www.infopescar.tv/yyy/player.swf%20-p%20http://www.prahovatv.ro/,rtmp://89.45.186.26:1935/live/prahovatv",$a["Prahova TV"]);
 print_ch("Jurnal TV", "http://flux.jtv.md/jtv-540p.flv",$a["Jurnal TV"]);
 print_ch("TvM", "http://tvm.ambra.ro",$a["TvM"]);
+$f="http://mxcore.forithost.com/aplay.m3u";
+$m3uFile = file($f);
+foreach($m3uFile as $key => $line) {
+  if(strtoupper(substr($line, 0, 7)) === "#EXTINF") {
+   $t1=explode(",",$line);
+   $title=trim($t1[1]);
+   //$title1=$title;
+   $link = trim($m3uFile[$key + 1]);
+   print_a($title,$link);
+}
+}
 $f="/usr/local/etc/dvdplayer/Telekom.m3u";
 //$f="D:\EasyPHP\data\localweb\scripts1\digi.m3u";
 if (file_exists($f)) {

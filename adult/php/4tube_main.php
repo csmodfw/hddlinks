@@ -173,20 +173,20 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
-  	$link=$host."/scripts/adult/php/4tube.php?query=1,http://www.4tube.com/videos,release";
+  	$link=$host."/scripts/adult/php/4tube.php?query=1,https://www.4tube.com/videos,release";
   	echo '
   	<item>
   		<title>New</title>
   		<link>'.$link.'</link>
   	</item>';
-$l="http://jizzbunker.com/channels";
-$l="http://www.4tube.com/";
+$l="https://jizzbunker.com/channels";
+$l="https://www.4tube.com/";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt($ch, CURLOPT_REFERER, "http://www.4tube.com/");
+  curl_setopt($ch, CURLOPT_REFERER, "https://www.4tube.com/");
   //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $html = curl_exec($ch);
   curl_close($ch);
@@ -197,7 +197,7 @@ $videos = array_values($videos);
 foreach($videos as $video) {
     $t=explode('href="',$video);
     $t1=explode('"',$t[1]);
-    $link="http://www.4tube.com".$t1[0];
+    $link="https://www.4tube.com".$t1[0];
 
     $t2=explode('title="',$video);
     $t3=explode('"',$t2[1]);
@@ -210,14 +210,14 @@ foreach($videos as $video) {
   		<link>'.$link.'</link>
   	</item>';
 }
-$l="http://www.4tube.com/channels";
+$l="http://www.4tubes.com/channels";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   curl_setopt($ch, CURLOPT_REFERER, "http://www.4tube.com/");
-  //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $html = curl_exec($ch);
   curl_close($ch);
 //$html = str_between($html,'Categories','</ul>');
@@ -227,7 +227,7 @@ $videos = array_values($videos);
 foreach($videos as $video) {
     $t=explode('href="',$video);
     $t1=explode('"',$t[1]);
-    $link="http://www.4tube.com".$t1[0];
+    $link="https://www.4tube.com".$t1[0];
 
     $t2=explode('title="',$video);
     $t3=explode('"',$t2[1]);

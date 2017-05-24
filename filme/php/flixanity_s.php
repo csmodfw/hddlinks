@@ -344,6 +344,7 @@ foreach($videos as $video) {
   //$year=trim(str_between($video,'movie-date">','<'));
   $title=$title11; //." (".$year.")";
   $image1="http://127.0.0.1/cgi-bin/scripts/filme/php/https.php?file=series".urlencode(trim(str_replace(",","^",$title)));
+  $image1="http://127.0.0.1/cgi-bin/scripts/filme/php/r_wget.php?file=".urlencode($image);
   //$id_t=$id1;
   $id_t="";
    $link2=$host."/scripts/filme/php/flixanity_s_ep.php?file=".urlencode($link1).",".urlencode(str_replace(",","^",$title)).",".$id1.",".$id_t.",series,".urlencode($image);

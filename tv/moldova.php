@@ -317,6 +317,24 @@ columnCount=5
 </item>
 
 <item>
+<title>PunctulpeAZi</title>
+<link><?php echo $host; ?>/scripts/php1/facebook.php?query=1,PunctulpeAZi,PunctulpeAZi,</link>
+<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/tvrstiri.png" />
+<image>/usr/local/etc/www/cgi-bin/scripts/tv/image/tvrstiri.png</image>
+<location>http://facebook.com/PunctulpeAZi</location>
+<annotation>Emisiune PunctulpeAZi pe facebook</annotation>
+</item>
+
+<item>
+<title>TVRMoldova</title>
+<link><?php echo $host; ?>/scripts/php1/facebook.php?query=1,TVRMoldova,TVRMoldova,</link>
+<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/tvrstiri.png" />
+<image>/usr/local/etc/www/cgi-bin/scripts/tv/image/tvrstiri.png</image>
+<location>http://facebook.com/TVRMoldova</location>
+<annotation>TVRMoldova pe facebook</annotation>
+</item>
+
+<item>
 <title>privesc.eu</title>
 <link><?php echo $host; ?>/scripts/tv/php/privesc_main.php</link>
 <media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/privesc.jpg" />

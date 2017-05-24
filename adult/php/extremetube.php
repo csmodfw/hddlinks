@@ -245,7 +245,7 @@ $videos = array_values($videos);
 foreach($videos as $video) {
     $t1 = explode('href="', $video);
     $t2 = explode('"', $t1[1]);
-    $link = $t2[0];
+    $link = "http:".$t2[0];
 
     $t1 = explode('onmouseout="', $video);
     $t2 = explode('//', $t1[1]);
@@ -261,7 +261,10 @@ $pos1 = stripos($link, 'source=');
 if ($pos1 === false) {
 
 		$link = $host."/scripts/adult/php/extremetube_link.php?file=".$link;
-    $data = "Durata: ".str_between($video,'"absolute duration">','<');
+    $t1=explode('endShowDuration(',$video);
+    $t2=explode("'",$t1[1]);
+    $data="Durata: ".$t2[1];
+    //$data = "Durata: ".str_between($video,'"absolute duration">','<');
     $name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".flv";
 
     echo '

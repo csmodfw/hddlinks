@@ -79,6 +79,7 @@ for ($n=0;$n<$total;$n++) {
   $out .=$base.$m[1].($base_inc+$n).$m[3].$base2."\r\n";
 }
 //echo $out;
+//die();
 file_put_contents("/tmp/list.txt",$out);
 $out='#!/bin/sh
 cat <<EOF

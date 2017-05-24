@@ -306,7 +306,7 @@ $clearanceCookie=file_get_contents($cloud);
 $cookie="/tmp/moviesplanet.txt";
 $ua="proxyFactory";
 $exec_path="/usr/local/bin/Resource/www/cgi-bin/scripts/wget ";
-$exec = '-q --load-cookies '.$cookie.' --save-cookies '.$cookie.' -U "'.$ua.'" --referer="'.$link.'" --no-check-certificate "'.$link.'" -O -';
+$exec = '-q --load-cookies '.$cookie.' -U "'.$ua.'" --referer="'.$link.'" --no-check-certificate "'.$link.'" -O -';
 $exec = $exec_path.$exec;
 $html=shell_exec($exec);
 //echo $html;
@@ -327,7 +327,10 @@ foreach($videos as $video) {
 }
 $c=count($s);
 for ($k=0;$k<$c;$k++) {
-  $html = file_get_contents("http://uphero.xpresso.eu/movietv/m1.php?file=".$s[$k]."&res=".$res);
+  $exec = '-q --load-cookies '.$cookie.' -U "'.$ua.'" --referer="'.$s[$k].'" --no-check-certificate "'.$s[$k].'" -O -';
+  $exec = $exec_path.$exec;
+  $html=shell_exec($exec);
+  //$html = file_get_contents("http://uphero.xpresso.eu/movietv/m1.php?file=".$s[$k]."&res=".$res);
 $videos = explode('class="col-sm', $html);
 unset($videos[0]);
 //$videos = array_values($videos);

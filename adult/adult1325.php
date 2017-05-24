@@ -299,6 +299,12 @@ XXX4PODS
 <mediaDisplay name="threePartsView"/>
 </item>
 
+  <item>
+<title>taboop</title>
+<link><?php echo $host; ?>/scripts/adult/php/taboop_main.php</link>
+<mediaDisplay name="threePartsView"/>
+</item>
+
 <item>
 <title>thepornhd</title>
 <link><?php echo $host; ?>/scripts/adult/php/thepornhd_main.php</link>

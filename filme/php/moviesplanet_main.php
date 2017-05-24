@@ -178,7 +178,9 @@ ret;
 <?php
 $cookie="/tmp/moviesplanet.txt";
 exec ("rm -f /tmp/moviesplanet.txt");
+exec ("rm -f /tmp/cloud.dat");
 //$cookie="D://m.txt";
+//unlink ($cookie);
 $pop="/usr/local/etc/dvdplayer/moviesplanet.txt";
 //$pop="D://moviesplanet.txt";
 if (!file_exists($pop)) {
@@ -287,9 +289,11 @@ if (!file_exists($pop)) {
 	}
 function getPage($url, $referer) {
   $cookie="/tmp/moviesplanet.txt";
+  //$cookie="D:/m.txt";
   $ua="proxyFactory";
   $exec_path="/usr/local/bin/Resource/www/cgi-bin/scripts/wget ";
-  $exec = '--content-on-error -q -S --load-cookies '.$cookie.' --save-cookies '.$cookie.' -U "'.$ua.'" --referer="'.$referer.'" --no-check-certificate "'.$url.'" -O - 2>&1';
+  //$exec_path = "D:/Temp/wget ";
+  $exec = '--content-on-error -q -S --keep-session-cookies --load-cookies '.$cookie.' --save-cookies '.$cookie.' -U "'.$ua.'" --referer="'.$referer.'" --no-check-certificate "'.$url.'" -O - 2>&1';
   $exec = $exec_path.$exec;
   $response=shell_exec($exec);
   //echo $response;
@@ -327,17 +331,29 @@ $link="https://www.moviesplanet.tv";
 $siteNetLoc = getSiteHost($link);
 bypassCloudFlare($siteNetLoc);
 $cookie="/tmp/moviesplanet.txt";
+//$cookie="D:/m.txt";
 $ua="proxyFactory";
+
 $exec_path="/usr/local/bin/Resource/www/cgi-bin/scripts/wget ";
-$l="https://www.moviesplanet.tv/login";
-$post="returnpath=%2F&username=".$user."&password=".$pass;
-$exec = '-q --load-cookies '.$cookie.' --save-cookies '.$cookie.' --header="Content-Type: application/x-www-form-urlencoded"  --post-data="'.$post.'" -U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
-$exec = $exec_path.$exec;
-$response=shell_exec($exec);
-$l="https://www.moviesplanet.tv/";
+//$exec_path = "D:/Temp/wget ";
+/*
+$l="https://www.moviesplanet.tv";
 $exec = '-q --load-cookies '.$cookie.' --save-cookies '.$cookie.' -U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
 $exec = $exec_path.$exec;
 $h=shell_exec($exec);
+*/
+
+$l="https://www.moviesplanet.tv/login";
+$post="returnpath=%2F&username=".$user."&password=".$pass;
+$exec = '-q --keep-session-cookies --load-cookies '.$cookie.' --save-cookies '.$cookie.' --header="Content-Type: application/x-www-form-urlencoded"  --post-data="'.$post.'" -U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
+$exec = $exec_path.$exec;
+$response=shell_exec($exec);
+
+$l="https://www.moviesplanet.tv/";
+$exec = '-q --load-cookies  '.$cookie.' -U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
+$exec = $exec_path.$exec;
+$h=shell_exec($exec);
+//echo file_get_contents($cookie);
 //echo $h;
   $link1=$host."/scripts/filme/php/moviesplanet.php?page=1,release,https://www.moviesplanet.tv/movies,Recent"; //page=1,release,".urlencode($link).",".urlencode($title);
   $title="Recent";

@@ -278,6 +278,17 @@ columnCount=5
 </item>
 <!--
 <item>
+<title>Facebook</title>
+<link><?php echo $host; ?>/scripts/php1/facebook_fav.php</link>
+	<location>http://youtube.com</location>
+	<image>image/youtube.gif</image>
+	<media:thumbnail url="image/youtube.gif" />
+	<annotation>YouTube este un loc în care puteti descoperi, urmări, încărca şi distribui videoclipuri.</annotation>
+
+</item>
+-->
+<!--
+<item>
 <title>Youtube user uploads</title>
 	<link>rss_command://search</link>
 	<location>http://youtube.com</location>

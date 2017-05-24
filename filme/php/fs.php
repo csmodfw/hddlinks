@@ -50,6 +50,7 @@ else {
   preg_match("/(\d+)x(\d+)/",$tit2,$m);
   $sezon=$m[1];
   $episod=intval($m[2]);
+  $imdbid="";
 }
   $tit2=str_replace("\\","",$tit2);
   $tit2=str_replace("^",",",$tit2);
@@ -57,6 +58,7 @@ else {
   $tit=str_replace("^",",",$tit);
 //echo $tit;
 $year="";
+/*
 if ($tip=="movie") {
 $IMDB_API_URL = "http://www.omdbapi.com/?i=tt".$imdbid;
 $Data = file_get_contents($IMDB_API_URL);
@@ -91,6 +93,7 @@ $imdbid = "";
 }
 //echo $imdbid;
 //echo $tit;
+*/
 ?>
 <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
 <onEnter>

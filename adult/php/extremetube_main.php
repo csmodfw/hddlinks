@@ -169,13 +169,13 @@ $link="http://www.extremetube.com/videos";
   		<link>'.$link.'</link>
   	</item>';
 $html = file_get_contents("http://www.extremetube.com/video-categories");
-//$html = str_between($html,'<div id="submenu">','id="page">');
+$html = str_between($html,'Select a Category','</select>');
 $videos = explode('option value="', $html);
 unset($videos[0]);
 $videos = array_values($videos);
 foreach($videos as $video) {
     $t1=explode('"',$video);
-    $link=$t1[0];
+    $link="http:".$t1[0];
 
     $t2=explode(">",$video);
     $t3=explode("<",$t2[1]);

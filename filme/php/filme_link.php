@@ -223,6 +223,15 @@ else if (userInput == "three" || userInput == "3")
  playItemurl(url,10);
  ret="true";
 }
+else if(userInput == "zero" || userInput == "0")
+{
+showIdle();
+topUrl = "http://127.0.0.1/cgi-bin/scripts/filme/php/pair.php";
+info_serial=getUrl(topUrl);
+cancelIdle();
+redrawdisplay();
+ret="true";
+}
 else if(userInput == "four" || userInput == "4")
 {
 showIdle();
@@ -405,6 +414,19 @@ elseif (strpos($filelink,"filmeseriale.online") !== false) {
 
       $html .=" ".$out;
     }
+} elseif (strpos($filelink,"f-hd.net") !== false) {
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $filelink);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  //curl_setopt($ch,CURLOPT_REFERER,"http://www.topvideohd.com/");
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:14.0) Gecko/20100101 Firefox/14.0.1');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  $html=curl_exec($ch);
+  curl_close($ch);
+  $t1=explode("var vs =",$html);
+  $t2=explode("'",$t1[1]);
+  $html .=base64_decode($t2[1]);
 } elseif (strpos($filelink,"filmehd.net") !== false) {
   require_once("JavaScriptUnpacker.php");
   //echo $filelink;
@@ -494,7 +516,7 @@ $s=$s."|trilulilu|proplayer\/playlist-controller.php|viki\.com|modovideo\.com|ro
 $s=$s."filebox\.com|glumbouploads\.com|uploadc\.com|sharefiles4u\.com|zixshare\.com|uploadboost\.com|hqq\.tv|vidtodo\.com|vshare\.eu";
 $s=$s."|nowvideo\.eu|nowvideo\.co|vreer\.com|180upload\.com|dailymotion\.com|nosvideo\.com|vidbull\.com|purevid\.com|videobam\.com|streamcloud\.eu|donevideo\.com|upafile\.com|docs\.google|mail\.ru|superweb|moviki\.ru|entervideos\.com";
 $s=$s."|indavideo\.hu|redfly\.us|videa\.hu|videakid\.hu|mooshare\.biz|streamin\.to|kodik\.biz|videomega\.tv|ok\.ru|realvid\.net|up2stream\.com|openload\.co|allvid\.ch|";
-$s=$s."streamflv\.com|streamdefence\.com|veehd\.com|coo5shaine\.com|divxme\.com|movdivx\.com|thevideobee\.to|speedvid\.net|streamango\.com|streamplay\.to|gorillavid\.in|daclips\.in|movpod\.in|vodlocker\.com|filehoot\.com|bestreams\.net|vidto\.me|cloudyvideos\.com|allmyvideos\.net|goo\.gl|cloudy\.ec|rapidvideo\.com|megavideo\.pro|raptu\.com|vidlox\.tv|flashservice\.xvideos\.com|xhamster\.com/i";
+$s=$s."spankbang\.com|sexiz\.net|streamflv\.com|streamdefence\.com|veehd\.com|coo5shaine\.com|divxme\.com|movdivx\.com|thevideobee\.to|speedvid\.net|streamango\.com|streamplay\.to|gorillavid\.in|daclips\.in|movpod\.in|vodlocker\.com|filehoot\.com|bestreams\.net|vidto\.me|cloudyvideos\.com|allmyvideos\.net|goo\.gl|cloudy\.ec|rapidvideo\.com|megavideo\.pro|raptu\.com|vidlox\.tv|flashservice\.xvideos\.com|xhamster\.com/i";
 
 for ($i=0;$i<count($links);$i++) {
   if (strpos($links[$i],"http") !== false) {

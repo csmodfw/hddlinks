@@ -207,7 +207,7 @@ $search3 = $search."?page=".$page;
 } else {
   $tip="search";
   $search1=str_replace(" ","+",urldecode($search));
-  $search3="http://www.redtube.com/?search=".$search1."&page=".$page;
+  $search3="https://www.redtube.com/?search=".$search1."&page=".$page;
   //$html = file_get_contents($search3);
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $search3);
@@ -248,15 +248,24 @@ function str_between($string, $start, $end){
 }
 //$videos = explode('<div class="video">', $html);
 //$videos=explode('class="video-thumb"',$html);
-$videos=explode('class="widget-video-holder"',$html);
+if (strpos($html,'class="widget-video-holder"') !== false)
+   $videos=explode('class="widget-video-holder"',$html);
+else {
+  $t1=explode('class="video-listing',$html);
+  //$html=$t1[1];
+  $videos=explode("<li",$html);
+}
 unset($videos[0]);
 $videos = array_values($videos);
 
 foreach($videos as $video) {
     $t1=explode('href="',$video);
     $t2 = explode('"', $t1[1]);
+    if (preg_match("/\/(\d+)/",$t2[0])) {
     $link = "https://www.redtube.com".$t2[0];
     $link = $host."/scripts/adult/php/redtube_link.php?file=".$link;
+    } else
+      $link="";
     //http://img02.redtubefiles.com/_thumbs/0000350/0350855/0350855_009m.jpg
     $t1 = explode('src="', $video);
     $t2 = explode('"', $t1[1]);
@@ -265,11 +274,11 @@ foreach($videos as $video) {
     $image=str_replace("https","http",$image);
     $title=str_between($video,'title="','"');
 
-    $data = trim(str_between($video,'class="video-duration">',"<"));
+    $data = trim(str_between($video,'video-duration">',"<"));
 
     $data = "Durata: ".$data;
     $name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".flv";
-
+    if ($title && $link) {
     echo '
     <item>
     <title>'.$title.'</title>
@@ -300,6 +309,7 @@ foreach($videos as $video) {
   <mediaDisplay name="threePartsView"/>
   </item>
   ';
+  }
 }
 
 

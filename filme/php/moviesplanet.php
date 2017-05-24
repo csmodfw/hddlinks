@@ -327,7 +327,7 @@ $l=str_replace(" ","%20",$link)."/date/".$page."";
 $cookie="/tmp/moviesplanet.txt";
 $ua="proxyFactory";
 $exec_path="/usr/local/bin/Resource/www/cgi-bin/scripts/wget ";
-$exec = '-q --load-cookies '.$cookie.' --save-cookies '.$cookie.' -U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
+$exec = '-q --load-cookies '.$cookie.'  -U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
 $exec = $exec_path.$exec;
 //echo $exec;
 $html=shell_exec($exec);

@@ -1,6 +1,6 @@
 #!/usr/local/bin/Resource/www/cgi-bin/php
 <?php
-$file=$_GET["file"];
+$file=urldecode($_GET["file"]);
 if ($file=="") {
 print "image/movies.png";
 } else if (strpos($file,"https") === false) {

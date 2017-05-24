@@ -187,7 +187,7 @@ function get_value($q, $string) {
         $response     = file_get_contents("http://api.opensubtitles.org/xml-rpc", false, $context);
         return $response;
     }
-
+/*
 $year="";
 
 $IMDB_API_URL = "http://www.omdbapi.com/?t=".urlencode($tit)."&y=".$year."&type=".$tip;
@@ -197,8 +197,9 @@ $Data = file_get_contents($IMDB_API_URL);
 $JSON = json_decode($Data,1);
 $imdbid=$JSON["imdbID"];
 $imdbid = str_replace("tt","",$imdbid);
+*/
 //echo $imdbid;
-//$imdbid="";
+$imdbid="";
 $f="/tmp/opensub.txt";
 exec("rm -f /tmp/opensub.txt");
 if (file_exists($f)) {

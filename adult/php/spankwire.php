@@ -233,9 +233,9 @@ foreach($videos as $video) {
 
     $t1 = explode('src="', $video);
     $t2 = explode('"', $t1[1]);
-    $image = $t2[0];
+    $image = "http:".$t2[0];
 
-    $data = trim(str_between($video,'<span class="views float-right" style="padding-right: 5px; text-align: right;"><strong>','</strong>'));
+    $data = trim(str_between($video,'<div class="info-box">','<'));
     $data = preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$data);
 
     $data = "Duration: ".$data;

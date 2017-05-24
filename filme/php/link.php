@@ -472,6 +472,36 @@ fclose($fp);
 exec("chmod +x /usr/local/etc/www/cgi-bin/scripts/util/m.cgi");
 sleep (1);
 $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
+} elseif (strpos($filelink,"facebook") !== false) {
+$pattern = '/(video_id=|videos\/)([0-9a-zA-Z]+)/';
+preg_match($pattern,$filelink,$m);
+$filelink="https://www.facebook.com/video/embed?video_id=".$m[2];
+      $ua="Mozilla/5.0 (Windows NT 10.0; WOW64; rv:46.0) Gecko/20100101 Firefox/46.0";
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, $filelink);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+      curl_setopt($ch, CURLOPT_USERAGENT, $ua);
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+      $h1 = curl_exec($ch);
+      curl_close($ch);
+      //echo $h1;
+      $h1=str_replace("\\","",$h1);
+      preg_match('/(?:hd_src|sd_src)\":\"([\w\-\.\_\/\&\=\:\?]+)/',$h1,$m);
+      //print_r ($m);
+      $link=$m[1];
+$out='#!/bin/sh
+cat <<EOF
+Content-type: video/mp4
+
+EOF
+exec /usr/local/bin/Resource/www/cgi-bin/scripts/wget wget -q --no-check-certificate -U "'.$ua.'" "'.$link.'"  -O -';
+$fp = fopen('/usr/local/etc/www/cgi-bin/scripts/util/m.cgi', 'w');
+fwrite($fp, $out);
+fclose($fp);
+exec("chmod +x /usr/local/etc/www/cgi-bin/scripts/util/m.cgi");
+sleep (1);
+$link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
 } elseif (strpos($filelink,"streamango") !== false) {
   //https://streamango.com/embed/pkcnrallrffnaapp/
   $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
@@ -522,6 +552,7 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
   //print_r ($m);
   $link=$m[1];
   }
+  $link=urldecode($link);
 } elseif (strpos($filelink,"fastplay.cc") !== false) {
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $filelink);
@@ -602,6 +633,7 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
    //echo $h;
    }
 } elseif (strpos($filelink,"vidzi.tv") !== false) {
+  //http://vidzi.tv/otefvw9e1jcl.html
   require_once("JavaScriptUnpacker.php");
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $filelink);
@@ -3194,7 +3226,7 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
    //echo $h;
    //https://v3.cache3.c.docs.google.com/videoplayback?requiressl=yes&shardbypass=yes&cmbypass=yes&id=45613a82e6b91a09&itag=34&source=webdrive&app=docs&ip=78.96.189.71&ipbits=0&expire=1374561222&sparams=requiressl%2Cshardbypass%2Ccmbypass%2Cid%2Citag%2Csource%2Cip%2Cipbits%2Cexpire&signature=23246722655B644EC186906C0ED2F8BBC99447A7.1D705A0B8C23FFF93A88D824AA1A49FB241530E4&key=ck2&cpn=V2D0mX8uN-jeBN2i
    //https://v7.cache8.c.docs.google.com/videoplayback?requiressl=yes&shardbypass=yes&cmbypass=yes&id=45613a82e6b91a09&itag=35&source=webdrive&app=docs&ip=78.96.189.71&ipbits=0&expire=1374561633&sparams=requiressl%2Cshardbypass%2Ccmbypass%2Cid%2Citag%2Csource%2Cip%2Cipbits%2Cexpire&signature=F7DBB32B0BDB14CC12A2A40536C9E0C2F0A4EEB.20DFCFD78F4122C85E9566B08E8C2CE246974413&key=ck2
-} elseif (strpos($filelink,"googleusercontent.com") !==false || strpos($filelink,"redirector.googlevideo.com") !== false || strpos($filelink,"blogspot.com") !== false || strpos($filelink,"vumoo") !== false || strpos($filelink,"fshare.to") !== false || strpos($filelink,"vsharing.ru") !== false) {
+} elseif (strpos($filelink,"googleusercontent.com") !==false || strpos($filelink,"redirector.googlevideo.com") !== false || strpos($filelink,"blogspot.com") !== false || strpos($filelink,"vumoo") !== false || strpos($filelink,"fshare.to") !== false || strpos($filelink,"vsharing.ru") !== false || strpos($filelink,"sexiz.net") !== false) {
 
 if (strpos($filelink,"vumoo") !== false) {
 require_once 'httpProxyClass.php';
@@ -3256,7 +3288,8 @@ $requestLink = $filelink;
 
 $link=$filelink;
 }
-if (strpos($link,"https") !== false) {
+//echo $link;
+if (strpos($link,"https") !== false || strpos($filelink,"vumoo") !== false || strpos($filelink,"sexiz.net") !== false) {
 $out='#!/bin/sh
 cat <<EOF
 Content-type: video/mp4
@@ -3270,6 +3303,26 @@ exec("chmod +x /usr/local/etc/www/cgi-bin/scripts/util/m.cgi");
 sleep (1);
 $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
 }
+} elseif (strpos($filelink,"spankbang.com") !==false) {
+  $ua="Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5";
+  $exec_path="/usr/local/bin/Resource/www/cgi-bin/scripts/wget ";
+  $exec = '-q -U "'.$ua.'" --referer="'.$filelink.'" --no-check-certificate "'.$filelink.'" -O -';
+  $exec = $exec_path.$exec;
+  $html=shell_exec($exec);
+  $link="https://spankbang.com".str_between($html,'source src="','"');
+  //$link=str_replace("https","http",$link);
+$out='#!/bin/sh
+cat <<EOF
+Content-type: video/mp4
+
+EOF
+exec /usr/local/bin/Resource/www/cgi-bin/scripts/wget wget -q --no-check-certificate -U "'.$ua.'" "'.$link.'"  -O -';
+$fp = fopen('/usr/local/etc/www/cgi-bin/scripts/util/m.cgi', 'w');
+fwrite($fp, $out);
+fclose($fp);
+exec("chmod +x /usr/local/etc/www/cgi-bin/scripts/util/m.cgi");
+sleep (1);
+$link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
 } elseif (strpos($filelink,"ishared.eu") !==false) {
   $h=file_get_contents($filelink);
   $link=str_between($h,'path:"','"');

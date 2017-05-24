@@ -267,8 +267,7 @@ foreach($videos as $video) {
     <script>
     showIdle();
     url="'.$host.'/scripts/tv/php/privesc_link.php?file='.$link.'";
-    url1=getUrl(url);
-    movie1="http://127.0.0.1/cgi-bin/scripts/util/translate.cgi?stream,," + url1;
+    movie1=getUrl(url);
     cancelIdle();
     storagePath = getStoragePath("tmp");
     storagePath_stream = storagePath + "stream.dat";

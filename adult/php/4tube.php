@@ -200,15 +200,15 @@ $search3  = $search."?p=".$page."&sort=date";  //http://www.4tube.com/videos?p=2
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt($ch, CURLOPT_REFERER, "http://www.4tube.com/");
-  //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  curl_setopt($ch, CURLOPT_REFERER, "https://www.4tube.com/");
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $html = curl_exec($ch);
   curl_close($ch);
 } else {
   $tip="search";
   $search1=str_replace(" ","+",urldecode($search));
   //$search3 = "http://jizzbunker.com/search?query=".$search1."&page=".$page;
-  $search3 = "http://www.4tube.com/search?q=".$search1."&p=".$page;
+  $search3 = "https://www.4tube.com/search?q=".$search1."&p=".$page;
   //$html = file_get_contents($search3);
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $search3);
@@ -216,7 +216,7 @@ $search3  = $search."?p=".$page."&sort=date";  //http://www.4tube.com/videos?p=2
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   curl_setopt($ch, CURLOPT_REFERER, "http://www.4tube.com/");
-  //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $html = curl_exec($ch);
   curl_close($ch);
 }

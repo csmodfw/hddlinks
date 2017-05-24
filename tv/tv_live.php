@@ -173,6 +173,22 @@ ret;
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
+<?php
+/*
+$f="/usr/local/etc/dvdplayer/digi.m3u";
+//$f="D:\EasyPHP\data\localweb\scripts1\digi.m3u";
+if (file_exists($f)) {
+echo '
+<item>
+<title>Spyce TV</title>
+<link>'.$host.'/scripts/tv/php/spyce.php</link>
+<media:thumbnail url="image/tv_radio.png" />
+<mediaDisplay name="threePartsView"/>
+</item>
+';
+}
+*/
+?>
 <!--
 <item>
 <title>Dolce TV</title>

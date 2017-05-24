@@ -65,6 +65,7 @@ if (!file_exists("/tmp/s_dec.php")) {
 	  $t3 = explode(';',$a);
   }
   }
+  $t3[1] = str_replace('["','.',str_replace(']','',$t3[1]));
 $t4 = '<?php'."\n".'function s_dec($s) { '."\n";
 foreach($t3 as $a) {
 	$t1 = '$sA = '.str_replace('join($s)','implode($sA)',str_replace('split','str_split',str_replace('""','$s',str_replace('(a','($sA',str_between($a,'.',')').'); '))))."\n";

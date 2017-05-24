@@ -234,14 +234,14 @@ ret;
 <annotation>http://vumoo.at</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-<!--
+
 <item>
 <title>moviesplanet</title>
 <link><?php echo $host; ?>/scripts/filme/php/moviesplanet_main.php</link>
 <annotation>http://moviesplanet.is</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
--->
+
 <item>
 <title>flixanity</title>
 <link><?php echo $host; ?>/scripts/filme/php/flixanity_f.php?page=1,release,,filme</link>
