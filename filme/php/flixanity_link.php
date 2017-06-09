@@ -296,6 +296,7 @@ $l="https://istream.is/ajax/embeds.php";
 $l="https://istream.is/jne.php";
 $l="https://flixanity.watch/jne.php";
 $l="https://istream.is/ajax/jne.php";
+$l="https://flixanity.online/ajax/jne.php";
 //action=getMovieEmb&idEl=104719&token=eCNBuxFGpRmFlWjUJjmjguCJI&elid=MTQ5MzI3NzEzNw%253D%253D
 if ($tip == "series")
 $post="action=getEpisodeEmb&idEl=".$elid."&token=".$tok."&elid=";

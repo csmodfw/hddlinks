@@ -33,7 +33,9 @@ $id=str_between($html,'iframe src="','"');
   curl_close($ch);
 //echo $html;
 
-$l=str_between($html,"video src='","'");
+//$l=str_between($html,"video src='","'");
+$t1=explode("<video",$html);
+$l=str_between($t1[1],'src="','"');
 $ua="Mozilla/5.0 (iPhone; CPU iPhone OS 5_0_1 like Mac OS X)";
       $ch = curl_init();
       curl_setopt($ch, CURLOPT_URL, $l);

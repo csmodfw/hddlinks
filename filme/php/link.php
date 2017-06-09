@@ -554,6 +554,7 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
   }
   $link=urldecode($link);
 } elseif (strpos($filelink,"fastplay.cc") !== false) {
+require_once("JavaScriptUnpacker.php");
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $filelink);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -564,7 +565,9 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
   //curl_setopt($ch, CURLOPT_NOBODY,1);
   $h2 = curl_exec($ch);
   curl_close($ch);
-  preg_match('/[file:"]([http|https][\.\d\w\-\.\/\\\:\?\&\#\%\_\,]*(\.mp4))/', $h2, $m);
+  $jsu = new JavaScriptUnpacker();
+  $out = $jsu->Unpack($h2);
+  preg_match('/[file:"]([http|https][\.\d\w\-\.\/\\\:\?\&\#\%\_\,]*(\.mp4))/', $out, $m);
   $link=$m[1];
 } elseif (strpos($filelink,"vidlox.tv") !== false) {
   //$filelink="https://vidlox.tv/embed-kyt8zfi3edsj.html";
@@ -2407,10 +2410,12 @@ $h= decode3($m[1][0],$m[2][0],$m[3][0],$m[4][0]);
 $l="http://hqq.tv/player/ip.php?type=json";
 $x=file_get_contents($l);
 $iss=str_between($x,'ip":"','"');
-$vid=str_between($h,'var vid = "','"');
-$at=str_between($h,'var at = "','"');
-$http_referer=str_between($h,'var http_referer = "','"');
+$vid=str_between($h,'var vid="','"');
+$at=str_between($h,'var at="','"');
+$http_referer=str_between($h,'var http_referer="','"');
 $l="http://hqq.tv/sec/player/embed_player.php?iss=".$iss."&vid=".$vid."&at=".$at."&autoplayed=yes&referer=&http_referer=".$http_referer."&pass=&embed_from=&need_captcha=0&hash_from=";
+$l="https://hqq.watch/sec/player/embed_player.php?iss=".$iss."&vid=".$vid."&at=".$at."&autoplayed=yes&referer=on&http_referer=".$http_referer."&pass=&embed_from=&need_captcha=0&hash_from=";
+
 //echo $l;
       $ch = curl_init();
       curl_setopt($ch, CURLOPT_URL, $l);
@@ -2495,7 +2500,7 @@ $ret=str_replace("?socket",".mp4.m3u8",$ret);
       curl_close($ch);
 //$h=str_replace($find,$base.$find,$h);
 //echo $h;
-preg_match_all("/.*(\.mp4|\.ts)[0-9A-Za-z]+/",$h,$m);
+preg_match_all("/.*(\.mp|\.ts)[0-9A-Za-z]+/",$h,$m);
 //print_r ($m);
 $out="";
 for ($k=0;$k<count($m[0]);$k++) {
@@ -2516,6 +2521,20 @@ exec("chmod +x /usr/local/etc/www/cgi-bin/scripts/util/m.cgi");
 sleep (1);
 $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
 } elseif (strpos($filelink,"openload.co") !==false) {
+/*
+function decode_code($code){
+    return preg_replace_callback(
+        "@\\\(x)?([0-9a-f]{2,3})@",
+        function($m){
+            return chr($m[1]?hexdec($m[2]):octdec($m[2]));
+        },
+        $code
+    );
+}
+*/
+function decode_code($code){
+    return preg_replace("@\\\(x)?([0-9a-f]{2,3})@",chr(hexdec($m[2])),$code);
+}
 //require_once('AADecoder.php');
 //include ("jj.php");
 //echo $filelink;
@@ -2636,6 +2655,7 @@ $out1="";
 for ($k=0; $k<$n; $k++) {
 $out1=$out1.chr(intval($m[0][$k],8));
 }
+$out1=$s;
 /*
 //echo $out1;
 //if (strpos($out1,"toString") !== false) {
@@ -2659,7 +2679,7 @@ return $out1;
 */
 return $out1;
 }
-
+include ("ol.php");
 $ua="Mozilla/5.0 (Windows NT 10.0; WOW64; rv:46.0) Gecko/20100101 Firefox/46.0";
 
    $filelink=str_replace(".mp4","",$filelink);
@@ -2678,6 +2698,28 @@ $ua="Mozilla/5.0 (Windows NT 10.0; WOW64; rv:46.0) Gecko/20100101 Firefox/46.0";
       curl_close($ch);
       //echo $h1;
    //if ($z==1) {
+//$x=dec_text(urlencode($h1));
+preg_match_all("@\\\(x)?([0-9a-f]{2,3})@",$h1,$m);
+for ($k=0;$k<count($m[0]);$k++) {
+  $h1=str_replace($m[0][$k],chr($m[1][$k]?hexdec($m[2][$k]):octdec($m[2][$k])),$h1);
+}
+//print_r ($m);
+//die();
+//$x=decode_code($h1);
+$x=$h1;
+//echo $x;
+$x=str_replace(";",";"."\n",$x);
+preg_match_all("/case\'3\'(.*)/",$x,$m);
+$t1=explode("^",$m[0][1]);
+$t2=explode(")",$t1[1]);
+$ch1=$t2[0];
+//echo $ch1;
+preg_match_all("/case\'11\'(.*)/",$x,$m);
+$t1=explode("=",$m[0][0]);
+$t2=explode(";",$t1[1]);
+$ch2=$t2[0];
+//echo $ch2;
+//die();
    $t1=explode('kind="captions"',$h1);
    $t2=explode('src="',$t1[1]);
    $t3=explode('"',$t2[1]);
@@ -2692,6 +2734,15 @@ $ua="Mozilla/5.0 (Windows NT 10.0; WOW64; rv:46.0) Gecko/20100101 Firefox/46.0";
 $pattern = '/(embed|f)\/([0-9a-zA-Z-_]+)/';
 preg_match($pattern,$filelink,$m);
 $id=$m[2];
+$t1=explode('<span id="',$h1);
+$t2=explode(">",$t1[1]);
+$t3=explode("<",$t2[1]);
+$enc_t=$t3[0];
+$ch1=str_replace("0x","",$ch1);
+$ch2=str_replace("0x","",$ch2);
+//echo hexdec($ch1)." ".hexdec($ch2)."\n";
+$dec=ol($enc_t,hexdec($ch1),hexdec($ch2));
+if (strpos($dec,$id) === false) {
 $l="https://api.openload.co/pair";
       $ch = curl_init();
       curl_setopt($ch, CURLOPT_URL, $l);
@@ -2714,6 +2765,23 @@ $l="https://api.openload.co/1/streaming/get?file=".$id;
 $t1=explode('url":"',$h2);
 $t2=explode("?",$t1[1]);
 $link=str_replace("\\","",$t2[0]);
+} else {
+ $link="https://openload.co/stream/".$dec."?mime=true";
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, $link);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch, CURLOPT_USERAGENT, $ua);
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+      curl_setopt($ch, CURLOPT_REFERER, "https://openload.co/");
+      curl_setopt($ch, CURLOPT_NOBODY,1);
+      curl_setopt($ch, CURLOPT_HEADER,1);
+      $ret = curl_exec($ch);
+      curl_close($ch);
+      $t1=explode("Location:",$ret);
+      $t2=explode("?",$t1[1]);
+      $link=trim($t2[0]);
+      $link=str_replace("https","http",$link).".mp4";
+}
 /*
 function openload($c,$z) {
 return chr(($c<="Z" ? 90:122) >= ($c=ord($c)+$z) ? $c : $c-26);

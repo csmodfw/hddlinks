@@ -20,6 +20,7 @@ $t1=explode('playerData.cdnPath480',$html);
 $t2=explode("'",$t1[1]);
 $t3=explode("'",$t2[1]);
 $link1=$t3[0];
+if (strpos($link1,"http") === false) $link1="http:".$link1;
 //echo $link1;
 //$t1=explode("encodeURIComponent('",$link1);
 //$link=$t1[1];

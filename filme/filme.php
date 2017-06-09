@@ -297,14 +297,14 @@ ret;
 <annotation>http://www.filmeonline.biz</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+<!--
 <item>
 <title>filme-seriale.online</title>
 <link><?php echo $host; ?>/scripts/filme/php/filme-seriale_online_main.php</link>
 <annotation>http://filme-seriale.online/filme-online/</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 
 <item>
 <title>topfilmeonline</title>

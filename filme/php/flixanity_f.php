@@ -302,7 +302,7 @@ $url = $sThisFile."?page=".($page-1).",".$tip.",".urlencode($link).",".urlencode
 $v1="0A6ru35yevokjaqbb8";
 $s1="52b1b99472b9ce7f990647349ed08f75";
 if ($tip=="search")
-   $requestLink="https://api.flixanity.watch/api/v1/".$v1;
+   $requestLink="https://api.flixanity.online/api/v1/".$v1;
 else
    $requestLink = "https://istream.is/movies/date/".$page;
 if ($tip=="release") {

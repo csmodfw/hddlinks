@@ -300,6 +300,24 @@ XXX4PODS
 </item>
 
   <item>
+<title>thumbzilla</title>
+<link><?php echo $host; ?>/scripts/adult/php/thumbzilla_main.php</link>
+<mediaDisplay name="threePartsView"/>
+</item>
+
+  <item>
+<title>fapbox</title>
+<link><?php echo $host; ?>/scripts/adult/php/fapbox_main.php</link>
+<mediaDisplay name="threePartsView"/>
+</item>
+
+  <item>
+<title>youporn</title>
+<link><?php echo $host; ?>/scripts/adult/php/youporn_main.php</link>
+<mediaDisplay name="threePartsView"/>
+</item>
+
+  <item>
 <title>taboop</title>
 <link><?php echo $host; ?>/scripts/adult/php/taboop_main.php</link>
 <mediaDisplay name="threePartsView"/>
