@@ -131,6 +131,8 @@ else
 	setRefreshTime(-1);
 	if (aspect_ratio1 != aspect_ratio)
 	   setAspectRatio(aspect_ratio);
+    xmlurl = "http://127.0.0.1/cgi-bin/scripts/util/kill.php";
+    ret = getUrl(xmlurl);
 </onExit>
 
 <onRefresh>

@@ -20,18 +20,7 @@ fclose($fh);
 } else {
 $noob=file_get_contents($ff);
 }
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $$noob."/func.js");
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
-  //curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt($ch,CURLOPT_REFERER,$noob);
-  curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
-  $h = curl_exec($ch);
-  curl_close($ch);
-$t1=explode('src="',$h);
-$t2=explode("'",$t1[1]);
-$baseimg=$t2[0];
+
 $baseimg=$noob."/2img/";
 //$baseimg="http://107.6.170.83/~nooboard/2img/";
 ?>
@@ -257,7 +246,8 @@ else if (userInput == "zero" || userInput == "0" || userInput == "option_blue")
    {
   t = getItemInfo(getFocusItemIndex(),"title1");
   l = getItemInfo(getFocusItemIndex(),"link1");
-  movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/fs_det.php?file=" + t + "," + l + "," + subtitle + "," + server + "," + hhd + ",0";
+  imdb = getItemInfo(getFocusItemIndex(),"imdb");
+  movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/fs_det.php?file=" + t + "," + l + "," + subtitle + "," + server + "," + hhd + ",0," + imdb;
   dummy = getURL(movie_info);
 
     jumpToLink("fs");
@@ -291,6 +281,31 @@ else if(userInput == "four" || userInput == "4")
   setFocusItemIndex(idx);
 	setItemFocus(0);
   "true";
+}
+else if(userInput == "up")
+{
+  idx = Integer(getFocusItemIndex());
+  if (idx == 0)
+   {
+     idx = itemCount;
+     print("new idx: "+idx);
+     setFocusItemIndex(idx);
+	 setItemFocus(0);
+     "true";
+   }
+}
+else if(userInput == "down")
+{
+  idx = Integer(getFocusItemIndex());
+  c = Integer(getPageInfo("itemCount")-1);
+  if(idx == c)
+   {
+     idx = -1;
+     print("new idx: "+idx);
+     setFocusItemIndex(idx);
+	 setItemFocus(0);
+     "true";
+   }
 }
 else if(userInput == "seven" || userInput == "7")
 {
@@ -351,9 +366,10 @@ else if(hhd == "3")
 }
 else if (userInput == "right" || userInput == "R")
 {
+imdb=getItemInfo(getFocusItemIndex(),"imdb");
 movie=getItemInfo(getFocusItemIndex(),"movie");
 showIdle();
-movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/noobroom_det.php?file=" + movie;
+movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/noobroom1_det.php?file=" + movie + "," + imdb;
 dummy = getURL(movie_info);
 cancelIdle();
 ret_val=doModalRss("/usr/local/etc/www/cgi-bin/scripts/filme/php/movie_detail.rss");
@@ -432,6 +448,31 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini;
 	return substr($string,$ini,$len);
 }
+$l1="http://superchillin.com/api/dump.php";
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l1);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt ($ch, CURLOPT_REFERER, "http://superchillin.com");
+  $html = curl_exec($ch);
+  curl_close($ch);
+  $r=explode("\n",$html);
+$movies=array();
+for ($k=count($r)-1;$k>=0;$k--) {
+  if ($r[$k]) {
+    $m=explode("***",$r[$k]);
+    //if (preg_match("/scifi|sci-fi/i",$m[6])) {
+    $movies[$m[0]]["title"]=$m[1];
+    //$movies[$m[0]]["id"]=$m[0];
+
+    $movies[$m[0]]["year"]=$m[2];
+    $movies[$m[0]]["imdb"]=$m[3];
+    $movies[$m[0]]["hd"]=$m[5];
+    $movies[$m[0]]["gen"]=$m[6];
+    //}
+  }
+}
 if (file_exists("/data"))
   $f= "/data/noobroom.dat";
 else
@@ -454,10 +495,13 @@ foreach ($arr as $key => $val) {
    $title=str_replace("&amp;","&",$title);
    $title=str_replace("&","&amp;",$title);
    $title=str_replace("\\","",$title);
+   $title=str_replace("^",",",$title);
 
     $link=$l;
+   $year=$movies[$link]["year"];
+   $imdb = $movies[$link]["imdb"];
     $name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".mp4";
-	$year="";
+	//$year="";
     $link1="http://127.0.0.1/cgi-bin/scripts/filme/php/noobroom_link.php?file=".$link.",no,";
     $image="http://174.120.232.227/~usahowie/2img/".$link.".jpg";
     $image="http://199.192.217.10/~nooboard/2img/".$link.".jpg";
@@ -484,7 +528,7 @@ foreach ($arr as $key => $val) {
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, video/mp4);
-    streamArray = pushBackStringArray(streamArray, "'.$title.'");
+    streamArray = pushBackStringArray(streamArray, "'.str_replace('"',"'",$title).'");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     ';
@@ -507,6 +551,7 @@ foreach ($arr as $key => $val) {
     <name>'.$name.'</name>
     <movie>'.$l.'</movie>
     <image>'.$image.'</image>
+    <imdb>'.$imdb.'</imdb>
 	<an>'.$year.'</an>
      </item>
      ';

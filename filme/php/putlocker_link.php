@@ -306,6 +306,7 @@ if($requestPage->status->http_code == 503) {
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   curl_setopt ($ch, CURLOPT_REFERER, "http://www.watchfree.to");
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   //curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
   //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   //curl_setopt($ch, CURLOPT_HEADER,1);
@@ -318,7 +319,7 @@ foreach($videos as $video) {
   //$t1=explode('href="',$video);
   $t2=explode('"',$video);
   $t3=explode("&",$t2[0]);
-  $openload="http://www.watchfree.to/go.php".$t3[0];
+  $openload="https://www.watchfree.to/go.php".$t3[0];
   $server = str_between($video,"</strong>","<");
   $server=trim(str_replace("-","",$server));
   //if (!$server) $server = str_between($openload,"https://","/");

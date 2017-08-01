@@ -211,14 +211,14 @@ echo '
 <annotation>http://www.filmeserialeonline.org/seriale/</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
-
+<!--
 <item>
 <title>seriale-filme</title>
 <link><?php echo $host; ?>/scripts/filme/php/seriale-filme_main.php</link>
 <annotation>http://www.seriale-filme.net/tv-shows</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <item>
 <title>moviesplanet</title>
 <link><?php echo $host; ?>/scripts/filme/php/moviesplanet_seriale.php?query=1,https://www.moviesplanet.tv/tv-shows</link>
@@ -390,9 +390,9 @@ echo '
 </item>
 
 <item>
-<title>serialetv</title>
-<link><?php echo $host; ?>/scripts/filme/php/serialetv_main.php</link>
-<annotation>http://serialetv.net/seriale-online-subtitrate-in-romana</annotation>
+<title>filme-seriale.gratis</title>
+<link><?php echo $host; ?>/scripts/filme/php/filme-seriale_gratis_main.php?query=1,</link>
+<annotation>http://filme-seriale.gratis/seriale-online/</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
 

@@ -92,6 +92,8 @@
     arr = pushBackStringArray(arr, request_url);
     writeStringToFile(renderer_status_file, arr);
   }
+    xmlurl = "http://127.0.0.1/cgi-bin/scripts/util/kill.php";
+    ret = getUrl(xmlurl);
 </onExit>
 
 <onRefresh>

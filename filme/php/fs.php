@@ -10,6 +10,11 @@ $subtitle = $t1[2];
 $server = $t1[3];
 $hd = $t1[4];
 $tv= $t1[5];
+$imdbid= $t1[6];
+$l1="http://www.omdbapi.com/?apikey=3088e9b6&&i=tt".$imdbid;
+$Data = file_get_contents($l1);
+$r = json_decode($Data,1);
+$tit_imdb=$r["Title"];
 ///////////////////////
 $noob=file_get_contents("/tmp/n.txt");
 $noob_serv="/tmp/noob_serv.log";
@@ -23,77 +28,23 @@ if (!$tv) {
 } else {
  $l=$noob."/?".$id."&tv=1";
 }
-//if ($tv=="0")
-  //$l=$l."&hd=1";
-//http://noobroom1.com/?1238&hd=1
-//echo $l;
-$cookie="/tmp/noobroom.txt";
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $l);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
-  curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
-  $html = curl_exec($ch);
-  curl_close($ch);
-  $imdbid=str_between($html,"imdb.com/title/tt",'"');
-//echo $imdbid;
 //////////////////////
-if ($tv==0)
+if ($tv==0) {
   $tip="movie";
-else {
+  $tit=$tit_imdb;
+} else {
   $tip="series";
-  $t1=explode("|",$tit);
-  $tit=$t1[0];
-  $tit2=$t1[1];
+  $tit2=$tit;
   preg_match("/(\d+)x(\d+)/",$tit2,$m);
   $sezon=$m[1];
   $episod=intval($m[2]);
-  $imdbid="";
+  $tit=$tit_imdb;
 }
   $tit2=str_replace("\\","",$tit2);
   $tit2=str_replace("^",",",$tit2);
   $tit=str_replace("\\","",$tit);
   $tit=str_replace("^",",",$tit);
-//echo $tit;
-$year="";
-/*
-if ($tip=="movie") {
-$IMDB_API_URL = "http://www.omdbapi.com/?i=tt".$imdbid;
-$Data = file_get_contents($IMDB_API_URL);
-//echo $Data;
-$JSON = json_decode($Data,1);
-$tit=$JSON["Title"];
-} else {
-$t1=explode("(",$tit);
-$tit3=trim($t1[0]);
-$tit3 = str_replace("&amp;","&",$tit3);
-$IMDB_API_URL = "http://www.omdbapi.com/?t=".urlencode($tit3)."&y=".$year."&type=".$tip;
-//echo $IMDB_API_URL;
-//$Data = file_get_contents($IMDB_API_URL);
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $IMDB_API_URL);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  $Data = curl_exec($ch);
-  curl_close($ch);
-  
-//echo $Data;
-if (strpos($Data,"imdbID") !== false) {
-$JSON = json_decode($Data,1);
-//print_r ($JSON);
-$imdbid=$JSON["imdbID"];
-$imdbid = str_replace("tt","",$imdbid);
-$tit=$JSON["Title"];
-} else {
-$imdbid = "";
-}
-}
-//echo $imdbid;
-//echo $tit;
-*/
+
 ?>
 <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
 <onEnter>

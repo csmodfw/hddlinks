@@ -18,6 +18,7 @@ $subtitle = $queryArr[2];
 $server = $queryArr[3];
 $hd = $queryArr[4];
 $tv= $queryArr[5];
+$imdb= $queryArr[6];
 
 $ttxml="";
 $ttxml .=$tit."\n"; //title
@@ -26,6 +27,7 @@ $ttxml .=$subtitle."\n"; //image
 $ttxml .=$server."\n"; //gen
 $ttxml .=$hd."\n"; //regie
 $ttxml .=$tv."\n"; //imdb
+$ttxml .=$imdb."\n"; //imdb
 
 //echo $ttxml;
 $new_file = "/tmp/fs.dat";

@@ -25,11 +25,11 @@ $host = "http://127.0.0.1/cgi-bin";
 	itemImageWidthPC="0"
 	itemXPC="8"
 	itemYPC="25"
-	itemWidthPC="80"
+	itemWidthPC="50"
 	itemHeightPC="8"
 	capXPC="8"
 	capYPC="25"
-	capWidthPC="80"
+	capWidthPC="50"
 	capHeightPC="64"
 	itemBackgroundColor="0:0:0"
 	itemPerPage="8"
@@ -39,7 +39,8 @@ $host = "http://127.0.0.1/cgi-bin";
 	showHeader="no"
 	showDefaultInfo="no"
 	imageFocus=""
-	sliding="no" idleImageXPC="5" idleImageYPC="5" idleImageWidthPC="8" idleImageHeightPC="10"
+	sliding="no"
+	idleImageXPC="5" idleImageYPC="5" idleImageWidthPC="8" idleImageHeightPC="10"
 >
 
   	<text align="center" offsetXPC="0" offsetYPC="0" widthPC="100" heightPC="20" fontSize="30" backgroundColor="10:105:150" foregroundColor="100:200:255">
@@ -54,6 +55,9 @@ $host = "http://127.0.0.1/cgi-bin";
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
 		</text>
+        <image  redraw="yes" offsetXPC=60 offsetYPC=25 widthPC=30 heightPC=60>
+  <script>print(img); img;</script>
+		</image>
   	<text  redraw="yes" align="center" offsetXPC="0" offsetYPC="90" widthPC="100" heightPC="8" fontSize="17" backgroundColor="10:105:150" foregroundColor="100:200:255">
 		  <script>print(annotation); annotation;</script>
 		</text>
@@ -74,6 +78,7 @@ $host = "http://127.0.0.1/cgi-bin";
 					if(focus==idx)
 					{
 					  annotation = getItemInfo(idx, "title");
+					  img = getItemInfo(idx, "image");
 					}
 					getItemInfo(idx, "title");
 				</script>
@@ -162,11 +167,37 @@ else if(userInput == "four" || userInput == "4")
 	setItemFocus(0);
   "true";
 }
+else if(userInput == "up")
+{
+  idx = Integer(getFocusItemIndex());
+  if (idx == 0)
+   {
+     idx = itemCount;
+     print("new idx: "+idx);
+     setFocusItemIndex(idx);
+	 setItemFocus(0);
+     "true";
+   }
+}
+else if(userInput == "down")
+{
+  idx = Integer(getFocusItemIndex());
+  c = Integer(getPageInfo("itemCount")-1);
+  if(idx == c)
+   {
+     idx = -1;
+     print("new idx: "+idx);
+     setFocusItemIndex(idx);
+	 setItemFocus(0);
+     "true";
+   }
+}
 else if (userInput == "right" || userInput == "R")
 {
 movie=getItemInfo(getFocusItemIndex(),"movie");
+imdb=getItemInfo(getFocusItemIndex(),"imdb");
 showIdle();
-movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/noobroom_det.php?file=series" + movie;
+movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/noobroom1_det.php?file=" + movie + "," + imdb + ",series";
 dummy = getURL(movie_info);
 cancelIdle();
 ret_val=doModalRss("/usr/local/etc/www/cgi-bin/scripts/filme/php/movie_detail.rss");
@@ -201,6 +232,7 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini;
 	return substr($string,$ini,$len);
 }
+$baseimg="http://img.superchillin.org/2img/sh";
 $ff="/tmp/n.txt";
 $noob=file_get_contents($ff);
 if (file_exists("/data"))
@@ -208,6 +240,22 @@ if (file_exists("/data"))
 else
   $f="/usr/local/etc/noobroom_s.dat";
 if (file_exists($f)) {
+  $l="http://superchillin.com/api/cipac/series_dump.php";
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt ($ch, CURLOPT_REFERER, "http://superchillin.com");
+  $html = curl_exec($ch);
+  curl_close($ch);
+  $r=json_decode($html,1);
+  foreach ($r as $key => $val) {
+    $id_s=$r[$key]["id"];
+    $series[$id_s]["title"]=$r[$key]["title"];
+    $series[$id_s]["id"]=$r[$key]["id"];
+    $series[$id_s]["imdb"]=$r[$key]["imdb"];
+  }
 $html=file_get_contents($f);
 $videos=explode("<item>",$html);
 unset($videos[0]);
@@ -221,20 +269,26 @@ foreach($videos as $video) {
 asort($arr);
 foreach ($arr as $key => $val) {
   $l=$arr[$key][1];
-  $l1 =$noob.$l;
+  $t1=explode("?",$l);
+  $id=$t1[1];
+  $img=$baseimg.$id.".jpg";
+  $imdb=$series[$id]["imdb"];
   $title=$arr[$key][0];
   $title=str_replace("\\","",$title);
   $title=str_replace("^",",",$title);
+  //$link1="/episodes.php?".$id;
   //$link = 'http://127.0.0.1/cgi-bin/scripts/filme/php/online-filmek.php?query=1,'.$l.','.urlencode($title);
-  $link="http://127.0.0.1/cgi-bin/scripts/filme/php/noobroom_series.php?query=".urlencode($l1).",".urlencode(str_replace(",","^",$title));
+  $link="http://127.0.0.1/cgi-bin/scripts/filme/php/noobroom_series.php?query=".urlencode($id).",".urlencode(str_replace(",","^",$title)).",".$imdb;
     echo '
     <item>
     <title>'.$title.'</title>
     <annotation>'.$title.'</annotation>
     <link>'.$link.'</link>
     <title1>'.urlencode(str_replace(",","^",$title)).'</title1>
-    <movie>'.urlencode(str_replace(",","^",$title)).'</movie>
+    <movie>'.$id.'</movie>
     <link1>'.urlencode($l).'</link1>
+    <image>'.$img.'</image>
+    <imdb>'.$imdb.'</imdb>
     </item>
     ';
 }

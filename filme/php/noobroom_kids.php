@@ -316,9 +316,18 @@ setRefreshTime(1);
 	<text  redraw="yes" align="center" offsetXPC="0" offsetYPC="90" widthPC="100" heightPC="8" fontSize="14" backgroundColor="10:105:150" foregroundColor="100:200:255">
     <script>"3= Subtitrare: " + subtitle + " 7=Server: " + sserver + " 9=SD/HD/MP4/HMP4:" + shd;</script>
 		</text>
-		<image  redraw="yes" offsetXPC=60 offsetYPC=30 widthPC=30 heightPC=50>
+  <image  redraw="yes" offsetXPC=60 offsetYPC=25 widthPC=30 heightPC=50>
   <script>print(img); img;</script>
 		</image>
+  	<text  redraw="yes" align="center" offsetXPC="60" offsetYPC="80"  heightPC="8" fontSize="17" backgroundColor="10:105:150" foregroundColor="100:200:255">
+		  <widthPC>
+			<script>
+				if (an == "" || an == null ) null;
+				else "30";
+			</script>
+		   </widthPC>
+		  <script>print(an); an;</script>
+		</text>
         <idleImage>image/POPUP_LOADING_01.png</idleImage>
         <idleImage>image/POPUP_LOADING_02.png</idleImage>
         <idleImage>image/POPUP_LOADING_03.png</idleImage>
@@ -337,6 +346,7 @@ setRefreshTime(1);
 					  location = getItemInfo(idx, "location");
 					  annotation = getItemInfo(idx, "annotation");
 					  img = getItemInfo(idx, "image");
+					  an =  getItemInfo(idx, "an");
 					}
 					getItemInfo(idx, "title");
 				</script>
@@ -416,7 +426,8 @@ else if (userInput == "zero" || userInput == "0" || userInput == "option_blue")
    {
   t = getItemInfo(getFocusItemIndex(),"title1");
   l = getItemInfo(getFocusItemIndex(),"link1");
-  movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/fs_det.php?file=" + t + "," + l + "," + subtitle + "," + server + "," + hhd + ",0";
+  imdb = getItemInfo(getFocusItemIndex(),"imdb");
+  movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/fs_det.php?file=" + t + "," + l + "," + subtitle + "," + server + "," + hhd + ",0," + imdb;
   dummy = getURL(movie_info);
 
     jumpToLink("fs");
@@ -450,6 +461,31 @@ else if(userInput == "four" || userInput == "4")
   setFocusItemIndex(idx);
 	setItemFocus(0);
   "true";
+}
+else if(userInput == "up")
+{
+  idx = Integer(getFocusItemIndex());
+  if (idx == 0)
+   {
+     idx = itemCount;
+     print("new idx: "+idx);
+     setFocusItemIndex(idx);
+	 setItemFocus(0);
+     "true";
+   }
+}
+else if(userInput == "down")
+{
+  idx = Integer(getFocusItemIndex());
+  c = Integer(getPageInfo("itemCount")-1);
+  if(idx == c)
+   {
+     idx = -1;
+     print("new idx: "+idx);
+     setFocusItemIndex(idx);
+	 setItemFocus(0);
+     "true";
+   }
 }
 else if(userInput == "seven" || userInput == "7")
 {
@@ -525,6 +561,17 @@ else if (userInput == "one" || userInput == "1")
  cancelIdle();
  redrawDisplay();
  ret="true";
+}
+else if (userInput == "right" || userInput == "R")
+{
+imdb=getItemInfo(getFocusItemIndex(),"imdb");
+movie=getItemInfo(getFocusItemIndex(),"movie");
+showIdle();
+movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/noobroom1_det.php?file=" + movie + "," + imdb;
+dummy = getURL(movie_info);
+cancelIdle();
+ret_val=doModalRss("/usr/local/etc/www/cgi-bin/scripts/filme/php/movie_detail.rss");
+ret="true";
 }
 redrawdisplay();
 ret;
@@ -646,6 +693,29 @@ foreach($videos as $video) {
   $id_srt=trim($t1[0]);
   $srt[$id_srt]="exista";
 }
+$l1="http://superchillin.com/api/dump.php";
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l1);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt ($ch, CURLOPT_REFERER, "http://superchillin.com");
+  $html1 = curl_exec($ch);
+  curl_close($ch);
+  $r=explode("\n",$html1);
+$movies=array();
+for ($k=count($r)-1;$k>=0;$k--) {
+  if ($r[$k]) {
+    $m=explode("***",$r[$k]);
+    //if (preg_match("/scifi|sci-fi/i",$m[6])) {
+    $movies[$m[0]]["title"]=$m[1];
+    //$movies[$m[0]]["id"]=$m[0];
+
+    $movies[$m[0]]["year"]=$m[2];
+    $movies[$m[0]]["imdb"]=$m[3];
+    //}
+  }
+}
 $videos = explode('<table>', $html);
 unset($videos[0]);
 $videos = array_values($videos);
@@ -654,8 +724,8 @@ foreach($videos as $video) {
   $t1=explode("href='/?", $video);
   $t2=explode("'",$t1[1]);
   $link=$t2[0];
-
-
+  $imdb=$movies[$link]["imdb"];
+  $year=$movies[$link]["year"];
   $t3 = explode('>', $t1[2]);
   $t2 = explode('<', $t3[1]);
   $title = trim($t2[0]);
@@ -716,6 +786,8 @@ foreach($videos as $video) {
     <name>'.$name.'</name>
     <movie>'.$link.'</movie>
     <image>'.$img.'</image>
+    <imdb>'.$imdb.'</imdb>
+	<an>'.$year.'</an>
     <annotation>'.$title.'</annotation>
      </item>
      ';

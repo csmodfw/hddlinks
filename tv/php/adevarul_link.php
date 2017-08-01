@@ -1,5 +1,9 @@
 #!/usr/local/bin/Resource/www/cgi-bin/php
 <?php
+header('Content-type: video/mp4');
+//header('Content-type: application/vnd.apple.mpegURL');
+error_reporting(0);
+set_time_limit(0);
 function str_between($string, $start, $end){ 
 	$string = " ".$string; $ini = strpos($string,$start); 
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
@@ -47,6 +51,16 @@ $ua="Mozilla/5.0 (iPhone; CPU iPhone OS 5_0_1 like Mac OS X)";
       $h = curl_exec($ch);
       curl_close($ch);
       //echo $h;
+      //$a1=explode("\n",$h);
+      //print_r ($a1);
+  preg_match_all("/RESOLUTION\=(\d+)/i",$h,$m);
+  //print_r ($m);
+  $max_res=max($m[1]);
+  //echo $max_res."\n";
+  $arr_max=array_keys($m[1], $max_res);
+  $key_max=$arr_max[0];
+  $buf = $key_max;
+  //echo $buf;
 preg_match_all("/(\d+)k\.m3u8/",$h,$m);
 //print_r ($m);
 //die();
@@ -56,6 +70,8 @@ $base=str_replace($find,"",$l);
 //$l=str_replace(".m3u8","-1128k.m3u8",$l);
 //528k
 $l=str_replace(".m3u8","-".$m[0][$buf],$l);
+//echo $l;
+//die();
 $q=$m[1][$buf];
 //$base=str_replace($find,"",$l);
 $ua="Mozilla/5.0 (iPhone; CPU iPhone OS 5_0_1 like Mac OS X)";
@@ -73,23 +89,19 @@ $ua="Mozilla/5.0 (iPhone; CPU iPhone OS 5_0_1 like Mac OS X)";
 $out="";
 preg_match_all("/.*ts.*/",$h,$m);
 $out="";
+$link = curl_init();
+curl_setopt($link, CURLOPT_USERAGENT, $ua);
+curl_setopt($link, CURLOPT_HEADER, false);
+curl_setopt($link, CURLOPT_SSL_VERIFYPEER, false);
 for ($k=0;$k<count($m[0]);$k++) {
-  $out .=$base.$m[0][$k]."\r\n";
-}
-//echo $out;
-//die();
-file_put_contents("/tmp/list.txt",$out);
-$out='#!/bin/sh
-cat <<EOF
-Content-type: video/mp4
+  //$out .=$base.$m[0][$k]."\r\n";
 
-EOF
-exec /usr/local/bin/Resource/www/cgi-bin/scripts/wget wget -q -U "Mozilla/5.0 (iPhone; CPU iPhone OS 5_0_1 like Mac OS X)" -i /tmp/list.txt -O -';
-$fp = fopen('/usr/local/etc/www/cgi-bin/scripts/util/m.cgi', 'w');
-fwrite($fp, $out);
-fclose($fp);
-exec("chmod +x /usr/local/etc/www/cgi-bin/scripts/util/m.cgi");
-sleep (1);
-$link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand()."-".$q;
-print $link;
+curl_setopt($link, CURLOPT_URL, $base.$m[0][$k]);
+//curl_setopt($link, CURLOPT_REFERER, $file);
+
+//curl_setopt($link, CURLOPT_RETURNTRANSFER, 1);
+curl_exec($link);
+
+}
+curl_close($link);
 ?>

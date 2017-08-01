@@ -225,6 +225,8 @@ foreach ($arr as $key => $val) {
   $year=$arr[$key][3];
   $id1=$arr[$key][4];
   $id_t="";
+  $link=str_replace("https","http",$link);
+  $link=str_replace("http","https",$link);
   //watch-narcos-87202
   //$id1=substr(strrchr($link, "-"), 1);
   $image1=$image;

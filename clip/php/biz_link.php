@@ -15,6 +15,7 @@ $link = $_GET["file"];
   //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   $h = curl_exec($ch);
   curl_close($ch);
+/*
 $t1=explode('url":"',$h);
 $t2=explode('"',$t1[1]);
 $link=$t2[0];
@@ -22,6 +23,9 @@ if (!$link) {
 $t2=explode('"',$t1[2]);
 $link=$t2[0];
 }
+*/
+  preg_match('/([http|https][\.\d\w\-\.\/\\\:\?\&\#\%\_\,]*(\.mp4))/', $h, $m);
+  $link=$m[1];
 $link=str_replace("https","http",$link);
 print $link;
 ?>

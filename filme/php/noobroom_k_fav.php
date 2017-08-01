@@ -256,7 +256,8 @@ else if (userInput == "zero" || userInput == "0" || userInput == "option_blue")
    {
   t = getItemInfo(getFocusItemIndex(),"title1");
   l = getItemInfo(getFocusItemIndex(),"link1");
-  movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/fs_det.php?file=" + t + "," + l + "," + subtitle + "," + server + "," + hhd + ",0";
+  imdb = getItemInfo(getFocusItemIndex(),"imdb");
+  movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/fs_det.php?file=" + t + "," + l + "," + subtitle + "," + server + "," + hhd + ",0," + imdb;
   dummy = getURL(movie_info);
 
     jumpToLink("fs");
@@ -366,6 +367,17 @@ else if (userInput == "one" || userInput == "1")
  redrawDisplay();
  ret="true";
 }
+else if (userInput == "right" || userInput == "R")
+{
+imdb=getItemInfo(getFocusItemIndex(),"imdb");
+movie=getItemInfo(getFocusItemIndex(),"movie");
+showIdle();
+movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/noobroom1_det.php?file=" + movie + "," + imdb;
+dummy = getURL(movie_info);
+cancelIdle();
+ret_val=doModalRss("/usr/local/etc/www/cgi-bin/scripts/filme/php/movie_detail.rss");
+ret="true";
+}
 redrawdisplay();
 ret;
 </script>
@@ -426,6 +438,29 @@ if (file_exists("/data"))
 else
   $f="/usr/local/etc/noobroom_k.dat";
 if (file_exists($f)) {
+$l1="http://superchillin.com/api/dump.php";
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l1);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt ($ch, CURLOPT_REFERER, "http://superchillin.com");
+  $html1 = curl_exec($ch);
+  curl_close($ch);
+  $r=explode("\n",$html1);
+$movies=array();
+for ($k=count($r)-1;$k>=0;$k--) {
+  if ($r[$k]) {
+    $m=explode("***",$r[$k]);
+    //if (preg_match("/scifi|sci-fi/i",$m[6])) {
+    $movies[$m[0]]["title"]=$m[1];
+    //$movies[$m[0]]["id"]=$m[0];
+
+    $movies[$m[0]]["year"]=$m[2];
+    $movies[$m[0]]["imdb"]=$m[3];
+    //}
+  }
+}
 $html=file_get_contents($f);
 $videos=explode("<item>",$html);
 unset($videos[0]);
@@ -445,8 +480,10 @@ foreach ($arr as $key => $val) {
    $title=str_replace("\'","'",$title);
 
     $link=$l;
+  $imdb=$movies[$link]["imdb"];
+  $year=$movies[$link]["year"];
     $name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".mp4";
-	$year="";
+	//$year="";
     $link1="http://127.0.0.1/cgi-bin/scripts/filme/php/noobroom_link.php?file=".$link.",no,";
     $image="http://174.120.232.227/~usahowie/2img/".$link.".jpg";
     $image="http://199.192.217.10/~nooboard/2img/".$link.".jpg";
@@ -496,6 +533,7 @@ foreach ($arr as $key => $val) {
     <name>'.$name.'</name>
     <movie>'.$l.'</movie>
     <image>'.$image.'</image>
+    <imdb>'.$imdb.'</imdb>
 	<an>'.$year.'</an>
      </item>
      ';

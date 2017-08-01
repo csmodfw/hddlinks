@@ -9,6 +9,7 @@ if($query) {
    $tit=urldecode($queryArr[2]);
    $pageToken= $queryArr[3];
 }
+//https://developers.facebook.com/tools/explorer/
 if (file_exists("/tmp/facebook.txt"))
   $token=file_get_contents("/tmp/facebook.txt");
 else {

@@ -29,20 +29,32 @@ $t1=explode("embeds[",$html);
 $t2=explode('src="',$t1[1]);
 $t3=explode('"',$t2[1]);
 $l=$t3[0];
+$x1=explode("?",$l);
+$base_sub=$x1[0];
 //echo $l;
 $exec = '-q --load-cookies '.$cookie.' -U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
 $exec = $exec_path.$exec;
 $html=shell_exec($exec);
 //echo $html;
 $movie=str_replace("https","http",str_between($html,'source src="','"'));
+//echo $movie;
 if (!$movie) $movie=str_replace("https","http",str_between($html,'source src= "','"'));
+//echo $movie;
+if (!$movie) $movie=str_between($html,'file: "','"');
+//echo $movie;
 preg_match('/([http|https][\.\d\w\-\.\/\\\:\?\&\#\%\_\,]*(_en\.(srt|vtt)))/', $html, $m);
 $file=$m[1];
 
+if (strpos($file,"http") === false) {
+//$x1=str_between($html,"sub/",'"');
+$file=$base_sub.$file;
+}
+//echo $file;
 if (strpos($movie,"end=600") !== false) $movie=str_replace("end=600","",$movie);
-if (!$movie || strpos($movie,"google") !== false || strpos($movie,"blogspot.com") !== false) {
+if (strpos($movie,"google") !== false || strpos($movie,"blogspot.com") !== false) {
   //echo $html;
-  $link = str_replace("http","https",$movie);
+  $link = str_replace("https","http",$movie);
+  $link = str_replace("http","https",$link);
   //echo $link;
   //preg_match('/([http|https][\.\d\w\-\.\/\\\:\?\&\#\%\_\,]*(=m\d{2}))/', $movie, $m);
   //$l=$m[0];
@@ -66,12 +78,14 @@ if (!$movie || strpos($movie,"google") !== false || strpos($movie,"blogspot.com"
    $link=trim($t2[0]);
    */
    //echo $link;
+//echo $link;
+$ua1="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
 $out='#!/bin/sh
 cat <<EOF
 Content-type: video/mp4
 
 EOF
-exec /usr/local/bin/Resource/www/cgi-bin/scripts/wget --no-check-certificate "'.$link.'"';
+exec /usr/local/bin/Resource/www/cgi-bin/scripts/wget wget -q --no-check-certificate -U "'.$ua1.'" "'.$link.'"  -O -';
 $fp = fopen('/usr/local/etc/www/cgi-bin/scripts/util/m.cgi', 'w');
 fwrite($fp, $out);
 fclose($fp);

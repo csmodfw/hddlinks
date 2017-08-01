@@ -299,12 +299,13 @@ $url = $sThisFile."?page=".($page-1).",".$tip.",".urlencode($link).",".urlencode
 //https://api.flixanity.watch
 //https://api.flixanity.watch/api/v1/0A6ru35yevokjaqbb8
 //q=s&limit=100&timestamp=1493231819378&verifiedCheck=eCNBuxFGpRmFlWjUJjmjguCJI&set=KvZULKjBqGzojgLKiCneksRKC&rt=rPAOhkSTcEzSyJwHWwzwthPWVXiMHYXwOdTmbwtYXvParxfEXP&sl=52b1b99472b9ce7f990647349ed08f75
+//https://flixanity.online/movies/date/
 $v1="0A6ru35yevokjaqbb8";
 $s1="52b1b99472b9ce7f990647349ed08f75";
 if ($tip=="search")
    $requestLink="https://api.flixanity.online/api/v1/".$v1;
 else
-   $requestLink = "https://istream.is/movies/date/".$page;
+   $requestLink = "https://flixanity.online/movies/date/".$page;
 if ($tip=="release") {
       $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
       $exec = '-q -U "'.$ua.'" --referer="'.$requestLink.'" --no-check-certificate "'.$requestLink.'" -O -';

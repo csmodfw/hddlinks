@@ -85,7 +85,6 @@ echo '
  <BR>
  <h2>Pentru stream-uri http sau mms completati la link.</h2>
  <h2>Pentru stream-uri rtmp NU completati la link, doar la rtmp si mai jos (daca e cazul).</h2>
- <h2>Nu sunt suportate protocoalele rtsp://, sop:// sau http://...../playlist.m3u8</h2>
 ';
 }
 clearstatcache();
@@ -108,10 +107,15 @@ $playpath=$_POST["playpath"];
 $swfUrl=$_POST["swfUrl"];
 $pageurl=$_POST["pageurl"];
 $other=$_POST["other"];
+}
 if ($link) {
-if ((preg_match("/mms|m3u/",$link)) && (!(preg_match("/ts|m3u8/",$link))))
+if (preg_match("/mms(h)?:\//",$link))
   $link="http://127.0.0.1/cgi-bin/scripts/util/translate.cgi?stream,,".$link;
-} else {
+elseif (preg_match("/\.m3u8/",$link))
+  $link="http://127.0.0.1/cgi-bin/scripts/util/m3u8.php?file=".urlencode($link);
+elseif (!preg_match("/\.m3u8/",$link) && preg_match("/\.m3u/",$link))
+  $link = 'http://127.0.0.1/cgi-bin/scripts/tv/php/playlist.php?query='.urlencode($title).','.urlencode($link);
+elseif ($rtmp) {
 if ($app || $playpath || $swfUrl || $pageurl || $other) {
 $opt="Rtmp-options:";
 if ($app) $opt=$opt."-a ".$app." ";

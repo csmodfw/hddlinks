@@ -256,9 +256,9 @@ foreach($videos as $video) {
     $t1=explode('href="',$video);
     $t2 = explode('"', $t1[1]);
     $link = $t2[0];
-    $t3=explode('title="',$video);
-    $t4=explode('"',$t3[1]);
-    $title=$t4[0];
+    $t3=explode('class="title">',$video);
+    $t4=explode('<',$t3[1]);
+    $title=trim($t4[0]);
     $link = $link=$host."/scripts/adult/php/alotporn_link.php?file=".$link;
 
     $t1 = explode('data-original="', $video);

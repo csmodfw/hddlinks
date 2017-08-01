@@ -416,7 +416,7 @@ ret;
 
 	<searchLink>
 	  <link>
-	    <script>"<?php echo $host."/scripts/filme/php/noobroom_s.php?query=".$noob.","; ?>" + urlEncode(keyword) + "," + urlEncode(keyword);</script>
+	    <script>"<?php echo $host."/scripts/filme/php/noobroom1.php?query="; ?>" + urlEncode(keyword) + "," + urlEncode(keyword) + ",search,1";</script>
 	  </link>
 	</searchLink>
 	
@@ -495,8 +495,8 @@ $link = "/usr/local/etc/www/cgi-bin/scripts/filme/php/noobroom.rss";
 
 
     $title="Latest";
-    $link=$noob."/latest.php";
-    $link1 = $host."/scripts/filme/php/noobroom.php?query=".urlencode($title).",".urlencode($link);
+    $link="last";
+    $link1 = $host."/scripts/filme/php/noobroom1.php?query=".urlencode($title).",".urlencode($link).",,1";
 	echo '
 	<item>
 	<title>'.$title.'</title>
@@ -506,8 +506,8 @@ $link = "/usr/local/etc/www/cgi-bin/scripts/filme/php/noobroom.rss";
 	</item>
 	';
     $title="Latest (500)";
-    $link=$noob."/latest.php";
-    $link1 = $host."/scripts/filme/php/noobroom.php?query=".urlencode($title).",".urlencode($link).",500";
+    $link="last500";
+    $link1 = $host."/scripts/filme/php/noobroom1.php?query=".urlencode($title).",".urlencode($link).",500,1";
 	echo '
 	<item>
 	<title>'.$title.'</title>
@@ -517,8 +517,8 @@ $link = "/usr/local/etc/www/cgi-bin/scripts/filme/php/noobroom.rss";
 	</item>
 	';
     $title="Latest (1080p)";
-    $link=$noob."/latest.php?hd=1";
-    $link1 = $host."/scripts/filme/php/noobroom.php?query=".urlencode($title).",".urlencode($link);
+    $link="lasthd";
+    $link1 = $host."/scripts/filme/php/noobroom1.php?query=".urlencode($title).",".urlencode($link).",,1";
 	echo '
 	<item>
 	<title>'.$title.'</title>
@@ -528,7 +528,8 @@ $link = "/usr/local/etc/www/cgi-bin/scripts/filme/php/noobroom.rss";
 	</item>
 	';
     $title="Ultimele subtitrate";
-    $link1 = $host."/scripts/filme/php/noobroom_sub.php";
+    $link="lastsub";
+    $link1 = $host."/scripts/filme/php/noobroom1.php?query=".urlencode($title).",".urlencode($link).",,1";
 	echo '
 	<item>
 	<title>'.$title.'</title>
@@ -538,8 +539,8 @@ $link = "/usr/local/etc/www/cgi-bin/scripts/filme/php/noobroom.rss";
 	</item>
 	';
     $title="Alfabetic";
-    $link=$noob."/azlist.php";
-    $link1 = $host."/scripts/filme/php/noobroom.php?query=".urlencode($title).",".urlencode($link);
+    $link="azlist";
+    $link1 = $host."/scripts/filme/php/noobroom1.php?query=".urlencode($title).",".urlencode($link).",,1";
 	echo '
 	<item>
 	<title>'.$title.'</title>
@@ -548,6 +549,7 @@ $link = "/usr/local/etc/www/cgi-bin/scripts/filme/php/noobroom.rss";
 	<mediaDisplay name="threePartsView"/>
 	</item>
 	';
+	/*
     $title="Top Rating";
 	$link=$noob."/rating.php";
     $link1 = $host."/scripts/filme/php/noobroom.php?query=".urlencode($title).",".urlencode($link);
@@ -559,9 +561,10 @@ $link = "/usr/local/etc/www/cgi-bin/scripts/filme/php/noobroom.rss";
 	<mediaDisplay name="threePartsView"/>
 	</item>
 	';
+	*/
     $title="Release date";
-	$link=$noob."/year.php";
-    $link1 = $host."/scripts/filme/php/noobroom.php?query=".urlencode($title).",".urlencode($link);
+	$link="date";
+    $link1 = $host."/scripts/filme/php/noobroom1.php?query=".urlencode($title).",".urlencode($link).",,1";
 	echo '
 	<item>
 	<title>'.$title.'</title>
@@ -573,27 +576,14 @@ $link = "/usr/local/etc/www/cgi-bin/scripts/filme/php/noobroom.rss";
 
 //http://37.128.191.200/genre.php?b=00000000000000000000100000
 $img = "image/movies.png";
-$len= strlen("00000000000000000000100000");
 $videos = explode('checkbox" name="', $html);
-unset($videos[0]);
-$n=1;
-$videos = array_values($videos);
-foreach($videos as $video) {
-    $l="";
-    for ($k=1;$k<$len+1;$k++) {
-      if ($k==$n)
-        $l.="1";
-      else
-        $l.="0";
-    }
-    $n++;
-    $link=$noob."/genre.php?b=".$l;
-
-    $t3 = explode('>', $video);
-    $t4 = explode('<', $t3[1]);
-    $title = $t4[0];
-
-		$link1 = $host."/scripts/filme/php/noobroom.php?query=".urlencode($title).",".urlencode($link);
+for ($k=1;$k<count($videos);$k++) {
+  $t1=explode('"',$videos[$k]);
+  $link=$t1[0];
+  $t2=explode(">",$videos[$k]);
+  $t3=explode("<",$t2[1]);
+  $title=$t3[0];
+    $link1 = $host."/scripts/filme/php/noobroom1.php?query=".urlencode($title).",".urlencode($link).",gen,1";
 	echo '
 	<item>
 	<title>'.$title.'</title>

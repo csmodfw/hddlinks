@@ -26,10 +26,11 @@ function substring($str, $from = 0, $to = FALSE)
     return ($substring === FALSE) ? '' : $substring;
 }
 //$c0=['11|12|13|0|14|3|2|9|16|1|4|8|5|6|15|10|7','split','xXM','length','jLa','substring','aZP','dOD','Poy','write','push','dkF','text','tjf','HIZ','WyX','faz','Gcy','ucs','2|0|5|4|3|1','dhh','pQu','eMz','ZBD','Lnk','fromCharCode','DYl','4|3|0|5|6|2|1','WOa','gzw','cBV','Zft','pow','tcV','EAk','QHb','charCodeAt'];
-function ol($enc,$ch11,$ch22) {
+function ol($enc,$ch11,$ch22,$ch33) {
 //$ch11=dechex($ch11);
 //$ch22=dechex($ch22);
 //echo $ch11."  ".$ch22."\n";
+//$ch33=1;
 $dec="";
 $a146=0;
 $a145=explode("|",'11|12|13|0|14|3|2|9|16|1|4|8|5|6|15|10|7');
@@ -118,7 +119,7 @@ case'10':
        //alert ($a149); $a149 text decodat
        continue;
       case'4':
-       $a227=chr($a222);
+       $a227=chr($a222+$ch33);
        continue;
       case'5':
        $a222=$a222>>$a213;

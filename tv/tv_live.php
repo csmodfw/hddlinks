@@ -197,14 +197,14 @@ echo '
 <mediaDisplay name="threePartsView"/>
 </item>
  -->
-
+<!--
 <item>
 <title>Voyo TV</title>
 <link><?php echo $host; ?>/scripts/tv/voyo.php</link>
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <item>
 <title>Seenow TV (Freezone)</title>
 <link><?php echo $host; ?>/scripts/tv/php/seenow_e.php?query=1,http://www.seenow.ro/freezone-9-pagina-,Seenow+TV+(freezone)</link>
@@ -240,14 +240,35 @@ echo '
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
-<!--
+
 <item>
-<title>România - amigo TV</title>
-<link>http://hddlinks.p.ht/tv_rom2.rss</link>
+<title>Diverse playlist</title>
+<link><?php echo $host; ?>/scripts/tv/php/playlist_main.php</link>
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
--->
+
+<item>
+<title>iptvsatlinks</title>
+<link><?php echo $host; ?>/scripts/tv/php/iptvsatlinks_main.php?page=1</link>
+<media:thumbnail url="image/tv_radio.png" />
+<mediaDisplay name="threePartsView"/>
+</item>
+
+<item>
+<title>iptv.filmover</title>
+<link><?php echo $host; ?>/scripts/tv/php/filmover_main.php?page=1</link>
+<media:thumbnail url="image/tv_radio.png" />
+<mediaDisplay name="threePartsView"/>
+</item>
+
+<item>
+<title>dailyiptvlist</title>
+<link><?php echo $host; ?>/scripts/tv/php/dailyiptvlist_main.php?page=1</link>
+<media:thumbnail url="image/tv_radio.png" />
+<mediaDisplay name="threePartsView"/>
+</item>
+
 <!--
 <item>
 <title>România - Exclusiv</title>
@@ -355,21 +376,28 @@ else
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
-
-<item>
-<title>PBX România (alternativ)</title>
-<link><?php echo $host; ?>/scripts/tv/pbx1.php</link>
-<media:thumbnail url="image/tv_radio.png" />
-<mediaDisplay name="threePartsView"/>
-</item>
-
-<item>
-<title>High Definition TV (numai cu abonament)</title>
-<link><?php echo $host; ?>/scripts/tv/tvsector.php</link>
-<media:thumbnail url="image/tv_radio.png" />
-<mediaDisplay name="threePartsView"/>
-</item>
 -->
+<item>
+<title>Youtube live</title>
+<link><?php echo $host; ?>/scripts/php1/yt_playlist.php?query=1,PLU12uITxBEPFy1nVJaDM-nGeB2q66Z4nP,%28playlist%29+Youtube+Live</link>
+<media:thumbnail url="image/tv_radio.png" />
+<mediaDisplay name="threePartsView"/>
+</item>
+
+<item>
+<title>streams.magazinmixt.ro</title>
+<link><?php echo $host; ?>/scripts/tv/php/magazin_main.php</link>
+<media:thumbnail url="image/tv_radio.png" />
+<mediaDisplay name="threePartsView"/>
+</item>
+
+<item>
+<title>oklivetv</title>
+<link><?php echo $host; ?>/scripts/tv/php/oklivetv_main.php</link>
+<media:thumbnail url="image/tv_radio.png" />
+<mediaDisplay name="threePartsView"/>
+</item>
+
 <?php
 error_reporting(0);
 $f="/usr/local/etc/dvdplayer/astra.m3u";
@@ -379,6 +407,16 @@ echo '
 <title>Astra</title>
 <link>'.$host.'/scripts/tv/astra.php</link>
 <annotation>Astra TV</annotation>
+<media:thumbnail url="image/tv_radio.png" />
+</item>
+';
+
+
+echo '
+<item>
+<title>gazv</title>
+<link>'.$host.'/scripts/tv/gazv.php</link>
+<annotation>Gazv TV</annotation>
 <media:thumbnail url="image/tv_radio.png" />
 </item>
 ';
@@ -415,14 +453,14 @@ echo '
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
-<!--
+
 <item>
 <title>FilmOn</title>
-<link><?php echo $host; ?>/scripts/tv/php/filmon.php</link>
+<link><?php echo $host; ?>/scripts/tv/php/filmon_main.php</link>
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
--->
+
 <!--
 <item>
 <title>Playlist from database.eu.pn</title>
@@ -431,13 +469,14 @@ echo '
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
+<!--
 <item>
 <title>WEBTV MD</title>
 <link><?php echo $host; ?>/scripts/tv/webtv_md.php</link>
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <!--
 <item>
 <title>TV Live - IPTV Player</title>

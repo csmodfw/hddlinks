@@ -246,9 +246,10 @@ fclose($fh);
   	<text  redraw="yes" align="center" offsetXPC="0" offsetYPC="90" widthPC="100" heightPC="8" fontSize="17" backgroundColor="10:105:150" foregroundColor="100:200:255">
 		  <script>print(annotation); annotation;</script>
 		</text>
-		<image  redraw="yes" offsetXPC=60 offsetYPC=30 widthPC=30 heightPC=50>
+        <image  redraw="yes" offsetXPC=60 offsetYPC=25 widthPC=30 heightPC=60>
   <script>print(img); img;</script>
 		</image>
+
         <idleImage>image/POPUP_LOADING_01.png</idleImage>
         <idleImage>image/POPUP_LOADING_02.png</idleImage>
         <idleImage>image/POPUP_LOADING_03.png</idleImage>
@@ -267,6 +268,7 @@ fclose($fh);
 					  location = getItemInfo(idx, "location");
 					  annotation = getItemInfo(idx, "annotation");
 					  img = getItemInfo(idx, "image");
+					  an =  getItemInfo(idx, "an");
 					}
 					getItemInfo(idx, "title");
 				</script>
@@ -371,11 +373,37 @@ else if(userInput == "four" || userInput == "4")
 	redrawDisplay();
   "true";
 }
+else if(userInput == "up")
+{
+  idx = Integer(getFocusItemIndex());
+  if (idx == 0)
+   {
+     idx = itemCount;
+     print("new idx: "+idx);
+     setFocusItemIndex(idx);
+	 setItemFocus(0);
+     "true";
+   }
+}
+else if(userInput == "down")
+{
+  idx = Integer(getFocusItemIndex());
+  c = Integer(getPageInfo("itemCount")-1);
+  if(idx == c)
+   {
+     idx = -1;
+     print("new idx: "+idx);
+     setFocusItemIndex(idx);
+	 setItemFocus(0);
+     "true";
+   }
+}
 else if (userInput == "right" || userInput == "R")
 {
 movie=getItemInfo(getFocusItemIndex(),"movie");
+imdb=getItemInfo(getFocusItemIndex(),"imdb");
 showIdle();
-movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/noobroom_det.php?file=series" + movie;
+movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/noobroom1_det.php?file=" + movie + "," + imdb + ",series";
 dummy = getURL(movie_info);
 cancelIdle();
 ret_val=doModalRss("/usr/local/etc/www/cgi-bin/scripts/filme/php/movie_detail.rss");
@@ -462,9 +490,10 @@ $link = "/usr/local/etc/www/cgi-bin/scripts/filme/php/noobroom.rss";
   <image></image>
   </item>
   ';
+$baseimg="http://img.superchillin.org/2img/sh";
 $query = $_GET["query"];
 if ($query=="a") {
-  $title="Ultimele seriale adaugate";
+  $title="Ultimele seriale actualizate";
   $link = $host."/scripts/filme/php/noobroom_series_main.php?query=l";
   echo '
   <item>
@@ -473,96 +502,86 @@ if ($query=="a") {
   <image></image>
   </item>
   ';
-$videos = explode('<table>', $html);
-unset($videos[0]);
-$videos = array_values($videos);
-foreach($videos as $video) {
-  $t1 = explode("href='", $video);
-  $t2 = explode("'", $t1[1]);
-  $link =$noob.$t2[0];
-  $link1=$t2[0];
-  
-  
-  $t3 = explode('>', $t1[2]);
-  $t2 = explode('<', $t3[1]);
-  $title = trim($t2[0]);
-  $title=str_replace("&amp;","&",$title);
-  $title=str_replace("&","&amp;",$title);
-  $title=str_replace("\'","'",$title);
-  $t1=explode("src='",$video);
-  $t2=explode("'",$t1[1]);
-  if (strpos($t2[0],"http")=== false)
-    $img=$noob."/".$t2[0];
-  else
-    $img=$t2[0];
-  $img=str_replace("https","http",$img);
-  if (strpos($link,"episodes") !==false) $arr[]=array($title, $link1,$img);
-}
-if ($arr) {
-asort($arr);
-foreach ($arr as $key => $val) {
- $title=$arr[$key][0];
- $link1=$arr[$key][1];
- $img=$arr[$key][2];
- $link=$noob.$link1;
-   $link=$host."/scripts/filme/php/noobroom_series.php?query=".urlencode($link).",".urlencode(str_replace(",","^",$title));
-   echo '
-    <item>
-    <title>'.$title.'</title>
-    <link>'.$link.'</link>
-    <link1>'.urlencode($link1).'</link1>
-    <title1>'.urlencode(str_replace(",","^",$title)).'</title1>
-    <movie>'.urlencode(str_replace(",","^",$title)).'</movie>
-  	<annotation>'.$title.'</annotation>
-  	<image>'.$img.'</image>
-    <mediaDisplay name="threePartsView"/>
-    </item>
-   ';
-
-}
-}
-} else {
-$videos = explode('<table>', $html);
-unset($videos[0]);
-//$videos = array_values($videos);
-$videos = array_reverse($videos);
-foreach($videos as $video) {
-  $t1 = explode("href='", $video);
-  $t2 = explode("'", $t1[1]);
-  $link =$noob.$t2[0];
-  $link1=$t2[0];
-
-
-  $t3 = explode('>', $t1[2]);
-  $t2 = explode('<', $t3[1]);
-  $title = trim($t2[0]);
-  $title=str_replace("&amp;","&",$title);
-  $title=str_replace("&","&amp;",$title);
-  $title=str_replace("\'","'",$title);
-  $t1=explode("src='",$video);
-  $t2=explode("'",$t1[1]);
-  if (strpos($t2[0],"http")=== false)
-    $img=$noob."/".$t2[0];
-  else
-    $img=$t2[0];
-  $img=str_replace("https","http",$img);
-  if (strpos($link,"episodes") !==false) {
-   $link=$noob.$link1;
-   $link=$host."/scripts/filme/php/noobroom_series.php?query=".urlencode($link).",".urlencode($title);
-   echo '
-    <item>
-    <title>'.$title.'</title>
-    <link>'.$link.'</link>
-    <link1>'.urlencode($link1).'</link1>
-    <title1>'.urlencode(str_replace(",","^",$title)).'</title1>
-    <movie>'.urlencode(str_replace(",","^",$title)).'</movie>
-  	<annotation>'.$title.'</annotation>
-  	<image>'.$img.'</image>
-    <mediaDisplay name="threePartsView"/>
-    </item>
-   ';
+  $l="http://superchillin.com/api/cipac/series_dump.php";
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt ($ch, CURLOPT_REFERER, "http://superchillin.com");
+  $html = curl_exec($ch);
+  curl_close($ch);
+  $r=json_decode($html,1);
+  foreach ($r as $key => $val) {
+    $series[$key]["title"]=$r[$key]["title"];
+    $series[$key]["id"]=$r[$key]["id"];
+    $series[$key]["imdb"]=$r[$key]["imdb"];
+    $series[$key]["year"]=$r[$key]["year"];
   }
-}
+  asort($series);
+  foreach ($series as $key => $val) {
+   $title=$series[$key]["title"];
+   $title=str_replace("&amp;","&",$title);
+   $title=str_replace("&","&amp;",$title);
+   $title=str_replace("\'","'",$title);
+   $id=$series[$key]["id"];
+   $img=$baseimg.$id.".jpg";
+   $imdb=$series[$key]["imdb"];
+   $year=$series[$key]["year"];
+   $link1="/episodes.php?".$id;
+   $link=$host."/scripts/filme/php/noobroom_series.php?query=".urlencode($id).",".urlencode(str_replace(",","^",$title)).",".$imdb;
+   echo '
+    <item>
+    <title>'.$title.'</title>
+    <link>'.$link.'</link>
+    <link1>'.urlencode($link1).'</link1>
+    <title1>'.urlencode(str_replace(",","^",$title)).'</title1>
+    <movie>'.$id.'</movie>
+  	<annotation>'.$title.'</annotation>
+  	<image>'.$img.'</image>
+  	<imdb>'.$imdb.'</imdb>
+  	<an>'.$year.'</an>
+    <mediaDisplay name="threePartsView"/>
+    </item>
+   ';
+ }
+} else {
+  $l="http://superchillin.com/api/cipac/series_dump.php?bl";
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt ($ch, CURLOPT_REFERER, "http://superchillin.com");
+  $html = curl_exec($ch);
+  curl_close($ch);
+  $series=json_decode($html,1);
+  foreach ($series as $key => $val) {
+   $title=$series[$key]["title"];
+   $title=str_replace("&amp;","&",$title);
+   $title=str_replace("&","&amp;",$title);
+   $title=str_replace("\'","'",$title);
+   $id=$series[$key]["id"];
+   $img=$baseimg.$id.".jpg";
+   $imdb=$series[$key]["imdb"];
+   $year=$series[$key]["year"];
+   $link1="/episodes.php?".$id;
+   $link=$host."/scripts/filme/php/noobroom_series.php?query=".urlencode($id).",".urlencode(str_replace(",","^",$title)).",".$imdb;
+   echo '
+    <item>
+    <title>'.$title.'</title>
+    <link>'.$link.'</link>
+    <link1>'.urlencode($link1).'</link1>
+    <title1>'.urlencode(str_replace(",","^",$title)).'</title1>
+    <movie>'.$id.'</movie>
+  	<annotation>'.$title.'</annotation>
+  	<image>'.$img.'</image>
+  	<imdb>'.$imdb.'</imdb>
+  	<an>'.$year.'</an>
+    <mediaDisplay name="threePartsView"/>
+    </item>
+   ';
+ }
 }
 ?>
 

@@ -192,7 +192,7 @@ ret;
 
 	</item_template>
 <channel>
-	<title><?php echo $page_title; ?> (apasati play dupa start)</title>
+	<title><?php echo $page_title; ?></title>
 	<menu>main menu</menu>
 
 
@@ -233,23 +233,39 @@ foreach($videos as $video) {
 	$year=str_between($video,'"year_of_production":"','"');
 	$image=str_replace("\/\/","//",$image);
 	$image=str_replace("\/","/",$image);
-	$link1="http://panel.erstream.com/api/er/Get?cid=".$link."&format=4&customerid=16&action=redirect&id=".$link."";
-
+	//$link1="http://panel.erstream.com/api/er/Get?cid=".$link."&format=4&customerid=16&action=redirect&id=".$link."";
+    $link1 = $host.'/scripts/filme/php/filmbox_link.php?file='.urlencode($link);
    if ($title) {
      echo '
      <item>
      <title>'.$title.'</title>
-     <onClick>
-     <script>
-     showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/filme/php/filmbox_link.php?file='.$link.'";
-     movie=geturl(url);
-     cancelIdle();
-     playitemurl(movie,3);
-    ';
-    echo '
-     </script>
-     </onClick>
+    <onClick>
+    <script>
+    showIdle();
+    url="'.$link1.'";
+    movie=getUrl(url);
+    cancelIdle();
+    if (movie == "" || movie == " " || movie == null)
+    {
+    playItemUrl(-1,1);
+    }
+    else
+    {
+    storagePath = getStoragePath("tmp");
+    storagePath_stream = storagePath + "stream.dat";
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/x-flv);
+    streamArray = pushBackStringArray(streamArray, "'.str_replace('"',"'",$title).'");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
+    }
+    </script>
+    </onClick>
     <image>'.$image.'</image>
     <an>'.$year.'</an>
     <movie>'.$link.'</movie>

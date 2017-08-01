@@ -181,8 +181,8 @@ foreach($videos as $video) {
 
 
   $t1=explode('class="titlu-serial">',$video);
-  $t3 = explode('>',$t1[1]);
-  $t4= explode("<",$t3[1]);
+  //$t3 = explode('>',$t1[1]);
+  $t4= explode("<",$t1[1]);
   $titlu = $t4[0];
 
   $titlu=trim(preg_replace("/online subtitrat HD|online subtitrat|filme online|online hd subtitrat|online hd/i","",$titlu));

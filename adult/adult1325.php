@@ -275,12 +275,13 @@ XXX4PODS
 <link><?php echo $host; ?>/scripts/adult/php/spankwire_main.php</link>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+<!--
   <item>
 <title>alotporn</title>
 <link><?php echo $host; ?>/scripts/adult/php/alotporn_main.php</link>
 <mediaDisplay name="threePartsView"/>
 </item>
+-->
   <item>
 <title>xnxx</title>
 <link><?php echo $host; ?>/scripts/adult/php/xnxx_main.php</link>
@@ -320,6 +321,12 @@ XXX4PODS
   <item>
 <title>taboop</title>
 <link><?php echo $host; ?>/scripts/adult/php/taboop_main.php</link>
+<mediaDisplay name="threePartsView"/>
+</item>
+
+  <item>
+<title>spankbang</title>
+<link><?php echo $host; ?>/scripts/adult/php/spankbang_main.php</link>
 <mediaDisplay name="threePartsView"/>
 </item>
 

@@ -32,7 +32,7 @@ $t1=explode("video_url: '",$html);
 $t2=explode("'",$t1[1]);
 $out=$t2[0];
 }
-
+$out=str_replace("function/0/","",$out);
 //$out=$link1;
 //$out=str_between($html,"video_url: '","'");
 //echo $out;

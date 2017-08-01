@@ -22,6 +22,9 @@ if($query) {
    $link = $queryArr[1];
    $title = $queryArr[2];
 }
+if ($link=="") die();
+//$html=file_get_contents($f);
+//echo $html;
 if ($mod == "add") {
 if ($dir <> "") {
 $html=file_get_contents($dir);
@@ -29,15 +32,16 @@ if (strpos($html,$link) === false)
    $html=$html."<item><link>".$link."</link><title>".$title."</title></item>";
 } else {
 $dir = $f;
-$html="<item><link>".$link."</link><title>".$title."</title></item>";
+$html="1<item><link>".$link."</link><title>".$title."</title></item>";
 }
 $exec = "rm -f ".$f;
 exec($exec);
 file_put_contents($dir,$html);
-} else if ($mod="delete") {
+} else if ($mod=="delete") {
 if ($dir <> "") {
 $html=file_get_contents($f);
-$out="";
+//echo $html;
+$out="1";
 $first=0;
 $videos=explode("<item>",$html);
 unset($videos[0]);
@@ -45,16 +49,10 @@ $videos = array_values($videos);
 foreach($videos as $video) {
   $l=str_between($video,"<link>","</link>");
   $t=str_between($video,"<title>","</title>");
-  if (($l == $link) && ($first == 0))
-    $first = 1;
-  elseif (($l == $link) && ($first >= 1))
-    $first = 2;
-  if ($l <> $link)
-    $out=$out."<item><link>".$l."</link><title>".$t."</title></item>";
-  elseif ($first == 2)
-    $out=$out."<item><link>".$l."</link><title>".$t."</title></item>";
+  if (urldecode($l) <> urldecode($link)) $out=$out."<item><link>".$l."</link><title>".$t."</title></item>";
 }
 }
+//$out=$out.$link;
 if ($out <> "") {
 $exec = "rm -f ".$f;
 exec($exec);

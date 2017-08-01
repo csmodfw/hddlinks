@@ -247,8 +247,7 @@ foreach($videos as $video) {
     <onClick>
     <script>
     showIdle();
-    url="http://127.0.0.1/cgi-bin/scripts/tv/php/adevarul_link.php?file='.urlencode($link).'," + buf;
-    movie=getUrl(url);
+    movie="http://127.0.0.1/cgi-bin/scripts/tv/php/adevarul_link.php?file='.urlencode($link).'," + buf;
     cancelIdle();
     if (movie == "" || movie == " " || movie == null)
     {

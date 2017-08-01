@@ -300,7 +300,7 @@ $url = $sThisFile."?page=".($page-1).",".$tip.",".urlencode($link).",".urlencode
 <?php
 
 if ($tip=="release") {
-  $requestLink="https://gomovies.to/movie/filter/series/latest/all/all/all/all/all/".$page;
+  $requestLink="https://gostream.is/movie/filter/series/latest/all/all/all/all/all/".$page;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $requestLink);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -313,7 +313,7 @@ if ($tip=="release") {
 } else {
   //$requestLink="https://gomovies.to/ajax/suggest_search".$page;
   //$post="keyword=star+trek&token=dd2ca4d87518d2478db392b95ecf2c7e";
-  $requestLink="https://gomovies.to/movie/search/".str_replace("%20","+",$link)."/".$page;
+  $requestLink="https://gostream.is/movie/search/".str_replace("%20","+",$link)."/".$page;
   //echo $requestLink;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $requestLink);

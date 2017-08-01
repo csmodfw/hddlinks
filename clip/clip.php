@@ -401,7 +401,14 @@ columnCount=5
 	<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/clip/image/bzitv.png" />
 	<annotation>Reportaje video din Iasi, Reportaje video amuzante, Reportaje Necenzurate</annotation>
 </item>
-
+<item>
+<title>Gala Umorului TVR</title>
+<link><?php echo $host; ?>/scripts/php1/facebook.php?query=1,GalaUmorului,GalaUmorului,</link>
+<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/tvrstiri.png" />
+<image>/usr/local/etc/www/cgi-bin/scripts/tv/image/tvrstiri.png</image>
+<location>http://facebook.com/GalaUmorului</location>
+<annotation>Emisiunea Gala Umorului pe facebook</annotation>
+</item>
 <item>
 <title>Luzarii de pe Electrolizei</title>
 <link><?php echo $host; ?>/scripts/php1/yt_playlist.php?query=1,PLA1CEC3D2A6A0263F,Luzarii+de+pe+Electrolizei</link>

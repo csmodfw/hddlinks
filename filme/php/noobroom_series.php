@@ -10,6 +10,7 @@ $query = $_GET["query"];
 $queryArr = explode(',', $query);
 $link_s = urldecode($queryArr[0]);
 $tit = urldecode($queryArr[1]);
+$imdb= urldecode($queryArr[2]);
 $tit=str_replace("\\","",$tit);
 $tit=str_replace("^",",",$tit);
 $noob_serv="/tmp/noob_serv.log";
@@ -94,59 +95,6 @@ echo '
 <onRefresh>
   setRefreshTime(-1);
   itemCount = getPageInfo("itemCount");
-	if ( Integer( 1 + getFocusItemIndex() ) != getPageInfo("itemCount") && enablenextplay == 1 && playvideo == getFocusItemIndex()) {
-		ItemFocus = getFocusItemIndex();
-		setFocusItemIndex( Integer( 1 + getFocusItemIndex() ) );
-		redrawDisplay();
-		setRefreshTime(-1);
-		"true";
-	}
-
-	if ( enablenextplay == 1 ) {
-		enablenextplay = 0;
-		url1=getItemInfo(getFocusItemIndex(),"movie");
-		tit=getItemInfo(getFocusItemIndex(),title1);
-     showIdle();
-     url="http://127.0.0.1/cgi-bin/scripts/filme/php/noobroom_link.php?file=" + url1 + "," + subtitle + "," + server + "," + hhd + ",1";
-     movie=geturl(url);
-     cancelIdle();
-    storagePath = getStoragePath("tmp");
-    storagePath_stream = storagePath + "stream.dat";
-    streamArray = null;
-    streamArray = pushBackStringArray(streamArray, "");
-    streamArray = pushBackStringArray(streamArray, "");
-    streamArray = pushBackStringArray(streamArray, movie);
-    streamArray = pushBackStringArray(streamArray, movie);
-    streamArray = pushBackStringArray(streamArray, video/mp4);
-    streamArray = pushBackStringArray(streamArray, tit);
-    streamArray = pushBackStringArray(streamArray, "1");
-    writeStringToFile(storagePath_stream, streamArray);
-    <?php
-    $f = "/usr/local/bin/home_menu";
-    if (file_exists($f)) {
-    echo '
-    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer2.rss");
-    ';
-    } else {
-    echo '
-    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer1.rss");
-    ';
-    }
-    ?>
-
-		if ( Integer( 1 + getFocusItemIndex() ) == getPageInfo("itemCount") ) {
-			enablenextplay = 0;
-			setRefreshTime(-1);
-		} else {
-			playvideo = getFocusItemIndex();
-			setRefreshTime(4000);
-			enablenextplay = 1;
-		}
-	} else {
-		setRefreshTime(-1);
-		redrawDisplay();
-		"true";
-	}
 </onRefresh>
 
 <mediaDisplay name="threePartsView"
@@ -299,7 +247,8 @@ else if (userInput == "zero" || userInput == "0" || userInput == "option_blue")
    {
   t = getItemInfo(getFocusItemIndex(),"title2");
   l = getItemInfo(getFocusItemIndex(),"link1");
-  movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/fs_det.php?file=" + t + "," + l + "," + subtitle + "," + server + "," + hhd + ",1";
+  imdb = getItemInfo(getFocusItemIndex(),"imdb");
+  movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/fs_det.php?file=" + t + "," + l + "," + subtitle + "," + server + "," + hhd + ",1," + imdb;
   dummy = getURL(movie_info);
 
     jumpToLink("fs");
@@ -334,6 +283,32 @@ else if(userInput == "four" || userInput == "4")
 	setItemFocus(0);
   "true";
 }
+else if(userInput == "up")
+{
+  idx = Integer(getFocusItemIndex());
+  if (idx == 0)
+   {
+     idx = itemCount;
+     print("new idx: "+idx);
+     setFocusItemIndex(idx);
+	 setItemFocus(0);
+     "true";
+   }
+}
+else if(userInput == "down")
+{
+  idx = Integer(getFocusItemIndex());
+  c = Integer(getPageInfo("itemCount")-1);
+  if(idx == c)
+   {
+     idx = -1;
+     print("new idx: "+idx);
+     setFocusItemIndex(idx);
+	 setItemFocus(0);
+     "true";
+   }
+}
+
 else if(userInput == "seven" || userInput == "7")
 {
 <?php
@@ -453,35 +428,23 @@ foreach($videos as $video) {
   $id_srt=trim($t1[0]);
   $srt[$id_srt]="exista";
 }
-$l=$link_s;
+$l="http://superchillin.com/api/cipac/episodes_dump.php?id=".$link_s;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   curl_setopt($ch,CURLOPT_REFERER,$l);
-  curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+  //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   $html = curl_exec($ch);
   curl_close($ch);
+  $r=json_decode($html,1);
 
-
-//$videos = explode("href='/?", $html);
-$videos = explode("<b>", $html);
-unset($videos[0]);
-$videos = array_values($videos);
-
-foreach($videos as $video) {
-//echo $video."<BR>";
-   $t0=explode("href='/?",$video);
-   $t1=explode("&",$t0[1]);
-   $link=$t1[0];
-
-   $t1=explode("<",$video);
-   $ep_num=$t1[0];
-   $t1=explode('>',$t0[1]);
-   $t2=explode('<',$t1[1]);
-   $ep_tit=$t2[0];
-   $title=$ep_num.$ep_tit;
+foreach ($r as $key => $val) {
+  $link=$r[$key]["id"];
+  $ep_num=$r[$key]["season"]."x".$r[$key]["episode"];
+  $ep_tit=$r[$key]["title"];
+  $title=$ep_num." - ".$ep_tit;
    $title=str_replace("&amp;","&",$title);
    $title=str_replace("&","&amp;",$title);
    $title=str_replace("\'","'",$title);
@@ -529,10 +492,11 @@ foreach($videos as $video) {
      </onClick>
     <download>'.$link1.'</download>
     <title1>'.urlencode($title).'</title1>
-    <title2>'.urlencode(str_replace(",","^",$tit."|".$title)).'</title2>
+    <title2>'.urlencode(str_replace(",","^",$title)).'</title2>
     <link1>'.urlencode($link).'</link1>
     <name>'.$name.'</name>
     <movie>'.$link.'</movie>
+    <imdb>'.$imdb.'</imdb>
      </item>
      ';
    }

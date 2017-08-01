@@ -206,7 +206,7 @@ if($search) {
 <?php
 //echo $html;
 //$html=str_between($html,'class="boxtop">List','</ul');
-$videos = explode('<div id="post-', $html);
+$videos = explode('id="post-', $html);
 
 unset($videos[0]);
 $videos = array_values($videos);

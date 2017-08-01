@@ -200,6 +200,31 @@ else if(userInput == "four" || userInput == "4")
 	setItemFocus(0);
   "true";
 }
+else if(userInput == "up")
+{
+  idx = Integer(getFocusItemIndex());
+  if (idx == 0)
+   {
+     idx = itemCount;
+     print("new idx: "+idx);
+     setFocusItemIndex(idx);
+	 setItemFocus(0);
+     "true";
+   }
+}
+else if(userInput == "down")
+{
+  idx = Integer(getFocusItemIndex());
+  c = Integer(getPageInfo("itemCount")-1);
+  if(idx == c)
+   {
+     idx = -1;
+     print("new idx: "+idx);
+     setFocusItemIndex(idx);
+	 setItemFocus(0);
+     "true";
+   }
+}
 redrawDisplay();
 ret;
 </script>
@@ -292,6 +317,7 @@ $requestLink=$link;
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   curl_setopt ($ch, CURLOPT_REFERER, "http://www.watchfree.to");
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   //curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
   //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   //curl_setopt($ch, CURLOPT_HEADER,1);
@@ -305,7 +331,7 @@ foreach($videos as $video) {
   //Star Trek: Enterprise Season 1 Episode 1 - Broken Bow: Part 1
   $t1=explode('href="',$video);
   $t2=explode('"',$t1[1]);
-  $link1="http://www.watchfree.to".$t2[0];
+  $link1="https://www.watchfree.to".$t2[0];
   $ep_tit=trim(str_between($video,'tv_episode_name">','<'));
   $ep_tit=str_replace("?","",$ep_tit);
   //$t1=explode('>',$video);

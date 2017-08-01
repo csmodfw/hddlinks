@@ -335,6 +335,15 @@ columnCount=5
 </item>
 
 <item>
+<title>TVRMoldova (youtube)</title>
+<link><?php echo $host; ?>/scripts/tv/php/tvrmoldova.php</link>
+<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/tvrstiri.png" />
+<image>/usr/local/etc/www/cgi-bin/scripts/tv/image/tvrstiri.png</image>
+<location>https://www.youtube.com/channel/UCK1s1xxDRmGFno5j2nqqWXQ</location>
+<annotation>TVRMoldova</annotation>
+</item>
+
+<item>
 <title>privesc.eu</title>
 <link><?php echo $host; ?>/scripts/tv/php/privesc_main.php</link>
 <media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/privesc.jpg" />

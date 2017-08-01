@@ -213,24 +213,26 @@ $host = "http://127.0.0.1/cgi-bin";
   curl_setopt ($ch, CURLOPT_REFERER, "http://serialenoi.online/");
   $html = curl_exec($ch);
   curl_close($ch);
-$videos = explode('class="primary-post-content', $html);
+$videos = explode('<div class="imagen"', $html);
 
 unset($videos[0]);
-//$videos = array_values($videos);
-$videos = array_reverse($videos);
+$videos = array_values($videos);
+//$videos = array_reverse($videos);
 foreach($videos as $video) {
     $t1=explode('href="',$video);
     $t2=explode('"',$t1[1]);
     $link=$t2[0];
+    $t3=explode(">",$t1[2]);
+    $t4=explode("<",$t3[1]);
+    $ep = trim($t4[0]);
 
+    $title_ep = trim(str_between($video,'title="','"'));
+    //$ep = trim(str_between($video,'class="btn btn-xs bgcolor1">','<'));
+    $title=$ep." - ".$title_ep;
+    $title=html_entity_decode($title,ENT_QUOTES,'UTF-8');
     $t1 = explode('src="', $video);
     $t2 = explode('"', $t1[1]);
     $image = $t2[0];
-
-    $title_ep = trim(str_between($video,'title="','"'));
-    $ep = trim(str_between($video,'class="btn btn-xs bgcolor1">','<'));
-    $title=$ep." - ".$title_ep;
-    $title=html_entity_decode($title,ENT_QUOTES,'UTF-8');
     $data=$title;
     if ($link <> "") {
        $link = 'http://127.0.0.1/cgi-bin/scripts/filme/php/filme_link.php?file='.$link.','.urlencode(trim(str_replace(",","^",$title)));

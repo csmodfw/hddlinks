@@ -79,7 +79,7 @@ $host = "http://127.0.0.1/cgi-bin";
 					focus = getFocusItemIndex();
 					if(focus==idx)
 					{
-					  annotation = getItemInfo(idx, "title");
+					  annotation = getItemInfo(idx, "annotation");
 					  img = getItemInfo(idx,"image");
 					}
 					getItemInfo(idx, "title");
@@ -139,7 +139,7 @@ if (userInput == "pagedown" || userInput == "pageup")
 else if (userInput == "three" || userInput == "3")
 {
  showIdle();
- url="http://127.0.0.1/cgi-bin/scripts/tv/php/ohlulz_add.php?mod=delete*" + getItemInfo(getFocusItemIndex(),"link1") + "*" + getItemInfo(getFocusItemIndex(),"title1") + "*" + "<?php echo $img; ?>";
+ url="http://127.0.0.1/cgi-bin/scripts/tv/php/ohlulz_add.php?mod=delete*" + getItemInfo(getFocusItemIndex(),"link1") + "*" + getItemInfo(getFocusItemIndex(),"title1");
  dummy=getUrl(url);
  cancelIdle();
  redrawDisplay();
@@ -166,7 +166,7 @@ ret;
 	</item_template>
   <channel>
 
-    <title>TV Live - rtmpGui - favorite</title>
+    <title>TV Live favorite</title>
 
 <?php
 function str_between($string, $start, $end){
@@ -181,37 +181,60 @@ else
   $f="/usr/local/etc/ohlulz.dat";
 if (file_exists($f)) {
 $html=file_get_contents($f);
+//echo $html;
 $videos=explode("<item>",$html);
 unset($videos[0]);
 $videos = array_values($videos);
 foreach($videos as $video) {
-  $l=urldecode(str_between($video,"<link>","</link>"));
+  $l=str_between($video,"<link>","</link>");
   $l=str_replace(" ","%20",$l);
   $t=urldecode(str_between($video,"<title>","</title>"));
   $arr[]=array($t, $l);
 }
 asort($arr);
 foreach ($arr as $key => $val) {
-  $ll= urlencode($arr[$key][1]);
-  if (strpos($ll,"openload") === false) {
+  $ll= $arr[$key][1];
+  $a=explode("?",$ll);
+  $adn=urldecode($a[1]);
+  //echo $ll;
+  if (strpos($ll,"openload") === false && strpos($ll,"playlist.php") === false) {
     echo '
     <item>
-    <title>'.$arr[$key][0].'</title>
-    <link1>'.urlencode($arr[$key][1]).'</link1>
+    <title>'.urldecode($arr[$key][0]).'</title>
+    <link1>'.$arr[$key][1].'</link1>
     <title1>'.urlencode($arr[$key][0]).'</title1>
     <onClick>
     <script>
     showIdle();
     movie="'.$arr[$key][1].'";
     cancelIdle();
-    playItemUrl(movie,10);
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/mp4);
+    streamArray = pushBackStringArray(streamArray, "'.str_replace('"',"'",urldecode($arr[$key][0])).'");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
     </script>
     </onClick>
-    <annotation>'.$arr[$key][1].'</annotation>
+    <annotation>'.$adn.'</annotation>
     <image>'.$image.'</image>
     <media:thumbnail url="'.$image.'" />
     </item>
     ';
+  } elseif (strpos($ll,"playlist.php") !== false) {
+  echo '
+     <item>
+    <title>'.urldecode($arr[$key][0]).'</title>
+    <link1>'.$arr[$key][1].'</link1>
+    <link>'.$ll.'</link>
+    <annotation>'.$adn.'</annotation>
+    <mediaDisplay name="threePartsView"/>
+     </item>
+     ';
   } else {
   $link="http://127.0.0.1/cgi-bin/scripts/filme/php/link.php?file=".urlencode($ll);
 	    echo'
@@ -237,6 +260,8 @@ foreach ($arr as $key => $val) {
         </onClick>
         <annotation>'.$arr[$key][1].'</annotation>
         <image>'.$image.'</image>
+        <link1>'.$ll.'</link1>
+        <title1>'.urlencode($arr[$key][0]).'</title1>
         </item>
         ';
   }

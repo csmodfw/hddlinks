@@ -242,7 +242,7 @@ $id_t=$episod;
 $time="123456789";
 $srt="";
 if ($tip=="movie") {
-  $l1="https://gomovies.to/ajax/movie_episodes/".$link;
+  $l1="https://gostream.is/ajax/movie_episodes/".$link;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l1);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -266,7 +266,7 @@ if ($tip=="movie") {
     //$title=str_between($video,"<strong>","</strong>");
     $ep=str_between($video,'id="ep-','"');
     $tip_server=trim(str_between($video,"server-item",'"'));
-    $l2="https://gomovies.to/ajax/movie_token?eid=".$ep."&mid=".$link."&_=".$time;
+    $l2="https://gostream.is/ajax/movie_token?eid=".$ep."&mid=".$link."&_=".$time;
     //echo $l2;
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $l2);
@@ -281,9 +281,9 @@ if ($tip=="movie") {
     $y=str_between($h3,"_y='","'");
 
     if ($tip_server == "embed")
-      $l3="https://gomovies.to/ajax/movie_embed/".$ep;
+      $l3="https://gostream.is/ajax/movie_embed/".$ep;
     else
-      $l3="https://gomovies.to/ajax/movie_sources/".$ep."?x=".$x."&y=".$y;
+      $l3="https://gostream.is/ajax/movie_sources/".$ep."?x=".$x."&y=".$y;
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $l3);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -361,7 +361,7 @@ if ($tip=="movie") {
      }
 }
 } else {
-    $l2="https://gomovies.to/ajax/movie_token?eid=".$ep."&mid=".$link."&_=".$time;
+    $l2="https://gostream.is/ajax/movie_token?eid=".$ep."&mid=".$link."&_=".$time;
     //echo $l2;
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $l2);
@@ -376,9 +376,9 @@ if ($tip=="movie") {
     $y=str_between($h3,"_y='","'");
 
     if ($tip_server == "embed")
-      $l3="https://gomovies.to/ajax/movie_embed/".$ep;
+      $l3="https://gostream.is/ajax/movie_embed/".$ep;
     else
-      $l3="https://gomovies.to/ajax/movie_sources/".$ep."?x=".$x."&y=".$y;
+      $l3="https://gostream.is/ajax/movie_sources/".$ep."?x=".$x."&y=".$y;
     //echo $l3;
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $l3);

@@ -591,6 +591,28 @@ require_once("JavaScriptUnpacker.php");
    $h=file_get_contents($l_srt);
    //echo $h;
    }
+} elseif (strpos($filelink,"vidoza.net") !== false) {
+  //https://vidoza.net/embed-sqzn6x38v6p6.html
+  if (strpos($filelink,"https") === false) $filelink=str_replace("http","https",$filelink);
+  $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
+  //--no-check-certificate --user-agent=AGENT --referer=URL --max-redirect
+  $exec = '-q --user-agent= "'.$ua.'" --referer="'.$filelink.'" --no-check-certificate "'.$filelink.'" -O -';
+  $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+
+  $h2=shell_exec($exec);
+  preg_match('/([http|https][\.\d\w\-\.\/\\\:\?\&\#\%\_\,]*(\.mp4))/', $h2, $m);
+  $link=$m[1];
+  $link=str_replace("https","http",$link);
+
+  preg_match('/([http|https][\.\d\w\-\.\/\\\:\?\&\#\%\_\,]*(\.(srt|vtt)))/', $h2, $m);
+  $srt=$m[1];
+  if (strpos($srt,"empty") !== false) $srt="";
+   if ($srt) {
+   $l_srt="http://127.0.0.1/cgi-bin/scripts/util/srt_xml.php?file=".urlencode($srt);
+   //echo $l_srt;
+   $h=file_get_contents($l_srt);
+   //echo $h;
+   }
 } elseif (strpos($filelink,"cinemarx.ro") !== false) {
   $h2=file_get_contents($filelink);
   preg_match('/([http|https][\.\d\w\-\.\/\\\:\?\&\#\%\_\,]*(\.mp4))/', $h2, $m);
@@ -686,6 +708,8 @@ require_once("JavaScriptUnpacker.php");
    $h=file_get_contents($l_srt);
    //echo $h;
    }
+} elseif (strpos($filelink,"streaming.speedy.to") !== false) {
+  $link=str_replace("https","http",$filelink);
 } elseif (strpos($filelink,"speedvid.net") !== false) {
   //http://www.speedvid.net/vydpj7erq564
   //http://www.speedvid.net/embed-vydpj7erq564-640x360.html
@@ -817,7 +841,9 @@ require_once("JavaScriptUnpacker.php");
   curl_setopt ($ch, CURLOPT_POST, 1);
   curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
   $h = curl_exec($ch);
-  $link=str_between($h,'file: "','"');
+  //echo $h;
+  preg_match('/([http|https][\.\d\w\-\.\/\\\:\?\&\#\%\_\,]*(\.mp4))/', $h, $m);
+  $link=$m[1];
   //if (strpos($filelink,"movpod.in") !== false) $link=str_between($h,"file: '","'");
 } elseif (strpos($filelink,"thevideobee.to") !== false) {
   //https://thevideobee.to/2o48hb288ssi.html
@@ -2709,6 +2735,7 @@ for ($k=0;$k<count($m[0]);$k++) {
 $x=$h1;
 //echo $x;
 $x=str_replace(";",";"."\n",$x);
+//echo $x;
 preg_match_all("/case\'3\'(.*)/",$x,$m);
 $t1=explode("^",$m[0][1]);
 $t2=explode(")",$t1[1]);
@@ -2718,6 +2745,11 @@ preg_match_all("/case\'11\'(.*)/",$x,$m);
 $t1=explode("=",$m[0][0]);
 $t2=explode(";",$t1[1]);
 $ch2=$t2[0];
+preg_match_all("/case\'4\'(.*)/",$x,$m);
+$t1=explode("]",$m[0][2]);
+preg_match("/(\d+)((\-|\+)(\d+))/",$t1[1],$m);
+$ch3=intval($m[2]);
+//print_r ($m);
 //echo $ch2;
 //die();
    $t1=explode('kind="captions"',$h1);
@@ -2741,7 +2773,7 @@ $enc_t=$t3[0];
 $ch1=str_replace("0x","",$ch1);
 $ch2=str_replace("0x","",$ch2);
 //echo hexdec($ch1)." ".hexdec($ch2)."\n";
-$dec=ol($enc_t,hexdec($ch1),hexdec($ch2));
+$dec=ol($enc_t,hexdec($ch1),hexdec($ch2),$ch3);
 if (strpos($dec,$id) === false) {
 $l="https://api.openload.co/pair";
       $ch = curl_init();

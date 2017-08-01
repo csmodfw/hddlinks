@@ -3,7 +3,7 @@ link=`echo "$QUERY_STRING" | sed -n 's/^.*link=\([^;]*\).*$/\1/p' | sed "s/%20/ 
 referer=`echo "$QUERY_STRING" | sed -n 's/^.*referer=\([^;]*\).*$/\1/p' | sed "s/%20/ /g"`
 cookie=`echo "$QUERY_STRING" | sed -n 's/^.*cookie=\([^;]*\).*$/\1/p' | sed "s/%20/ /g"`
 cat <<EOF
-Content-type: video/mp4
+Content-type: image/jpeg
 
 EOF
-exec /usr/local/etc/www/cgi-bin/scripts/wget -q --referer "$referer" "$link" -O -
+exec /usr/local/etc/www/cgi-bin/scripts/wget -q --no-check-certificate --referer "$referer" "$link" -O -

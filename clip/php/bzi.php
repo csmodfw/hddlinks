@@ -187,11 +187,14 @@ if($query) {
    $search = $queryArr[1];
 }
 //http://video.bzi.ro/video/category/16/page/24
+//http://video.bzi.ro/divertisment-s16
+//http://video.bzi.ro/divertisment-s16/24
+
 $page1=24*($page-1);
 if ($page==1)
-  $l = "https://video.bzi.ro/video/category/16/page/";
+  $l = "https://video.bzi.ro/divertisment-s16";
 else
-  $l = "http://video.bzi.ro/video/category/16/page/".$page1;
+  $l = "https://video.bzi.ro/divertisment-s16/".$page1;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -228,7 +231,7 @@ function str_between($string, $start, $end){
 	return substr($string,$ini,$len); 
 }
 include ("../../common.php");
-$videos = explode('class="video_play', $html);
+$videos = explode('div class="item">', $html);
 
 unset($videos[0]);
 $videos = array_values($videos);
@@ -239,16 +242,17 @@ foreach($videos as $video) {
     $link = $t2[0];
 
     $t1 = explode('src="', $video);
-    $t2 = explode('"', $t1[2]);
+    $t2 = explode('"', $t1[1]);
     $image = $t2[0];
+    $image=str_replace("https","http",$image);
 
-    $t1 = explode('title="', $video);
+    $t1 = explode('alt="', $video);
     $t2 = explode('"', $t1[1]);
     $title = $t2[0];
     $title=fix_s($title);
 
     $name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".flv";
-
+    if ($title) {
     echo '
     <item>
     <title>'.$title.'</title>
@@ -268,6 +272,7 @@ foreach($videos as $video) {
     <media:thumbnail url="'.$image.'" />
     </item>
     ';
+    }
 }
 
 

@@ -201,6 +201,31 @@ else if(userInput == "four" || userInput == "4")
 	setItemFocus(0);
   "true";
 }
+else if(userInput == "up")
+{
+  idx = Integer(getFocusItemIndex());
+  if (idx == 0)
+   {
+     idx = itemCount;
+     print("new idx: "+idx);
+     setFocusItemIndex(idx);
+	 setItemFocus(0);
+     "true";
+   }
+}
+else if(userInput == "down")
+{
+  idx = Integer(getFocusItemIndex());
+  c = Integer(getPageInfo("itemCount")-1);
+  if(idx == c)
+   {
+     idx = -1;
+     print("new idx: "+idx);
+     setFocusItemIndex(idx);
+	 setItemFocus(0);
+     "true";
+   }
+}
 redrawDisplay();
 ret;
 </script>
@@ -235,7 +260,7 @@ function str_between($string, $start, $end){
 	return substr($string,$ini,$len);
 }
 //error_reporting(0);
-$l1="https://gomovies.to/ajax/movie_episodes/".$link;
+$l1="https://gostream.is/ajax/movie_episodes/".$link;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l1);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

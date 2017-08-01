@@ -290,9 +290,9 @@ $url = $sThisFile."?page=".($page-1).",".$tip.",".urlencode($link).",".urlencode
 </item>
 <?php } ?>
 <?php
-
+//https://gostream.is/
 if ($tip=="release") {
-  $requestLink="https://gomovies.to/movie/filter/movie/latest/all/all/all/all/all/".$page;
+  $requestLink="https://gostream.is/movie/filter/movie/latest/all/all/all/all/all/".$page;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $requestLink);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -305,7 +305,7 @@ if ($tip=="release") {
 } else {
   //$requestLink="https://gomovies.to/ajax/suggest_search".$page;
   //$post="keyword=star+trek&token=dd2ca4d87518d2478db392b95ecf2c7e";
-  $requestLink="https://gomovies.to/movie/search/".str_replace("%20","+",$link)."/".$page;
+  $requestLink="https://gostream.is/movie/search/".str_replace("%20","+",$link)."/".$page;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $requestLink);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -316,6 +316,7 @@ if ($tip=="release") {
   $html = curl_exec($ch);
   curl_close($ch);
 }
+//echo $html;
  $videos = explode('data-movie-id="', $html);
 unset($videos[0]);
 $videos = array_values($videos);
