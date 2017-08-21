@@ -27,7 +27,7 @@ $sub_max = 53;
 $last_end=0;
 if (strpos($file,"http") === false) {
    $h=file_get_contents($file);
-} elseif (strpos($file,"vidlox.tv") !== false || strpos($file,"raptu") !== false  || strpos($file,"rapidvideo") !== false) {
+} elseif (strpos($file,"vidlox.tv") !== false || strpos($file,"raptu") !== false  || strpos($file,"rapidvideo") !== false || strpos($file,"filme-online.to") !== false) {
   $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
   $exec = '-q -U "'.$ua.'" --referer="'.$file.'" --no-check-certificate "'.$file.'" -O -';
   $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;

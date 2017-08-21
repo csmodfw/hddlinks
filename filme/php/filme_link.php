@@ -485,7 +485,7 @@ elseif (strpos($filelink,"filmeseriale.online") !== false) {
   //echo $out;
   $html .=" ".$out;
   $html = $html1." ".$html;
-} elseif (strpos($filelink,"pefilme.com") !== false) {
+} elseif (strpos($filelink,"pefilme") !== false) {
     require_once("JavaScriptUnpacker.php");
    $jsu = new JavaScriptUnpacker();
 
@@ -500,12 +500,12 @@ $html22=shell_exec($exec);
     $id_post=trim($t2[0]);
     $out="";
     $html=$html22;
-    $videos = explode("id='tab", $html22);
+    $videos = explode('id="tab', $html22);
     unset($videos[0]);
     $videos = array_values($videos);
     foreach($videos as $video) {
-      $t1=explode("'",$video);
-      $l="https://pefilme.com/getTabContent.php?tabNum=".$t1[0]."&id=".$id_post;
+      $t1=explode('"',$video);
+      $l="https://pefilme.net/getTabContent.php?tabNum=".$t1[0]."&id=".$id_post;
       //echo $l;
       $l=str_replace("&amp;","&",$l);
 $ua="Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5";
@@ -527,6 +527,9 @@ $exec = '-q -U "'.$ua.'" --referer="'.$filelink.'" --no-check-certificate "'.$fi
 $exec = $exec_path.$exec;
 $html=shell_exec($exec);
   //echo $html;
+}
+if (strpos($filelink,"zfilmeonline.eu") !== false) {
+$html=urldecode(str_replace("@","%",$html));
 }
 /**################ All links ################**/
 if (preg_match("/roshare|rosharing/",$html)) {

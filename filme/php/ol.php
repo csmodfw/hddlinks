@@ -4,6 +4,17 @@ function indexOf($hack,$pos) {
     $ret= strpos($hack,$pos);
     return ($ret === FALSE) ? -1 : $ret;
 }
+function base8($hack) {
+$c1=strlen($hack);
+$ch1=0;
+//$ch1=intval($t3[1],8);
+//echo $t3[1]." ".intval("0".$t3[1])." ";
+for ($i=0;$i<$c1;$i++) {
+  //echo $x[$c-$i-1]."\n";
+  $ch1 +=$hack[$c1-$i-1]*pow(8,$i);
+}
+  return $ch1;
+}
 function substring($str, $from = 0, $to = FALSE)
 {
     if ($to !== FALSE) {
@@ -31,6 +42,7 @@ function ol($enc,$ch11,$ch22,$ch33) {
 //$ch22=dechex($ch22);
 //echo $ch11."  ".$ch22."\n";
 //$ch33=1;
+//$ch11=intval($ch11);
 $dec="";
 $a146=0;
 $a145=explode("|",'11|12|13|0|14|3|2|9|16|1|4|8|5|6|15|10|7');
@@ -88,7 +100,9 @@ case'10':
      $a194+=1;
      continue;
     case'3':
-     $a195=$a195^$a199^$ch11^$d1;
+     $a195=$a195^$a199^base8($ch11)^$d1;
+     //case'3':a195=a16[c2('0xe')](a16[c2('0xf')](a195,a199^0x8106ad3e),d0);
+     //	case'3':a195=a16[c2('0xe')](a16[c2('0xf')](a195,a199^parseInt('20101526476',8)),d0);
      continue;
     case'4':
      $a199=0x28a28dec;

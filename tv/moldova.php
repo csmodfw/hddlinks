@@ -308,6 +308,15 @@ columnCount=5
 </item>
 
 <item>
+<title>Europa libera</title>
+<link><?php echo $host; ?>/scripts/tv/php/europalibera.php?query=1,</link>
+<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/protv.jpg" />
+<image>/usr/local/etc/www/cgi-bin/scripts/tv/image/protv.jpg</image>
+<location>https://www.europalibera.org/z/453</location>
+<annotation>Vezi aici emisiuni inregistrate ale postului Europa Libera</annotation>
+</item>
+
+<item>
 <title>Pahomi - Realitatea</title>
 <link><?php echo $host; ?>/scripts/tv/php/pahomi.php</link>
 <media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/realitatea.png" />

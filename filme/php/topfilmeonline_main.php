@@ -179,7 +179,7 @@ $l="http://topfilmeonline.net/";
   $html = curl_exec($ch);
   curl_close($ch);
 
-$html = str_between($html,"<ul class='homepage-menu'>","</ul>" );
+$html = str_between($html,'<ul class="homepage-menu">',"</ul>" );
 
 $videos = explode('<li', $html);
 unset($videos[0]);

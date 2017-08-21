@@ -261,6 +261,7 @@ function str_between($string, $start, $end){
 }
 //error_reporting(0);
 $l1="https://gostream.is/ajax/movie_episodes/".$link;
+  /*
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l1);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -270,6 +271,11 @@ $l1="https://gostream.is/ajax/movie_episodes/".$link;
   curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $html = curl_exec($ch);
   curl_close($ch);
+  */
+      $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
+      $exec = '-q -U "'.$ua.'" --referer="'.$l1.'" --no-check-certificate "'.$l1.'" -O -';
+      $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+      $html=shell_exec($exec);
   $r=json_decode($html,1);
   //print_r ($r);
   $h=$r["html"];

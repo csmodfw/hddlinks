@@ -2737,10 +2737,12 @@ $x=$h1;
 $x=str_replace(";",";"."\n",$x);
 //echo $x;
 preg_match_all("/case\'3\'(.*)/",$x,$m);
+//print_r ($m);
 $t1=explode("^",$m[0][1]);
 $t2=explode(")",$t1[1]);
-$ch1=$t2[0];
-//echo $ch1;
+$t3=explode("'",$t2[0]);
+$ch1=$t3[1];
+
 preg_match_all("/case\'11\'(.*)/",$x,$m);
 $t1=explode("=",$m[0][0]);
 $t2=explode(";",$t1[1]);
@@ -2771,9 +2773,16 @@ $t2=explode(">",$t1[1]);
 $t3=explode("<",$t2[1]);
 $enc_t=$t3[0];
 $ch1=str_replace("0x","",$ch1);
+//$ch1=(int) $ch1;
 $ch2=str_replace("0x","",$ch2);
+//echo $ch1." ".$ch2." ".$ch3;
 //echo hexdec($ch1)." ".hexdec($ch2)."\n";
-$dec=ol($enc_t,hexdec($ch1),hexdec($ch2),$ch3);
+//$dec=ol($enc_t,hexdec($ch1),hexdec($ch2),$ch3);
+//$ch1=2164698430;
+//$ch1="2164698430";
+$dec=ol($enc_t,$ch1,hexdec($ch2),$ch3);
+//echo $dec;
+//die();
 if (strpos($dec,$id) === false) {
 $l="https://api.openload.co/pair";
       $ch = curl_init();
@@ -3326,7 +3335,7 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
    //echo $h;
    //https://v3.cache3.c.docs.google.com/videoplayback?requiressl=yes&shardbypass=yes&cmbypass=yes&id=45613a82e6b91a09&itag=34&source=webdrive&app=docs&ip=78.96.189.71&ipbits=0&expire=1374561222&sparams=requiressl%2Cshardbypass%2Ccmbypass%2Cid%2Citag%2Csource%2Cip%2Cipbits%2Cexpire&signature=23246722655B644EC186906C0ED2F8BBC99447A7.1D705A0B8C23FFF93A88D824AA1A49FB241530E4&key=ck2&cpn=V2D0mX8uN-jeBN2i
    //https://v7.cache8.c.docs.google.com/videoplayback?requiressl=yes&shardbypass=yes&cmbypass=yes&id=45613a82e6b91a09&itag=35&source=webdrive&app=docs&ip=78.96.189.71&ipbits=0&expire=1374561633&sparams=requiressl%2Cshardbypass%2Ccmbypass%2Cid%2Citag%2Csource%2Cip%2Cipbits%2Cexpire&signature=F7DBB32B0BDB14CC12A2A40536C9E0C2F0A4EEB.20DFCFD78F4122C85E9566B08E8C2CE246974413&key=ck2
-} elseif (strpos($filelink,"googleusercontent.com") !==false || strpos($filelink,"redirector.googlevideo.com") !== false || strpos($filelink,"blogspot.com") !== false || strpos($filelink,"vumoo") !== false || strpos($filelink,"fshare.to") !== false || strpos($filelink,"vsharing.ru") !== false || strpos($filelink,"sexiz.net") !== false) {
+} elseif (strpos($filelink,"googleusercontent.com") !==false || strpos($filelink,"redirector.googlevideo.com") !== false || strpos($filelink,"blogspot.com") !== false || strpos($filelink,"vumoo") !== false || strpos($filelink,"fshare.to") !== false || strpos($filelink,"vsharing.ru") !== false || strpos($filelink,"sexiz.net") !== false || strpos($filelink,"drive.google.com") !== false) {
 
 if (strpos($filelink,"vumoo") !== false) {
 require_once 'httpProxyClass.php';

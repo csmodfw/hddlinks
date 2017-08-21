@@ -24,5 +24,6 @@ $link = str_between($html, "quality_180p=", '"');
 $link=str_between($html,'video_url":"','"');
 $link=str_replace("\/","/",$link);
 $link=urldecode($link);
+if (strpos($link,"http") === false) $link="http:".$link;
 print $link;
 ?>

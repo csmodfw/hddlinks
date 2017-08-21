@@ -243,6 +243,7 @@ $time="123456789";
 $srt="";
 if ($tip=="movie") {
   $l1="https://gostream.is/ajax/movie_episodes/".$link;
+  /*
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l1);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -252,6 +253,11 @@ if ($tip=="movie") {
   curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $html = curl_exec($ch);
   curl_close($ch);
+  */
+      $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
+      $exec = '-q -U "'.$ua.'" --referer="'.$l1.'" --no-check-certificate "'.$l1.'" -O -';
+      $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+      $html=shell_exec($exec);
   $r=json_decode($html,1);
   //print_r ($r);
   $h=$r["html"];
@@ -268,6 +274,7 @@ if ($tip=="movie") {
     $tip_server=trim(str_between($video,"server-item",'"'));
     $l2="https://gostream.is/ajax/movie_token?eid=".$ep."&mid=".$link."&_=".$time;
     //echo $l2;
+    /*
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $l2);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -277,6 +284,11 @@ if ($tip=="movie") {
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     $h3 = curl_exec($ch);
     curl_close($ch);
+    */
+      $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
+      $exec = '-q -U "'.$ua.'" --referer="'.$l2.'" --no-check-certificate "'.$l2.'" -O -';
+      $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+      $h3=shell_exec($exec);
     $x=str_between($h3,"_x='","'");
     $y=str_between($h3,"_y='","'");
 
@@ -284,6 +296,7 @@ if ($tip=="movie") {
       $l3="https://gostream.is/ajax/movie_embed/".$ep;
     else
       $l3="https://gostream.is/ajax/movie_sources/".$ep."?x=".$x."&y=".$y;
+    /*
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $l3);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -293,6 +306,11 @@ if ($tip=="movie") {
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     $h4 = curl_exec($ch);
     curl_close($ch);
+    */
+      $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
+      $exec = '-q -U "'.$ua.'" --referer="'.$l3.'" --no-check-certificate "'.$l3.'" -O -';
+      $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+      $h4=shell_exec($exec);
     //echo $title."\r\n";
     $r=json_decode($h4,1);
     //print_r($s);
@@ -363,6 +381,7 @@ if ($tip=="movie") {
 } else {
     $l2="https://gostream.is/ajax/movie_token?eid=".$ep."&mid=".$link."&_=".$time;
     //echo $l2;
+    /*
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $l2);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -372,6 +391,11 @@ if ($tip=="movie") {
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     $h3 = curl_exec($ch);
     curl_close($ch);
+    */
+      $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
+      $exec = '-q -U "'.$ua.'" --referer="'.$l2.'" --no-check-certificate "'.$l2.'" -O -';
+      $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+      $h3=shell_exec($exec);
     $x=str_between($h3,"_x='","'");
     $y=str_between($h3,"_y='","'");
 
@@ -380,6 +404,7 @@ if ($tip=="movie") {
     else
       $l3="https://gostream.is/ajax/movie_sources/".$ep."?x=".$x."&y=".$y;
     //echo $l3;
+    /*
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $l3);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -389,6 +414,11 @@ if ($tip=="movie") {
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     $h4 = curl_exec($ch);
     curl_close($ch);
+    */
+      $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
+      $exec = '-q -U "'.$ua.'" --referer="'.$l3.'" --no-check-certificate "'.$l3.'" -O -';
+      $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+      $h4=shell_exec($exec);
     //echo $title."\r\n";
     $r=json_decode($h4,1);
     //print_r($r);

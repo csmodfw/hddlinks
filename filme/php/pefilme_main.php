@@ -160,7 +160,7 @@ function str_between($string, $start, $end){
 	return substr($string,$ini,$len); 
 }
 //$html = file_get_contents("http://divxonline.biz/");
-$l="https://pefilme.com/";
+$l="https://pefilme.net/";
 
 	echo '
 	<item>
@@ -172,6 +172,7 @@ $l="https://pefilme.com/";
 	';
 $ua="Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5";
 $exec_path="/usr/local/bin/Resource/www/cgi-bin/scripts/wget ";
+//$exec_path="C:/Temp/wget";
 $exec = '-q -U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
 $exec = $exec_path.$exec;
 $html=shell_exec($exec);

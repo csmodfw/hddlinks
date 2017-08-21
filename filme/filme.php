@@ -257,6 +257,13 @@ ret;
 </item>
 
 <item>
+<title>filme-online.to</title>
+<link><?php echo $host; ?>/scripts/filme/php/filme-online_to_f.php?page=1,release,,movie</link>
+<annotation>https://filme-online.to</annotation>
+<media:thumbnail url="image/movies.png" />
+</item>
+
+<item>
 <title>watchfree</title>
 <link><?php echo $host; ?>/scripts/filme/php/putlocker_f.php?page=1,release,,movie</link>
 <annotation>http://www.watchfree.to</annotation>

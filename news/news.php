@@ -290,11 +290,11 @@ columnCount=4
 </item>
 
 <item>
-<title>port.ro: programul TV</title>
-<link><?php echo $host; ?>/scripts/news/php/port.php</link>
+<title>programul TV</title>
+<link><?php echo $host; ?>/scripts/news/php/tastez.php</link>
 <media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/news/image/program_tv.png" />
 <image>/usr/local/etc/www/cgi-bin/scripts/news/image/program_tv.png</image>
-<location>http://port.ro</location>
+<location>http://tastez.ro</location>
 <annotation>Programul TV pentru mai mult de 100 de posturi</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>

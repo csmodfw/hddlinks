@@ -132,9 +132,9 @@ if (userInput == "pagedown" || userInput == "pageup")
 }
 else if (userInput == "right" || userInput == "R")
 {
-tit=getItemInfo(getFocusItemIndex(),"title1");
+tit=getItemInfo(getFocusItemIndex(),"tmdb");
 showIdle();
-movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/noobroom_det.php?file=movie" + tit;
+movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/tmdb.php?query=" + tit;
 dummy = getURL(movie_info);
 cancelIdle();
 ret_val=doModalRss("/usr/local/etc/www/cgi-bin/scripts/filme/php/movie_detail.rss");
@@ -207,6 +207,8 @@ unset($videos[0]);
 $videos = array_values($videos);
 
 foreach($videos as $video) {
+  $year="";
+  $tip="movie";
 	$t1 = explode('href%3D%22', $video);
 	$t2 = explode("%22", $t1[1]);
 	$link = urldecode($t2[0]);
@@ -225,10 +227,20 @@ foreach($videos as $video) {
 	$title = str_replace("– Filme online gratis subtitratate in romana","",$title);
 	$title = str_replace("– Filme online gratis subititrate in romana","",$title);
 	$title = trim($title);
+  $title=str_replace("&#8211;","-",$title);
+  $title=str_replace("&#8217;","'",$title);
 	$title=preg_replace("/online|subtitrat(e*)|film(e*)|vezi(.*)(:)|gratis/si","",$title);
 	$title=trim(str_replace("&nbsp;","",$title));
     $title=html_entity_decode($title,ENT_QUOTES,'UTF-8');
     $title=diacritice($title);
+  if (preg_match("/\(?((1|2)\d{3})\)?/",$title,$r)) {
+     //print_r ($r);
+     $year=$r[1];
+  }
+  $t1=explode(" - ",$title);
+  $t=$t1[0];
+  $t=preg_replace("/\(?((1|2)\d{3})\)?/","",$t);
+  $tit3=trim($t);
 	$pos = strpos($image, '.jpg');
 	if (($pos !== false) && ($title <> "")){
     $link = 'http://127.0.0.1/cgi-bin/scripts/filme/php/filme_link.php?file='.$link.','.urlencode($title);
@@ -238,6 +250,7 @@ foreach($videos as $video) {
     <title1>'.urlencode(trim(str_replace(",","^",$title))).'</title1>
     <link>'.$link.'</link>	
     <annotation>'.$title.'</annotation>
+    <tmdb>movie,'.urlencode(str_replace(",","^",$tit3)).','.$year.'</tmdb>
     <image>'.$image.'</image>
     <media:thumbnail url="'.$image.'" />
     <mediaDisplay name="threePartsView"/>

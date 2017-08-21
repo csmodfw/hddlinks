@@ -44,7 +44,9 @@
   	<text align="center" offsetXPC="0" offsetYPC="0" widthPC="100" heightPC="20" fontSize="30" backgroundColor="10:105:150" foregroundColor="100:200:255">
 		  <script>getPageInfo("pageTitle");</script>
 		</text>
-
+  	<text align="left" offsetXPC="6" offsetYPC="15" widthPC="75" heightPC="4" fontSize="16" backgroundColor="10:105:150" foregroundColor="100:200:255">
+    right for more
+		</text>
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
 		</text>
@@ -132,6 +134,16 @@ if (userInput == "pagedown" || userInput == "pageup")
 
   "true";
 }
+else if (userInput == "right" || userInput == "R")
+{
+tit=getItemInfo(getFocusItemIndex(),"tmdb");
+showIdle();
+movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/tmdb.php?query=" + tit;
+dummy = getURL(movie_info);
+cancelIdle();
+ret_val=doModalRss("/usr/local/etc/www/cgi-bin/scripts/filme/php/movie_detail.rss");
+ret="true";
+}
 redrawDisplay();
 ret;
 </script>
@@ -196,6 +208,8 @@ unset($videos[0]);
 $videos = array_values($videos);
 
 foreach($videos as $video) {
+  $year="";
+  $tip="movie";
 
 //  link  
   $v1 = explode('href="', $video);
@@ -208,9 +222,18 @@ foreach($videos as $video) {
   $v4 = explode('<',$v3[1]);
   $v5=explode(", film",$v4[0]);
   $titlu = trim($v5[0]);
+  $titlu=str_replace("&#8211;","-",$titlu);
+  $titlu=str_replace("&#8217;","'",$titlu);
   $titlu=trim(preg_replace("/(onlin|film)(.*)/i","",$titlu));
   $titlu=diacritice($titlu);
-
+  if (preg_match("/\(?((1|2)\d{3})\)?/",$titlu,$r)) {
+     //print_r ($r);
+     $year=$r[1];
+  }
+  $t1=explode(" - ",$titlu);
+  $t=$t1[0];
+  $t=preg_replace("/\(?((1|2)\d{3})\)?/","",$t);
+  $tit3=trim($t);
 //  imagine
   //$v0=explode("images--",$video);
   $v1 = explode('src="', $video);
@@ -238,6 +261,7 @@ foreach($videos as $video) {
 		<title>'.$titlu.'</title>
 		<link>'.$link.'</link> 
 	  <annotation>'.$descriere.'</annotation>
+	  <tmdb>movie,'.urlencode(str_replace(",","^",$tit3)).','.$year.'</tmdb>
 	  <image>'.$image.'</image>
 	  <media:thumbnail url="image/movies.png" />
 	  <mediaDisplay name="threePartsView"/>

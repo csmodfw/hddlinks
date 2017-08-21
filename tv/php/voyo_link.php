@@ -62,9 +62,17 @@ $exec=$exec.'-y "'.$y.'" -r '.$rtmp;
 */
 //$exec=str_replace(" ","%20",$exec);
 //echo $exec;
-$html = file_get_contents("http://cgi.somee.com/vtok.php");
+//$html = file_get_contents("http://cgi.somee.com/vtok.php");
+//$id_t = str_between($html,'##','##' );
+//   $token =str_replace("\/","/",$id_t);
+$html = file_get_contents("http://hd4all.ml/d/vtok.php");
 $id_t = str_between($html,'##','##' );
-   $token =str_replace("\/","/",$id_t);
+   $id_t =str_replace("\/","/",$id_t);
+   $l="".urldecode($id_t)."";
+   $token = base64_decode($l);
+   //$l="".$link."?".$l."";
+//echo $token;
+//die();
 $out=" -v -x 15348 -w 2324d94075f150cad1ea0e09b5513924e7cc8b382656a1e38109e41237eb4373 -p http://voyo.ro";
 $out .=" -W http://voyo.ro/static/shared/app/flowplayer/13-flowplayer.cluster-3.2.1-01-004.swf -r ".$link."?".$token;
 

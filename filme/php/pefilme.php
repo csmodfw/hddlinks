@@ -44,7 +44,9 @@
   	<text align="center" offsetXPC="0" offsetYPC="0" widthPC="100" heightPC="20" fontSize="30" backgroundColor="10:105:150" foregroundColor="100:200:255">
 		  <script>getPageInfo("pageTitle");</script>
 		</text>
-
+  	<text align="left" offsetXPC="6" offsetYPC="15" widthPC="75" heightPC="4" fontSize="16" backgroundColor="10:105:150" foregroundColor="100:200:255">
+    right for more
+		</text>
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
 		</text>
@@ -130,6 +132,16 @@ if (userInput == "pagedown" || userInput == "pageup")
   redrawDisplay();
   "true";
 }
+else if (userInput == "right" || userInput == "R")
+{
+tit=getItemInfo(getFocusItemIndex(),"tmdb");
+showIdle();
+movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/tmdb.php?query=" + tit;
+dummy = getURL(movie_info);
+cancelIdle();
+ret_val=doModalRss("/usr/local/etc/www/cgi-bin/scripts/filme/php/movie_detail.rss");
+ret="true";
+}
 ret;
 </script>
 </onUserInput>
@@ -169,6 +181,7 @@ if($page) {
 }
 $ua="Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5";
 $exec_path="/usr/local/bin/Resource/www/cgi-bin/scripts/wget ";
+//$exec_path="C:\Temp\wget";
 $exec = '-q -U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
 $exec = $exec_path.$exec;
 $html=shell_exec($exec);
@@ -204,14 +217,27 @@ function str_between($string, $start, $end){
 //echo $html;
 unset($videos[0]);
 $videos = array_values($videos);
-
+$year="";
+$tip="movie";
 foreach($videos as $video) {
+  $year="";
+  $tip="movie";
   $link = trim(str_between($video,'href="','"'));
   $title=str_between($video,'title="','"');
+  $title=str_replace("&#8211;","-",$title);
+  $title=str_replace("&#8217;","'",$title);
   $title=html_entity_decode($title,ENT_QUOTES,'UTF-8');
   $title=trim(preg_replace("/Online Subtitrat in Romana|Filme Online Subtitrat HD 720p|Online HD 720p Subtitrat in Romana|Online Subtitrat Gratis|Online Subtitrat in HD Gratis|Film HD Online Subtitrat/i","",$title));
   $title=trim(preg_replace("/(subtitrat|onlin|film)(.*)/i","",$title));
 
+  if (preg_match("/\(?((1|2)\d{3})\)?/",$title,$r)) {
+     //print_r ($r);
+     $year=$r[1];
+  }
+  $t1=explode(" - ",$title);
+  $t=$t1[0];
+  $t=preg_replace("/\(?((1|2)\d{3})\)?/","",$t);
+  $tit3=trim($t);
   $t1 = explode('data-src="', $video);
   $t2 = explode('"', $t1[1]);
   $image = $t2[0];
@@ -243,6 +269,7 @@ foreach($videos as $video) {
 	<link>'.$link.'</link> 
   <annotation>'.$descriere.'</annotation>
   <image>'.$image.'</image>
+  <tmdb>movie,'.urlencode(str_replace(",","^",$tit3)).','.$year.'</tmdb>
   <media:thumbnail url="'.$image.'" />
   <mediaDisplay name="threePartsView"/>
 	</item>

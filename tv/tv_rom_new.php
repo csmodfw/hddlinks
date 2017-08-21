@@ -529,6 +529,8 @@ foreach($videos as $video) {
 print_c("ProTV","http://stream1.protv.ro/news/stream:1.stream/playlist.m3u8");
 print_c("ProTV Chisinau","http://hls.protv.md/hls/protv.m3u8");
 print_c("DIGI24","http://82.76.40.81:80/digi24edge/digi24hdhqhls/index.m3u8");
+//print_c("Look Plus","http://xtream.swiftiptv.com:6500/live/q0z01FyoIg/YlNLLYkecl/13408.m3u8");
+//print_c("Look TV","http://xtream.swiftiptv.com:6500/live/q0z01FyoIg/YlNLLYkecl/13407.m3u8");
 //print_pro("DIGI24","http://82.76.40.81:80/digi24edge/digi24hdhqhls/index.m3u8");
 print_ch("Moldova 1", "http://127.0.0.1/cgi-bin/scripts/util/translate.cgi?stream,,rtmp://212.0.209.209:1935/live/MoldovaUnu1",$a["Moldova 1"]);
 print_ch("Moldova 2", "http://127.0.0.1/cgi-bin/scripts/util/translate.cgi?stream,,rtmp://live.trm.md:1935/live/mp4:MoldovaDoi2",$a["Moldova 2"]);
@@ -537,6 +539,7 @@ print_ch("InfoPescar","http://127.0.0.1/cgi-bin/scripts/util/m3u8yt.php?file=".u
 print_ch("Prahova TV", "http://127.0.0.1/cgi-bin/translate?stream,Rtmp-options:-W%20http://www.prahovatv.ro/player/player.swf%20-T%206c69766568642e747620657374652063656c206d616920746172652121%20http://www.infopescar.tv/yyy/player.swf%20-p%20http://www.prahovatv.ro/,rtmp://89.45.186.26:1935/live/prahovatv",$a["Prahova TV"]);
 print_ch("Jurnal TV", "http://flux.jtv.md/jtv-540p.flv",$a["Jurnal TV"]);
 print_ch("TvM", "http://tvm.ambra.ro",$a["TvM"]);
+print_c("TV8","http://cdnworld.magictvbox.eu/TV7/index.m3u8?token=token");
 //print_pro("B1","http://dgf.icx.ro/digiedge2/b1tvehq/index.m3u8?is=29&src=digi-online.ro&t=00000000000000000000000000000000");
 
 /*
@@ -572,6 +575,24 @@ foreach($m3uFile as $key => $line) {
    print_ch1($title." (HQ)",$l);
 }
 }
+/*
+$f="http://hd4all.ml/d/voyo.m3u";
+$html = file_get_contents("http://hd4all.ml/d/vtok.php");
+$id_t = str_between($html,'##','##' );
+   $id_t =str_replace("\/","/",$id_t);
+   $l1="".urldecode($id_t)."";
+   $token = base64_decode($l1);
+$m3uFile = file($f);
+foreach($m3uFile as $key => $line) {
+  if(strtoupper(substr($line, 0, 7)) === "#EXTINF") {
+   $t1=explode(",",$line);
+   $title=trim($t1[1]);
+   //$title1=$title;
+   $link = trim($m3uFile[$key + 1])."?".$token;
+   print_c($title,$link);
+}
+}
+*/
 $f="/usr/local/etc/dvdplayer/Telekom.m3u";
 //$f="D:\EasyPHP\data\localweb\scripts1\digi.m3u";
 if (file_exists($f)) {
