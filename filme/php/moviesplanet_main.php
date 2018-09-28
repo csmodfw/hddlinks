@@ -162,7 +162,11 @@ ret;
 		</mediaDisplay>
 
 	</item_template>
-	
+	<searchLink>
+	  <link>
+	    <script>"<?php echo $host."/scripts/filme/php/moviesplanet.php?page=1,search,"; ?>" + urlEncode(keyword);</script>
+	  </link>
+	</searchLink>
 	<logon>
 	<link>
 	<script>
@@ -176,9 +180,95 @@ ret;
 	<menu>main menu</menu>
 
 <?php
+echo '
+<item>
+  <title>Căutare</title>
+  <onClick>
+     keyword = getInput("Input", "doModal");
+		if (keyword != null)
+		 {
+	       jumpToLink("searchLink");
+		  }
+   </onClick>
+</item>
+';
+  $title="Filme favorite";
+  $link = $host."/scripts/filme/php/moviesplanet_f_fav.php";
+  echo '
+  <item>
+  <title>'.$title.'</title>
+  <link>'.$link.'</link>
+  <image></image>
+  </item>
+  ';
+    function getClearanceLink($content, $url)
+    {
+        /*
+         * 1. Mimic waiting process
+         */
+        sleep(4);
+
+        /*
+         * 2. Extract "jschl_vc" and "pass" params
+         */
+        preg_match_all('/name="\w+" value="(.+?)"/', $content, $matches);
+
+
+        $params = array();
+        list($params['jschl_vc'], $params['pass']) = $matches[1];
+        // Extract CF script tag portion from content.
+        $cf_script_start_pos    = strpos($content, 's,t,o,p,b,r,e,a,k,i,n,g,f,');
+        $cf_script_end_pos      = strpos($content, '</script>', $cf_script_start_pos);
+        $cf_script              = substr($content, $cf_script_start_pos, $cf_script_end_pos-$cf_script_start_pos);
+        /*
+         * 3. Extract JavaScript challenge logic
+         */
+        preg_match_all('/:[\/!\[\]+()]+|[-*+\/]?=[\/!\[\]+()]+/', $cf_script, $matches);
+        //print_r ($matches);
+
+            /*
+             * 4. Convert challenge logic to PHP
+             */
+            $php_code = "";
+            foreach ($matches[0] as $js_code) {
+                // [] causes "invalid operator" errors; convert to integer equivalents
+                $js_code = str_replace(array(
+                    ")+(",
+                    "![]",
+                    "!+[]",
+                    "[]"
+                ), array(
+                    ").(",
+                    "(!1)",
+                    "(!0)",
+                    "(0)"
+                ), $js_code);
+                $php_code .= '$params[\'jschl_answer\']' . ($js_code[0] == ':' ? '=' . substr($js_code, 1) : $js_code) . ';';
+            }
+            //echo $php_code;
+            /*
+             * 5. Eval PHP and get solution
+             */
+            eval($php_code);
+            // toFixed(10).
+            $params['jschl_answer'] = round($params['jschl_answer'], 10);
+            // Split url into components.
+            $uri = parse_url($url);
+            // Add host length to get final answer.
+            $params['jschl_answer'] += strlen($uri['host']);
+            /*
+             * 6. Generate clearance link
+             */
+             //echo http_build_query($params);
+            return sprintf("%s://%s/cdn-cgi/l/chk_jschl?%s",
+                $uri['scheme'],
+                $uri['host'],
+                http_build_query($params)
+            );
+    }
 $cookie="/tmp/moviesplanet.txt";
+$ua="Mozilla/5.0 (Windows NT 10.0; rv:55.0) Gecko/20100101 Firefox/55.0";
 exec ("rm -f /tmp/moviesplanet.txt");
-exec ("rm -f /tmp/cloud.dat");
 //$cookie="D://m.txt";
 //unlink ($cookie);
 $pop="/usr/local/etc/dvdplayer/moviesplanet.txt";
@@ -193,6 +283,19 @@ if (!file_exists($pop)) {
 	</item>
 	';
 } else {
+  $url="https://www.moviesplanet.tv/";
+  $referer=$url;
+  $exec_path="/usr/local/bin/Resource/www/cgi-bin/scripts/wget ";
+  //$exec_path = "D:/Temp/wget ";
+  $exec = '--content-on-error -q -S --keep-session-cookies --load-cookies '.$cookie.' --save-cookies '.$cookie.' -U "'.$ua.'" --referer="'.$referer.'" --no-check-certificate "'.$url.'" -O - 2>&1';
+  $exec = $exec_path.$exec;
+  $response=shell_exec($exec);
+  if (strpos($response,"HTTP/1.1 200 OK") === false) {
+  $rez=getClearanceLink($response,$url);
+  $exec = '-q --keep-session-cookies --load-cookies  '.$cookie.' --save-cookies '.$cookie.' -U "'.$ua.'" --referer="'.$url.'" --no-check-certificate "'.$rez.'" -O -';
+  $exec = $exec_path.$exec;
+  $h=shell_exec($exec);
+  }
   $handle = fopen($pop, "r");
   $c = fread($handle, filesize($pop));
   fclose($handle);
@@ -201,154 +304,14 @@ if (!file_exists($pop)) {
   $user=urlencode($a1);
   $user=str_replace("@","%40",$user);
   $pass=trim($a[1]);
-	function getPageCookie($cookie, $property){
-		// if property exists in cookie
-		if(strpos($cookie, $property) !== false){
-			// get cookie property and value
-			$property = str_replace("{$property}=", "|{$property}=", $cookie);
-			$property = substr($property, strpos($property, '|')    + 1);
-			$property = substr($property, 0, strpos($property, ';') + 1);
-			// return value stored inside cookie property
-			return $property;
-		}
-		return false;
-	}
-	function getSiteHost($siteLink) {
-		// parse url and get different components
-		$siteParts = parse_url($siteLink);
-		// extract full host components and return host
-		return $siteParts['scheme'].'://'.$siteParts['host'];
-	}
-	function getInputValue($response, $value) {
-		// get value of input with name of $value
-		$cfParam = substr($response, strpos($response, $value));
-		// store value
-		//$cfParam = substr($cfParam, strpos($cfParam, 'value="') + mb_strlen('value="', 'utf8'));
-		$cfParam = substr($cfParam, strpos($cfParam, 'value="') + strlen('value="'));
-		$cfParam = substr($cfParam, 0, strpos($cfParam, '"'));
-		// return value
-		return $cfParam;
-	}
-	function extractPageHeadersContent($pageResponse) {
-		// headers we should follow
-		$headersToFollow = array('HTTP/1.1 100');
-		// get page contents...
-		$delimiterRegex = '/([\r\n][\r\n])\\1/';
-		$delimiterRegex = '/</';
-		$pageDataArray  = preg_split($delimiterRegex, $pageResponse, 2);
-		//print_r ($pageDataArray);
-		// get http code portion out of page headers
-		$pageHeaders = substr($pageDataArray[0], 0, 12);
-		// simulate page redirect for as long as the page redirects
-		if(in_array($pageHeaders, $headersToFollow)) {
-			$pageDataArray = extractPageHeadersContent($pageDataArray[1]);
-		}
-		return $pageDataArray;
-	}
-	function solveJavaScriptChallenge($siteLink, $response){
-		// sleep 4 seconds to mimic waiting process
-		sleep(4);
-		// get values from js verification code and pass code inputs
-		$jschl_vc = getInputValue($response, 'jschl_vc');
-		$pass     = getInputValue($response, 'pass');
-		// extract javascript challenge code from CloudFlare script
-		//$siteLen = mb_strlen(substr($siteLink, strpos($siteLink,'/')+2), 'utf8');
-		$siteLen = strlen(substr($siteLink, strpos($siteLink,'/')+2));
-		$script  = substr($response, strpos($response, 'var s,t,o,p,b,r,e,a,k,i,n,g,f,') + strlen('var s,t,o,p,b,r,e,a,k,i,n,g,f,'));
-		$varname = trim(substr($script, 0, strpos($script, '=')));
-		$script  = substr($script, strpos($script, $varname));
-		// removing form submission event
-		$script  = substr($script, 0, strpos($script, 'f.submit()'));
-		// structuring javascript code for PHP conversion
-		$script  = str_replace(array('t.length', 'a.value'), array($siteLen, '$answer'), $script);
-		$script  = str_replace(array("\n", " "), "", $script);
-		$script  = str_replace(array(";;", ";"), array(";", ";\n"), $script);
-		// convert challenge code variables to PHP variables
-		$script  = preg_replace("/[^answe]\b(a|f|t|r)\b(.innerhtml)?=.*?;/i", '', $script);
-		$script  = preg_replace("/(\w+).(\w+)(\W+)=(\W+);/i", '$$1_$2$3=$4;', $script);
-		$script  = preg_replace("/(parseInt)?\((\w+).(\w+),.*?\)/", 'intval($$2_$3)', $script);
-		$script  = preg_replace("/(\w+)={\"(\w+)\":(\W+)};/i", '$$1_$2=$3;', $script);
-		// convert javascript array matrix in equations to binary which PHP can understand
-		$script  = str_replace(array("!![]", "!+[]"), 1, $script);
-		$script  = str_replace(array("![]", "[]"), 0, $script);
-		$script  = str_replace(array(")+", ").$siteLen"), array(").", ")+$siteLen"), $script);
-		// take out any source of javascript comment code - #JS Comment Fix
-		$script  = preg_replace("/'[^']+'/", "", $script);
-		// evaluate PHP script
-		eval($script);
-		// if cloudflare answer has been found, store it
-		if(is_numeric($answer)) {
-			// return verification values
-			return array(
-				'jschl_vc'      => $jschl_vc,
-				'pass'          => str_replace('+', '%2', $pass),
-				'jschl_answer'  => $answer
-			);
-		}
-		return false;
-	}
-function getPage($url, $referer) {
-  $cookie="/tmp/moviesplanet.txt";
-  //$cookie="D:/m.txt";
-  $ua="proxyFactory";
-  $exec_path="/usr/local/bin/Resource/www/cgi-bin/scripts/wget ";
-  //$exec_path = "D:/Temp/wget ";
-  $exec = '--content-on-error -q -S --keep-session-cookies --load-cookies '.$cookie.' --save-cookies '.$cookie.' -U "'.$ua.'" --referer="'.$referer.'" --no-check-certificate "'.$url.'" -O - 2>&1';
-  $exec = $exec_path.$exec;
-  $response=shell_exec($exec);
-  //echo $response;
-  list($pageHeaders, $pageContents) = extractPageHeadersContent($response);
-        		return array(
-        			'headers' => $pageHeaders,
-        			'content' => $pageContents
-        		);
-}
-	function bypassCloudFlare($siteNetLoc) {
-		// request anti-bot page again with referrer as site hostname
-		//echo "bypassCloudFlare"."<BR>";
-		$cfBypassAttempts=0;
-		$ddosPage = getPage($siteNetLoc, $siteNetLoc);
-		// cloudflare user id
-		$cfUserId = getPageCookie($ddosPage['headers'], '__cfduid');
-		// solve javascript challenge in ddos protection page
-		//echo $siteNetLoc."<BR>";
-		if($cfAnswerParams = solveJavaScriptChallenge($siteNetLoc, $ddosPage['content'])) {
-			// construct clearance link
-			$cfClearanceLink = $siteNetLoc.'/cdn-cgi/l/chk_jschl?'.http_build_query($cfAnswerParams);
-			// attempt to get cloudflare clearance cookie
-			$cfClearanceResp = getPage($cfClearanceLink, $siteNetLoc);
-			if(!$cfClearanceCookie = getPageCookie($cfClearanceResp['headers'], 'cf_clearance')) {
-				// if we haven't exceeded the max attempts
-				if($cfBypassAttempts < 5) {
-					// re-attempt to get the clearance cookie
-					$cfBypassAttempts++;
-					$cfClearanceCookie = bypassCloudFlare($siteNetLoc);
-				}
-			}
-		}
-	}
-$link="https://www.moviesplanet.tv";
-$siteNetLoc = getSiteHost($link);
-bypassCloudFlare($siteNetLoc);
-$cookie="/tmp/moviesplanet.txt";
-//$cookie="D:/m.txt";
-$ua="proxyFactory";
 
-$exec_path="/usr/local/bin/Resource/www/cgi-bin/scripts/wget ";
-//$exec_path = "D:/Temp/wget ";
-/*
-$l="https://www.moviesplanet.tv";
-$exec = '-q --load-cookies '.$cookie.' --save-cookies '.$cookie.' -U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
-$exec = $exec_path.$exec;
-$h=shell_exec($exec);
-*/
 
 $l="https://www.moviesplanet.tv/login";
 $post="returnpath=%2F&username=".$user."&password=".$pass;
 $exec = '-q --keep-session-cookies --load-cookies '.$cookie.' --save-cookies '.$cookie.' --header="Content-Type: application/x-www-form-urlencoded"  --post-data="'.$post.'" -U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
 $exec = $exec_path.$exec;
 $response=shell_exec($exec);
-
+//}
 $l="https://www.moviesplanet.tv/";
 $exec = '-q --load-cookies  '.$cookie.' -U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
 $exec = $exec_path.$exec;

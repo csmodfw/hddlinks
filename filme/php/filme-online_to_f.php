@@ -361,7 +361,8 @@ foreach($videos as $video) {
   //$title=trim(preg_replace("/- filme online subtitrate/i","",$title));
   $t1 = explode('data-original="', $video);
   $t2 = explode('"', $t1[1]);
-  $image = $t2[0];
+  $t3=explode("url=",$t2[0]);
+  $image = $t3[1];
 
   $image=str_replace("https","http",$image);
   $image1=$image;

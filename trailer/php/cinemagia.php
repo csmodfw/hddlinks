@@ -181,11 +181,11 @@ if($query) {
 }
 $host = "http://127.0.0.1/cgi-bin";
 if($page) {
-        $html = file_get_contents("http://www.cinemagia.ro/trailer/ultimele-adaugate/?pn=".$page."");
+        $l = "httpS://www.cinemagia.ro/trailer/ultimele-adaugate/?pn=".$page."";
     }
 else {
     $page = 1;
-        $html = file_get_contents("http://www.cinemagia.ro/trailer/ultimele-adaugate/?pn=1");
+        $l = "httpS://www.cinemagia.ro/trailer/ultimele-adaugate/?pn=1";
     }
 
 
@@ -207,7 +207,17 @@ $url = $sThisFile."?query=".($page-1).",";
 <?php } ?>
 
 <?php
-
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $l);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+curl_setopt($ch, CURLOPT_USERAGENT, $ua);
+//curl_setopt($ch, CURLOPT_HEADER,1);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+//curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+//curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
+$html = curl_exec($ch);
+curl_close($ch);
 $videos = explode('class="box_movie_trailer', $html);
 
 unset($videos[0]);
@@ -225,6 +235,7 @@ foreach($videos as $video) {
     $t1 = explode(' src="', $video);
     $t2 = explode('"', $t1[2]);
     $image = $t2[0];
+    $image=str_replace("https","http",$image);
     
     //$link = $host."/scripts/trailer/php/cinemarx_link.php?file=".$link;
     $name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".flv";

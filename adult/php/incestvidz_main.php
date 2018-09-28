@@ -173,23 +173,24 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
-  	$link=$host."/scripts/adult/php/incestvidz.php?query=1,http://www.incestvidz.com/,release";
+  	$link=$host."/scripts/adult/php/incestvidz.php?query=1,https://www.incestvidz.com/,release";
   	echo '
   	<item>
   		<title>New</title>
   		<link>'.$link.'</link>
   	</item>';
-$l="http://www.incestvidz.com/";
+$l="https://www.incestvidz.com/";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt($ch, CURLOPT_REFERER, "http://www.incestvidz.com/");
+  curl_setopt($ch, CURLOPT_REFERER, "https://www.incestvidz.com/");
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $html = curl_exec($ch);
   curl_close($ch);
 //$html=str_between($html,'<ul class="ordenar','</ul');
-$videos = explode('class="cat-item cat-item-', $html);
+$videos = explode('id="menu-item-', $html);
 unset($videos[0]);
 $videos = array_values($videos);
 foreach($videos as $video) {

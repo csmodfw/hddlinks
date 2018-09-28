@@ -158,7 +158,7 @@ function str_between($string, $start, $end){
 	return substr($string,$ini,$len);
 }
 //$host = "http://uphero.xpresso.eu/";
-$link = "https://vezi-online.com/filme";
+$link = "https://vezi-online.org/filme";
 	echo '
 	<item>
 	<title>Filme noi</title>
@@ -169,9 +169,9 @@ $link = "https://vezi-online.com/filme";
 	';
 
 //$user_agent     =   $_SERVER['HTTP_USER_AGENT'];
-$l = "https://vezi-online.com/filme";
+$l = "https://vezi-online.org/filme";
       $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
-      $exec = '--max-redirect 0 -U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
+      $exec = ' -U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
       $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
       $html=shell_exec($exec);
 $videos = explode('li class="cat-item', $html);

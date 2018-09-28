@@ -1,5 +1,6 @@
 #!/usr/local/bin/Resource/www/cgi-bin/php
 <?php echo "<?xml version='1.0' encoding='UTF8' ?>";
+set_time_limit(30);
 $query = $_GET["file"];
 if($query) {
    $queryArr = explode(',', $query);
@@ -10,6 +11,8 @@ if($query) {
    $pagetitle = str_replace("^",",",$pagetitle);
    $pagetitle = str_replace("&amp;","&",$pagetitle);
 }
+//$pagetitle="How I Met Your Mother";
+//$link="http://www.filmeserialeonline.org/seriale/how-i-met-your-mother/";
 ?>
 <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
 <onEnter>
@@ -31,11 +34,11 @@ if($query) {
 	itemImageWidthPC="0"
 	itemXPC="8"
 	itemYPC="25"
-	itemWidthPC="80"
+	itemWidthPC="45"
 	itemHeightPC="8"
 	capXPC="8"
 	capYPC="25"
-	capWidthPC="80"
+	capWidthPC="45"
 	capHeightPC="64"
 	itemBackgroundColor="0:0:0"
 	itemPerPage="8"
@@ -46,7 +49,7 @@ if($query) {
 	showDefaultInfo="no"
 	imageFocus=""
 	sliding="no"
-    idleImageXPC="5" idleImageYPC="5" idleImageWidthPC="8" idleImageHeightPC="10"
+	idleImageXPC="5" idleImageYPC="5" idleImageWidthPC="8" idleImageHeightPC="10"
 >
   	<text align="center" offsetXPC="0" offsetYPC="0" widthPC="100" heightPC="20" fontSize="30" backgroundColor="10:105:150" foregroundColor="100:200:255">
 		  <script>getPageInfo("pageTitle");</script>
@@ -55,6 +58,15 @@ if($query) {
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
 		</text>
+		<text align="center" redraw="yes"
+          lines="10" fontSize=17
+		      offsetXPC=55 offsetYPC=55 widthPC=40 heightPC=42
+		      backgroundColor=0:0:0 foregroundColor=200:200:200>
+   <script>print(desc); desc;</script>
+		</text>
+		<image  redraw="yes" offsetXPC=60 offsetYPC=22.5 widthPC=30 heightPC=25>
+  <script>print(img); img;</script>
+		</image>
   	<text  redraw="yes" align="center" offsetXPC="0" offsetYPC="90" widthPC="100" heightPC="8" fontSize="17" backgroundColor="10:105:150" foregroundColor="100:200:255">
 		  <script>print(annotation); annotation;</script>
 		</text>
@@ -73,9 +85,9 @@ if($query) {
 					focus = getFocusItemIndex();
 					if(focus==idx)
 					{
-					  location = getItemInfo(idx, "location");
+					  desc = getItemInfo(idx, "desc");
 					  annotation = getItemInfo(idx, "title");
-					  img = getItemInfo(idx,"image");
+					  img = getItemInfo(idx,"img_ep");
 					}
 					getItemInfo(idx, "title");
 				</script>
@@ -175,7 +187,11 @@ function decode_entities($text) {
     $text= preg_replace('/&#x([a-f0-9]+);/mei',"chr(0x\\1)",$text);  #hex notation
     return $text;
 }
-
+$f="/usr/local/etc/dvdplayer/tvplay.txt";
+if (file_exists($f))
+   $user=true;
+else
+   $user=false;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $link);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -187,7 +203,26 @@ function decode_entities($text) {
   curl_close($ch);
   //$html=str_replace("script","zzzzz",$html);
   //echo $html;
-$videos = explode('<li class="episode', $html);
+$t1=explode('property="og:image" content="',$html);
+$t2=explode('"',$t1[1]);
+$pageimage=str_replace("https","http",$t2[0]);
+$last_sez="";
+$key="f8cf02e6b30bf8cc33c04c60695781aa";
+$api_url="https://api.themoviedb.org/3/search/tv?api_key=".$key."&query=".urlencode($pagetitle);
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $api_url);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_CONNECTTIMEOUT  ,10);
+  curl_setopt($ch, CURLOPT_REFERER, "https://api.themoviedb.org");
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  $h = curl_exec($ch);
+  curl_close($ch);
+$r=json_decode($h,1);
+$id_m=$r["results"][0]["id"];
+//echo $id_m;
+$videos = explode('class="numerando">', $html);
 unset($videos[0]);
 $videos = array_values($videos);
 $n=0;
@@ -198,9 +233,41 @@ if ( sizeof($t1)>1 ) {
     $t2 = explode('"', $t1[1]);
     $link = $t2[0];
 
-    $t1=explode('title="',$video);
-    $t2=explode('"',$t1[1]);
-    $title=$t2[0];
+    $t1=explode('<',$video);
+    $title1=trim($t1[0]);
+    preg_match("/(\d+)\s+x\s+(\d+)/",$title1,$m);
+    //print_r ($m);
+    $sez=$m[1];
+    $ep=$m[2];
+    $t2=explode('class="episodiotitle">',$video);
+    $t3=explode("<",$t2[1]);
+    $title2=trim($t3[0]);
+    if ($user && $last_sez <> $sez && $id_m && !$title2) {
+       $last_sez=$sez;
+       $l="https://api.themoviedb.org/3/tv/".$id_m."/season/".$sez."?api_key=".$key;
+       $ch = curl_init();
+       curl_setopt($ch, CURLOPT_URL, $l);
+       curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+       curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+       curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+       curl_setopt($ch, CURLOPT_CONNECTTIMEOUT  ,10);
+       curl_setopt($ch, CURLOPT_REFERER, "https://api.themoviedb.org");
+       curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+       $h = curl_exec($ch);
+       curl_close($ch);
+       $r=json_decode($h,1);
+       }
+       if ($r) {
+        $title2 = $r["episodes"][$ep-1]["name"];
+        $desc=$r["episodes"][$ep-1]["overview"];
+        $img_ep="http://image.tmdb.org/t/p/w780".$r["episodes"][$ep-1]["still_path"];
+       }
+
+
+    if ($title2)
+    $title=$sez."x".$ep." - ".$title2;
+    else
+    $title=$sez."x".$ep;
 
 
       //$link = 'filme_link.php?file='.urlencode($link).",".urlencode($title);
@@ -210,6 +277,8 @@ if ( sizeof($t1)>1 ) {
     <item>
     <title>'.str_replace("&","&amp;",str_replace("&amp;","&",$title)).'</title>
     <link>'.$link.'</link>
+    <desc>'.$desc.'</desc>
+    <img_ep>'.$img_ep.'</img_ep>
  		<media:thumbnail url="'.$pageimage.'" />
  		<mediaDisplay name="threePartsView"/>
     </item>

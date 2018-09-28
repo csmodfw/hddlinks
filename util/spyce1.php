@@ -17,39 +17,29 @@ function str_between($string, $start, $end){
 	}
 $id= urldecode($_GET["file"]);
 //$id="55.m3u8";
-$alip = '149.202.196.52';//allip
-$alport = '25461';//allport
-//$dev = file_get_contents("http://mxcore.forithost.com/dev.txt");
 $f="/usr/local/etc/dvdplayer/tvplay.txt";
 if (file_exists($f))
   $pass=trim(file_get_contents($f));
 else
   $pass="";
-$lp="http://hd4all.ml/d/gazv.php?c=".$pass;
-$dev = file_get_contents("".$lp."");
-$all="http://www.seenow.ro/test/LG/proxy.php?url=play.core1.qazwsx.work:25461/live".$dev."1.m3u8";
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, $all);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0');
-curl_setopt($ch, CURLOPT_POST, 1);
-curl_setopt($ch, CURLOPT_POSTFIELDS,'ip='.$alip.'&port='.$alport);
-curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-//curl_setopt($ch, CURLOPT_HEADER, 1);
-$htm = curl_exec($ch);
-curl_close($ch);
-$r= json_decode($htm,1);
-//print_r ($r);
-//die();
-//
-//$out = file_get_contents($htm);
-$tok = str_between($htm,'token=','\r' );
-$serv = str_between($htm,'Location: http:\/\/','\/' );
-$tok=str_replace(" ","",$tok);
-$out="http://".$serv."/live".$dev."".$id."?token=".$tok."";
-//for ($z=0;$z<100;$z++) {
-//while (true) {
-$l="http://".$serv."/live/I02CzDS14C/EHdAiyOOS0/".$id."?token=".$tok."";
+$l="http://hd4all.ml/d/gasvk.php?c=".$pass;
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, $l);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+      curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 10.0; rv:57.0) Gecko/20100101 Firefox/57.0");
+      //curl_setopt($ch, CURLOPT_HEADER,1);
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+      $h = curl_exec($ch);
+      curl_close($ch);
+$tok = str_between($h,'tok="','"');
+$serv = str_between($h,'url="','"' );
+if (!$tok) die();
+if (!$serv) die();
+$l="http://r1.fr.web.xn--8oux7cpmf3du51f21q.xn--3ds443g:25461/live/I02CzDS14C/EHdAiyOOS0/".$id."?token=".$tok1;
+$l="http://r2.fr.web.xn--8oux7cpmf3du51f21q.xn--3ds443g:25461/live/I02CzDS14C/EHdAiyOOS0/".$id."?token=".$tok1;
+//if !($serv && $tok)  die();
+ $l="http://".$serv.":25461/live/I02CzDS14C/EHdAiyOOS0/".$id."?token=".$tok;
 $base=getSiteHost($l);
 $ua="Mozilla/5.0 (iPhone; CPU iPhone OS 5_0_1 like Mac OS X)";
       $ch = curl_init();
@@ -62,7 +52,7 @@ $ua="Mozilla/5.0 (iPhone; CPU iPhone OS 5_0_1 like Mac OS X)";
       //curl_setopt($ch, CURLOPT_REFERER, "http://hqq.tv/");
       $h = curl_exec($ch);
       curl_close($ch);
-      if (strpos($h,"200 OK") === false) die();
+      //if (strpos($h,"200 OK") === false) die();
 //echo $h;
 //die();
 

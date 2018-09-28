@@ -1,6 +1,13 @@
 #!/usr/local/bin/Resource/www/cgi-bin/php
 <?php echo "<?xml version='1.0' encoding='UTF8' ?>";
 $host = "http://127.0.0.1/cgi-bin";
+$query = $_GET["page"];
+if($query) {
+   $queryArr = explode(',', $query);
+   $page = $queryArr[0];
+   $id=$queryArr[1];
+   $pg=urldecode($queryArr[2]);
+}
 ?>
 <rss version="2.0">
 <onEnter>
@@ -178,7 +185,7 @@ ret;
 	</link>
 </destination>
 <channel>
-	<title>dancetrippin.tv</title>
+	<title><?php echo $pg; ?></title>
 	<menu>main menu</menu>
 
 
@@ -209,35 +216,29 @@ function xml_fix($string) {
     $v=str_replace("\/","/",$v);
     return $v;
 }
-//http://player.dancetrippin.tv/video/list/dj/
-$link="http://new.dancetrippin.tv/video/list/";
-$link="http://player.dancetrippin.tv/video/list/dj/";
-$link="http://www.dancetrippin.tv/videos/dj-sets/";
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $link);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  //curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Linux; U; Android 0.5; en-us) AppleWebKit/522+ (KHTML, like Gecko) Safari/419.3');
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+$l="https://vimeo.com/".$id."?action=get_profile_clips&page=".$page;
+//user9760561
+$head=array('Accept: */*',
+'Accept-Language: en-US,en;q=0.5',
+'Accept-Encoding: deflate',
+'x-requested-with: XMLHttpRequest',
+'origin: https://vimeo.com',
+'Referer: http://vimeo.com/dancetrippintv');
+
+  $ch = curl_init($l);
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-  $html = curl_exec($ch);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; rv:55.0) Gecko/20100101 Firefox/55.0');
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+  curl_setopt($ch,CURLOPT_HTTPHEADER,$head);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  $h = curl_exec($ch);
   curl_close($ch);
-//$html=xml_fix($html);
-$videos = explode('<div class="single"', $html);
-
-unset($videos[0]);
-$videos = array_values($videos);
-
-foreach($videos as $video) {
-    $t1=explode('href="',$video);
-    $t2=explode('"',$t1[1]);
-    $link="http://www.dancetrippin.tv".$t2[0];
-    //$link="http://player.dancetrippin.tv/video/".str_between($video,'slug": "','"');
-    $title=str_between($video,'title="','"');
-    //http://player.dancetrippin.tv/media/video_thumbs/6082.jpg
-    $image=str_between($video,'url(',')');
-    $image=str_replace(" ","%20",$image);
-    if (strpos($image,"http") === false) $image="http://www.dancetrippin.tv".$image;
+  $r=json_decode($h,1);
+  for ($k=0;$k<count($r["clips"]);$k++) {
+    $link=$r["clips"][$k]['clip_id'];
+    $title=$r["clips"][$k]["title"];
+    $image=$r["clips"][$k]["thumbnail"]["src_2x"];
+    $image=str_replace("https","http",$image);
     //$pub = trim(preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$t2[0]));
 
     $name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".mp4";
@@ -250,7 +251,25 @@ foreach($videos as $video) {
     url="'.$host.'/scripts/clip/php/dancetrippin_link.php?file='.urlencode($link).'";
     movie=getUrl(url);
     cancelIdle();
-    playItemUrl(movie,10);
+    if (movie == "" || movie == " " || movie == null)
+    {
+    playItemUrl(-1,1);
+    }
+    else
+    {
+    storagePath = getStoragePath("tmp");
+    storagePath_stream = storagePath + "stream.dat";
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/x-flv);
+    streamArray = pushBackStringArray(streamArray, "'.str_replace('"',"'",$title).'");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer.rss");
+    }
     </script>
     </onClick>
     <download>'.$link.'</download>
@@ -266,7 +285,17 @@ foreach($videos as $video) {
 
 
 ?>
-
+<item>
+<?php
+$sThisFile = 'http://127.0.0.1'.$_SERVER['SCRIPT_NAME'];
+$url = $sThisFile."?page=".($page+1).",".$id.",".urlencode($pg);
+?>
+<title>Next Page</title>
+<link><?php echo $url;?></link>
+<annotation>Pagina urmatoare</annotation>
+<image>image/right.jpg</image>
+<mediaDisplay name="threePartsView"/>
+</item>
 
 
 </channel>

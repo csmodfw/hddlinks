@@ -235,8 +235,9 @@ foreach($videos as $video) {
   $t4 = explode('"', $t3[1]);
   $image = $t4[0];
   $image=str_replace(" ","%20",$image);
-  //$image="http://127.0.0.1/cgi-bin/scripts/filme/php/r.php?file=".$image;
+  $image="http://127.0.0.1/cgi-bin/scripts/filme/php/r.php?file=".$image;
   $image=str_replace("https","http",$image);
+  //$image="http://127.0.0.1/cgi-bin/scripts/filme/r_m.php?file=".$image;
   $t3 = explode("<h2>",$video);
   $t4 = explode("<",$t3[1]);
   $title = $t4[0];

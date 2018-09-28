@@ -179,7 +179,7 @@ function str_between($string, $start, $end){
   		<title>New</title>
   		<link>'.$link.'</link>
   	</item>';
-$l = "https://www.redtube.com/channels";
+$l = "https://www.redtube.com/categories";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -190,21 +190,22 @@ $l = "https://www.redtube.com/channels";
   $html = curl_exec($ch);
   curl_close($ch);
 //$html = str_between($html,'<ul class="smallChannels">','</ul>');
-$videos = explode('<div class="video">', $html);
+$videos = explode('div class="category_item', $html);
 unset($videos[0]);
 $videos = array_values($videos);
 foreach($videos as $video) {
     $t=explode('href="',$video);
     $t1=explode('"',$t[1]);
     $link="http://www.redtube.com".$t1[0];
-  	$title=str_between($video,'title="','"');
-
+  	$title=str_between($video,'alt="','"');
+    if ($title) {
   	$link=$host."/scripts/adult/php/redtube.php?query=1,".$link.",release";
   	echo '
   	<item>
   		<title>'.$title.'</title>
   		<link>'.$link.'</link>
   	</item>';
+   }
 }
 ?>
 </channel>

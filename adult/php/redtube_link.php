@@ -22,9 +22,12 @@ $t2=explode('"',$t1[1]);
 $t3=explode('"',$t2[1]);
 $out=str_replace("\/","/",$t3[0]);
 */
-$out=str_between($html,'source src="','"');
-if (strpos($out,"http") === false) $out="https:".$out;
-$out=str_replace("&amp;","&",$out);
+$t1=explode('videoUrl":"',$html);
+$t2=explode('"',$t1[1]);
+if (!$t2[0])
+  $t2=explode('"',$t1[2]);
+$out=$t2[0];
+$out=str_replace("\\","",$out);
 $out=str_replace("https","http",$out);
 print $out;
 ?>

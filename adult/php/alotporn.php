@@ -281,16 +281,23 @@ foreach($videos as $video) {
     url="'.$link.'";
     movie=getUrl(url);
     cancelIdle();
+    if (movie == "" || movie == " " || movie == null)
+    {
+    playItemUrl(-1,1);
+    }
+    else
+    {
     streamArray = null;
     streamArray = pushBackStringArray(streamArray, "");
     streamArray = pushBackStringArray(streamArray, "");
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, video/x-flv);
-    streamArray = pushBackStringArray(streamArray, "'.$title.'");
+    streamArray = pushBackStringArray(streamArray, "'.str_replace('"',"'",$title).'");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer.rss");
+    }
     </script>
     </onClick>
     <download>'.$link.'</download>

@@ -6,6 +6,13 @@ function indexOf($hack,$pos) {
 }
 function base8($hack) {
 $c1=strlen($hack);
+for ($i=0;$i<$c1;$i++) {
+  if ($hack[$i] > 7) {
+    $hack=substr($hack,0,$i);
+    $c1=strlen($hack);
+    break;
+  }
+}
 $ch1=0;
 //$ch1=intval($t3[1],8);
 //echo $t3[1]." ".intval("0".$t3[1])." ";
@@ -37,12 +44,16 @@ function substring($str, $from = 0, $to = FALSE)
     return ($substring === FALSE) ? '' : $substring;
 }
 //$c0=['11|12|13|0|14|3|2|9|16|1|4|8|5|6|15|10|7','split','xXM','length','jLa','substring','aZP','dOD','Poy','write','push','dkF','text','tjf','HIZ','WyX','faz','Gcy','ucs','2|0|5|4|3|1','dhh','pQu','eMz','ZBD','Lnk','fromCharCode','DYl','4|3|0|5|6|2|1','WOa','gzw','cBV','Zft','pow','tcV','EAk','QHb','charCodeAt'];
-function ol($enc,$ch11,$ch22,$ch33) {
+function ol($enc,$ch11,$ch22,$ch33,$ch44,$ch55,$ch66,$ch77) {
+//echo $enc."\n".$ch11."\n".$ch22."\n".$ch33."\n".$ch44."\n".$ch55."\n".$ch66."\n";
 //$ch11=dechex($ch11);
 //$ch22=dechex($ch22);
 //echo $ch11."  ".$ch22."\n";
 //$ch33=1;
 //$ch11=intval($ch11);
+//echo $ch22."\n".base8($ch22)."\n";
+//echo $ch11."\n".base8($ch11)."\n";
+//$ch22=9020;
 $dec="";
 $a146=0;
 $a145=explode("|",'11|12|13|0|14|3|2|9|16|1|4|8|5|6|15|10|7');
@@ -100,9 +111,13 @@ case'10':
      $a194+=1;
      continue;
     case'3':
-     $a195=$a195^$a199^base8($ch11)^$d1;
+     $a195=$a195^((base8($ch11)-$ch44+4+$ch77)/($ch55-8))^$d1;
+     //case'3':a195=a16[c2('0xe')](a16[c2('0xf')](a195,(parseInt('153023032627',8)-411+0x4)/(12-0x8)),d0);
+     //case'3':a195=a16[c2('0xe')](a16[c2('0xf')](a195,(parseInt('153023033615',8)-913+0x4)/(12-0x8)),d0);
+     //$a195=$a195^2164698430^$d1;
      //case'3':a195=a16[c2('0xe')](a16[c2('0xf')](a195,a199^0x8106ad3e),d0);
      //	case'3':a195=a16[c2('0xe')](a16[c2('0xf')](a195,a199^parseInt('20101526476',8)),d0);
+     //case'3':a195=a16[c2('0xe')](a16[c2('0xf')](a195,(parseInt('60305005205',8)-719+0x4)/(11-0x8)),d0)
      continue;
     case'4':
      $a199=0x28a28dec;
@@ -129,7 +144,8 @@ case'10':
        $a222=$a195&$a189;
        continue;
       case'3':
-       if($a227!='%')$a149 .=$a227;
+       //if($a227!='%')$a149 .=$a227; //$
+       if($a227!='$')$a149 .=$a227;
        //alert ($a149); $a149 text decodat
        continue;
       case'4':
@@ -191,7 +207,7 @@ case'10':
       } while($a246>=$a192);
       continue;
    case'11':
-     $d1=$ch22;
+     $d1=base8($ch22) + $ch66;
      continue;
    case'12':
      $a243=0;

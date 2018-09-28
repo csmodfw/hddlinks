@@ -405,6 +405,7 @@ showIdle();
 </item>
 
 <!-- 5 -->
+<!--
 <item>
 <title>OneHD</title>
 <onClick>
@@ -417,7 +418,19 @@ showIdle();
 <unfocus>/usr/local/etc/www/cgi-bin/scripts/image/onehd_unfocus.png</unfocus>
 <annotation>One HD: concerte, divertisment, business, turism, experimente, disponibile în High Definition atât live cât şi on-demand (VOD)</annotation>
 </item>
-
+-->
+<item>
+<title>Muzica youtube</title>
+<onClick>
+<script>
+showIdle();
+"<?php echo $host; ?>/scripts/tv/ytlive.php";
+</script>
+</onClick>
+<focus>/usr/local/etc/www/cgi-bin/scripts/image/music_focus.png</focus>
+<unfocus>/usr/local/etc/www/cgi-bin/scripts/image/music_unfocus.png</unfocus>
+<annotation>Canale de muzica live disponibile pe youtube</annotation>
+</item>
 <!-- 6 -->
 <item>
 <title>Radio Online</title>

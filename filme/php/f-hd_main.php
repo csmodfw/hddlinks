@@ -160,16 +160,148 @@ function str_between($string, $start, $end){
 	return substr($string,$ini,$len); 
 }
 //$html = file_get_contents("http://divxonline.biz/");
+$cookie="/tmp/cloud.dat";
+exec ("rm -f /tmp/cloud.dat");
+
 $l="https://f-hd.net/";
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $l);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-  //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
-  $html = curl_exec($ch);
-  curl_close($ch);
+	function getPageCookie($cookie, $property){
+		// if property exists in cookie
+		if(strpos($cookie, $property) !== false){
+			// get cookie property and value
+			$property = str_replace("{$property}=", "|{$property}=", $cookie);
+			$property = substr($property, strpos($property, '|')    + 1);
+			$property = substr($property, 0, strpos($property, ';') + 1);
+			// return value stored inside cookie property
+			return $property;
+		}
+		return false;
+	}
+	function getSiteHost($siteLink) {
+		// parse url and get different components
+		$siteParts = parse_url($siteLink);
+		// extract full host components and return host
+		return $siteParts['scheme'].'://'.$siteParts['host'];
+	}
+	function getInputValue($response, $value) {
+		// get value of input with name of $value
+		$cfParam = substr($response, strpos($response, $value));
+		// store value
+		//$cfParam = substr($cfParam, strpos($cfParam, 'value="') + mb_strlen('value="', 'utf8'));
+		$cfParam = substr($cfParam, strpos($cfParam, 'value="') + strlen('value="'));
+		$cfParam = substr($cfParam, 0, strpos($cfParam, '"'));
+		// return value
+		return $cfParam;
+	}
+	function extractPageHeadersContent($pageResponse) {
+		// headers we should follow
+		$headersToFollow = array('HTTP/1.1 100');
+		// get page contents...
+		$delimiterRegex = '/([\r\n][\r\n])\\1/';
+		$delimiterRegex = '/</';
+		$pageDataArray  = preg_split($delimiterRegex, $pageResponse, 2);
+		//print_r ($pageDataArray);
+		// get http code portion out of page headers
+		$pageHeaders = substr($pageDataArray[0], 0, 12);
+		// simulate page redirect for as long as the page redirects
+		if(in_array($pageHeaders, $headersToFollow)) {
+			$pageDataArray = extractPageHeadersContent($pageDataArray[1]);
+		}
+		return $pageDataArray;
+	}
+	function solveJavaScriptChallenge($siteLink, $response){
+		// sleep 4 seconds to mimic waiting process
+		sleep(4);
+		// get values from js verification code and pass code inputs
+		$jschl_vc = getInputValue($response, 'jschl_vc');
+		$pass     = getInputValue($response, 'pass');
+		// extract javascript challenge code from CloudFlare script
+		//$siteLen = mb_strlen(substr($siteLink, strpos($siteLink,'/')+2), 'utf8');
+		$siteLen = strlen(substr($siteLink, strpos($siteLink,'/')+2));
+		$script  = substr($response, strpos($response, 'var s,t,o,p,b,r,e,a,k,i,n,g,f,') + strlen('var s,t,o,p,b,r,e,a,k,i,n,g,f,'));
+		$varname = trim(substr($script, 0, strpos($script, '=')));
+		$script  = substr($script, strpos($script, $varname));
+		// removing form submission event
+		$script  = substr($script, 0, strpos($script, 'f.submit()'));
+		// structuring javascript code for PHP conversion
+		$script  = str_replace(array('t.length', 'a.value'), array($siteLen, '$answer'), $script);
+		$script  = str_replace(array("\n", " "), "", $script);
+		$script  = str_replace(array(";;", ";"), array(";", ";\n"), $script);
+		// convert challenge code variables to PHP variables
+		$script  = preg_replace("/[^answe]\b(a|f|t|r)\b(.innerhtml)?=.*?;/i", '', $script);
+		$script  = preg_replace("/(\w+).(\w+)(\W+)=(\W+);/i", '$$1_$2$3=$4;', $script);
+		$script  = preg_replace("/(parseInt)?\((\w+).(\w+),.*?\)/", 'intval($$2_$3)', $script);
+		$script  = preg_replace("/(\w+)={\"(\w+)\":(\W+)};/i", '$$1_$2=$3;', $script);
+		// convert javascript array matrix in equations to binary which PHP can understand
+		$script  = str_replace(array("!![]", "!+[]"), 1, $script);
+		$script  = str_replace(array("![]", "[]"), 0, $script);
+		$script  = str_replace(array(")+", ").$siteLen"), array(").", ")+$siteLen"), $script);
+		// take out any source of javascript comment code - #JS Comment Fix
+		$script  = preg_replace("/'[^']+'/", "", $script);
+		$script = str_replace("f.action+=location.hash;","",$script);
+		// evaluate PHP script
+		eval($script);
+		// if cloudflare answer has been found, store it
+		if(is_numeric($answer)) {
+			// return verification values
+			return array(
+				'jschl_vc'      => $jschl_vc,
+				'pass'          => str_replace('+', '%2', $pass),
+				'jschl_answer'  => $answer
+			);
+		}
+		return false;
+	}
+function getPage($url, $referer) {
+  $cookie="/tmp/cloud.dat";
+  //$cookie="D:/m.txt";
+  $ua="proxyFactory";
+  $exec_path="/usr/local/bin/Resource/www/cgi-bin/scripts/wget ";
+  //$exec_path = "D:/Temp/wget ";
+  $exec = '--content-on-error -q -S --keep-session-cookies --load-cookies '.$cookie.' --save-cookies '.$cookie.' -U "'.$ua.'" --referer="'.$referer.'" --no-check-certificate "'.$url.'" -O - 2>&1';
+  $exec = $exec_path.$exec;
+  $response=shell_exec($exec);
+  //echo $response;
+  list($pageHeaders, $pageContents) = extractPageHeadersContent($response);
+        		return array(
+        			'headers' => $pageHeaders,
+        			'content' => $pageContents
+        		);
+}
+	function bypassCloudFlare($siteNetLoc) {
+		// request anti-bot page again with referrer as site hostname
+		//echo "bypassCloudFlare"."<BR>";
+		$cfBypassAttempts=0;
+		$ddosPage = getPage($siteNetLoc, $siteNetLoc);
+		// cloudflare user id
+		$cfUserId = getPageCookie($ddosPage['headers'], '__cfduid');
+		// solve javascript challenge in ddos protection page
+		//echo $siteNetLoc."<BR>";
+		if($cfAnswerParams = solveJavaScriptChallenge($siteNetLoc, $ddosPage['content'])) {
+			// construct clearance link
+			$cfClearanceLink = $siteNetLoc.'/cdn-cgi/l/chk_jschl?'.http_build_query($cfAnswerParams);
+			// attempt to get cloudflare clearance cookie
+			$cfClearanceResp = getPage($cfClearanceLink, $siteNetLoc);
+			if(!$cfClearanceCookie = getPageCookie($cfClearanceResp['headers'], 'cf_clearance')) {
+				// if we haven't exceeded the max attempts
+				if($cfBypassAttempts < 5) {
+					// re-attempt to get the clearance cookie
+					$cfBypassAttempts++;
+					$cfClearanceCookie = bypassCloudFlare($siteNetLoc);
+				}
+			}
+		}
+	}
+$link="https://f-hd.net/";
+$siteNetLoc = getSiteHost($link);
+//bypassCloudFlare($siteNetLoc);
+$l="https://f-hd.net/";
+$ua="proxyFactory";
+
+$exec_path="/usr/local/bin/Resource/www/cgi-bin/scripts/wget ";
+$exec = '-q --load-cookies  '.$cookie.' -U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
+$exec = $exec_path.$exec;
+$html=shell_exec($exec);
+
 $link="https://f-hd.net/";
 $link = $host."/scripts/filme/php/f-hd.php?query=,".$link;
 $title="Filme Noi";

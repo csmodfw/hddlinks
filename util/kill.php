@@ -3,6 +3,7 @@
 exec ("killall m3u8.php");
 exec ("killall m3u8yt.php");
 exec ("killall m3u8p.php");
+exec ("killall m3u8g.php");
 exec ("killall spyce.php");
 exec ("killall ts.php");
 exec ("killall filmon_link.php");

@@ -90,12 +90,12 @@ if($query) {
 		  <script>getPageInfo("pageTitle");</script>
 		</text>
   	<text align="left" offsetXPC="6" offsetYPC="15" widthPC="80" heightPC="4" fontSize="16" backgroundColor="10:105:150" foregroundColor="100:200:255">
-      right for more
+      2=add to favorite,right for more
 		</text>
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
 		</text>
-	<image  redraw="yes" offsetXPC=60 offsetYPC=25 widthPC=30 heightPC=60>
+	<image  redraw="yes" offsetXPC=60 offsetYPC=25 widthPC=30 heightPC=25>
          <script>print(image); image;</script>
 		</image>
   	<text  redraw="yes" align="center" offsetXPC="0" offsetYPC="90" widthPC="100" heightPC="8" fontSize="17" backgroundColor="10:105:150" foregroundColor="100:200:255">
@@ -179,6 +179,15 @@ if (userInput == "pagedown" || userInput == "pageup")
   redrawDisplay();
   ret="true";
 }
+else if (userInput == "two" || userInput == "2")
+{
+ showIdle();
+ url="http://127.0.0.1/cgi-bin/scripts/filme/php/tvhub_add.php?mod=add*" + getItemInfo(getFocusItemIndex(),"link1") + "*" + getItemInfo(getFocusItemIndex(),"title1");
+ dummy=getUrl(url);
+ cancelIdle();
+ redrawDisplay();
+ ret="true";
+}
 else if (userInput == "right" || userInput == "R")
 {
 tit=getItemInfo(getFocusItemIndex(),"tit");
@@ -235,6 +244,16 @@ echo '
    </onClick>
 </item>
 ';
+
+  $title="Lista serialelor favorite";
+  $link = $host."/scripts/filme/php/tvhub_fav.php";
+  echo '
+  <item>
+  <title>'.$title.'</title>
+  <link>'.$link.'</link>
+  <image></image>
+  </item>
+  ';
 }
 /*
   $title="Seriale favorite";
@@ -290,38 +309,56 @@ $url = $sThisFile."?page=".($page-1).",".$tip.",".urlencode($link).",".urlencode
 
 
 /////////////////////////////////////////////////////////////
+//https://serialenoi.online/wp-admin/admin-ajax.php
 
 if ($tip=="search")
-   $requestLink="http://serialenoi.online/?s=".str_replace(" ","+",$link);
+   $requestLink="https://tvhub.org/?s=".str_replace(" ","+",$link);
 else
-   $requestLink = "http://serialenoi.online/wp-admin/admin-ajax.php";
+   $requestLink = "https://tvhub.org/wp-admin/admin-ajax.php";
 if ($tip=="release") {
-   $post="action=load_more&page=".$page."&template=cactus-channel%2Fcontent-listing&vars%5Bpost_type%5D=ct_channel&vars%5Bposts_per_page%5D=20&vars%5Bpost_status%5D=publish&vars%5Bignore_sticky_posts%5D=1&vars%5Bpaged%5D=1&id_playlist=";
+   $post="action=load_more&page=".($page-1)."&template=cactus-channel%2Fcontent-listing&vars%5Bpost_type%5D=ct_channel&vars%5Bposts_per_page%5D=20&vars%5Bpost_status%5D=publish&vars%5Bignore_sticky_posts%5D=1&vars%5Bpaged%5D=1&id_playlist=";
+   $post="action=load_more&page=".($page-1)."&template=cactus-channel%2Fcontent-listing&vars%5Bpost_type%5D=ct_channel&vars%5Bposts_per_page%5D=20&vars%5Bpost_status%5D=publish&vars%5Bignore_sticky_posts%5D=1&vars%5Bpaged%5D=1&id_playlist=";
+  /*
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $requestLink);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt ($ch, CURLOPT_REFERER, "http://serialenoi.online/");
+  curl_setopt ($ch, CURLOPT_REFERER, "https://tvhub.ro/");
   curl_setopt ($ch, CURLOPT_POST, 1);
   curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $html = curl_exec($ch);
   curl_close($ch);
+  echo $html;
+  die();
+  */
+  $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
+  $exec = '--header="Content-Type: application/x-www-form-urlencoded" --post-data="'.$post.'" -U "'.$ua.'" --referer="'.$requestLink.'" --no-check-certificate "'.$requestLink.'" -O -';
+  $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+  $html=shell_exec($exec);
 } else {
+  /*
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $requestLink);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt ($ch, CURLOPT_REFERER, "http://serialenoi.online/");
+  curl_setopt ($ch, CURLOPT_REFERER, "https://serialenoi.online/");
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $html = curl_exec($ch);
   curl_close($ch);
+  */
+      $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
+      $exec = '-q -U "'.$ua.'" --referer="'.$requestLink.'" --no-check-certificate "'.$requestLink.'" -O -';
+      $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+      $html=shell_exec($exec);
 }
 //////////////////////////////////////////////////////////////////////////
 if ($tip=="release")
- $videos = explode('class="picture"', $html);
+ $videos = explode('div class="entry-content"', $html);
 else
- $videos = explode('class="item-thumbnail"',$html);
+ $videos = explode('div id="mt-', $html);
 unset($videos[0]);
 $videos = array_values($videos);
 foreach($videos as $video) {
@@ -329,16 +366,25 @@ foreach($videos as $video) {
   $t1 = explode('href="', $video);
   $t2 = explode('"', $t1[1]);
   $link1 = $t2[0];
-
+  if ($tip=="release") {
   $t1 = explode('title="', $video);
   $t2 = explode('"', $t1[1]);
   $title11 = $t2[0];
+  } else {
+  $t1 = explode('alt="', $video);
+  $t2 = explode('"', $t1[1]);
+  $title11 = $t2[0];
+  }
   $id1=$link1;
   //$title=trim(preg_replace("/- filme online subtitrate/i","",$title));
   $t1 = explode('src="', $video);
   $t2 = explode('"', $t1[1]);
   $image = $t2[0];
-  $image1=$image;
+  //$image=str_replace("https","http",$image);
+
+  $image1=$host."/scripts/filme/php/r_wget.php?file=".urlencode($image);
+  //$image=$host."/scripts/util/wget.cgi?link=".$image.",referer=https://tvhub.ro";
+  //$image1=$image;
   //$year=trim(str_between($video,'movie-date">','<'));
   $title=$title11; //." (".$year.")";
   $title=html_entity_decode($title,ENT_QUOTES,'UTF-8');
@@ -351,6 +397,8 @@ foreach($videos as $video) {
      <item>
      <title>'.str_replace("&","&amp;",str_replace("&amp;","&",$title)).'</title>
      <link>'.$link2.'</link>
+    <title1>'.urlencode(trim(str_replace(",","^",$title))).'</title1>
+    <link1>'.urlencode($link1).'</link1>
     <image>'.$image.'</image>
     <image1>'.$image1.'</image1>
     <tit>'.urlencode(trim(str_replace(",","^",$title))).'</tit>

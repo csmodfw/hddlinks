@@ -6,7 +6,7 @@
 
   storagePath             = getStoragePath("tmp");
   storagePath_stream      = storagePath + "stream.dat";
-  
+
   error_info          = "";
 </script>
 <onEnter>
@@ -151,7 +151,7 @@ if(userInput == "enter" || userInput == "ENTR")
   stream_current_song = "";
   stream_genre = getItemInfo(focus, "stream_genre");
   stream_bitrate = getItemInfo(focus, "stream_bitrate");
-  
+
   if(stream_class == "" || stream_class == null)
     stream_class = "unknown";
 
@@ -178,10 +178,10 @@ if(userInput == "enter" || userInput == "ENTR")
       }
       url = translate_base_url + "stream," + request_options + "," + urlEncode(stream_url);
     }
-  
+
     executeScript(stream_class+"Dispatcher");
   }
-  
+
   cancelIdle();
   ret = "true";
 }
@@ -250,11 +250,11 @@ ret;
     error_info  = "";
 
     res = loadXMLFile(info_url);
-    
+
     if (res != null)
     {
       error = getXMLElementCount("info","error");
-      
+
       if(error != 0)
       {
   	    value = getXMLText("info","error");
@@ -268,25 +268,25 @@ ret;
   	    value = getXMLAttribute("info","stream","url");
   	    if(value != null)
   	     stream_url = value;
-  
+
   	    value = getXMLAttribute("info","stream","type");
   	    if(value != null)
   	     stream_type = value;
-  	    
+
   	    value = getXMLAttribute("info","stream","class");
   	    if(value != null)
   	     stream_class = value;
-  
+
   	    value = getXMLAttribute("info","stream","protocol");
   	    if(value != null)
   	     stream_protocol = value;
-  
+
   	    value = getXMLAttribute("info","stream","server");
   	    if(value != null)
   	     stream_soft = value;
-  
+
         stream_status_url = "";
-        
+
   	    value = getXMLAttribute("info","stream","server_url");
   	    if(value != null)
   	    {
@@ -296,38 +296,38 @@ ret;
     	      stream_status_url = translate_base_url+"status,"+urlEncode(stream_server_url)+","+urlEncode(stream_url);
     	   }
   	    }
-  	     
+
         value = getXMLText("info","status","stream-title");
   	    if(value != null)
   	     stream_title = value;
-  
+
         stream_current_song = "";
   	    value = getXMLText("info","status","current-song");
   	    if(value != null)
     		  stream_current_song = value;
-    		  
+
   	    value = getXMLText("info","status","stream-genre");
   	    if(value != null)
   	      stream_genre = value;
-        
+
   	    value = getXMLText("info","status","stream-bitrate");
   	    if(value != null)
   	      stream_bitrate = value;
-  
+
         options = "";
-        
+
         if(stream_type != "")
           options = "Content-type:"+stream_type;
-        
+
         if(options == "")
           options = stream_options;
         else
           options = options + ";" + stream_options;
-  
+
   	    stream_translate_url = translate_base_url + "stream," + options + "," + urlEncode(stream_url);
-  	    
+
   	    url = null;
-  	    
+
   	    if(stream_class == "video" || stream_class == "audio")
     	  {
           if(stream_protocol == "file" || (stream_protocol == "http" &amp;&amp; stream_soft != "shoutcast"))
@@ -339,7 +339,7 @@ ret;
     	  {
   	      url = stream_url;
     	  }
-    	     
+
     	  if(url != null)
     	  {
           if(stream_class == "audio" || stream_class == "video" || stream_class == "playlist" || stream_class == "rss")
@@ -373,6 +373,7 @@ function str_between($string, $start, $end){
 	return substr($string,$ini,$len);
 }
 $l="http://tastez.ro/radio.php";
+$l="http://www.tastez.ro/radio.php?query=national";
 $h=file_get_contents($l);
 $videos = explode('class="line">', $h);
 unset($videos[0]);

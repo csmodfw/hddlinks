@@ -201,16 +201,11 @@ function c($title) {
 $cookie="D://cookie.txt";
 $cookie="/tmp/cookie.txt";
 //http://www.digisport.ro/Sport/VIDEO/?page=2
-$l = $search."?page=".$page;
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $l);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
-  curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
-  $html = curl_exec($ch);
-  curl_close($ch);
+$l = $search."?p=".$page;
+      $ua="Mozilla/5.0 (Windows NT 10.0; rv:55.0) Gecko/20100101 Firefox/55.0";
+      $exec = '-q -U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
+      $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+      $html=shell_exec($exec);
 if($page > 1) { ?>
 
 <item>
@@ -238,7 +233,7 @@ function str_between($string, $start, $end){
 	return substr($string,$ini,$len); 
 }
 include ("../../common.php");
-$videos = explode('div class="col', $html);
+$videos = explode('<article class="', $html);
 
 unset($videos[0]);
 $videos = array_values($videos);
@@ -246,19 +241,20 @@ $videos = array_values($videos);
 foreach($videos as $video) {
     $t1 = explode('href="', $video);
     $t2 = explode('"', $t1[1]);
-    $link = "http://www.digisport.ro".$t2[0];
+    $link = "https://www.digisport.ro".$t2[0];
     
-    $t3=explode('alt="',$video);
-    //echo $t3[3];
-    $t4=explode('"',$t3[1]);
-    $title=c(trim($t4[0]));
+    $t=str_between($video,'title="','"');
+    $title = preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$t);
+    //$title=fix_s($title);
+
+    $t1 = explode('src="', $video);
+    $t2 = explode('"', $t1[1]);
+    $image = trim($t2[0]);
+    $image=str_replace("https","http",$image);
     //$t="<h2".str_between($video,"<h2","</h2>");
     $title = preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$title);
     $title=fix_s($title);
 
-    $t1 = explode('src="', $video);
-    $t2 = explode('"', $t1[1]);
-    $image = "http://www.digisport.ro/".trim($t2[0]);
     //$l1=explode("picture:",$image);
     //$id=$l1[1];
 

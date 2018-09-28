@@ -159,6 +159,7 @@ function str_between($string, $start, $end){
 	return substr($string,$ini,$len); 
 }
 $host = "http://127.0.0.1/cgi-bin";
+/*
 $title="In Fata Ta";
 $link=$host."/scripts/tv/php/digi24e_fata.php";
 	echo '
@@ -179,7 +180,8 @@ $link=$host."/scripts/tv/php/digi24e_starea.php";
 	<mediaDisplay name="threePartsView"/>
 	</item>
 	';
-$l="http://www.digi24.ro/emisiuni";
+*/
+$l="https://www.digi24.ro/emisiuni";
 $cookie="/tmp/digi1.dat";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
@@ -188,6 +190,7 @@ $cookie="/tmp/digi1.dat";
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
   curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   $html = curl_exec($ch);
   curl_close($ch);
@@ -204,7 +207,8 @@ foreach($videos as $video) {
  $title=str_between($video,'title="','"');
  $descriere=$title;
  $image=urldecode(str_between($video,'data-src="','"'));
- $link="http://www.digi24.ro".str_between($video,'href="','"');
+ $image=str_replace("https","http",$image);
+ $link="https://www.digi24.ro".str_between($video,'href="','"');
     $link=$host."/scripts/tv/php/digi24e_main.php?file=".urlencode($link).",".urlencode($title);
 	if ($title) {
 	echo '

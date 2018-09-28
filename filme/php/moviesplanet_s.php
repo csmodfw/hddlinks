@@ -81,7 +81,7 @@ if($query) {
 		  <script>getPageInfo("pageTitle");</script>
 		</text>
   	<text align="left" offsetXPC="6" offsetYPC="15" widthPC="80" heightPC="4" fontSize="16" backgroundColor="10:105:150" foregroundColor="100:200:255">
-      0 (blue) = folositi alta subtitrare
+      0 (blue/red/green/yellow) = folositi alta subtitrare
 		</text>
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
@@ -180,7 +180,6 @@ else if(userInput == "six" || userInput == "6")
   print("new idx: "+idx);
   setFocusItemIndex(idx);
 	setItemFocus(0);
-	redrawDisplay();
   "true";
 }
 else if(userInput == "four" || userInput == "4")
@@ -193,8 +192,32 @@ else if(userInput == "four" || userInput == "4")
   print("new idx: "+idx);
   setFocusItemIndex(idx);
 	setItemFocus(0);
-	redrawDisplay();
   "true";
+}
+else if(userInput == "up")
+{
+  idx = Integer(getFocusItemIndex());
+  if (idx == 0)
+   {
+     idx = itemCount;
+     print("new idx: "+idx);
+     setFocusItemIndex(idx);
+	 setItemFocus(0);
+     "true";
+   }
+}
+else if(userInput == "down")
+{
+  idx = Integer(getFocusItemIndex());
+  c = Integer(getPageInfo("itemCount")-1);
+  if(idx == c)
+   {
+     idx = -1;
+     print("new idx: "+idx);
+     setFocusItemIndex(idx);
+	 setItemFocus(0);
+     "true";
+   }
 }
 else if (userInput == "zero" || userInput == "0" || userInput == "option_blue")
    {
@@ -202,10 +225,50 @@ else if (userInput == "zero" || userInput == "0" || userInput == "option_blue")
   l = getItemInfo(getFocusItemIndex(),"link1");
   sez=getItemInfo(getFocusItemIndex(),"sez");
   ep=getItemInfo(getFocusItemIndex(),"ep");
-  movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/fs_det.php?file=" + "<?php echo urlencode(str_replace(",","^",$page_title)); ?>" + "," + l + "," + sez + "," + ep + "," + "0" + ",series";
+  i = getItemInfo(getFocusItemIndex(),"imdb");
+  movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/fs_det.php?file=" + "<?php echo urlencode(str_replace(",","^",$page_title)); ?>" + "," + l + "," + sez + "," + ep + "," + i + ",series";
   dummy = getURL(movie_info);
 
     jumpToLink("fs");
+    "true";
+}
+else if (userInput == "option_red")
+   {
+  t = getItemInfo(getFocusItemIndex(),"title1");
+  l = getItemInfo(getFocusItemIndex(),"link1");
+  sez=getItemInfo(getFocusItemIndex(),"sez");
+  ep=getItemInfo(getFocusItemIndex(),"ep");
+  i = getItemInfo(getFocusItemIndex(),"imdb");
+  movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/fs_det.php?file=" + "<?php echo urlencode(str_replace(",","^",$page_title)); ?>" + "," + l + "," + sez + "," + ep + "," + i + ",series";
+  dummy = getURL(movie_info);
+
+    jumpToLink("fs1");
+    "true";
+}
+else if (userInput == "option_green")
+   {
+  t = getItemInfo(getFocusItemIndex(),"title1");
+  l = getItemInfo(getFocusItemIndex(),"link1");
+  sez=getItemInfo(getFocusItemIndex(),"sez");
+  ep=getItemInfo(getFocusItemIndex(),"ep");
+  i = getItemInfo(getFocusItemIndex(),"imdb");
+  movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/fs_det.php?file=" + "<?php echo urlencode(str_replace(",","^",$page_title)); ?>" + "," + l + "," + sez + "," + ep + "," + i + ",series";
+  dummy = getURL(movie_info);
+
+    jumpToLink("fs2");
+    "true";
+}
+else if (userInput == "option_yellow")
+   {
+  t = getItemInfo(getFocusItemIndex(),"title1");
+  l = getItemInfo(getFocusItemIndex(),"link1");
+  sez=getItemInfo(getFocusItemIndex(),"sez");
+  ep=getItemInfo(getFocusItemIndex(),"ep");
+  i = getItemInfo(getFocusItemIndex(),"imdb");
+  movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/fs_det.php?file=" + "<?php echo urlencode(str_replace(",","^",$page_title)); ?>" + "," + l + "," + sez + "," + ep + "," + i + ",series";
+  dummy = getURL(movie_info);
+
+    jumpToLink("fs3");
     "true";
 }
 ret;
@@ -229,6 +292,15 @@ ret;
 <fs>
 <link>http://127.0.0.1/cgi-bin/scripts/filme/php/fs4.php</link>
 </fs>
+<fs1>
+<link>http://127.0.0.1/cgi-bin/scripts/filme/php/titrari_main.php?query=1,planet</link>
+</fs1>
+<fs2>
+<link>http://127.0.0.1/cgi-bin/scripts/filme/php/subs_main.php?query=1,planet</link>
+</fs2>
+<fs3>
+<link>http://127.0.0.1/cgi-bin/scripts/filme/php/subtitrari_main.php?query=1,planet</link>
+</fs3>
 <channel>
 	<title><?php echo str_replace("&","&amp;",str_replace("&amp;","&",$page_title)); ?></title>
 	<menu>main menu</menu>
@@ -297,16 +369,14 @@ if($requestPage->status->http_code == 503) {
 */
 //echo $html;
 //http://www.moviesplanet.is/movies/date/1
-$cookie="/tmp/moviesplanet.txt";
 //$cookie="D://m.txt";
-$cloud="/tmp/cloud.dat";
-$clearanceCookie=file_get_contents($cloud);
+
 //$res=file_get_contents($cookie);
 //$html = file_get_contents("http://uphero.xpresso.eu/movietv/m1.php?file=".$link."&res=".$res);
 $cookie="/tmp/moviesplanet.txt";
-$ua="proxyFactory";
+$ua="Mozilla/5.0 (Windows NT 10.0; rv:55.0) Gecko/20100101 Firefox/55.0";
 $exec_path="/usr/local/bin/Resource/www/cgi-bin/scripts/wget ";
-$exec = '-q --load-cookies '.$cookie.' -U "'.$ua.'" --referer="'.$link.'" --no-check-certificate "'.$link.'" -O -';
+$exec = '-q  --keep-session-cookies --load-cookies '.$cookie.' --save-cookies '.$cookie.' -U "'.$ua.'" --referer="'.$link.'" --no-check-certificate "'.$link.'" -O -';
 $exec = $exec_path.$exec;
 $html=shell_exec($exec);
 //echo $html;
@@ -314,7 +384,11 @@ $html=shell_exec($exec);
   $t1 = explode('timthumb.php?src=', $html);
   $t2 = explode('&', $t1[2]);
   $image=$t2[0];
-  $image="http://127.0.0.1/cgi-bin/scripts/filme/php/r_m.php?file=".$image.",".$clearanceCookie;
+  if (preg_match("/(tt\d+)\.jpg/",$image,$m))
+     $imdb=$m[1];
+  else
+     $imdb="";
+  $image="http://127.0.0.1/cgi-bin/scripts/filme/php/r_m.php?file=".$image;
   //class="ml-item">
 $videos = explode('class="ml-item">', $html);
 unset($videos[0]);
@@ -327,7 +401,7 @@ foreach($videos as $video) {
 }
 $c=count($s);
 for ($k=0;$k<$c;$k++) {
-  $exec = '-q --load-cookies '.$cookie.' -U "'.$ua.'" --referer="'.$s[$k].'" --no-check-certificate "'.$s[$k].'" -O -';
+  $exec = '-q --keep-session-cookies --load-cookies '.$cookie.' --save-cookies '.$cookie.' -U "'.$ua.'" --referer="'.$s[$k].'" --no-check-certificate "'.$s[$k].'" -O -';
   $exec = $exec_path.$exec;
   $html=shell_exec($exec);
   //$html = file_get_contents("http://uphero.xpresso.eu/movietv/m1.php?file=".$s[$k]."&res=".$res);
@@ -392,6 +466,7 @@ foreach($videos as $video) {
     <sez>'.$sez.'</sez>
     <ep>'.$ep.'</ep>
     <image1>'.$image1.'</image1>
+    <imdb>'.$imdb.'</imdb>
      </item>
      ';
    }

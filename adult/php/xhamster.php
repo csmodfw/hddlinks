@@ -204,6 +204,7 @@ if ($tip=="release") {
       $search3=$search;
   }
   //echo $search3;
+  /*
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $search3);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -213,6 +214,11 @@ if ($tip=="release") {
   curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $html = curl_exec($ch);
   curl_close($ch);
+  */
+      $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
+      $exec = '-q -U "'.$ua.'" --referer="'.$search3.'" --no-check-certificate "'.$search3.'" -O -';
+      $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+      $html=shell_exec($exec);
 } else {
   $tip="search";
   $search1=str_replace(" ","+",urldecode($search));
@@ -221,6 +227,7 @@ if ($tip=="release") {
  else
    $search3= "https://xhamster.com/search.php?q=".$search1."&qcat=video";
   //$html = file_get_contents($search3);
+  /*
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $search3);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -230,6 +237,11 @@ if ($tip=="release") {
   curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $html = curl_exec($ch);
   curl_close($ch);
+  */
+      $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
+      $exec = '-q -U "'.$ua.'" --referer="'.$search3.'" --no-check-certificate "'.$search3.'" -O -';
+      $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+      $html=shell_exec($exec);
 }
 
 if($page > 1) { ?>
@@ -258,7 +270,7 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
-$videos = explode('<div class="video', $html);
+$videos = explode('a class="video-thumb', $html);
 
 unset($videos[0]);
 $videos = array_values($videos);
@@ -268,8 +280,8 @@ foreach($videos as $video) {
     $t2 = explode('"', $t1[1]);
     $link=$t2[0];
 
-    $t1 = explode("src='", $video);
-    $t2 = explode("'", $t1[1]);
+    $t1 = explode('src="', $video);
+    $t2 = explode('"', $t1[1]);
     $image = $t2[0];
     $image = str_replace("https","http",$image);
     $link = $host."/scripts/adult/php/xhamster_link.php?file=".$link;
@@ -279,12 +291,14 @@ foreach($videos as $video) {
     //$t2=explode('>',$t1[1]);
     //$t3=explode("<",$t2[1]);
     //$data=$t3[0];
-    $title=str_between($video,'<u>','</u>');
-    $data = trim(str_between($video,'<b>',"<"));
-
+    //$title=str_between($video,'<u>','</u>');
+    //$data = trim(str_between($video,'<b>',"<"));
+    $title=str_between($video,'alt="','"');
+    $data=str_between($video,'duration">','<');
+    $title=str_replace("&quot;",'"',$title);
     $data = "Durata: ".$data;
     $name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".flv";
-
+    if ($title) {
     echo '
     <item>
     <title>'.$title.'</title>
@@ -294,16 +308,23 @@ foreach($videos as $video) {
     url="'.$link.'";
     movie=getUrl(url);
     cancelIdle();
+    if (movie == "" || movie == " " || movie == null)
+    {
+    playItemUrl(-1,1);
+    }
+    else
+    {
     streamArray = null;
     streamArray = pushBackStringArray(streamArray, "");
     streamArray = pushBackStringArray(streamArray, "");
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, video/x-flv);
-    streamArray = pushBackStringArray(streamArray, "'.$title.'");
+    streamArray = pushBackStringArray(streamArray, "'.str_replace('"',"'",$title).'");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer.rss");
+    }
     </script>
     </onClick>
     <download>'.$link.'</download>
@@ -315,6 +336,7 @@ foreach($videos as $video) {
   <mediaDisplay name="threePartsView"/>
   </item>
   ';
+  }
 }
 
 

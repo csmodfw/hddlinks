@@ -18,7 +18,8 @@ $t2=explode('"',$t1[1]);
 $t3=explode('"',$t2[1]);
 $out=str_replace("\/","/",$t3[0]);
 */
-$t1=explode('source src="',$html);
+$t0=explode('id="video_player"',$html);
+$t1=explode('source src="',$t0[1]);
 $t2=explode('"',$t1[1]);
 //$t3=explode("'",$t2[2]);
 $out=$t2[0];

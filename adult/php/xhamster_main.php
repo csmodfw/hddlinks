@@ -173,13 +173,16 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
+/*
   	$link=$host."/scripts/adult/php/xhamster.php?query=1,https://xhamster.com/last50.php,release";
   	echo '
   	<item>
   		<title>New</title>
   		<link>'.$link.'</link>
   	</item>';
-$l="https://xhamster.com";
+*/
+$l="https://xhamster.com/categories";
+/*
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -189,7 +192,13 @@ $l="https://xhamster.com";
   curl_setopt($ch, CURLOPT_REFERER, "https://xhamster.com");
   $html = curl_exec($ch);
   curl_close($ch);
-$html=str_between($html,'Categories  ','All Categories');
+  */
+      $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
+      $exec = '-q -U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
+      $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+      $html=shell_exec($exec);
+      
+$html=str_between($html,'<div class="letter-blocks page">','<div class="search">');
 $videos = explode('<a', $html);
 unset($videos[0]);
 $videos = array_values($videos);
@@ -201,7 +210,7 @@ foreach($videos as $video) {
     //$link=substr($link, 0, -6);
   	$t3=explode(">",$t1[1]);
   	$t4=explode("<",$t3[1]);
-  	$title=$t4[0];
+  	$title=trim($t4[0]);
 
   	$link=$host."/scripts/adult/php/xhamster.php?query=1,".$link.",release";
   	if ($title) {

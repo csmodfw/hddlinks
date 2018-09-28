@@ -230,23 +230,31 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
+//echo $link;
 $html=file_get_contents($link);
 //echo urlencode($html);
 //echo $html;
 
-if (strpos($html,'#EXTINF:') !== false) {
-$r = explode('#EXTINF:', $html);
+
+$x=explode("<pre>",$html);
+//echo $x[1];
+if (strpos($x[1],'#EXTINF:') !== false) {
+$r = explode('#EXTINF:', $x[1]);
 //print_r($r);
 for ($k=1;$k<count($r);$k++) {
   //if(strtoupper(substr($r[$k], 0, 7)) === "#EXTINF") {
    //echo $r[$k];
-   $t1=explode(",",$r[$k]);
+   $z=explode("\n",$r[$k]);
+   $t1=explode(",",$z[0]);
    //echo $t1[1];
-   $t2=explode("<",$t1[1]);
-   $title=trim($t2[0]);
-   $t3=explode(">",$t2[1]);
-   $t4=explode("<",$t3[1]);
-   $l=trim($t4[0]);
+   //$t2=explode("<",$t1[1]);
+   $title=trim($t1[1]);
+   //$t3=explode(">",$t2[1]);
+   //$t4=explode("<",$t3[1]);
+   $l=trim($z[1]);
+   $l=str_replace("</pre>","",$l);
+   $l = preg_replace("/(<\/?)([^>]*>)/e","",$l);
+   //$title="xxxx";
    //$title1=$title;
    //$l = trim($r[$k + 1]);
 if (preg_match("/\.m3u8/",$l)) {
@@ -303,6 +311,29 @@ if (preg_match("/\.m3u8/",$l)) {
   //}
 //}
 }
+} else {
+function print_ch($title,$link) {
+$link1 = 'http://127.0.0.1/cgi-bin/scripts/tv/php/playlist.php?query='.urlencode($title).','.urlencode($link);
+  echo '
+     <item>
+    <title>'.str_replace("&","&amp;",str_replace("&amp;","&",$title)).'</title>
+    <link>'.$link1.'</link>
+    <location>'.$title.'</location>
+    <annotation>'.str_replace("&","&amp;",$link).'</annotation>
+    <mediaDisplay name="threePartsView"/>
+     </item>
+     ';
+
+
+}
+ //$html="http://listaccess.me:8080/get.php?username=mikael&#038;password=mikael&#038;type=m3u";
+ preg_match_all('/([http|https][\.\d\w\-\.\/\\\:\:\?\&\#\%\;\=_\,]*(type\=m3u(8)?))/su', $html, $m);
+ for ($k=0;$k<count($m[0]);$k++) {
+  $l=str_replace("&amp;","&",$m[0][$k]);
+  $l=str_replace("&#038;","&",$l);
+  $title="Varianta ".($k+1);
+  print_ch($title,$l);
+ }
 }
 ?>
 

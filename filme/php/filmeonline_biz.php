@@ -179,14 +179,32 @@ if($page) {
 	$page = 1;
   $l=$search;
 }
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $l);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+/*
+$ua="proxyFactory";
+$cookie="/tmp/cloud.dat";
+$exec_path="/usr/local/bin/Resource/www/cgi-bin/scripts/wget ";
+$exec = '-q --load-cookies  '.$cookie.' -U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
+$exec = $exec_path.$exec;
+$html=shell_exec($exec);
+*/
+$cookie="/tmp/biz.dat";
+//$cookie="C:\EasyPhp\data\localweb\scripts1\biz.dat";
+  /*
+  $ch = curl_init($l);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; rv:55.0) Gecko/20100101 Firefox/55.0');
+  //curl_setopt($ch,CURLOPT_REFERER,$l);
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+  //curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
+  curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+  //curl_setopt($ch, CURLOPT_HEADER, true);
   $html = curl_exec($ch);
-  curl_close($ch);
+  curl_close ($ch);
+  */
+  $ua="Mozilla/5.0 (Windows NT 10.0; WOW64; rv:46.0) Gecko/20100101 Firefox/46.0";
+  $exec = '-q  --load-cookies  '.$cookie.' -U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
+  $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+  $html=shell_exec($exec);
 if($page > 1) { ?>
 
 <item>
@@ -242,7 +260,8 @@ foreach($videos as $video) {
   $t2 = explode('"', $t1[1]);
   $image = $t2[0];
   $image=htmlentities($image,ENT_QUOTES,'UTF-8');
-  $image=str_replace("https","http",$image);
+  //$image=str_replace("https","http",$image);
+  $image="http://127.0.0.1/cgi-bin/scripts/filme/php/r_wget.php?file=".urlencode($image);
   //$descriere=str_between($video,'<p>','<');
   //$descriere=str_replace("[&hellip;]","...",$descriere);
 //  descriere

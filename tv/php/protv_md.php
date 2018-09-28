@@ -199,11 +199,15 @@ foreach($videos as $video) {
     $image=$t2[0];
 
     $t1=explode('href="',$video);
-    //$t2=explode('value="',$t1[1]);
+    $t2=explode('"',$t1[1]);
+    $l=$t2[0];
+    //$link=$host."/scripts/tv/php/protvmd_l.php?file=".$l;
+    $t2=explode('value="',$t1[1]);
     $t3=explode('"',$t1[1]);
     $link=substr(strrchr($t3[0], "/"), 1);;
     $title=str_between($video,'<span>','</span>');
-    $link="http://m.protv.md/mobile/".$link.".mp4";
+    $link="http://video.protv.md/assets/articles/files/".$link.".mp4";
+    //$link="http://m.protv.md/mobile/".$link.".mp4";
     
     echo '
     <item>
@@ -221,7 +225,7 @@ foreach($videos as $video) {
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, video/x-flv);
-    streamArray = pushBackStringArray(streamArray, "'.$title.'");
+    streamArray = pushBackStringArray(streamArray, "'.str_replace('"',"'",$title).'");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer.rss");

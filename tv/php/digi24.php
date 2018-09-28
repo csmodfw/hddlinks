@@ -252,7 +252,7 @@ function solve_html5($input) {
         //$out = preg_replace_callback("/\&[a-zA-Z0-9]+\;/",function($match) use ($words) {    if(isset($words[$match[0]])){ return ($words[$match[0]]); }else{ return($match[0]); } },$input);
         return $out;
 }
-$link="http://www.digi24.ro/video";
+$link="https://www.digi24.ro/video";
 $cookie="/tmp/digi1.dat";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $link);
@@ -263,6 +263,7 @@ $cookie="/tmp/digi1.dat";
   curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
   curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $html = curl_exec($ch);
   curl_close($ch);
 //$html=str_between($html,'<h1 class="h3">Video</h1>','');
@@ -303,6 +304,7 @@ foreach($videos as $video) {
  //$title=htmlentities($title,ENT_HTML5);
  $descriere=$title;
  $image=urldecode(str_between($video,'src="','"'));
+ $image=str_replace("https","http",$image);
  $link="http://www.digi24.ro".str_between($video,'href="','"');
  $link=$host."/scripts/tv/php/digi24_link.php?file=".$link;
  $title1=str_replace('"',"'",$title);

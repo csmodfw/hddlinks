@@ -13,7 +13,10 @@ if($query) {
   startitem = "middle";
   setRefreshTime(1);
 </onEnter>
-
+<onExit>
+    xmlurl = "http://127.0.0.1/cgi-bin/scripts/util/kill.php";
+    ret = getUrl(xmlurl);
+</onExit>
 <onRefresh>
   setRefreshTime(-1);
   itemCount = getPageInfo("itemCount");
@@ -260,6 +263,7 @@ foreach($videos as $video) {
   $descriere = fix_s($descriere);
   $name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".mp4";
   if ($title <> "" && strpos($title,"Eveniment restric") === false) {
+    /*
     echo '
     <item>
     <title>'.$title.'</title>
@@ -281,6 +285,29 @@ foreach($videos as $video) {
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer.rss");
+    </script>
+    </onClick>
+    <download>'.$link.'</download>
+    <name>'.$name.'</name>
+    <annotation>'.$descriere.'</annotation>
+    <image>'.$image.'</image>
+    <data>'.$data.'</data>
+    <media:thumbnail url="'.$image.'" />
+    </item>
+    ';
+    */
+    echo '
+    <item>
+    <title>'.$title.'</title>
+    <onClick>
+    <script>
+    showIdle();
+    xmlurl = "http://127.0.0.1/cgi-bin/scripts/util/kill.php";
+    ret = getUrl(xmlurl);
+    url="'.$host.'/scripts/tv/php/privesc_link.php?file='.$link.'";
+    movie1=getUrl(url);
+    cancelIdle();
+    playItemUrl(movie1,10);
     </script>
     </onClick>
     <download>'.$link.'</download>

@@ -19,7 +19,7 @@ set_time_limit(60);
 $l= $_GET["file"];
 
 $cookie="/tmp/moviesplanet.txt";
-$ua="proxyFactory";
+$ua="Mozilla/5.0 (Windows NT 10.0; rv:55.0) Gecko/20100101 Firefox/55.0";
 $exec_path="/usr/local/bin/Resource/www/cgi-bin/scripts/wget ";
 $exec = '-q --load-cookies '.$cookie.' -U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
 $exec = $exec_path.$exec;
@@ -36,21 +36,29 @@ $exec = '-q --load-cookies '.$cookie.' -U "'.$ua.'" --referer="'.$l.'" --no-chec
 $exec = $exec_path.$exec;
 $html=shell_exec($exec);
 //echo $html;
-$movie=str_replace("https","http",str_between($html,'source src="','"'));
+$t1=explode('sources:',$html);
+$t2=explode('http',$t1[1]);
+$t3=explode('"',$t2[1]);
+$movie=str_replace("https","http","http".$t3[0]);
+$t1=explode("&end",$movie);
+$movie=$t1[0];
 //echo $movie;
-if (!$movie) $movie=str_replace("https","http",str_between($html,'source src= "','"'));
+//if (!$movie) $movie=str_replace("https","http",str_between($html,'source src= "','"'));
 //echo $movie;
-if (!$movie) $movie=str_between($html,'file: "','"');
+//if (!$movie) $movie=str_between($html,'file: "','"');
 //echo $movie;
-preg_match('/([http|https][\.\d\w\-\.\/\\\:\?\&\#\%\_\,]*(_en\.(srt|vtt)))/', $html, $m);
+preg_match('/([http|https][\/\.\d\w\-\.\/\\\:\?\&\#\%\_\,]*(_en\.(srt|vtt)))/', $html, $m);
+//print_r ($m);
 $file=$m[1];
 
 if (strpos($file,"http") === false) {
 //$x1=str_between($html,"sub/",'"');
-$file=$base_sub.$file;
+$file="https://www.moviesplanet.tv/media/".$file;
 }
 //echo $file;
-if (strpos($movie,"end=600") !== false) $movie=str_replace("end=600","",$movie);
+if (strpos($movie,"end=900") !== false) $movie=str_replace("end=900","",$movie);
+$t1=explode("&end",$movie);
+$movie=$t1[0];
 if (strpos($movie,"google") !== false || strpos($movie,"blogspot.com") !== false) {
   //echo $html;
   $link = str_replace("https","http",$movie);

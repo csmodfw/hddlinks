@@ -158,13 +158,21 @@ ret;
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
+<!--
 <item>
-<title>Noobroom - filme pentru copii</title>
-<link><?php echo $host; ?>/scripts/filme/php/noobroom_kids.php</link>
+<title>Noobroom (com) - filme pentru copii</title>
+<link><?php echo $host; ?>/scripts/filme/php/noobroom_kids.php?file=com</link>
 <annotation>http://noobroom.com</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
 
+<item>
+<title>Noobroom (net) - filme pentru copii</title>
+<link><?php echo $host; ?>/scripts/filme/php/noobroom_kids.php?file=net</link>
+<annotation>http://noobroom.com</annotation>
+<mediaDisplay name="threePartsView"/>
+</item>
+-->
 <item>
 <title>Desenedublete</title>
 <link><?php echo $host; ?>/scripts/filme/php/deseneledublate.php?page=1,,desenedublate</link>
@@ -172,6 +180,28 @@ ret;
 <mediaDisplay name="threePartsView"/>
 </item>
 
+<item>
+<title>desenefaine (desene)</title>
+<link><?php echo $host; ?>/scripts/filme/php/desenefaine.php?query=1,https://desenefaine.ro/desene-animate-online</link>
+<annotation>https://desenefaine.ro</annotation>
+<mediaDisplay name="threePartsView"/>
+</item>
+
+<item>
+<title>desenefaine (seriale)</title>
+<link><?php echo $host; ?>/scripts/filme/php/desenefaine.php?query=1,https://desenefaine.ro/seriale-in-romana</link>
+<annotation>https://desenefaine.ro</annotation>
+<mediaDisplay name="threePartsView"/>
+</item>
+
+<item>
+<title>desenefaine (filme)</title>
+<link><?php echo $host; ?>/scripts/filme/php/desenefaine.php?query=1,https://desenefaine.ro/filme-animate-online,filme+animate</link>
+<annotation>https://desenefaine.ro</annotation>
+<mediaDisplay name="threePartsView"/>
+</item>
+
+<!--
 <item>
 <title>desenanimatdublat</title>
 <link><?php echo $host; ?>/scripts/filme/php/deseneledublate1.php?page=1,,desenedublate</link>
@@ -185,6 +215,7 @@ ret;
 <annotation>https://desene-super-ade3.blogspot.ro</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
+-->
 <!--
 <item>
 <title>Desene Animate</title>

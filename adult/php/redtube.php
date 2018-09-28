@@ -248,12 +248,12 @@ function str_between($string, $start, $end){
 }
 //$videos = explode('<div class="video">', $html);
 //$videos=explode('class="video-thumb"',$html);
-if (strpos($html,'class="widget-video-holder"') !== false)
-   $videos=explode('class="widget-video-holder"',$html);
+if (strpos($html,'class="video_block') !== false)
+   $videos=explode('class="video_block',$html);
 else {
   $t1=explode('class="video-listing',$html);
   //$html=$t1[1];
-  $videos=explode("<li",$html);
+  $videos=explode("video_link",$html);
 }
 unset($videos[0]);
 $videos = array_values($videos);
@@ -267,16 +267,26 @@ foreach($videos as $video) {
     } else
       $link="";
     //http://img02.redtubefiles.com/_thumbs/0000350/0350855/0350855_009m.jpg
-    $t1 = explode('src="', $video);
+    $t1 = explode('data-thumb_url="', $video);
     $t2 = explode('"', $t1[1]);
     $image = $t2[0];
+    $t1=explode('class="video_title" >',$video);
+    $t2=explode('<',$t1[1]);
+    $title=trim($t2[0]);
+    if (!$title) {
+      $t1=explode('title="',$video);
+      $t2=explode('"',$t1[1]);
+      $title=trim($t2[0]);
+    }
     if (strpos($image,"http") === false) $image="https:".$image;
     $image=str_replace("https","http",$image);
-    $title=str_between($video,'title="','"');
 
-    $data = trim(str_between($video,'video-duration">',"<"));
-
-    $data = "Durata: ".$data;
+    //$data = trim(str_between($video,'video-duration">',"<"));
+    $t1=explode('class="duration">',$video);
+    $t2=explode('<div',$t1[1]);
+    $data = trim(preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$t2[0]));
+    //$data = "Durata: ".$data;
+    $title=str_replace("&quot;",'"',$title);
     $name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".flv";
     if ($title && $link) {
     echo '
@@ -288,16 +298,23 @@ foreach($videos as $video) {
     url="'.$link.'";
     movie=getUrl(url);
     cancelIdle();
+    if (movie == "" || movie == " " || movie == null)
+    {
+    playItemUrl(-1,1);
+    }
+    else
+    {
     streamArray = null;
     streamArray = pushBackStringArray(streamArray, "");
     streamArray = pushBackStringArray(streamArray, "");
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, video/x-flv);
-    streamArray = pushBackStringArray(streamArray, "'.$title.'");
+    streamArray = pushBackStringArray(streamArray, "'.str_replace('"',"'",$title).'");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer.rss");
+    }
     </script>
     </onClick>
     <download>'.$link.'</download>

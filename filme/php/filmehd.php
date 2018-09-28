@@ -168,24 +168,33 @@ ret;
 $query = $_GET["query"];
 if($query) {
    $queryArr = explode(',', $query);
-   $page = $queryArr[0];
-   $search = $queryArr[1];
+   $tip=$queryArr[0];
+   $page = $queryArr[1];
+   $search = urldecode($queryArr[2]);
 }
-if($page > 1) {
-	$html = file_get_contents($search."/page/".$page);
+if ($tip=="search") {
+ //http://filmehd.net/?s=star+trek
+ //http://filmehd.net/page/3?s=who+am+I
+   $tit="Cautare: ".$search;
+   $search1=str_replace(" ","+",$search);
+   $l="https://filmehd.net/page/".$page."?s=".$search1;
 } else {
-  $page = 1;
-  $html = file_get_contents($search."/page/".$page);
+   $l=$search."/page/".$page;
 }
+$ua="Mozilla/5.0 (Windows NT 10.0; rv:55.0) Gecko/20100101 Firefox/55.0";
+$exec_path="/usr/local/bin/Resource/www/cgi-bin/scripts/wget ";
+$exec = '-q -U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
+$exec = $exec_path.$exec;
+$html=shell_exec($exec);
 
 if($page > 1) { ?>
 
 <item>
 <?php
 $sThisFile = 'http://127.0.0.1'.$_SERVER['SCRIPT_NAME'];
-$url = $sThisFile."?query=".($page-1).",";
+$url = $sThisFile."?query=".$tip.",".($page-1).",";
 if($search) { 
-  $url = $url.$search; 
+  $url = $url.urlencode($search);
 }
 ?>
 <title>Previous Page</title>
@@ -201,7 +210,9 @@ if($search) {
 include("../../common.php");
 $html=urlencode($html);
 
-$videos = explode('d%3D%22post', $html);
+$x=urlencode('<div class="imgleft"');
+//$videos = explode('d%3D%22post', $html);
+$videos = explode($x,$html);
 
 unset($videos[0]);
 $videos = array_values($videos);
@@ -218,8 +229,9 @@ foreach($videos as $video) {
 	$t1 = explode('src%3D%22', $video);
 	$t2 = explode('%22', $t1[1]);
 	$image = urldecode($t2[0]);
-	
-	$t1 = explode('title%3D%22', $video);
+	//$image=str_replace("https","http",$image);
+    $image="http://127.0.0.1/cgi-bin/scripts/filme/php/r_wget.php?file=".urlencode($image);
+	$t1 = explode('alt%3D%22', $video);
 	$t2 = explode('%22', $t1[1]);
 	$t2=urldecode($t2[0]);
 	$t3 = explode("&#8211;",$t2);
@@ -242,7 +254,7 @@ foreach($videos as $video) {
   $t=preg_replace("/\(?((1|2)\d{3})\)?/","",$t);
   $tit3=trim($t);
 	$pos = strpos($image, '.jpg');
-	if (($pos !== false) && ($title <> "")){
+	if (($pos !== false) && ($title <> "") && strpos($link,"serial-tv") === false){
     $link = 'http://127.0.0.1/cgi-bin/scripts/filme/php/filme_link.php?file='.$link.','.urlencode($title);
     echo '
     <item>
@@ -264,9 +276,9 @@ foreach($videos as $video) {
 <item>
 <?php
 $sThisFile = 'http://127.0.0.1'.$_SERVER['SCRIPT_NAME'];
-$url = $sThisFile."?query=".($page+1).",";
+$url = $sThisFile."?query=".$tip.",".($page+1).",";
 if($search) { 
-  $url = $url.$search; 
+  $url = $url.urlencode($search);
 }
 ?>
 <title>Next Page</title>

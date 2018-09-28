@@ -1,19 +1,20 @@
 #!/usr/local/bin/Resource/www/cgi-bin/php
 <?php echo "<?xml version='1.0' encoding='UTF8' ?>";
-$link="http://vremea.meteoromania.ro/";
+$link="http://meteoromania.net/";
 $html = file_get_contents($link);
-$t1=explode('id="image_rotate"',$html);
-$t2=explode('src="',$t1[1]);
-$t3=explode('"',$t2[3]);
-$img="http://vremea.meteoromania.ro/".$t3[0];
-$t4=explode('span class="titlu">',$t1[1]);
-$t5=explode('<',$t4[3]);
+
+$img="http://meteoromania.net/sites/all/themes/meteo/images/panic.jpg";
+
+$link="http://meteoromania.net/prognoza_extinsa/1";
+$html = file_get_contents($link);
+/*
 $desc=$t5[0];
 $t1=explode('value="file=',$html);
 $t2=explode('&',$t1[1]);
 $t3=explode("&streamer=",$html);
 $t4=explode('&',$t3[1]);
 $video=$t4[0].$t2[0];
+*/
 ?>
 <rss version="2.0">
 <onEnter>
@@ -179,6 +180,7 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini;
 	return substr($string,$ini,$len);
 }
+/*
 if ($video <> "") {
 echo '
 <item>
@@ -192,6 +194,7 @@ playItemUrl(movie,10);
 </item>
 ';
 }
+*/
 $videos = explode('<option', $html);
 unset($videos[0]);
 $videos = array_values($videos);

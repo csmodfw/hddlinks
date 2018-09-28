@@ -158,12 +158,12 @@ ret;
 <channel>
 	<title>TV Live - Muzica</title>
 	<menu>main menu</menu>
-
+<!--
    <item>
    <title>OneHD Concerts</title>
    <link>/usr/local/etc/www/cgi-bin/scripts/tv/onehd_concert.rss</link>
    </item>
-
+-->
    <item>
     <title>Virgin TV</title>
     <onClick>playItemUrl("http://127.0.0.1/cgi-bin/translate?stream,,rtmp://fms.105.net:1935/live/virgin1",10);</onClick>
@@ -204,61 +204,70 @@ ret;
     <onClick>playItemUrl("http://127.0.0.1/cgi-bin/translate?stream,,http://wm.streaming.kataweb.it/reflector:40004",10);</onClick>
   </item>
     -->
+<!--
    <item>
     <title>1 Music</title>
     <onClick>playItemUrl("http://127.0.0.1/cgi-bin/translate?stream,,rtmp://80.232.172.37/rtplive/vlc.sdp",10);</onClick>
   </item>
-
+-->
+<!--
    <item>
     <title>RougeTv</title>
     <onClick>playItemUrl("http://127.0.0.1/cgi-bin/translate?stream,Rtmp-options:-W%20http://www.rougetv.ch/JWPlayer/mediaplayer/player.swf%20-p%20http://www.rougetv.ch,rtmp://rtmp.infomaniak.ch/livecast/rougetv",10);</onClick>
   </item>
-
+-->
+<!--
    <item>
     <title>play.me</title>
     <onClick>playItemUrl("http://127.0.0.1/cgi-bin/translate?stream,,rtmp://cp107974.live.edgefcs.net:80/live/beep-flash-live@34654",10);</onClick>
   </item>
-  
+-->
    <item>
     <title>Rock One TV</title>
     <onClick>playItemUrl("http://127.0.0.1/cgi-bin/translate?stream,,http://mediatv2.topix.it/24RockOne66",10);</onClick>
   </item>
-
+<!--
    <item>
     <title>Clap Tv</title>
     <onClick>playItemUrl("http://127.0.0.1/cgi-bin/translate?stream,,mms://rr93.diffusepro.com/rr93",10);</onClick>
   </item>
-
+-->
+<!--
    <item>
     <title>Soleil TV</title>
     <onClick>playItemUrl("http://127.0.0.1/cgi-bin/translate?stream,,mms://live240.impek.com/soleiltv?MSWMExt=.asf",10);</onClick>
   </item>
+-->
    <!--
    <item>
     <title>Music Box</title>
     <onClick>playItemUrl("http://127.0.0.1/cgi-bin/translate?stream,,mms://81.89.49.210/musicbox",10);</onClick>
   </item>
   -->
-
+<!--
    <item>
     <title>HIP HOP TV</title>
     <onClick>playItemUrl("http://127.0.0.1/cgi-bin/translate?stream,,mms://93.152.172.201/hiphoptv",10);</onClick>
   </item>
-
+-->
+<!--
    <item>
     <title>Spirit Television</title>
     <onClick>playItemUrl("http://127.0.0.1/cgi-bin/translate?stream,,mms://nyc04.egihosting.com/839181",10);</onClick>
   </item>
+-->
    <!--
    <item>
     <title>StreetClip TV</title>
     <onClick>playItemUrl("http://127.0.0.1/cgi-bin/translate?stream,,mms://85.214.55.57:1234",10);</onClick>
   </item>
    -->
+<!--
    <item>
     <title>Labelle TV</title>
     <onClick>playItemUrl("http://127.0.0.1/cgi-bin/translate?stream,,rtsp://www.labelletv.com/labelletv",10);</onClick>
   </item>
+-->
    <!--
    <item>
     <title>Ibiza on TV Live TV from Italy</title>
@@ -270,11 +279,12 @@ ret;
     <onClick>playItemUrl("http://127.0.0.1/cgi-bin/translate?stream,,rtsp://stream.lalocale.com/lalocale",10);</onClick>
   </item>
    -->
+<!--
    <item>
     <title>Play TV</title>
     <onClick>playItemUrl("http://127.0.0.1/cgi-bin/translate?stream,,rtsp://93.103.4.16/playtv",10);</onClick>
   </item>
-
+-->
 
 </channel>
 </rss>

@@ -1,10 +1,13 @@
 #!/usr/local/bin/Resource/www/cgi-bin/php
 <?php
 echo "<?xml version='1.0' encoding='UTF8' ?>";
+$host = "http://127.0.0.1/cgi-bin";
 $query = $_GET["file"];
 if($query) {
    $queryArr = explode(',', $query);
    $link = urldecode($queryArr[0]);
+   $link=str_replace("tvhub.ro","tvhub.org",$link);
+   $link=str_replace("https","http",$link);
    $series_title=urldecode($queryArr[1]);
    $series_title=urldecode($queryArr[1]);
    $series_title = str_replace("\\","",$series_title);
@@ -15,6 +18,21 @@ if($query) {
    $tip=$queryArr[4];
    $image= urldecode($queryArr[5]);
 }
+      $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
+      $exec = '-q -U "'.$ua.'" --referer="'.$link.'" --no-check-certificate "'.$link.'" -O -';
+      $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+      $html=shell_exec($exec);
+//echo $html;
+$t0=explode('class="cover"',$html);
+  $t1 = explode('url(', $t0[1]);
+  $t2 = explode(')', $t1[1]);
+  $img = $t2[0];
+  $img=$host."/scripts/filme/php/r_wget.php?file=".urlencode($img);
+$t1=explode('itemprop="description">',$html);
+$t2=explode('<p>',$t1[1]);
+$t3=explode('</p',$t2[1]);
+$desc=trim($t3[0]);
+$desc = preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$desc);
 ?>
 <rss version="2.0">
 <onEnter>
@@ -71,11 +89,14 @@ if($query) {
           lines="10" fontSize=17
 		      offsetXPC=55 offsetYPC=55 widthPC=40 heightPC=42 
 		      backgroundColor=0:0:0 foregroundColor=200:200:200>
-			<script>print(annotation); annotation;</script>
+   <?php echo $desc; ?>
 		</text>
 		<image  redraw="yes" offsetXPC=60 offsetYPC=22.5 widthPC=30 heightPC=25>
-  <script>print(image); image;</script>
+  <?php echo $img; ?>
 		</image>
+  	<text  redraw="yes" align="center" offsetXPC="0" offsetYPC="90" widthPC="100" heightPC="8" fontSize="17" backgroundColor="10:105:150" foregroundColor="100:200:255">
+		  <script>print(annotation); annotation;</script>
+		</text>
         <idleImage>image/POPUP_LOADING_01.png</idleImage>
         <idleImage>image/POPUP_LOADING_02.png</idleImage>
         <idleImage>image/POPUP_LOADING_03.png</idleImage>
@@ -205,16 +226,24 @@ function str_between($string, $start, $end){
 	return substr($string,$ini,$len); 
 }
 $host = "http://127.0.0.1/cgi-bin";
+  /*
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $link);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt ($ch, CURLOPT_REFERER, "http://serialenoi.online/");
+  curl_setopt ($ch, CURLOPT_REFERER, "https://serialenoi.online/");
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $html = curl_exec($ch);
   curl_close($ch);
-$videos = explode('<div class="imagen"', $html);
+  */
 
+  //$image=str_replace("https","http",$image);
+
+  //$image=$host."/scripts/filme/php/r_wget.php?file=".urlencode($image);
+  //$image=$host."/scripts/util/wget.cgi?link=".$image.",referer=https://tvhub.ro";
+//$videos = explode('<div class="imagen"', $html);
+$videos=explode('div style="white-space:',$html);
 unset($videos[0]);
 $videos = array_values($videos);
 //$videos = array_reverse($videos);
@@ -222,7 +251,7 @@ foreach($videos as $video) {
     $t1=explode('href="',$video);
     $t2=explode('"',$t1[1]);
     $link=$t2[0];
-    $t3=explode(">",$t1[2]);
+    $t3=explode(">",$t1[1]);
     $t4=explode("<",$t3[1]);
     $ep = trim($t4[0]);
 
@@ -230,9 +259,10 @@ foreach($videos as $video) {
     //$ep = trim(str_between($video,'class="btn btn-xs bgcolor1">','<'));
     $title=$ep." - ".$title_ep;
     $title=html_entity_decode($title,ENT_QUOTES,'UTF-8');
-    $t1 = explode('src="', $video);
-    $t2 = explode('"', $t1[1]);
-    $image = $t2[0];
+    //$t1 = explode('src="', $video);
+    //$t2 = explode('"', $t1[1]);
+    //$image = $t2[0];
+    //$image=$host."/scripts/filme/php/r_wget.php?file=".urlencode($image);
     $data=$title;
     if ($link <> "") {
        $link = 'http://127.0.0.1/cgi-bin/scripts/filme/php/filme_link.php?file='.$link.','.urlencode(trim(str_replace(",","^",$title)));
@@ -242,8 +272,8 @@ foreach($videos as $video) {
   <title>'.str_replace("&","&amp;",str_replace("&amp;","&",$title)).'</title>
   <link>'.$link.'</link>
   <annotation>'.str_replace("&","&amp;",str_replace("&amp;","&",$title)).'</annotation>
-  <image>'.$image.'</image>
-  <media:thumbnail url="'.$image.'" />
+  <image>'.$img.'</image>
+  <media:thumbnail url="'.$img.'" />
   <mediaDisplay name="threePartsView"/>
   </item>
   ';

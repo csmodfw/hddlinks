@@ -249,7 +249,7 @@ foreach($videos as $video) {
 
     //$data = "Duration: ".$data;
     $name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".flv";
-
+    $title=str_replace("&quot;",'"',$title);
     echo '
     <item>
     <title>'.$title.'</title>
@@ -265,7 +265,7 @@ foreach($videos as $video) {
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, video/x-flv);
-    streamArray = pushBackStringArray(streamArray, "'.$title.'");
+    streamArray = pushBackStringArray(streamArray, "'.str_replace('"',"'",$title).'");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer.rss");

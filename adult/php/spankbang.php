@@ -271,7 +271,8 @@ function str_between($string, $start, $end){
 	return substr($string,$ini,$len); 
 }
 //$videos = explode('<div class="video">', $html);
-$videos=explode('div class="video-item',$html);
+//$videos=explode('div class="video-item',$html);
+$videos=explode('data-id="',$html);
 unset($videos[0]);
 $videos = array_values($videos);
 
@@ -284,6 +285,11 @@ foreach($videos as $video) {
     $t1 = explode('src="', $video);
     $t2 = explode('"', $t1[1]);
     $image = $t2[0];
+    if (strpos($image,".jpg") === false) {
+    $t1 = explode('data-src="', $video);
+    $t2 = explode('"', $t1[1]);
+    $image = $t2[0];
+    }
     if (strpos($image,"http:") === false) $image="http:".$image;
     $image = str_replace("https","http",$image);
     $title=str_between($video,'alt="','"');
@@ -296,7 +302,7 @@ foreach($videos as $video) {
     //$data = "Durata: ".$data;
     $data=$title;
     $name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".flv";
-
+    $title=str_replace("&quot;",'"',$title);
     echo '
     <item>
     <title>'.$title.'</title>
@@ -306,6 +312,12 @@ foreach($videos as $video) {
     url="'.$link.'";
     movie=getUrl(url);
     cancelIdle();
+    if (movie == "" || movie == " " || movie == null)
+    {
+    playItemUrl(-1,1);
+    }
+    else
+    {
     streamArray = null;
     streamArray = pushBackStringArray(streamArray, "");
     streamArray = pushBackStringArray(streamArray, "");
@@ -316,6 +328,7 @@ foreach($videos as $video) {
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer.rss");
+    }
     </script>
     </onClick>
     <download>'.$link.'</download>

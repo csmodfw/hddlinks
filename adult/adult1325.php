@@ -164,13 +164,13 @@ ret;
   <link><?php echo $host; ?>/scripts/adult/php/4tube_main.php</link>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+<!--
 <item>
 <title>extremetube</title>
   <link><?php echo $host; ?>/scripts/adult/php/extremetube_main.php</link>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <item>
 <title>tjoob</title>
   <link><?php echo $host; ?>/scripts/adult/tjoob.php</link>
@@ -186,6 +186,12 @@ ret;
 <item>
 <title>redtube</title>
   <link><?php echo $host; ?>/scripts/adult/php/redtube_main.php</link>
+<mediaDisplay name="threePartsView"/>
+</item>
+
+<item>
+<title>pornhub</title>
+  <link><?php echo $host; ?>/scripts/adult/php/pornhub_main.php</link>
 <mediaDisplay name="threePartsView"/>
 </item>
 
@@ -236,13 +242,13 @@ ret;
   <link><?php echo $host; ?>/scripts/adult/php/madthumbs_main.php</link>
 <mediaDisplay name="threePartsView"/>
 </item>
-<!--
+
 <item>
-<title>pornjam</title>
-  <link><?php echo $host; ?>/scripts/adult/php/pornjam_main.php</link>
+<title>pornfree.tv</title>
+  <link><?php echo $host; ?>/scripts/adult/php/pornfree_main.php</link>
 <mediaDisplay name="threePartsView"/>
 </item>
--->
+
 <item>
 <title>XXX4PODS</title>
 <link>http://xxx4pods.com/podcasts/podcast.xml</link>
@@ -269,12 +275,13 @@ XXX4PODS
 </mediaDisplay>
 </item>
 
-
+<!--
   <item>
 <title>Spankwire</title>
 <link><?php echo $host; ?>/scripts/adult/php/spankwire_main.php</link>
 <mediaDisplay name="threePartsView"/>
 </item>
+-->
 <!--
   <item>
 <title>alotporn</title>
@@ -291,6 +298,18 @@ XXX4PODS
   <item>
 <title>xvideos</title>
 <link><?php echo $host; ?>/scripts/adult/php/xvideos_main.php</link>
+<mediaDisplay name="threePartsView"/>
+</item>
+
+  <item>
+<title>anybunny</title>
+<link><?php echo $host; ?>/scripts/adult/php/anybunny_main.php</link>
+<mediaDisplay name="threePartsView"/>
+</item>
+
+  <item>
+<title>datoporn</title>
+<link><?php echo $host; ?>/scripts/adult/php/datoporn_main.php</link>
 <mediaDisplay name="threePartsView"/>
 </item>
 

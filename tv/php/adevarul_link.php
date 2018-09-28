@@ -23,6 +23,7 @@ if($query) {
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Linux; U; Android 2.1-update1; ru-ru; GT-I9000 Build/ECLAIR) AppleWebKit/530.17 (KHTML, like Gecko) Version/4.0 Mobile Safari/530.17');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $html = curl_exec($ch);
   curl_close($ch);
 $id=str_between($html,'iframe src="','"');
@@ -33,6 +34,7 @@ $id=str_between($html,'iframe src="','"');
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Linux; U; Android 2.1-update1; ru-ru; GT-I9000 Build/ECLAIR) AppleWebKit/530.17 (KHTML, like Gecko) Version/4.0 Mobile Safari/530.17');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $html = curl_exec($ch);
   curl_close($ch);
 //echo $html;
@@ -40,6 +42,8 @@ $id=str_between($html,'iframe src="','"');
 //$l=str_between($html,"video src='","'");
 $t1=explode("<video",$html);
 $l=str_between($t1[1],'src="','"');
+//$l="http://1047.cdn.easyhost.com/origin02.hostway.ro/protected/tr01/npt/output/20180119120934_4CCE606CB47D442EBEACB782CA362714/20180119120934_4CCE606CB47D442EBEACB782CA362714.m3u8?st=uo41U-19VkZRee0i64-w5Q&e=1516524271";
+$base=str_replace(strrchr($l, "/"),"/",$l);
 $ua="Mozilla/5.0 (iPhone; CPU iPhone OS 5_0_1 like Mac OS X)";
       $ch = curl_init();
       curl_setopt($ch, CURLOPT_URL, $l);
@@ -53,6 +57,7 @@ $ua="Mozilla/5.0 (iPhone; CPU iPhone OS 5_0_1 like Mac OS X)";
       //echo $h;
       //$a1=explode("\n",$h);
       //print_r ($a1);
+if (preg_match("/\.m3u8/",$h)) {
   preg_match_all("/RESOLUTION\=(\d+)/i",$h,$m);
   //print_r ($m);
   $max_res=max($m[1]);
@@ -86,8 +91,12 @@ $ua="Mozilla/5.0 (iPhone; CPU iPhone OS 5_0_1 like Mac OS X)";
       curl_close($ch);
       //echo $h;
       //die();
+}
+
 $out="";
 preg_match_all("/.*ts.*/",$h,$m);
+//echo $base.$m[0][0];
+//die();
 $out="";
 $link = curl_init();
 curl_setopt($link, CURLOPT_USERAGENT, $ua);

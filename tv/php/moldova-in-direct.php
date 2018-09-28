@@ -1,6 +1,13 @@
 #!/usr/local/bin/Resource/www/cgi-bin/php
 <?php echo "<?xml version='1.0' encoding='UTF8' ?>";
 $host = "http://127.0.0.1/cgi-bin";
+$query = $_GET["query"];
+//page=1,release,".urlencode($link).",".urlencode($title);
+if($query) {
+   $queryArr = explode(',', $query);
+   $link = urldecode($queryArr[0]);
+   $tit=urldecode($queryArr[1]);
+}
 ?>
 <rss version="2.0">
 <onEnter>
@@ -156,7 +163,7 @@ ret;
 
 	</item_template>
 <channel>
-	<title>Moldova in Direct</title>
+	<title><?php echo $tit; ?></title>
 	<menu>main menu</menu>
 
 
@@ -187,7 +194,8 @@ function dec($string) {
     $v=str_replace("\/","/",$v);
     return $v;
 }
-$link="http://www.trm.md/ro/moldova-in-direct/";
+//http://trm.md/ro/tv-emisiuni/
+//$link="http://www.trm.md/ro/moldova-in-direct/";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $link);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

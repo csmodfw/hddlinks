@@ -163,13 +163,22 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
-  	$link=$host."/scripts/adult/php/spankwire.php?query=1,http://www.spankwire.com/home2/Straight/Featured/All_Time/Submitted";
+  	$link=$host."/scripts/adult/php/spankwire.php?query=1,https://www.spankwire.com/home2/Straight/Featured/All_Time/Submitted";
   	echo '
   	<item>
   		<title>New</title>
   		<link>'.$link.'</link>
   	</item>';
-$html = file_get_contents("http://www.spankwire.com/categories/Straight");
+$l = "https://www.spankwire.com/categories/Straight";
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, "http://www.spankwire.com");
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  $html = curl_exec($ch);
+  curl_close($ch);
 //$html = str_between($html,'<ul class="smallChannels">','</ul>');
 $videos = explode('<div class="category-thumb">', $html);
 unset($videos[0]);

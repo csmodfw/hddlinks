@@ -198,30 +198,20 @@ if ($tip=="release") {
 //http://taboop.com/category/taboo-videos/mom-son/page/2/
   $search3=$search."page/".$page."/";
   //echo $search3;
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $search3);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt($ch, CURLOPT_REFERER, "http://taboop.com");
-  //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-  $html = curl_exec($ch);
-  curl_close($ch);
+      $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
+      $exec = '-q -U "'.$ua.'" --referer="'.$search3.'" --no-check-certificate "'.$search3.'" -O -';
+      $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+      $html=shell_exec($exec);
   //echo $html;
 } else {
   $tip="search";
   $search1=str_replace(" ","+",urldecode($search));
   //http://taboop.com/page/3/?s=a+b
-  $search3="http://taboop.com/page/".$page."/?s=".$search1;
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $search3);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  //curl_setopt($ch, CURLOPT_REFERER, "https://xhamster.com");
-  //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-  $html = curl_exec($ch);
-  curl_close($ch);
+  $search3="https://taboop.com/page/".$page."/?s=".$search1;
+      $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
+      $exec = '-q -U "'.$ua.'" --referer="'.$search3.'" --no-check-certificate "'.$search3.'" -O -';
+      $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+      $html=shell_exec($exec);
 }
 
 if($page > 1) { ?>
@@ -266,7 +256,8 @@ foreach($videos as $video) {
 
     $title=str_between($video,'title="','"');
     $image = $t2[0];
-    $image = str_replace("https","http",$image);
+    //$image = str_replace("https","http",$image);
+    $image="http://127.0.0.1/cgi-bin/scripts/filme/php/r_wget.php?file=".$image;
     $link = $host."/scripts/filme/php/filme_link.php?file=".urlencode($link).",".urlencode($title);
     //http://img02.redtubefiles.com/_thumbs/0000350/0350855/0350855_009m.jpg
 
@@ -279,6 +270,7 @@ foreach($videos as $video) {
     //$data = "Durata: ".$data;
     $data="";
     $name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".flv";
+    $title=str_replace("&quot;",'"',$title);
     if ($title) {
     echo '
     <item>

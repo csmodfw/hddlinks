@@ -317,10 +317,11 @@ if($requestPage->status->http_code == 503) {
 //http://putlocker.is/tv
 //http://putlocker.is/search/search.php?q=star%20trek&sort=views&page=1
 //http://www.watchfree.to/?keyword=babylon&search_section=1
+//http://www.gowatchfreemovies.to/
 if ($tip=="search")
-   $requestLink = "https://www.watchfree.to/?keyword=".str_replace(" ","+",$link)."&search_section=1&page=".$page;
+   $requestLink = "http://www.gowatchfreemovies.to/?keyword=".str_replace(" ","+",$link)."&search_section=1&page=".$page;
 else
-   $requestLink = "https://www.watchfree.to/?sort=date&keyword=&page=".$page."";
+   $requestLink = "http://www.gowatchfreemovies.to/?sort=date&keyword=&page=".$page."";
    //http://www.watchfree.to/?sort=date&keyword=&page=2
    //http://www.watchfree.to/?page=2
 //http://www.watchfree.to/?keyword=star+trek&search_section=2&page=2
@@ -331,7 +332,7 @@ else
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt ($ch, CURLOPT_REFERER, "http://www.watchfree.to");
+  curl_setopt ($ch, CURLOPT_REFERER, "http://www.gowatchfreemovies.to/");
   curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   //curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
   //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
@@ -346,7 +347,7 @@ $videos = array_values($videos);
 foreach($videos as $video) {
   $t1 = explode('href="',$video);
   $t2 = explode('"', $t1[1]);
-  $link1 = "https://www.watchfree.to".$t2[0];
+  $link1 = "http://www.gowatchfreemovies.to".$t2[0];
 
   $t1 = explode('title="', $video);
   $t2 = explode('"', $t1[1]);

@@ -186,11 +186,12 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini;
 	return substr($string,$ini,$len);
 }
-
+$base="http://www.gowatchfreemovies.to/";
 if (file_exists("/data"))
   $f= "/data/putlocker_s.dat";
 else
   $f="/usr/local/etc/putlocker_s.dat";
+
 if (file_exists($f)) {
 $html=file_get_contents($f);
 //echo $html;
@@ -199,6 +200,7 @@ unset($videos[0]);
 $videos = array_values($videos);
 foreach($videos as $video) {
   $link=urldecode(str_between($video,"<movie>","</movie>"));
+  if (strpos($link,"/") !== false) $link = substr(strrchr($link, "/"), 1);
   $title=urldecode(str_between($video,"<title>","</title>"));
   $title=str_replace("/",",",$title);
   //$image=urldecode(str_between($video,"<image>","<image>"));
@@ -225,14 +227,17 @@ foreach ($arr as $key => $val) {
   $year=$arr[$key][3];
   $id1=$arr[$key][4];
   $id_t="";
-  $link=str_replace("https","http",$link);
-  $link=str_replace("http","https",$link);
+  $link=$base.$link;
+  //$link=str_replace("https","http",$link);
+  //$link=str_replace("http","https",$link);
+  //$link=str_replace("https","http",$link);
+  //$link=str_replace("https://www.watchfree.to","http://www.gowatchfreemovies.to",$link);
   //watch-narcos-87202
   //$id1=substr(strrchr($link, "-"), 1);
   $image1=$image;
    $link2=$host."/scripts/filme/php/putlocker_s_ep.php?file=".urlencode($link).",".urlencode(str_replace(",","^",$title)).",".$id1.",".$id_t.",series,".urlencode($image);
    //$link2=$host."/scripts/filme/php/vumoo_s_ep.php?file=".urlencode($link).",".urlencode($title).",".$id1.",".$id_t.",series,".urlencode($image);
-   if ($title && strpos($link,"putlocker.is") === false) {
+   if ($title) {
      echo '
      <item>
      <title>'.str_replace("&","&amp;",str_replace("&amp;","&",$title)).'</title>

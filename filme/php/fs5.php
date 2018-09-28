@@ -3,7 +3,7 @@
 $new_file = "/tmp/fs.dat";
 $f=file_get_contents($new_file);
 $t1=explode("\n",$f);
-$tip= $t1[5];
+$imdbid= $t1[5];
 $sezon=$t1[2];
 if ($sezon) {
   $tip="series";
@@ -290,7 +290,8 @@ foreach($videos as $video) {
    $SubLanguageID = get_value("SubLanguageID",$video);
    //if ($SubLanguageID == "rum") break;
    $id2=get_value("IDSubtitleFile",$video);
-   array_push($arrsub ,array($SubFileName,$SubLanguageID, $id2));
+   //array_push($arrsub ,array($SubFileName,$SubLanguageID, $id2));
+   array_push($arrsub ,array($SubLanguageID,$SubFileName, $id2));
  }
 }
 } else {
@@ -372,24 +373,27 @@ foreach($videos as $video) {
    $SubLanguageID = get_value("SubLanguageID",$video);
    //if ($SubLanguageID == "rum") break;
    $id2=get_value("IDSubtitleFile",$video);
-   array_push($arrsub ,array($SubFileName,$SubLanguageID, $id2));
+   //array_push($arrsub ,array($SubFileName,$SubLanguageID, $id2));
+   array_push($arrsub ,array($SubLanguageID,$SubFileName, $id2));
  }
 }
 }
-$nn=count($arrsub);
 $link="http://127.0.0.1/cgi-bin/scripts/filme/php/link.php?file=".urlencode($link);
+arsort($arrsub);
+$nn=count($arrsub);
+
 //$link="http://127.0.0.1/cgi-bin/scripts/filme/php/noobroom_link.php?file=".$id.",off,".$server.",".$hd.",".$tv;
-for ($k=0;$k<$nn;$k++) {
+foreach ($arrsub as $key => $val) {
         $f = "/usr/local/bin/home_menu";
 	    echo'
 	    <item>
-	    <title>'.$arrsub[$k][1]." - ".$arrsub[$k][0].'</title>
+        <title>'.$arrsub[$key][0]." - ".$arrsub[$key][1].'</title>
         <onClick>
         <script>
         showIdle();
         movie="'.$link.'";
         url=getUrl(movie);
-        dummy=getURL("http://127.0.0.1/cgi-bin/scripts/filme/php/fs_sub.php?file='.$arrsub[$k][2].'");';
+        dummy=getURL("http://127.0.0.1/cgi-bin/scripts/filme/php/fs_sub.php?file='.$arrsub[$key][2].'");';
         echo '
         cancelIdle();
         storagePath = getStoragePath("tmp");

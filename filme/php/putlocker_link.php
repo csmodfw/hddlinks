@@ -97,7 +97,7 @@ $year="";
 		  <script>getPageInfo("pageTitle");</script>
 		</text>
   	<text align="left" offsetXPC="6" offsetYPC="15" widthPC="80" heightPC="4" fontSize="16" backgroundColor="10:105:150" foregroundColor="100:200:255">
-      0 (blue) folositi alta subtitrare
+      0 (blue/red/green/yellow) folositi alta subtitrare
 		</text>
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
@@ -106,7 +106,7 @@ $year="";
          <script>print(image); image;</script>
 		</image>
 
-  	<text  redraw="yes" align="center" offsetXPC="0" offsetYPC="90" widthPC="100" heightPC="8" fontSize="17" backgroundColor="10:105:150" foregroundColor="100:200:255">
+  	<text  redraw="yes" align="center" offsetXPC="0" offsetYPC="90" widthPC="100" heightPC="8" fontSize="10" backgroundColor="10:105:150" foregroundColor="100:200:255">
 		  <script>print(annotation); annotation;</script>
 		</text>
 
@@ -192,12 +192,51 @@ else if (userInput == "zero" || userInput == "0" || userInput == "option_blue")
   t = getItemInfo(getFocusItemIndex(),"tit1");
   l = getItemInfo(getFocusItemIndex(),"movie1");
   id=getItemInfo(getFocusItemIndex(),"serial");
-  hhd=getItemInfo(getFocusItemIndex(),"serial");
+  hhd=getItemInfo(getFocusItemIndex(),"imdb");
   idt=getItemInfo(getFocusItemIndex(),"idt");
   tip=getItemInfo(getFocusItemIndex(),"tip");
     movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/fs_det.php?file=" + t + "," + l + "," + id + "," + idt + "," + hhd + "," + tip;
     dummy = getURL(movie_info);
     jumpToLink("fs");
+    "true";
+}
+else if (userInput == "option_red")
+   {
+  t = getItemInfo(getFocusItemIndex(),"tit1");
+  l = getItemInfo(getFocusItemIndex(),"movie1");
+  id=getItemInfo(getFocusItemIndex(),"serial");
+  hhd=getItemInfo(getFocusItemIndex(),"imdb");
+  idt=getItemInfo(getFocusItemIndex(),"idt");
+  tip=getItemInfo(getFocusItemIndex(),"tip");
+    movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/fs_det.php?file=" + t + "," + l + "," + id + "," + idt + "," + hhd + "," + tip;
+    dummy = getURL(movie_info);
+    jumpToLink("fs1");
+    "true";
+}
+else if (userInput == "option_green")
+   {
+  t = getItemInfo(getFocusItemIndex(),"tit1");
+  l = getItemInfo(getFocusItemIndex(),"movie1");
+  id=getItemInfo(getFocusItemIndex(),"serial");
+  hhd=getItemInfo(getFocusItemIndex(),"imdb");
+  idt=getItemInfo(getFocusItemIndex(),"idt");
+  tip=getItemInfo(getFocusItemIndex(),"tip");
+    movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/fs_det.php?file=" + t + "," + l + "," + id + "," + idt + "," + hhd + "," + tip;
+    dummy = getURL(movie_info);
+    jumpToLink("fs2");
+    "true";
+}
+else if (userInput == "option_yellow")
+   {
+  t = getItemInfo(getFocusItemIndex(),"tit1");
+  l = getItemInfo(getFocusItemIndex(),"movie1");
+  id=getItemInfo(getFocusItemIndex(),"serial");
+  hhd=getItemInfo(getFocusItemIndex(),"imdb");
+  idt=getItemInfo(getFocusItemIndex(),"idt");
+  tip=getItemInfo(getFocusItemIndex(),"tip");
+    movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/fs_det.php?file=" + t + "," + l + "," + id + "," + idt + "," + hhd + "," + tip;
+    dummy = getURL(movie_info);
+    jumpToLink("fs3");
     "true";
 }
 else if(userInput == "four" || userInput == "4")
@@ -237,6 +276,15 @@ ret;
 <fs>
 <link>http://127.0.0.1/cgi-bin/scripts/filme/php/fs3.php</link>
 </fs>
+<fs1>
+<link>http://127.0.0.1/cgi-bin/scripts/filme/php/titrari_main.php?query=1,watch</link>
+</fs1>
+<fs2>
+<link>http://127.0.0.1/cgi-bin/scripts/filme/php/subs_main.php?query=1,watch</link>
+</fs2>
+<fs3>
+<link>http://127.0.0.1/cgi-bin/scripts/filme/php/subtitrari_main.php?query=1,watch</link>
+</fs3>
 <channel>
 	<title><?php echo str_replace("&","&amp;",str_replace("&amp;","&",$title)); ?></title>
 	<menu>main menu</menu>
@@ -312,6 +360,7 @@ if($requestPage->status->http_code == 503) {
   //curl_setopt($ch, CURLOPT_HEADER,1);
   $html = curl_exec($ch);
   //echo $html;
+  $imdb=str_between($html,'title/tt','"');
  $videos = explode('go.php', $html);
 unset($videos[0]);
 $videos = array_values($videos);
@@ -319,7 +368,7 @@ foreach($videos as $video) {
   //$t1=explode('href="',$video);
   $t2=explode('"',$video);
   $t3=explode("&",$t2[0]);
-  $openload="https://www.watchfree.to/go.php".$t3[0];
+  $openload="http://www.gowatchfreemovies.to/go.php".$t3[0];
   $server = str_between($video,"</strong>","<");
   $server=trim(str_replace("-","",$server));
   //if (!$server) $server = str_between($openload,"https://","/");
@@ -368,6 +417,7 @@ foreach($videos as $video) {
     <movie>'.trim($openload).'</movie>
     <serial>'.urlencode($serial).'</serial>
     <movie1>'.urlencode(trim($openload)).'</movie1>
+    <imdb>'.$imdb.'</imdb>
     <annotation>'.$server.'</annotation>
      </item>
      ';

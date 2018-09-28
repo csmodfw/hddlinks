@@ -173,14 +173,15 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
-  	$link=$host."/scripts/adult/php/taboop.php?query=1,http://taboop.com/category/taboo-videos/,release";
+  	$link=$host."/scripts/adult/php/taboop.php?query=1,https://taboop.com/category/taboo-videos/,release";
   	echo '
   	<item>
   		<title>New</title>
   		<link>'.$link.'</link>
   	</item>';
 $l="http://www.incestvidz.com/";
-$l="http://taboop.com/";
+$l="https://taboop.com/";
+/*
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -189,7 +190,12 @@ $l="http://taboop.com/";
   curl_setopt($ch, CURLOPT_REFERER, "http://taboop.com/");
   $html = curl_exec($ch);
   curl_close($ch);
+  */
 //$html=str_between($html,'<ul class="ordenar','</ul');
+      $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
+      $exec = '-q -U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
+      $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+      $html=shell_exec($exec);
 $videos = explode('<li id="menu-item', $html);
 unset($videos[0]);
 $videos = array_values($videos);

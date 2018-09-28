@@ -161,6 +161,7 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
+//http://www.alotporn.com/search/?q=mom+son
 //http://127.0.0.1/mobile/scripts/adult/alotporn.php?page=1,http://www.alotporn.com/recent/,Recente
   	$link=$host."/scripts/adult/php/alotporn.php?query=1,http://www.alotporn.com/recent/";
   	echo '

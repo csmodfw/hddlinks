@@ -169,15 +169,23 @@ ret;
 $query = $_GET["query"];
 if($query) {
    $queryArr = explode(',', $query);
-   $page = $queryArr[0];
-   $search = $queryArr[1];
+   $tip=$queryArr[0];
+   $page = $queryArr[1];
+   $search = urldecode($queryArr[2]);
 }
 //http://divxonline.biz/actiune/page/2/
+//https://pefilme.net/?s=star+trek
+//https://pefilme.net/page/2/?s=star
+if ($tip=="search") {
+  $search1=str_replace(" ","+",$search);
+  $l="https://pefilme.net/page/".$page."/?s=".$search1;
+} else {
 if($page) {
 	$l=$search."page/".$page."/";
 } else {
 	$page = 1;
   $l=$search;
+}
 }
 $ua="Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5";
 $exec_path="/usr/local/bin/Resource/www/cgi-bin/scripts/wget ";
@@ -191,9 +199,9 @@ if($page > 1) { ?>
 <item>
 <?php
 $sThisFile = 'http://127.0.0.1'.$_SERVER['SCRIPT_NAME'];
-$url = $sThisFile."?query=".($page-1).",";
-if($search) { 
-  $url = $url.$search; 
+$url = $sThisFile."?query=".$tip.",".($page-1).",";
+if($search) {
+  $url = $url.urlencode($search);
 }
 ?>
 <title>Previous Page</title>
@@ -282,9 +290,9 @@ foreach($videos as $video) {
 <item>
 <?php
 $sThisFile = 'http://127.0.0.1'.$_SERVER['SCRIPT_NAME'];
-$url = $sThisFile."?query=".($page+1).",";
-if($search) { 
-  $url = $url.$search; 
+$url = $sThisFile."?query=".$tip.",".($page+1).",";
+if($search) {
+  $url = $url.urlencode($search);
 }
 ?>
 <title>Next Page</title>

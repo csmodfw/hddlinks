@@ -89,22 +89,20 @@ else
   $base=$base1;
 // $l playlist with ts segments
 // $base base url for ts
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, $l);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-curl_setopt($ch, CURLOPT_USERAGENT, $ua);
-curl_setopt($ch,CURLOPT_REFERER,"https://www.privesc.eu");
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-$link = curl_init();
-curl_setopt($link, CURLOPT_USERAGENT, $ua);
-curl_setopt($link, CURLOPT_HEADER, false);
-curl_setopt($link,CURLOPT_REFERER,"https://www.privesc.eu");
-curl_setopt($link, CURLOPT_SSL_VERIFYPEER, false);
+
+
 $l_ts=array();
 $ts=array();
 while (true) {
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_USERAGENT, $ua);
+  curl_setopt($ch,CURLOPT_REFERER,"https://www.privesc.eu");
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $h = curl_exec($ch);
+  curl_close($ch);
   if (!preg_match("/#EXTINF/i",$h)) break;
   $a1=explode("\n",$h);
   $l_ts=$ts;
@@ -115,11 +113,17 @@ while (true) {
   $c=count($ts);
   for ($n=0;$n<$c;$n++) {
     if (!in_array($ts[$n], $l_ts)) {
+      $link = curl_init();
+      curl_setopt($link, CURLOPT_USERAGENT, $ua);
+      curl_setopt($link, CURLOPT_HEADER, false);
+      curl_setopt($link,CURLOPT_REFERER,"https://www.privesc.eu");
+      curl_setopt($link, CURLOPT_SSL_VERIFYPEER, false);
       curl_setopt($link, CURLOPT_URL, $base.$ts[$n].$base3);
       curl_exec($link);
+      curl_close($link);
     }
   }
 }
-curl_close($ch);
-curl_close($link);
+
+
 ?>

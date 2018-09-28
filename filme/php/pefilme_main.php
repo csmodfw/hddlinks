@@ -148,6 +148,11 @@ ret;
 		</mediaDisplay>
 
 	</item_template>
+	<searchLink>
+	  <link>
+	    <script>"<?php echo $host."/scripts/filme/php/pefilme.php?query=search,1,"; ?>" + urlEncode(keyword);</script>
+	  </link>
+	</searchLink>
 <channel>
 	<title>pefilme - categorii</title>
 	<menu>main menu</menu>
@@ -160,12 +165,24 @@ function str_between($string, $start, $end){
 	return substr($string,$ini,$len); 
 }
 //$html = file_get_contents("http://divxonline.biz/");
+echo '
+<item>
+  <title>Căutare</title>
+  <onClick>
+     keyword = getInput("Input", "doModal");
+		if (keyword != null)
+		 {
+	       jumpToLink("searchLink");
+		  }
+   </onClick>
+</item>
+';
 $l="https://pefilme.net/";
 
 	echo '
 	<item>
 	<title>Filme noi</title>
-	<link>'.$host.'/scripts/filme/php/pefilme.php?query=,'.$l.'</link>
+	<link>'.$host.'/scripts/filme/php/pefilme.php?query=release,1,'.$l.'</link>
 	<annotation>Filme noi</annotation>
 	<mediaDisplay name="threePartsView"/>
 	</item>
@@ -191,7 +208,7 @@ foreach($videos as $video) {
     $t3 = explode('<', $t2[1]);
     $title = $t3[0];
 		if (($link <> "") && (strpos($title,"Adult") === false)) {
-			$link = $host."/scripts/filme/php/pefilme.php?query=,".$link;
+			$link = $host."/scripts/filme/php/pefilme.php?query=release,1,".$link;
     	echo '
     	<item>
     		<title>'.$title.'</title>

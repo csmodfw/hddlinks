@@ -192,7 +192,7 @@ if($page) {
   $l = $search;
 }
       $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
-      $exec = '--max-redirect 0 -U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
+      $exec = '-U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
       $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
       $html=shell_exec($exec);
   //echo $html;
@@ -233,16 +233,26 @@ foreach($videos as $video) {
 	//$t3=explode(">",$t1[2]);
 	//$t4=explode("<",$t3[1]);
 	//$title=$t4[0];
+	/*
 	$t1=explode('rel="bookmark',$video);
 	$t2=explode(">",$t1[2]);
 	$t3=explode("<",$t2[1]);
     $title=$t3[0];
+    */
+    $t1=explode("<h4>",$video);
+    $t2=explode("</",$t1[1]);
+    $title=$t2[0];
   $title=str_replace("&#8211;","-",$title);
   $title=str_replace("&#8217;","'",$title);
     $title=trim(preg_replace("/(onlin|film)(.*)/i","",$title));
   if (preg_match("/\(?((1|2)\d{3})\)?/",$title,$r)) {
      //print_r ($r);
      $year=$r[1];
+  }
+  $year=str_between($video,'<span>','</span>');
+  if (!preg_match("/\(?((1|2)\d{3})\)?/",$year)) {
+     //print_r ($r);
+     $year="";
   }
   $t1=explode(" - ",$title);
   $t=$t1[0];

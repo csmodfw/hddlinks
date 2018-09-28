@@ -270,7 +270,7 @@ columnCount=5
 <location>http://publika.md/</location>
 <annotation>Site-ul de stiri care iti ofera informatia proaspata corecta obiectiva si documentata despre stirile de ultima ora.</annotation>
 </item>
-
+<!--
 <item>
 <title>JurnalTV</title>
 <link><?php echo $host; ?>/scripts/tv/php/jurnaltv.php</link>
@@ -279,10 +279,10 @@ columnCount=5
 <location>http://jurnaltv.md/</location>
 <annotation>JurnalTV - Prima televiziune de stiri din Republica Moldova</annotation>
 </item>
-
+-->
 <item>
 <title>Moldova in Direct</title>
-<link><?php echo $host; ?>/scripts/tv/php/moldova-in-direct.php</link>
+<link><?php echo $host; ?>/scripts/tv/php/moldova-in-direct_main.php</link>
 <media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/moldova-in-direct.jpg" />
 <image>/usr/local/etc/www/cgi-bin/scripts/tv/image/moldova-in-direct.jpg</image>
 <location>http://www.trm.md/ro/moldova-in-direct/</location>
@@ -306,7 +306,7 @@ columnCount=5
 <location>http://www.protv.md/</location>
 <annotation>Vezi aici emisiuni inregistrate ale postului TV ProTV Moldova</annotation>
 </item>
-
+<!--
 <item>
 <title>Europa libera</title>
 <link><?php echo $host; ?>/scripts/tv/php/europalibera.php?query=1,</link>
@@ -315,7 +315,8 @@ columnCount=5
 <location>https://www.europalibera.org/z/453</location>
 <annotation>Vezi aici emisiuni inregistrate ale postului Europa Libera</annotation>
 </item>
-
+-->
+<!--
 <item>
 <title>Pahomi - Realitatea</title>
 <link><?php echo $host; ?>/scripts/tv/php/pahomi.php</link>
@@ -324,7 +325,7 @@ columnCount=5
 <location>http://www.realitatea.md/emisiuni/pahomi.html</location>
 <annotation>O emisiune în care vom invita la un dialog sincer oamenii care fac politica în Republica Moldova si cei care o pot influenta.</annotation>
 </item>
-
+-->
 <item>
 <title>PunctulpeAZi</title>
 <link><?php echo $host; ?>/scripts/php1/facebook.php?query=1,PunctulpeAZi,PunctulpeAZi,</link>
@@ -332,6 +333,15 @@ columnCount=5
 <image>/usr/local/etc/www/cgi-bin/scripts/tv/image/tvrstiri.png</image>
 <location>http://facebook.com/PunctulpeAZi</location>
 <annotation>Emisiune PunctulpeAZi pe facebook</annotation>
+</item>
+
+<item>
+<title>agora.md</title>
+<link><?php echo $host; ?>/scripts/php1/facebook.php?query=1,agora.md,agora.md,</link>
+<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/tvrstiri.png" />
+<image>/usr/local/etc/www/cgi-bin/scripts/tv/image/tvrstiri.png</image>
+<location>http://facebook.com/agora.md</location>
+<annotation>Emisiunea agora.md pe facebook</annotation>
 </item>
 
 <item>

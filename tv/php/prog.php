@@ -345,6 +345,7 @@ $a["euforia"]="euforia-lifestyle";
 $a["procinema"]="pro-cinema";
 $a["protv"]="pro-tv";
 $a["sport.ro"]="sportro";
+$a["tvr-moldova"]="tvr-moldova";
 ///////////////////////////////////////////////////////////
 //de la voyo.php
 $a["acasa-tv-gold"]="acasa-gold";
@@ -372,22 +373,24 @@ function c($title) {
      $title = str_replace("&amp;", "&",$title);
      return $title;
 }
-$id = $_GET["file"];
+$id = $_POST["link"];
+$id=str_replace("dolce","telekom",$id);
 if ($id)
   $l=$a[$id];
-if ($l) {
+//if ($l) {
 //$link="http://port.ro/pls/w/tv.channel?i_ch=".$link."&i_xday=5";
 $link="http://www.cinemagia.ro/program-tv/".$l."/";
-$link="http://android.cinemagia.ro/program-tv/".$l."/";
+$link="https://android.cinemagia.ro/program-tv/".$id."/";
 //echo $link."<BR>";
 //$link="http://port.ro/pls/w/tv.channel?i_ch=10017&i_xday=5"
-
+//$link="https://android.cinemagia.ro/program-tv/tvr-moldova/";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $link);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt ($ch, CURLOPT_REFERER, "http://android.cinemagia.ro/program-tv/");
+  curl_setopt ($ch, CURLOPT_REFERER, "https://android.cinemagia.ro/program-tv/");
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   //curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
   //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   $html = curl_exec($ch);
@@ -407,8 +410,8 @@ foreach($videos as $video) {
  $title = trim(preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$title));
  print $ora." ".$title."\n\r";
 }
-} else {
-print "FARA PROGRAM";
-}
+//} else {
+//print "FARA PROGRAM";
+//}
 ?>
 

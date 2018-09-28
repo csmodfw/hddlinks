@@ -71,7 +71,7 @@
   <text offsetXPC=35 offsetYPC=40 widthPC=60 heightPC=5 fontSize=16 backgroundColor=0:0:0 foregroundColor=200:200:200>
     <script>regie;</script>
   </text>
-  <text lines="2" offsetXPC=33.5 offsetYPC=45 widthPC=60 heightPC=10 fontSize=16 backgroundColor=0:0:0 foregroundColor=200:200:200>
+  <text lines="3" offsetXPC=33.5 offsetYPC=45 widthPC=60 heightPC=15 fontSize=16 backgroundColor=0:0:0 foregroundColor=200:200:200>
     <script>actori;</script>
   </text>
   <text lines="6"  offsetXPC=10 offsetYPC=65 widthPC=80 heightPC=30 fontSize=16 backgroundColor=0:0:0 foregroundColor=200:200:200>

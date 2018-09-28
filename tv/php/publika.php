@@ -192,7 +192,14 @@ function str_between($string, $start, $end){
 }
 
 $image = "/usr/local/etc/www/cgi-bin/scripts/tv/image/publika.jpg";
-$html = file_get_contents("http://www.publika.md/");
+//$html = file_get_contents("http://www.publika.md/");
+$l="http://www.publika.md/";
+$ua="Mozilla/5.0 (Windows NT 10.0; rv:55.0) Gecko/20100101 Firefox/55.0";
+$exec_path="/usr/local/bin/Resource/www/cgi-bin/scripts/wget ";
+$exec = '-q  -U "'.$ua.'"  --no-check-certificate "'.$l.'" -O -';
+//echo $exec;
+$exec = $exec_path.$exec;
+$html=shell_exec($exec);
 $videos = explode('article id="', $html);
 
 unset($videos[0]);
@@ -208,6 +215,7 @@ foreach($videos as $video) {
     $t1 = explode('src="',$video);
     $t2 = explode('"',$t1[1]);
     $image = $t2[0];
+    $image=str_replace("https","http",$image);
      $title = str_replace("&ordm;","s",$title);
      $title = str_replace("&Ordm;","S",$title);
      $title = str_replace("&thorn;","t",$title);

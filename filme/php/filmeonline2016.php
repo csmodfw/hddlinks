@@ -179,6 +179,7 @@ if($page) {
 	$page = 1;
   $l=$search;
 }
+//echo $l;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -187,6 +188,7 @@ if($page) {
   //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   $html = curl_exec($ch);
   curl_close($ch);
+  //echo $html;
 if($page > 1) { ?>
 
 <item>
@@ -213,9 +215,10 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
-include("../../common.php");
- $videos = explode('class="entry-header', $html);
 //echo $html;
+include("../../common.php");
+ $videos = explode('article id="post-', $html);
+
 unset($videos[0]);
 $videos = array_values($videos);
 
@@ -223,7 +226,7 @@ foreach($videos as $video) {
   $year="";
   $tip="movie";
   $link = trim(str_between($video,'href="','"'));
-  $title=str_between($video,'alt="','"');
+  $title=str_between($video,'class="Title">','<');
   $title=str_replace("&#8211;","-",$title);
   $title=str_replace("&#8217;","'",$title);
   $title=trim(preg_replace("/Online Subtitrat in Romana|Filme Online Subtitrat HD 720p|Online HD 720p Subtitrat in Romana|Online Subtitrat Gratis|Online Subtitrat in HD Gratis|Film HD Online Subtitrat/i","",$title));
@@ -240,7 +243,10 @@ foreach($videos as $video) {
   $t1 = explode('src="', $video);
   $t2 = explode('"', $t1[1]);
   $image = $t2[0];
-  $descriere=str_between($video,'itemprop="description">','<');
+  $t1=explode('<p>',$video);
+  $t2=explode('</',$t1[1]);
+  $descriere=trim($t2[0]);
+  //$descriere=str_between($video,'class="Description">','<');
   $descriere=str_replace("[&hellip;]","...",$descriere);
   $descriere=diacritice($descriere);
 //  descriere

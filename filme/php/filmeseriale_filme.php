@@ -1,5 +1,7 @@
 #!/usr/local/bin/Resource/www/cgi-bin/php
-<?php echo "<?xml version='1.0' encoding='UTF8' ?>"; ?>
+<?php echo "<?xml version='1.0' encoding='UTF8' ?>";
+$host = "http://127.0.0.1/cgi-bin";
+?>
 <rss version="2.0">
 <onEnter>
   startitem = "middle";
@@ -160,28 +162,55 @@ ret;
         <idleImage>image/POPUP_LOADING_08.png</idleImage>
 		</mediaDisplay>
 	</item_template>
+	<searchLink>
+	  <link>
+	    <script>"<?php echo $host."/scripts/filme/php/filmeseriale_filme.php?query=search,1,"; ?>" + urlEncode(keyword);</script>
+	  </link>
+	</searchLink>
 <channel>
 	<title>filmeseriale.online</title>
 	<menu>main menu</menu>
 <?php
 $host = "http://127.0.0.1/cgi-bin";
+$query = $_GET["query"];
+if($query) {
+   $queryArr = explode(',', $query);
+   $tip=$queryArr[0];
+   $page = $queryArr[1];
+   $search = urldecode($queryArr[2]);
+}
+if ($page==1) {
+echo '
+<item>
+  <title>Căutare</title>
+  <onClick>
+     keyword = getInput("Input", "doModal");
+		if (keyword != null)
+		 {
+	       jumpToLink("searchLink");
+		  }
+   </onClick>
+</item>
+';
+}
 function str_between($string, $start, $end){ 
 	$string = " ".$string; $ini = strpos($string,$start); 
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
 include ("../../common.php");
-$query = $_GET["query"];
-if($query) {
-   $queryArr = explode(',', $query);
-   $page = $queryArr[0];
-   $search = $queryArr[1];
-}
+
+//https://filmeseriale.online/page/2/?s=star
+if ($tip=="search") {
+ $search1=str_replace(" ","+",$search);
+ $l="http://www.filmeserialeonline.org/page/".$page."/?s=".$search1;
+} else {
 if($page) {
   $l =$search."/page/".$page."/";
 } else {
 	$page = 1;
   $l=$search;
+}
 }
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
@@ -198,8 +227,8 @@ if($page > 1) { ?>
 <item>
 <?php
 $sThisFile = 'http://127.0.0.1'.$_SERVER['SCRIPT_NAME'];
-$url = $sThisFile."?query=".($page-1).",";
-if($search) { 
+$url = $sThisFile."?query=".$tip.",".($page-1).",";
+if($search) {
   $url = $url.urlencode($search);
 }
 ?>
@@ -212,7 +241,7 @@ if($search) {
 
 <?php } ?>
 <?php
-$videos = explode('<li class="item"', $html);
+$videos = explode('div id="mt-', $html);
 unset($videos[0]);
 $videos = array_values($videos);
 
@@ -223,8 +252,8 @@ foreach($videos as $video) {
 	$link1 = $link;
 
 
-    $t3 = explode('title="',$video);
-    $t4 = explode('"',$t3[1]);
+    $t3 = explode('class="tt">',$video);
+    $t4 = explode('<',$t3[1]);
     $title = trim($t4[0]);
     $title=html_entity_decode($title,ENT_QUOTES,'UTF-8');
     $t1 = explode('src="', $video);
@@ -232,7 +261,7 @@ foreach($videos as $video) {
     $image=$t2[0];
     $image=str_replace("https","http",$image);
     //if (strpos($titlu,"Kill") === false) {
-	if($link!="") {
+	if($link!="" && strpos($link,"/serial") === false) {
 		//$link = "http://127.0.0.1/cgi-bin/scripts/filme/php/onlinemoca_link.php?file=".$link.",".urlencode($titlu);
 		//$link = "http://127.0.0.1/cgi-bin/scripts/filme/php/fs.php?query=".$link.",".urlencode($title).",movie";
 		$link = 'http://127.0.0.1/cgi-bin/scripts/filme/php/filme_link.php?file='.$link.','.urlencode(str_replace(",","^",$title));
@@ -255,8 +284,8 @@ foreach($videos as $video) {
 <item>
 <?php
 $sThisFile = 'http://127.0.0.1'.$_SERVER['SCRIPT_NAME'];
-$url = $sThisFile."?query=".($page+1).",";
-if($search) { 
+$url = $sThisFile."?query=".$tip.",".($page+1).",";
+if($search) {
   $url = $url.urlencode($search);
 }
 ?>

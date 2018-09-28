@@ -236,8 +236,18 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini;
 	return substr($string,$ini,$len);
 }
+//ypYZrEpHb
  function e() {
-     return "BMdMTbaboeoF";
+     //return "ypYZrEpHb";
+     //return "ypYZrEpHb";
+   $l11="https://filme-online.to/test2.js?639609";
+      $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
+      $exec = '-q -U "'.$ua.'" --referer="'.$l11.'" --no-check-certificate "'.$l11.'" -O -';
+      $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+      $html11=shell_exec($exec);
+      $t1=explode('ll = "',$html11);
+      $t2=explode('"',$t1[1]);
+      return $t2[0];
  }
  function s($t) {
      $i=0;

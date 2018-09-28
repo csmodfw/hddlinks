@@ -203,27 +203,21 @@ if ($page> 1) {
   $search3=$search;
   //$link=$search.$page.".html";
 }
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $search3);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt($ch, CURLOPT_REFERER, "http://www.slutload.com");
-  $html = curl_exec($ch);
-  curl_close($ch);
+$ua="Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5";
+$exec_path="/usr/local/bin/Resource/www/cgi-bin/scripts/wget ";
+$exec = '-q -U "'.$ua.'" --referer="'.$search3.'" --no-check-certificate "'.$search3.'" -O -';
+$exec = $exec_path.$exec;
+$html=shell_exec($exec);
 } else {
   $tip="search";
   $search1=str_replace(" ","+",urldecode($search));
-  $search3="http://www.slutload.com/s/?q=".$search1."&page=".$page;
+  $search3="https://www.slutload.com/s/?q=".$search1."&page=".$page;
   //$html = file_get_contents($search3);
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $search3);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt($ch, CURLOPT_REFERER, "http://www.slutload.com");
-  $html = curl_exec($ch);
-  curl_close($ch);
+$ua="Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5";
+$exec_path="/usr/local/bin/Resource/www/cgi-bin/scripts/wget ";
+$exec = '-q -U "'.$ua.'" --referer="'.$search3.'" --no-check-certificate "'.$search3.'" -O -';
+$exec = $exec_path.$exec;
+$html=shell_exec($exec);
 }
 
 if($page > 1) { ?>
@@ -260,7 +254,7 @@ $videos = array_values($videos);
 foreach($videos as $video) {
     $t1=explode('href="',$video);
     $t2 = explode('"', $t1[1]);
-    $link = "http://www.slutload.com".$t2[0];
+    $link = "https://www.slutload.com".$t2[0];
 
     $title=str_between($video,'class="et-hdd">','<');
 
@@ -275,6 +269,7 @@ foreach($videos as $video) {
     $data = "Durata: ".$data;
     $name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".flv";
     $link = $host."/scripts/adult/php/slutload_link.php?file=".$link;
+    $title=str_replace("&quot;",'"',$title);
     echo '
     <item>
     <title>'.$title.'</title>
@@ -284,16 +279,23 @@ foreach($videos as $video) {
     url="'.$link.'";
     movie=getUrl(url);
     cancelIdle();
+    if (movie == "" || movie == " " || movie == null)
+    {
+    playItemUrl(-1,1);
+    }
+    else
+    {
     streamArray = null;
     streamArray = pushBackStringArray(streamArray, "");
     streamArray = pushBackStringArray(streamArray, "");
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, video/x-flv);
-    streamArray = pushBackStringArray(streamArray, "'.$title.'");
+    streamArray = pushBackStringArray(streamArray, "'.str_replace('"',"'",$title).'");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer.rss");
+    }
     </script>
     </onClick>
     <download>'.$link.'</download>

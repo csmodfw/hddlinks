@@ -194,7 +194,7 @@ if($query) {
       $search=str_replace("|","&",$search);
    } else {
      $search3=str_replace(" ","+",urldecode($search));
-     $search2="http://www.xnxx.com/?k=".$search3."&p=".$page;
+     $search2="https://www.xnxx.com/?k=".$search3."&p=".$page;
      $tip="search";
    }
 }
@@ -209,8 +209,16 @@ if (preg_match("/tags|new/",$search)) {
 } else {
   $link=$search2;
 }
-$html = file_get_contents($link);
-
+//$html = file_get_contents($link);
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $link);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, "https://www.xnxx.com/");
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  $html = curl_exec($ch);
+  curl_close($ch);
 if($page > 1) { ?>
 
 <item>
@@ -245,11 +253,11 @@ $videos = array_values($videos);
 foreach($videos as $video) {
     $t1=explode('href="',$video);
     $t2 = explode('"', $t1[1]);
-    $link = "http://www.xnxx.com".$t2[0];
+    $link = "https://www.xnxx.com".$t2[0];
 
     $title=str_between($video,'title="','"');
 
-    $t1 = explode('src="', $video);
+    $t1 = explode('data-src="', $video);
     $t2 = explode('"', $t1[1]);
     $image = $t2[0];
     if (strpos($image,"THUMBNUM") !== false) {
@@ -257,6 +265,7 @@ foreach($videos as $video) {
       //$image=str_replace($rest,"mozaiquehome.jpg",$image);
       $image=str_replace("THUMBNUM","2",$image);
     }
+    $image=str_replace("https","http",$image);
     $link = $host."/scripts/adult/php/xnxx_link.php?file=".$link;
 
 
@@ -265,7 +274,7 @@ foreach($videos as $video) {
 
     //$data = "Duration: ".$data;
     $name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".flv";
-
+    $title=str_replace("&quot;",'"',$title);
     echo '
     <item>
     <title>'.$title.'</title>
@@ -275,16 +284,23 @@ foreach($videos as $video) {
     url="'.$link.'";
     movie=getUrl(url);
     cancelIdle();
+    if (movie == "" || movie == " " || movie == null)
+    {
+    playItemUrl(-1,1);
+    }
+    else
+    {
     streamArray = null;
     streamArray = pushBackStringArray(streamArray, "");
     streamArray = pushBackStringArray(streamArray, "");
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, video/x-flv);
-    streamArray = pushBackStringArray(streamArray, "'.$title.'");
+    streamArray = pushBackStringArray(streamArray, "'.str_replace('"',"'",$title).'");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer.rss");
+    }
     </script>
     </onClick>
     <download>'.$link.'</download>

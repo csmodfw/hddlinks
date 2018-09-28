@@ -170,8 +170,13 @@ function str_between($string, $start, $end){
 $host = "http://127.0.0.1/cgi-bin";
 $image="image/movies.png";
 
-$link="http://hindilover.net/index/0-54";
-$html = file_get_contents($link);
+$link="https://hindilover.net/index/0-54";
+$link="http://hindilover.biz/indiene/1-0-31";
+$ua="Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5";
+$exec_path="/usr/local/bin/Resource/www/cgi-bin/scripts/wget ";
+$exec = '-q -U "'.$ua.'" --referer="'.$link.'" --no-check-certificate "'.$link.'" -O -';
+$exec = $exec_path.$exec;
+$html=shell_exec($exec);
 $t1=explode("closeNavsss()",$html);
 $html=$t1[1];
 //echo $html;

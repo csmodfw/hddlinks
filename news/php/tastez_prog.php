@@ -36,14 +36,15 @@ $l="http://tastez.ro/program.php?go=guide&chn=".$id;
   //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   $html = curl_exec($ch);
   curl_close($ch);
-//echo $html;
-$t1=explode("</form>",$html);
-$html=$t1[1];
 
+$t1=explode("</form>",$html);
+$html1=$t1[1];
+//echo $html;
 if (strpos($html,'<div class="check"') !== false) {
   //$t1=explode('<div class="check"',$html);
   $html=str_between($html,'<div class="check">','</html');
   }
+
 $videos = explode("<u>", $html);
 
 unset($videos[0]);

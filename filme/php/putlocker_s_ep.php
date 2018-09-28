@@ -331,7 +331,7 @@ foreach($videos as $video) {
   //Star Trek: Enterprise Season 1 Episode 1 - Broken Bow: Part 1
   $t1=explode('href="',$video);
   $t2=explode('"',$t1[1]);
-  $link1="https://www.watchfree.to".$t2[0];
+  $link1="http://www.gowatchfreemovies.to".$t2[0];
   $ep_tit=trim(str_between($video,'tv_episode_name">','<'));
   $ep_tit=str_replace("?","",$ep_tit);
   //$t1=explode('>',$video);

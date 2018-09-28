@@ -160,7 +160,7 @@ function str_between($string, $start, $end){
 	return substr($string,$ini,$len); 
 }
 //$html = file_get_contents("http://divxonline.biz/");
-$l="http://topfilmeonline.net/";
+$l="https://topfilmeonline.net/";
 	echo '
 	<item>
 	<title>Filme noi</title>
@@ -175,11 +175,12 @@ $l="http://topfilmeonline.net/";
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   $html = curl_exec($ch);
   curl_close($ch);
 
-$html = str_between($html,'<ul class="homepage-menu">',"</ul>" );
+$html = str_between($html,"<ul class='homepage-menu'>","</ul>" );
 
 $videos = explode('<li', $html);
 unset($videos[0]);
@@ -189,7 +190,7 @@ foreach($videos as $video) {
     $t0 = explode('href="',$video);
     $t1 = explode('"', $t0[1]);
     if (strpos($t1[0],"http") === false)
-       $link = "http://topfilmeonline.net/".$t1[0];
+       $link = "https://topfilmeonline.net/".$t1[0];
     else
        $link=$t1[0];
     $t2 = explode('>', $t0[1]);

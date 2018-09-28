@@ -341,6 +341,7 @@ showIdle();
 <annotation>Blogul lui Moise Guran si al echipei de la Biziday si Ora de Business</annotation>
 </item>
 -->
+<!--
 <item>
 <title>TVR Plus</title>
 <link><?php echo $host; ?>/scripts/tv/php/tvrplus_main.php</link>
@@ -349,17 +350,17 @@ showIdle();
 <location>http://tvrplus.ro</location>
 <annotation>Inregistrari emisiuni TVR</annotation>
 </item>
+-->
 
-<!--
 <item>
 <title>Starea Natiei</title>
-<link><?php echo $host; ?>/scripts/tv/php/tvrplus.php?query=http://www.tvrplus.ro/emisiune-starea-natiei-7972,Starea+na%C5%A3iei</link>
+<link><?php echo $host; ?>/scripts/tv/php/starea_natiei.php</link>
 <media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/tvrplus.jpg" />
 <image>/usr/local/etc/www/cgi-bin/scripts/tv/image/tvrplus.jpg</image>
-<location>http://tvrplus.ro</location>
-<annotation>Starea Natiei - TVR Plus</annotation>
+<location>https://www.stareanatiei.ro</location>
+<annotation>Starea Natiei</annotation>
 </item>
--->
+
 <!--
 <item>
 <title>National 24 Plus</title>
@@ -478,11 +479,27 @@ showIdle();
 
 <item>
 <title>Adevarul</title>
-<link><?php echo $host; ?>/scripts/tv/adevarul.php?query=1,http://adevarul.ro/arhiva-live/</link>
+<link><?php echo $host; ?>/scripts/tv/adevarul.php?query=1,https://adevarul.ro/arhiva-live/</link>
 <media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/adevarul.png" />
 <image>/usr/local/etc/www/cgi-bin/scripts/tv/image/adevarul.png</image>
 <location>http://adevarul.ro</location>
 <annotation>Stiri, ultima ora, stiri locale, video, foto, comunitate | adevarul.ro:</annotation>
+</item>
+<item>
+<title>Adevarul (Toate)</title>
+<link><?php echo $host; ?>/scripts/tv/adevarul.php?query=1,https://adevarul.ro/video-center/</link>
+<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/adevarul.png" />
+<image>/usr/local/etc/www/cgi-bin/scripts/tv/image/adevarul.png</image>
+<location>http://adevarul.ro</location>
+<annotation>Stiri, ultima ora, stiri locale, video, foto, comunitate | adevarul.ro:</annotation>
+</item>
+<item>
+<title>Epochtimes</title>
+<link><?php echo $host; ?>/scripts/tv/php/epochtimes.php?query=1,,Epochtimes</link>
+<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/etr_favicon.png" />
+<image>/usr/local/etc/www/cgi-bin/scripts/tv/image/etr_favicon.png</image>
+<location>http://epochtimes-romania.com/</location>
+<annotation>Epoch Times România 2006 - 2018</annotation>
 </item>
 
 <item>

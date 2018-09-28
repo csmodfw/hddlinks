@@ -169,6 +169,7 @@ $link = 'http://127.0.0.1/cgi-bin/scripts/tv/php/playlist.php?query='.urlencode(
 }
 $file="http://www.hd4all.somee.com/playlist.m3u8";
 $file="http://uphero.xpresso.eu/live/playlist.m3u8";
+$file="http://hdforall.000webhostapp.com/live/playlist.m3u8";
 $m3uFile = file($file);
 foreach($m3uFile as $key => $line) {
   if(strtoupper(substr($line, 0, 7)) === "#EXTINF") {

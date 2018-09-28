@@ -24,15 +24,11 @@ $link = $_GET["file"];
 //$html = file_get_contents($link);
 //$link1 = str_between($html, "<file>", "</file>");
 //$link1=str_replace("&amp;","&",$link1);
-$t1=explode("video_alt_url: '",$html);
-$t2=explode("'",$t1[1]);
+$t1=explode("source src='",$html);
+$c=count($t1);
+$t2=explode("'",$t1[$c-1]);
 $out=$t2[0];
-if (!$out) {
-$t1=explode("video_url: '",$html);
-$t2=explode("'",$t1[1]);
-$out=$t2[0];
-}
-$out=str_replace("function/0/","",$out);
+
 //$out=$link1;
 //$out=str_between($html,"video_url: '","'");
 //echo $out;

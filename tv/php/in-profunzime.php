@@ -214,7 +214,7 @@ foreach($videos as $video) {
     //$t2=explode(">",$t1[1]);
     $t3=explode('"',$t1[1]);
     $title=trim($t3[0]);
-    $link="http://m.protv.md/mobile/".$link.".mp4";
+    $link="http://video.protv.md/assets/articles/files/".$link.".mp4";
     
     echo '
     <item>

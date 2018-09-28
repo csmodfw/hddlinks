@@ -339,10 +339,11 @@ if($requestPage->status->http_code == 503) {
 //echo $html;
 //http://putlocker.is/tv
 //http://putlocker.is/search/search.php?q=star%20trek&sort=views&page=1
+//http://www.gowatchfreemovies.to/?keyword=andromeda&search_section=1
 if ($tip=="search")
-   $requestLink = "https://www.watchfree.to/?keyword=".str_replace(" ","+",$link)."&search_section=2&page=".$page;
+   $requestLink = "http://www.gowatchfreemovies.to/?keyword=".str_replace(" ","+",$link)."&search_section=2&page=".$page;
 else
-   $requestLink = "https://www.watchfree.to/?tv=&page=".$page."";
+   $requestLink = "http://www.gowatchfreemovies.to/?tv=&page=".$page."";
 //http://www.watchfree.to/?keyword=star+trek&search_section=2&page=2
 //http://www.watchfree.to/?tv=&page=2
 //$cookie="D:/";
@@ -366,7 +367,7 @@ $videos = array_values($videos);
 foreach($videos as $video) {
   $t1 = explode('href="',$video);
   $t2 = explode('"', $t1[1]);
-  $link1 = "https://www.watchfree.to".$t2[0];
+  $link1 = "http://www.gowatchfreemovies.to".$t2[0];
 
   $t1 = explode('title="', $video);
   $t2 = explode('"', $t1[1]);

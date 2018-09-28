@@ -188,8 +188,16 @@ if($query) {
    $search = str_replace(" ","%20",$search);
 }
 
-$html = file_get_contents($search."?Page=".$page);
-
+$l = $search."?Page=".$page;
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, "http://www.spankwire.com");
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  $html = curl_exec($ch);
+  curl_close($ch);
 if($page > 1) { ?>
 
 <item>
@@ -217,7 +225,7 @@ function str_between($string, $start, $end){
 	return substr($string,$ini,$len); 
 }
 //<div class="thmb-wrapper">
-$videos = explode('<div class="thmb-wrapper">', $html);
+$videos = explode('<li class="js-li-thumbs">', $html);
 
 unset($videos[0]);
 $videos = array_values($videos);
@@ -231,16 +239,16 @@ foreach($videos as $video) {
     $title=$t4[0];
     $link = $host."/scripts/adult/php/spankwire_link.php?file=".$link;
 
-    $t1 = explode('src="', $video);
+    $t1 = explode('data-original="', $video);
     $t2 = explode('"', $t1[1]);
     $image = "http:".$t2[0];
 
-    $data = trim(str_between($video,'<div class="info-box">','<'));
+    $data = trim(str_between($video,'video_thumb_wrapper__duration">','<'));
     $data = preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$data);
 
     $data = "Duration: ".$data;
     $name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".flv";
-
+    $title=str_replace("&quot;",'"',$title);
     echo '
     <item>
     <title>'.$title.'</title>
@@ -250,16 +258,23 @@ foreach($videos as $video) {
     url="'.$link.'";
     movie=getUrl(url);
     cancelIdle();
+    if (movie == "" || movie == " " || movie == null)
+    {
+    playItemUrl(-1,1);
+    }
+    else
+    {
     streamArray = null;
     streamArray = pushBackStringArray(streamArray, "");
     streamArray = pushBackStringArray(streamArray, "");
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, video/x-flv);
-    streamArray = pushBackStringArray(streamArray, "'.$title.'");
+    streamArray = pushBackStringArray(streamArray, "'.str_replace('"',"'",$title).'");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer.rss");
+    }
     </script>
     </onClick>
     <download>'.$link.'</download>

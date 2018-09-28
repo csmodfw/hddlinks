@@ -197,6 +197,24 @@ $d=$p["runtime"];
 if (!$d) $d=$p["episode_run_time"][0];
 $durata="Duration: ".$d. "min";
 $cast="";
+$l="http://api.themoviedb.org/3/".$tip."/".$id_m."/credits?api_key=".$key;
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, "https://api.themoviedb.org");
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  $h = curl_exec($ch);
+  curl_close($ch);
+$r=json_decode($h,1);
+//print_r ($r);
+$c=count($r["cast"]);
+$cast="Cast: ";
+for ($k=0;$k<$c;$k++) {
+ $cast .=$r["cast"][$k]["name"].",";
+}
+$cast = substr($cast, 0, -1);
 
 $ttxml="";
 } else {

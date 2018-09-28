@@ -148,6 +148,11 @@ ret;
 		</mediaDisplay>
 
 	</item_template>
+	<searchLink>
+	  <link>
+	    <script>"<?php echo $host."/scripts/filme/php/filmehd.php?query=search,1,"; ?>" + urlEncode(keyword);</script>
+	  </link>
+	</searchLink>
 <channel>
 	<title>filmehd.net - categorii</title>
 	<menu>main menu</menu>
@@ -158,17 +163,34 @@ function str_between($string, $start, $end){
 	return substr($string,$ini,$len);
 }
 $host = "http://127.0.0.1/cgi-bin";
-$link = "http://filmehd.net";
+echo '
+<item>
+  <title>Căutare</title>
+  <onClick>
+     keyword = getInput("Input", "doModal");
+		if (keyword != null)
+		 {
+	       jumpToLink("searchLink");
+		  }
+   </onClick>
+</item>
+';
+$link = "https://filmehd.net";
 	echo '
 	<item>
 	<title>Filme noi</title>
-	<link>'.$host.'/scripts/filme/php/filmehd.php?query=,'.$link.'</link>	
+	<link>'.$host.'/scripts/filme/php/filmehd.php?query=release,1,'.$link.'</link>
 	<annotation>Filme noi</annotation>
 	<mediaDisplay name="threePartsView"/>
 	</item>
 	';
 
-$html = file_get_contents("http://filmehd.net");
+$l = "https://filmehd.net";
+$ua="Mozilla/5.0 (Windows NT 10.0; rv:55.0) Gecko/20100101 Firefox/55.0";
+$exec_path="/usr/local/bin/Resource/www/cgi-bin/scripts/wget ";
+$exec = '-q -U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
+$exec = $exec_path.$exec;
+$html=shell_exec($exec);
 
 $html=str_between($html,'menu-seria-categorys-container','</div>');
 //echo $html;
@@ -192,7 +214,7 @@ foreach($videos as $video) {
 	echo '
 	<item>
 	<title>'.$title.'</title>
-	<link>'.$host.'/scripts/filme/php/filmehd.php?query=,'.$link.'</link>	
+	<link>'.$host.'/scripts/filme/php/filmehd.php?query=release,1,'.$link.'</link>
 	<annotation>'.$title.'</annotation>
 	<mediaDisplay name="threePartsView"/>
 	</item>

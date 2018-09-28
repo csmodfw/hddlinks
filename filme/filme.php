@@ -221,52 +221,78 @@ ret;
 <media:thumbnail url="image/movies.png" />
 </item>
 -->
+<!--
 <item>
-<title>Noobroom</title>
-<link><?php echo $host; ?>/scripts/filme/php/noobroom_main.php</link>
+<title>Noobroom (com)</title>
+<link><?php echo $host; ?>/scripts/filme/php/noobroom_main.php?file=com</link>
 <annotation>http://superchillin.com</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
 
+<item>
+<title>Noobroom (net)</title>
+<link><?php echo $host; ?>/scripts/filme/php/noobroom_main.php?file=net</link>
+<annotation>http://superchillin.com</annotation>
+<media:thumbnail url="image/movies.png" />
+</item>
+-->
+<!--
 <item>
 <title>vumoo</title>
 <link><?php echo $host; ?>/scripts/filme/php/vumoo_f_main.php</link>
 <annotation>http://vumoo.at</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <item>
 <title>moviesplanet</title>
 <link><?php echo $host; ?>/scripts/filme/php/moviesplanet_main.php</link>
 <annotation>http://moviesplanet.is</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+<!--
 <item>
 <title>flixanity</title>
 <link><?php echo $host; ?>/scripts/filme/php/flixanity_f.php?page=1,release,,filme</link>
 <annotation>http://flixanity.watch</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
+-->
+<item>
+<title>123netflix.pro</title>
+<link><?php echo $host; ?>/scripts/filme/php/123netflix.php?query=release,1,release</link>
+<annotation>https://123netflix.pro</annotation>
+<media:thumbnail url="image/movies.png" />
+</item>
 
+<!--
 <item>
 <title>gomovies</title>
 <link><?php echo $host; ?>/scripts/filme/php/gomovies_f.php?page=1,release,,movie</link>
 <annotation>https://gomovies.to/</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
-
+-->
+<!--
 <item>
 <title>filme-online.to</title>
 <link><?php echo $host; ?>/scripts/filme/php/filme-online_to_f.php?page=1,release,,movie</link>
 <annotation>https://filme-online.to</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
-
+-->
+<!--
 <item>
 <title>watchfree</title>
 <link><?php echo $host; ?>/scripts/filme/php/putlocker_f.php?page=1,release,,movie</link>
 <annotation>http://www.watchfree.to</annotation>
+<media:thumbnail url="image/movies.png" />
+</item>
+-->
+<item>
+<title>tvseries</title>
+<link><?php echo $host; ?>/scripts/filme/php/tvseries_f.php?page=1,release,,movies</link>
+<annotation>http://www.tvseries.net</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
 
@@ -286,10 +312,16 @@ ret;
 <media:thumbnail url="image/movies.png" />
 </item>
 
+<item>
+<title>tvhub</title>
+<link><?php echo $host; ?>/scripts/filme/php/tvhub_f.php?page=1,release,,tvhub</link>
+<annotation>https://tvhub.ro</annotation>
+<media:thumbnail url="image/movies.png" />
+</item>
 
 <item>
 <title>filmeseriale.online</title>
-<link><?php echo $host; ?>/scripts/filme/php/filmeseriale_filme.php?query=,https://filmeseriale.online/filme</link>
+<link><?php echo $host; ?>/scripts/filme/php/filmeseriale_filme.php?query=release,1,http://www.filmeserialeonline.org/filme-online</link>
 <annotation>https://filmeseriale.online</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
@@ -342,12 +374,14 @@ ret;
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
+<!--
 <item>
 <title>vezi-online</title>
 <link><?php echo $host; ?>/scripts/filme/php/vezi-online_filme_main.php</link>
 <annotation>http://vezi-online.net/filme</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
+-->
 <!--
 <item>
 <title>calitatehd</title>
@@ -356,13 +390,14 @@ ret;
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
+<!--
 <item>
 <title>filmeonline2013</title>
 <link><?php echo $host; ?>/scripts/filme/php/filmeonline2013_main.php</link>
 <annotation>http://www.filmeonline2013.biz/</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <!--
 <item>
 <title>divxonline</title>
@@ -371,10 +406,18 @@ ret;
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
+
 <item>
 <title>filmehd</title>
 <link><?php echo $host; ?>/scripts/filme/php/filmehd_main.php</link>
 <annotation>http://filmehd.net/</annotation>
+<mediaDisplay name="threePartsView"/>
+</item>
+
+<item>
+<title>filmehdonline</title>
+<link><?php echo $host; ?>/scripts/filme/php/filmehdonline_main.php</link>
+<annotation>http://www.filmehdonline.org</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
 
@@ -474,13 +517,14 @@ ret;
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
+<!--
 <item>
 <title>movietv (premium only)</title>
 <link><?php echo $host; ?>/scripts/filme/php/movietv_main.php</link>
 <annotation>http://movietv.to</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 
 
 <!--
@@ -523,17 +567,26 @@ ret;
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
+<!--
 <item>
 <title>filme-bune</title>
 <link><?php echo $host; ?>/scripts/filme/php/filme-bune_main.php</link>
 <annotation>http://www.filme-bune.net/</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
+<!--
 <item>
 <title>filmbox</title>
 <link><?php echo $host; ?>/scripts/filme/php/filmbox_main.php</link>
 <annotation>filmbox</annotation>
+<mediaDisplay name="threePartsView"/>
+</item>
+-->
+<item>
+<title>streamroyale</title>
+<link><?php echo $host; ?>/scripts/filme/php/royale_main.php</link>
+<annotation>https://streamroyale.com</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
 <!--

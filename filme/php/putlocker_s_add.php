@@ -6,6 +6,7 @@ function str_between($string, $start, $end){
 	return substr($string,$ini,$len);
 }
 clearstatcache();
+$base="http://www.gowatchfreemovies.to/";
 if (file_exists("/data"))
   $f= "/data/putlocker_s.dat";
 else
@@ -20,6 +21,7 @@ if($query) {
    $queryArr = explode(',', $query);
    $mod = $queryArr[0];
    $link = $queryArr[1];
+   if (strpos($link,"/") !== false) $link = substr(strrchr($link, "/"), 1);
    $title = $queryArr[2];
    $image= $queryArr[3];
    $year=$queryArr[4];
@@ -45,6 +47,7 @@ unset($videos[0]);
 $videos = array_values($videos);
 foreach($videos as $video) {
   $l=str_between($video,"<movie>","</movie>");
+  if (strpos($l,"/") !== false)  $l = substr(strrchr($l, "/"), 1);
   $t=str_between($video,"<title>","</title>");
   $a1=explode("<image>",$video);
   $a2=explode("<",$a1[1]);

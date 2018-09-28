@@ -173,6 +173,7 @@ $cookie="/tmp/digi1.dat";
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
   curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   $html = curl_exec($ch);
   curl_close($ch);
@@ -189,8 +190,9 @@ foreach($videos as $video) {
  $video=html_entity_decode($video);
  $title=str_between($video,'title="','"');
  $descriere=$title;
- $image=urldecode(str_between($video,'humb.php?src=','&'));
- $link="http://www.digi24.ro".str_between($video,'href="','"');
+ $image=urldecode(str_between($video,'src="','"'));
+ $image=str_replace("https","http",$image);
+ $link="https://www.digi24.ro".str_between($video,'href="','"');
     $link=$host."/scripts/tv/php/digi24e_fata_link.php?file=".$link;
 //}
     if ($title) {

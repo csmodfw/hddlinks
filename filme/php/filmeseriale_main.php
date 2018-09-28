@@ -207,6 +207,7 @@ if($search) {
 <?php } ?>
 
 <?php
+//http://www.filmeserialeonline.org/seriale/page/2/
 if($page) {
   $l =$search."/page/".$page."/";
 } else {
@@ -246,8 +247,9 @@ echo '
   curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $html = curl_exec($ch);
   curl_close($ch);
+  //echo $html;
 $host = "http://127.0.0.1/cgi-bin";
-$videos = explode('<li class="item"', $html);
+$videos = explode('div id="mt-', $html);
 unset($videos[0]);
 $videos = array_values($videos);
 
@@ -258,10 +260,10 @@ foreach($videos as $video) {
 	$link1 = $link;
 
 
-    $t3 = explode('title="',$video);
-    $t4 = explode('"',$t3[1]);
+    $t3 = explode('class="tt">',$video);
+    $t4 = explode('<',$t3[1]);
     $title = trim($t4[0]);
-
+    $title=html_entity_decode($title,ENT_QUOTES,'UTF-8');
     $t1 = explode('src="', $video);
     $t2 = explode('"', $t1[1]);
     $image=$t2[0];

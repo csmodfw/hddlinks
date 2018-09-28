@@ -51,9 +51,18 @@ $host = "http://127.0.0.1/cgi-bin";
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
 		</text>
-	<image  redraw="yes" offsetXPC=60 offsetYPC=25 widthPC=30 heightPC=60>
+	<image  redraw="yes" offsetXPC=60 offsetYPC=25 widthPC=30 heightPC=50>
          <script>print(image); image;</script>
 		</image>
+   	<text  redraw="yes" align="center" offsetXPC="60" offsetYPC="80"  heightPC="8" fontSize="17" backgroundColor="10:105:150" foregroundColor="100:200:255">
+		  <widthPC>
+			<script>
+				if (an == "" || an == null ) null;
+				else "30";
+			</script>
+		   </widthPC>
+		  <script>print(an); an;</script>
+		</text>
 
   	<text  redraw="yes" align="center" offsetXPC="0" offsetYPC="90" widthPC="100" heightPC="8" fontSize="17" backgroundColor="10:105:150" foregroundColor="100:200:255">
 		  <script>print(annotation); annotation;</script>
@@ -132,13 +141,58 @@ if (userInput == "pagedown" || userInput == "pageup")
   redrawDisplay();
   ret="true";
 }
+else if(userInput == "six" || userInput == "6")
+{
+    idx = Integer(getFocusItemIndex());
+    idx -= -50;
+    if(idx &gt;= itemCount)
+    idx = itemCount-1;
+
+  print("new idx: "+idx);
+  setFocusItemIndex(idx);
+	setItemFocus(0);
+  "true";
+}
+else if(userInput == "four" || userInput == "4")
+{
+    idx = Integer(getFocusItemIndex());
+    idx -= 50;
+    if(idx &lt; 0)
+      idx = 0;
+
+  print("new idx: "+idx);
+  setFocusItemIndex(idx);
+	setItemFocus(0);
+  "true";
+}
+else if(userInput == "up")
+{
+  idx = Integer(getFocusItemIndex());
+  if (idx == 0)
+   {
+     idx = itemCount;
+     print("new idx: "+idx);
+     setFocusItemIndex(idx);
+	 setItemFocus(0);
+     "true";
+   }
+}
+else if(userInput == "down")
+{
+  idx = Integer(getFocusItemIndex());
+  c = Integer(getPageInfo("itemCount")-1);
+  if(idx == c)
+   {
+     idx = -1;
+     print("new idx: "+idx);
+     setFocusItemIndex(idx);
+	 setItemFocus(0);
+     "true";
+   }
+}
 else if (userInput == "two" || userInput == "2")
 {
 movie=getItemInfo(getFocusItemIndex(),"movie");
-img=getItemInfo(getFocusItemIndex(),"image");
-tit=getItemInfo(getFocusItemIndex(),"tit");
-year=getItemInfo(getFocusItemIndex(),"an");
-id=getItemInfo(getFocusItemIndex(),"id");
  showIdle();
  url="http://127.0.0.1/cgi-bin/scripts/filme/php/moviesplanet_add.php?mod=del," + urlEncode(movie) + ",,,,";
  dummy=getUrl(url);
@@ -149,9 +203,9 @@ id=getItemInfo(getFocusItemIndex(),"id");
 else if (userInput == "right" || userInput == "R")
 {
 movie=getItemInfo(getFocusItemIndex(),"movie");
-tit=getItemInfo(getFocusItemIndex(),"tit");
+tit=getItemInfo(getFocusItemIndex(),"imdb");
 showIdle();
-movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/moviesplanet_det.php?file=" + movie + "," + tit;
+movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/moviesplanet_det.php?file=series," + movie + "," + tit;
 dummy = getURL(movie_info);
 cancelIdle();
 ret_val=doModalRss("/usr/local/etc/www/cgi-bin/scripts/filme/php/movie_detail.rss");
@@ -186,8 +240,6 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini;
 	return substr($string,$ini,$len);
 }
-$cloud="/tmp/cloud.dat";
-$clearanceCookie=file_get_contents($cloud);
 if (file_exists("/data"))
   $f= "/data/moviesplanet.dat";
 else
@@ -209,7 +261,8 @@ foreach($videos as $video) {
   $year=str_between($video,"<an>","</an>");
   $id=str_between($video,"<id>","</id>");
   //echo $image;
-$arr[]=array($title,$link,$image,$year,$id);
+  if (strpos($image,"moviesplanet") === false)
+    $arr[]=array($title,$link,$image,$year,$id);
 }
 //print_r ($arr);
 asort($arr);
@@ -228,7 +281,7 @@ foreach ($arr as $key => $val) {
   $id_t="";
   //watch-narcos-87202
   $id1=substr(strrchr($link, "-"), 1);
-  $image1="http://127.0.0.1/cgi-bin/scripts/filme/php/r_m.php?file=".$image.",".$clearanceCookie;
+  $image1=$image;
   //$image1=$image;
   $link=str_replace(".is",".tv",$link);
    //$link2=$host."/scripts/filme/php/vumoo_s_ep.php?file=".urlencode($link).",".urlencode($title).",".$id1.",".$id_t.",series,".urlencode($image);
@@ -244,7 +297,9 @@ foreach ($arr as $key => $val) {
     <tit1>'.urlencode(str_replace(",","^",$title)).'</tit1>
     <id>'.$id1.'</id>
     <idt>'.$id_t.'</idt>
+    <imdb>'.$id.'</imdb>
     <movie>'.trim($link).'</movie>
+    <an>'.$year.'</an>
     <movie1>'.urlencode(trim($link)).'</movie1>
     <mediaDisplay name="threePartsView"/>
      </item>

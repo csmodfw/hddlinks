@@ -173,21 +173,18 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
-  	$link=$host."/scripts/adult/php/slutload.php?query=1,http://www.slutload.com/videos,release";
+  	$link=$host."/scripts/adult/php/slutload.php?query=1,https://www.slutload.com/videos,release";
   	echo '
   	<item>
   		<title>New</title>
   		<link>'.$link.'</link>
   	</item>';
-$l="http://www.slutload.com/categories/";
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $l);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt($ch, CURLOPT_REFERER, "http://www.slutload.com");
-  $html = curl_exec($ch);
-  curl_close($ch);
+$filelink="https://www.slutload.com/categories/";
+$ua="Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5";
+$exec_path="/usr/local/bin/Resource/www/cgi-bin/scripts/wget ";
+$exec = '-q -U "'.$ua.'" --referer="'.$filelink.'" --no-check-certificate "'.$filelink.'" -O -';
+$exec = $exec_path.$exec;
+$html=shell_exec($exec);
 //$html = str_between($html,'ALL SEX VIDEOS:','XXX Porn Tube:');
 $videos = explode('<div class="cat-each', $html);
 unset($videos[0]);
@@ -196,7 +193,7 @@ foreach($videos as $video) {
     $t1=explode('href="',$video);
     $t2=explode('"',$t1[1]);
     //$t1=explode('"',$t[1]);
-    $link="http://www.slutload.com".str_replace("\/","/",$t2[0]);
+    $link="https://www.slutload.com".str_replace("\/","/",$t2[0]);
 
     $t2=explode('<h3>',$video);
     $t3=explode('<',$t2[1]);

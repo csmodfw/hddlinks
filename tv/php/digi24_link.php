@@ -23,6 +23,7 @@ $cookie="/tmp/digi.dat";
   curl_setopt($ch, CURLOPT_REFERER, "http://www.digi-online.ro");
   curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
   curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $html = curl_exec($ch);
   curl_close($ch);
   //echo $html;
@@ -30,5 +31,6 @@ $cookie="/tmp/digi.dat";
 //http://s1.digi24.ro/onedb/transcode/5794a369682ccfd2588b4567.480p.mp4
 
 $movie=str_replace("\\","",str_between($html,'480p.mp4":"','"'));
+$movie=str_replace("https","http",$movie);
 print $movie;
 ?>

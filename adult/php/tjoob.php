@@ -250,7 +250,7 @@ foreach($videos as $video) {
     $title = $t2[0];
     $data = "Durata: ".str_between($video,'<strong>',"<");
     $name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".mp4";
-
+    $title=str_replace("&quot;",'"',$title);
     echo '
     <item>
     <title>'.$title.'</title>
@@ -260,6 +260,12 @@ foreach($videos as $video) {
     url="'.$link.'";
     movie=getUrl(url);
     cancelIdle();
+    if (movie == "" || movie == " " || movie == null)
+    {
+    playItemUrl(-1,1);
+    }
+    else
+    {
     storagePath = getStoragePath("tmp");
     storagePath_stream = storagePath + "stream.dat";
     streamArray = null;
@@ -268,10 +274,11 @@ foreach($videos as $video) {
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, video/x-flv);
-    streamArray = pushBackStringArray(streamArray, "'.$title.'");
+    streamArray = pushBackStringArray(streamArray, "'.str_replace('"',"'",$title).'");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer.rss");
+    }
     </script>
     </onClick>
     <download>'.$link.'</download>

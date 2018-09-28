@@ -321,6 +321,37 @@ function print_c($title,$l) {
 	</item>
 	';
 }
+function print_tvr($title,$l) {
+    $host = "http://127.0.0.1/cgi-bin";
+    $link = $host.'/scripts/util/m3u8.php?file='.urlencode($l);
+	echo'
+	<item>
+	<title>'.$title.'</title>
+    <onClick>
+    <script>
+    showIdle();
+    movie="'.$link.'";
+    cancelIdle();
+    storagePath = getStoragePath("tmp");
+    storagePath_stream = storagePath + "stream.dat";
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/x-flv);
+    streamArray = pushBackStringArray(streamArray, "'.str_replace('"',"'",$title).'");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
+    </script>
+    </onClick>
+    <location>'.$title.'</location>
+    <annotation>'.$title.'</annotation>
+    <mediaDisplay name="threePartsView"/>
+	</item>
+	';
+}
 function print_ch($title,$link,$id) {
 if (!preg_match("/(<\/?)(\w+)([^>]*>)/e",$title) && !preg_match("/\.xxx|\.htm/",$link)) {
   echo '
@@ -529,7 +560,11 @@ foreach($videos as $video) {
 print_c("ProTV","http://stream1.protv.ro/news/stream:1.stream/playlist.m3u8");
 print_c("ProTV Chisinau","http://hls.protv.md/hls/protv.m3u8");
 print_c("DIGI24","http://82.76.40.81:80/digi24edge/digi24hdhqhls/index.m3u8");
-//print_c("Look Plus","http://xtream.swiftiptv.com:6500/live/q0z01FyoIg/YlNLLYkecl/13408.m3u8");
+print_c("10 TV","http://cachero.privesc.eu/10tv/myStream/playlist.m3u8");
+print_c("Iasi TV Life","http://webmobile.xdev.ro:81/tv24/playlist.m3u8");
+print_c("10 TV","http://cdnworld.magictvbox.eu/10TV_HD/index.m3u8?token=token");
+print_ch("TVR Moldova", "http://37.233.27.53:8883");
+print_c("TVR Moldova","http://cdnworld.magictvbox.eu/TVR/index.m3u8?token=token");
 //print_c("Look TV","http://xtream.swiftiptv.com:6500/live/q0z01FyoIg/YlNLLYkecl/13407.m3u8");
 //print_pro("DIGI24","http://82.76.40.81:80/digi24edge/digi24hdhqhls/index.m3u8");
 print_ch("Moldova 1", "http://127.0.0.1/cgi-bin/scripts/util/translate.cgi?stream,,rtmp://212.0.209.209:1935/live/MoldovaUnu1",$a["Moldova 1"]);
@@ -538,8 +573,12 @@ print_ch("10TV", "http://127.0.0.1/cgi-bin/scripts/util/translate.cgi?stream,,rt
 print_ch("InfoPescar","http://127.0.0.1/cgi-bin/scripts/util/m3u8yt.php?file=".urlencode("https://www.youtube.com/watch?v=CHjvl5ncZFc"));
 print_ch("Prahova TV", "http://127.0.0.1/cgi-bin/translate?stream,Rtmp-options:-W%20http://www.prahovatv.ro/player/player.swf%20-T%206c69766568642e747620657374652063656c206d616920746172652121%20http://www.infopescar.tv/yyy/player.swf%20-p%20http://www.prahovatv.ro/,rtmp://89.45.186.26:1935/live/prahovatv",$a["Prahova TV"]);
 print_ch("Jurnal TV", "http://flux.jtv.md/jtv-540p.flv",$a["Jurnal TV"]);
+print_c("Jurnal TV","http://live.cdn.jurnaltv.md/JurnalTV_HD/index.m3u8?token=8bcaebb0427416b174395d8016ba85a9b2599079");
 print_ch("TvM", "http://tvm.ambra.ro",$a["TvM"]);
 print_c("TV8","http://cdnworld.magictvbox.eu/TV7/index.m3u8?token=token");
+print_c("TVR1","http://main.web.xn--8oux7cpmf3du51f21q.xn--3ds443g:25461/live/1BHM5-W/53286/1.m3u8");
+print_c("TVR HD","http://main.web.xn--8oux7cpmf3du51f21q.xn--3ds443g:25461/live/1BHM5-W/53286/190.m3u8");
+
 //print_pro("B1","http://dgf.icx.ro/digiedge2/b1tvehq/index.m3u8?is=29&src=digi-online.ro&t=00000000000000000000000000000000");
 
 /*
@@ -562,6 +601,7 @@ foreach ($arr as $key => $val) {
   print_ch1($title1,$link);
 }
 */
+/*
 $f="http://mxcore.forithost.com/aplay.m3u";
 $m3uFile = file($f);
 foreach($m3uFile as $key => $line) {
@@ -575,6 +615,7 @@ foreach($m3uFile as $key => $line) {
    print_ch1($title." (HQ)",$l);
 }
 }
+*/
 /*
 $f="http://hd4all.ml/d/voyo.m3u";
 $html = file_get_contents("http://hd4all.ml/d/vtok.php");
@@ -593,6 +634,7 @@ foreach($m3uFile as $key => $line) {
 }
 }
 */
+/*
 $f="/usr/local/etc/dvdplayer/Telekom.m3u";
 //$f="D:\EasyPHP\data\localweb\scripts1\digi.m3u";
 if (file_exists($f)) {
@@ -607,6 +649,7 @@ foreach($m3uFile as $key => $line) {
 }
 }
 }
+
 $f="/usr/local/etc/dvdplayer/digi.m3u";
 //$f="D:\EasyPHP\data\localweb\scripts1\digi.m3u";
 if (file_exists($f)) {
@@ -621,9 +664,637 @@ foreach($m3uFile as $key => $line) {
 }
 }
 }
-
+*/
 
 
 ?>
+<item>
+	<title>Antena 1</title>
+    <onClick>
+    <script>
+    showIdle();
+    url="http://127.0.0.1/cgi-bin/scripts/tv/php/aplay_link.php?file=https%3A%2F%2Fivm.antenaplay.ro%2Flive%2Fa1%2Fplaylist.m3u8";
+    movie=getUrl(url);
+    cancelIdle();
+    if (movie == "" || movie == " " || movie == null)
+    {
+    playItemUrl(-1,1);
+    }
+    else
+    {
+    storagePath = getStoragePath("tmp");
+    storagePath_stream = storagePath + "stream.dat";
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/x-flv);
+    streamArray = pushBackStringArray(streamArray, "Antena 1");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
+    }
+    </script>
+    </onClick>
+    <location>Antena 1</location>
+    <annotation>Antena 1</annotation>
+    <mediaDisplay name="threePartsView"/>
+	</item>
+
+     <item>
+     <title>Antena 1 (HQ)</title>
+     <onClick>
+     <script>
+     showIdle();
+     url="http://127.0.0.1/cgi-bin/scripts/tv/php/aplay1_link.php?file=https%3A%2F%2Fivm.antenaplay.ro%2Flive%2Fa1%2Fplaylist.m3u8";
+     movie=getUrl(url);
+     cancelIdle();
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/mp4);
+    streamArray = pushBackStringArray(streamArray, "Antena 1 (HQ)");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
+     </script>
+     </onClick>
+     <id></id>
+     </item>
+
+	<item>
+	<title>Antena Stars</title>
+    <onClick>
+    <script>
+    showIdle();
+    url="http://127.0.0.1/cgi-bin/scripts/tv/php/aplay_link.php?file=https%3A%2F%2Fivm.antenaplay.ro%2Flive%2Fastars%2Fplaylist.m3u8";
+    movie=getUrl(url);
+    cancelIdle();
+    if (movie == "" || movie == " " || movie == null)
+    {
+    playItemUrl(-1,1);
+    }
+    else
+    {
+    storagePath = getStoragePath("tmp");
+    storagePath_stream = storagePath + "stream.dat";
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/x-flv);
+    streamArray = pushBackStringArray(streamArray, "Antena Stars");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
+    }
+    </script>
+    </onClick>
+    <location>Antena Stars</location>
+    <annotation>Antena Stars</annotation>
+    <mediaDisplay name="threePartsView"/>
+	</item>
+
+     <item>
+     <title>Antena Stars (HQ)</title>
+     <onClick>
+     <script>
+     showIdle();
+     url="http://127.0.0.1/cgi-bin/scripts/tv/php/aplay1_link.php?file=https%3A%2F%2Fivm.antenaplay.ro%2Flive%2Fastars%2Fplaylist.m3u8";
+     movie=getUrl(url);
+     cancelIdle();
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/mp4);
+    streamArray = pushBackStringArray(streamArray, "Antena Stars (HQ)");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
+     </script>
+     </onClick>
+     <id></id>
+     </item>
+
+	<item>
+	<title>Antena 3</title>
+    <onClick>
+    <script>
+    showIdle();
+    url="http://127.0.0.1/cgi-bin/scripts/tv/php/aplay_link.php?file=https%3A%2F%2Fivm.antenaplay.ro%2Flive%2Fa3%2Fplaylist.m3u8";
+    movie=getUrl(url);
+    cancelIdle();
+    if (movie == "" || movie == " " || movie == null)
+    {
+    playItemUrl(-1,1);
+    }
+    else
+    {
+    storagePath = getStoragePath("tmp");
+    storagePath_stream = storagePath + "stream.dat";
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/x-flv);
+    streamArray = pushBackStringArray(streamArray, "Antena 3");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
+    }
+    </script>
+    </onClick>
+    <location>Antena 3</location>
+    <annotation>Antena 3</annotation>
+    <mediaDisplay name="threePartsView"/>
+	</item>
+
+     <item>
+     <title>Antena 3 (HQ)</title>
+     <onClick>
+     <script>
+     showIdle();
+     url="http://127.0.0.1/cgi-bin/scripts/tv/php/aplay1_link.php?file=https%3A%2F%2Fivm.antenaplay.ro%2Flive%2Fa3%2Fplaylist.m3u8";
+     movie=getUrl(url);
+     cancelIdle();
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/mp4);
+    streamArray = pushBackStringArray(streamArray, "Antena 3 (HQ)");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
+     </script>
+     </onClick>
+     <id></id>
+     </item>
+
+	<item>
+	<title>Happy Channel</title>
+    <onClick>
+    <script>
+    showIdle();
+    url="http://127.0.0.1/cgi-bin/scripts/tv/php/aplay_link.php?file=https%3A%2F%2Fivm.antenaplay.ro%2Flive%2Fhappy%2Fplaylist.m3u8";
+    movie=getUrl(url);
+    cancelIdle();
+    if (movie == "" || movie == " " || movie == null)
+    {
+    playItemUrl(-1,1);
+    }
+    else
+    {
+    storagePath = getStoragePath("tmp");
+    storagePath_stream = storagePath + "stream.dat";
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/x-flv);
+    streamArray = pushBackStringArray(streamArray, "Happy Channel");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
+    }
+    </script>
+    </onClick>
+    <location>Happy Channel</location>
+    <annotation>Happy Channel</annotation>
+    <mediaDisplay name="threePartsView"/>
+	</item>
+
+     <item>
+     <title>Happy Channel (HQ)</title>
+     <onClick>
+     <script>
+     showIdle();
+     url="http://127.0.0.1/cgi-bin/scripts/tv/php/aplay1_link.php?file=https%3A%2F%2Fivm.antenaplay.ro%2Flive%2Fhappy%2Fplaylist.m3u8";
+     movie=getUrl(url);
+     cancelIdle();
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/mp4);
+    streamArray = pushBackStringArray(streamArray, "Happy Channel (HQ)");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
+     </script>
+     </onClick>
+     <id></id>
+     </item>
+
+	<item>
+	<title>ZU TV</title>
+    <onClick>
+    <script>
+    showIdle();
+    url="http://127.0.0.1/cgi-bin/scripts/tv/php/aplay_link.php?file=https%3A%2F%2Fivm.antenaplay.ro%2Flive%2Fzu%2Fplaylist.m3u8";
+    movie=getUrl(url);
+    cancelIdle();
+    if (movie == "" || movie == " " || movie == null)
+    {
+    playItemUrl(-1,1);
+    }
+    else
+    {
+    storagePath = getStoragePath("tmp");
+    storagePath_stream = storagePath + "stream.dat";
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/x-flv);
+    streamArray = pushBackStringArray(streamArray, "ZU TV");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
+    }
+    </script>
+    </onClick>
+    <location>ZU TV</location>
+    <annotation>ZU TV</annotation>
+    <mediaDisplay name="threePartsView"/>
+	</item>
+
+     <item>
+     <title>ZU TV (HQ)</title>
+     <onClick>
+     <script>
+     showIdle();
+     url="http://127.0.0.1/cgi-bin/scripts/tv/php/aplay1_link.php?file=https%3A%2F%2Fivm.antenaplay.ro%2Flive%2Fzu%2Fplaylist.m3u8";
+     movie=getUrl(url);
+     cancelIdle();
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/mp4);
+    streamArray = pushBackStringArray(streamArray, "ZU TV (HQ)");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
+     </script>
+     </onClick>
+     <id></id>
+     </item>
+
+	<item>
+	<title>Disney Channel</title>
+    <onClick>
+    <script>
+    showIdle();
+    url="http://127.0.0.1/cgi-bin/scripts/tv/php/aplay_link.php?file=https%3A%2F%2Fivm.antenaplay.ro%2Flive%2Fdisney%2Fplaylist.m3u8";
+    movie=getUrl(url);
+    cancelIdle();
+    if (movie == "" || movie == " " || movie == null)
+    {
+    playItemUrl(-1,1);
+    }
+    else
+    {
+    storagePath = getStoragePath("tmp");
+    storagePath_stream = storagePath + "stream.dat";
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/x-flv);
+    streamArray = pushBackStringArray(streamArray, "Disney Channel");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
+    }
+    </script>
+    </onClick>
+    <location>Disney Channel</location>
+    <annotation>Disney Channel</annotation>
+    <mediaDisplay name="threePartsView"/>
+	</item>
+
+     <item>
+     <title>Disney Channel (HQ)</title>
+     <onClick>
+     <script>
+     showIdle();
+     url="http://127.0.0.1/cgi-bin/scripts/tv/php/aplay1_link.php?file=https%3A%2F%2Fivm.antenaplay.ro%2Flive%2Fdisney%2Fplaylist.m3u8";
+     movie=getUrl(url);
+     cancelIdle();
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/mp4);
+    streamArray = pushBackStringArray(streamArray, "Disney Channel (HQ)");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
+     </script>
+     </onClick>
+     <id></id>
+     </item>
+
+	<item>
+	<title>Disney Junior</title>
+    <onClick>
+    <script>
+    showIdle();
+    url="http://127.0.0.1/cgi-bin/scripts/tv/php/aplay_link.php?file=https%3A%2F%2Fivm.antenaplay.ro%2Flive%2Fdisneyj%2Fplaylist.m3u8";
+    movie=getUrl(url);
+    cancelIdle();
+    if (movie == "" || movie == " " || movie == null)
+    {
+    playItemUrl(-1,1);
+    }
+    else
+    {
+    storagePath = getStoragePath("tmp");
+    storagePath_stream = storagePath + "stream.dat";
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/x-flv);
+    streamArray = pushBackStringArray(streamArray, "Disney Junior");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
+    }
+    </script>
+    </onClick>
+    <location>Disney Junior</location>
+    <annotation>Disney Junior</annotation>
+    <mediaDisplay name="threePartsView"/>
+	</item>
+
+     <item>
+     <title>Disney Junior (HQ)</title>
+     <onClick>
+     <script>
+     showIdle();
+     url="http://127.0.0.1/cgi-bin/scripts/tv/php/aplay1_link.php?file=https%3A%2F%2Fivm.antenaplay.ro%2Flive%2Fdisneyj%2Fplaylist.m3u8";
+     movie=getUrl(url);
+     cancelIdle();
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/mp4);
+    streamArray = pushBackStringArray(streamArray, "Disney Junior (HQ)");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
+     </script>
+     </onClick>
+     <id></id>
+     </item>
+
+	<item>
+	<title>Antena International</title>
+    <onClick>
+    <script>
+    showIdle();
+    url="http://127.0.0.1/cgi-bin/scripts/tv/php/aplay_link.php?file=https%3A%2F%2Fivm.antenaplay.ro%2Flive%2Fai%2Fplaylist.m3u8";
+    movie=getUrl(url);
+    cancelIdle();
+    if (movie == "" || movie == " " || movie == null)
+    {
+    playItemUrl(-1,1);
+    }
+    else
+    {
+    storagePath = getStoragePath("tmp");
+    storagePath_stream = storagePath + "stream.dat";
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/x-flv);
+    streamArray = pushBackStringArray(streamArray, "Antena International");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
+    }
+    </script>
+    </onClick>
+    <location>Antena International</location>
+    <annotation>Antena International</annotation>
+    <mediaDisplay name="threePartsView"/>
+	</item>
+
+     <item>
+     <title>Antena International (HQ)</title>
+     <onClick>
+     <script>
+     showIdle();
+     url="http://127.0.0.1/cgi-bin/scripts/tv/php/aplay1_link.php?file=https%3A%2F%2Fivm.antenaplay.ro%2Flive%2Fai%2Fplaylist.m3u8";
+     movie=getUrl(url);
+     cancelIdle();
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/mp4);
+    streamArray = pushBackStringArray(streamArray, "Antena International (HQ)");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
+     </script>
+     </onClick>
+     <id></id>
+     </item>
+
+	<item>
+	<title>Antena Monden</title>
+    <onClick>
+    <script>
+    showIdle();
+    url="http://127.0.0.1/cgi-bin/scripts/tv/php/aplay_link.php?file=https%3A%2F%2Fstream1.antenaplay.ro%2Flive%2Fsmil%3AAntenaMonden.smil%2Fplaylist.m3u8";
+    movie=getUrl(url);
+    cancelIdle();
+    if (movie == "" || movie == " " || movie == null)
+    {
+    playItemUrl(-1,1);
+    }
+    else
+    {
+    storagePath = getStoragePath("tmp");
+    storagePath_stream = storagePath + "stream.dat";
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/x-flv);
+    streamArray = pushBackStringArray(streamArray, "Antena Monden");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
+    }
+    </script>
+    </onClick>
+    <location>Antena Monden</location>
+    <annotation>Antena Monden</annotation>
+    <mediaDisplay name="threePartsView"/>
+	</item>
+
+     <item>
+     <title>Antena Monden (HQ)</title>
+     <onClick>
+     <script>
+     showIdle();
+     url="http://127.0.0.1/cgi-bin/scripts/tv/php/aplay1_link.php?file=https%3A%2F%2Fstream1.antenaplay.ro%2Flive%2Fsmil%3AAntenaMonden.smil%2Fplaylist.m3u8";
+     movie=getUrl(url);
+     cancelIdle();
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/mp4);
+    streamArray = pushBackStringArray(streamArray, "Antena Monden (HQ)");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
+     </script>
+     </onClick>
+     <id></id>
+     </item>
+
+	<item>
+	<title>Comedy Play</title>
+    <onClick>
+    <script>
+    showIdle();
+    url="http://127.0.0.1/cgi-bin/scripts/tv/php/aplay_link.php?file=https%3A%2F%2Fstream1.antenaplay.ro%2Flive%2Fsmil%3AComedyPlay.smil%2Fplaylist.m3u8";
+    movie=getUrl(url);
+    cancelIdle();
+    if (movie == "" || movie == " " || movie == null)
+    {
+    playItemUrl(-1,1);
+    }
+    else
+    {
+    storagePath = getStoragePath("tmp");
+    storagePath_stream = storagePath + "stream.dat";
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/x-flv);
+    streamArray = pushBackStringArray(streamArray, "Comedy Play");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
+    }
+    </script>
+    </onClick>
+    <location>Comedy Play</location>
+    <annotation>Comedy Play</annotation>
+    <mediaDisplay name="threePartsView"/>
+	</item>
+
+     <item>
+     <title>Comedy Play (HQ)</title>
+     <onClick>
+     <script>
+     showIdle();
+     url="http://127.0.0.1/cgi-bin/scripts/tv/php/aplay1_link.php?file=https%3A%2F%2Fstream1.antenaplay.ro%2Flive%2Fsmil%3AComedyPlay.smil%2Fplaylist.m3u8";
+     movie=getUrl(url);
+     cancelIdle();
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/mp4);
+    streamArray = pushBackStringArray(streamArray, "Comedy Play (HQ)");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
+     </script>
+     </onClick>
+     <id></id>
+     </item>
+
+	<item>
+	<title>Cook Play</title>
+    <onClick>
+    <script>
+    showIdle();
+    url="http://127.0.0.1/cgi-bin/scripts/tv/php/aplay_link.php?file=https%3A%2F%2Fstream1.antenaplay.ro%2Flive%2Fsmil%3ACookPlay.smil%2Fplaylist.m3u8";
+    movie=getUrl(url);
+    cancelIdle();
+    if (movie == "" || movie == " " || movie == null)
+    {
+    playItemUrl(-1,1);
+    }
+    else
+    {
+    storagePath = getStoragePath("tmp");
+    storagePath_stream = storagePath + "stream.dat";
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/x-flv);
+    streamArray = pushBackStringArray(streamArray, "Cook Play");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
+    }
+    </script>
+    </onClick>
+    <location>Cook Play</location>
+    <annotation>Cook Play</annotation>
+    <mediaDisplay name="threePartsView"/>
+	</item>
+
+     <item>
+     <title>Cook Play (HQ)</title>
+     <onClick>
+     <script>
+     showIdle();
+     url="http://127.0.0.1/cgi-bin/scripts/tv/php/aplay1_link.php?file=https%3A%2F%2Fstream1.antenaplay.ro%2Flive%2Fsmil%3ACookPlay.smil%2Fplaylist.m3u8";
+     movie=getUrl(url);
+     cancelIdle();
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/mp4);
+    streamArray = pushBackStringArray(streamArray, "Cook Play (HQ)");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
+     </script>
+     </onClick>
+     <id></id>
+     </item>
+
+
 </channel>
 </rss>

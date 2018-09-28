@@ -6,6 +6,7 @@ $f=file_get_contents($new_file);
 //echo $f;
 $t1=explode("\n",$f);
 //print_r ($t1);
+$imdbid= $t1[4];
 $tip=trim($t1[5]);
 //echo $tip;
 $link=urldecode($t1[1]);
@@ -157,7 +158,27 @@ ret;
 	<title><?php echo str_replace("&","&amp;",$tit2); ?></title>
 	<menu>main menu</menu>
 <?php
-
+echo '
+<item>
+<title>Cauta pe titrari.ro</title>
+<link>http://127.0.0.1/cgi-bin/scripts/filme/php/titrari_main.php?query=1,watch</link>
+<mediaDisplay name="threePartsView"/>
+</item>
+';
+echo '
+<item>
+<title>Cauta pe subs.ro</title>
+<link>http://127.0.0.1/cgi-bin/scripts/filme/php/subs_main.php?query=1,watch</link>
+<mediaDisplay name="threePartsView"/>
+</item>
+';
+echo '
+<item>
+<title>Cauta pe subtitrari-noi.ro</title>
+<link>http://127.0.0.1/cgi-bin/scripts/filme/php/subtitrari_main.php?query=1,watch</link>
+<mediaDisplay name="threePartsView"/>
+</item>
+';
 function str_between($string, $start, $end){ 
 	$string = " ".$string; $ini = strpos($string,$start); 
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
@@ -199,7 +220,7 @@ $imdbid=$JSON["imdbID"];
 $imdbid = str_replace("tt","",$imdbid);
 */
 //echo $imdbid;
-$imdbid="";
+//$imdbid="";
 $f="/tmp/opensub.txt";
 exec("rm -f /tmp/opensub.txt");
 if (file_exists($f)) {
@@ -236,7 +257,7 @@ $token=get_value("token",$response);
 file_put_contents($f,$token);
 }
 if ($tip=="movie") {
-$imdbid="";
+//$imdbid="";
 $request="<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>
 <methodCall>
 <methodName>SearchSubtitles</methodName>
@@ -307,7 +328,8 @@ foreach($videos as $video) {
    $SubLanguageID = get_value("SubLanguageID",$video);
    //if ($SubLanguageID == "rum") break;
    $id2=get_value("IDSubtitleFile",$video);
-   array_push($arrsub ,array($SubFileName,$SubLanguageID, $id2));
+   //array_push($arrsub ,array($SubFileName,$SubLanguageID, $id2));
+   array_push($arrsub ,array($SubLanguageID,$SubFileName, $id2));
  }
 }
 } else {
@@ -395,24 +417,26 @@ foreach($videos as $video) {
    $SubLanguageID = get_value("SubLanguageID",$video);
    //if ($SubLanguageID == "rum") break;
    $id2=get_value("IDSubtitleFile",$video);
-   array_push($arrsub ,array($SubFileName,$SubLanguageID, $id2));
+   //array_push($arrsub ,array($SubFileName,$SubLanguageID, $id2));
+   array_push($arrsub ,array($SubLanguageID,$SubFileName, $id2));
  }
 }
 }
+arsort($arrsub);
 $nn=count($arrsub);
 //$link="http://127.0.0.1/cgi-bin/scripts/filme/php/link.php?file=".urlencode($filelink);
 //$link="http://127.0.0.1/cgi-bin/scripts/filme/php/noobroom_link.php?file=".$id.",off,".$server.",".$hd.",".$tv;
-for ($k=0;$k<$nn;$k++) {
+foreach ($arrsub as $key => $val) {
         $f = "/usr/local/bin/home_menu";
 	    echo'
 	    <item>
-	    <title>'.$arrsub[$k][1]." - ".$arrsub[$k][0].'</title>
+        <title>'.$arrsub[$key][0]." - ".$arrsub[$key][1].'</title>
         <onClick>
         <script>
         showIdle();
         url="http://127.0.0.1/cgi-bin/scripts/filme/php/link.php?file='.urlencode($link).'";
         movie=geturl(url);
-        dummy=getURL("http://127.0.0.1/cgi-bin/scripts/filme/php/fs_sub.php?file='.$arrsub[$k][2].'");';
+        dummy=getURL("http://127.0.0.1/cgi-bin/scripts/filme/php/fs_sub.php?file='.$arrsub[$key][2].'");';
         echo '
         cancelIdle();
         storagePath = getStoragePath("tmp");

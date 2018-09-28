@@ -281,8 +281,10 @@ if (preg_match("/\.m3u8/",$l)) {
   $l1="http://127.0.0.1/cgi-bin/scripts/util/translate.cgi?stream,,".$l;
 } elseif (preg_match("/mms(h)?:\//",$l)) {
   $l1="http://127.0.0.1/cgi-bin/translate?stream,,".$l;
-} else {
+} elseif (preg_match("/\.ts/",$l)) {
   $l1="http://127.0.0.1/cgi-bin/scripts/util/ts.php?file=".urlencode($l);
+} else {
+  $l1=$l;
 }
 print_ch($title,$l1,$l);
 }

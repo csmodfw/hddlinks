@@ -23,8 +23,12 @@ if ($page > 1)
   $l2=$l."-".$page;
 else
   $l2=$l;
-$html = file_get_contents($l2);
-
+//$html = file_get_contents($l2);
+$ua="Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5";
+$exec_path="/usr/local/bin/Resource/www/cgi-bin/scripts/wget ";
+$exec = '-q -U "'.$ua.'" --referer="'.$l2.'" --no-check-certificate "'.$l2.'" -O -';
+$exec = $exec_path.$exec;
+$html=shell_exec($exec);
 ?>
 <rss version="2.0">
 <onEnter>
@@ -239,7 +243,7 @@ $videos = array_values($videos);
 foreach($videos as $video) {
     $t1=explode('href="',$video);
     $t2=explode('"',$t1[1]);
-    $link="http://hindilover.net".$t2[0];
+    $link="https://hindilover.net".$t2[0];
 
     $t3=explode("class='spacer'>",$t1[1]);
     $t4=explode("span>",$t3[2]);
@@ -247,7 +251,7 @@ foreach($videos as $video) {
     $title=$t5[0];
 
     $image=str_between($video,'src="','"');
-
+    $image=str_replace("https","http",$image);
        $data = $title;
 
     if ($link <> "") {

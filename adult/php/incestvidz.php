@@ -203,19 +203,24 @@ if ($tip=="release") {
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   //curl_setopt($ch, CURLOPT_REFERER, "https://xhamster.com");
-  //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $html = curl_exec($ch);
   curl_close($ch);
 } else {
   $tip="search";
   $search1=str_replace(" ","+",urldecode($search));
+if ($page>1)
+  $search3="https://www.incestvidz.com/page/".$page."/?s=".$search1;
+else
+  $search3="https://www.incestvidz.com/?s=".$search1;
      $post = "s=".$search1;
      $ch = curl_init();
-     curl_setopt($ch, CURLOPT_URL, "http://www.incestvidz.com/page/".$page."/");
-     curl_setopt ($ch, CURLOPT_POST, 1);
-     curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
+     curl_setopt($ch, CURLOPT_URL, $search3);
+     //curl_setopt ($ch, CURLOPT_POST, 1);
+     //curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
      curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
      $html = curl_exec($ch);
      curl_close($ch);
 }
@@ -246,7 +251,7 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
-$videos=explode('class="post',$html);
+$videos=explode('id="post',$html);
 unset($videos[0]);
 $videos = array_values($videos);
 

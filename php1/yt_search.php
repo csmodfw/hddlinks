@@ -13,9 +13,9 @@ $page_title="Cautare: ".$search;
 $search=str_replace(" ","+",$search);
 $key="AIzaSyDhpkA0op8Cyb_Yu1yQa1_aPSr7YtMacYU";
 if ($pageToken)
-$l2="https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&pageToken=".$pageToken."&q=".$search."&key=".$key;
+$l2="https://www.googleapis.com/youtube/v3/search?part=snippet&order=date&maxResults=25&pageToken=".$pageToken."&q=".$search."&key=".$key;
 else
-$l2="https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=".$search."&key=".$key;
+$l2="https://www.googleapis.com/youtube/v3/search?part=snippet&order=date&maxResults=25&q=".$search."&key=".$key;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l2);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

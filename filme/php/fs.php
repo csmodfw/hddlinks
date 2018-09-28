@@ -6,15 +6,20 @@ $f=file_get_contents($new_file);
 $t1=explode("\n",$f);
 $id=$t1[1];
 $tit=$t1[0];
+  //$tit=str_replace("\\","",$tit);
+  //$tit=str_replace("^",",",$tit);
 $subtitle = $t1[2];
 $server = $t1[3];
 $hd = $t1[4];
 $tv= $t1[5];
 $imdbid= $t1[6];
 $l1="http://www.omdbapi.com/?apikey=3088e9b6&&i=tt".$imdbid;
-$Data = file_get_contents($l1);
-$r = json_decode($Data,1);
-$tit_imdb=$r["Title"];
+//$key1="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmOGNmMDJlNmIzMGJmOGNjMzNjMDRjNjA2OTU3ODFhYSIsInN1YiI6IjU5MjMzY2ZhOTI1MTQxMDRjYTAwMWVkNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.IyP2G7iuQ7QhbnsRPbs4idA32IxEWSKqH0r2XBDwLaA";
+//https://api.themoviedb.org/3/find/{external_id}?api_key=<<api_key>>&language=en-US&external_source=imdb_id
+//$Data = file_get_contents($l1);
+//$r = json_decode($Data,1);
+//$tit_imdb=$r["Title"];
+$tit_imdb=$tit;
 ///////////////////////
 $noob=file_get_contents("/tmp/n.txt");
 $noob_serv="/tmp/noob_serv.log";
@@ -195,7 +200,20 @@ ret;
 	<title><?php echo str_replace("&","&amp;",str_replace("&amp;","&",$tit))." ".str_replace("&","&amp;",str_replace("&amp;","&",$tit2)); ?></title>
 	<menu>main menu</menu>
 <?php
-
+echo '
+<item>
+<title>Cauta pe titrari.ro</title>
+<link>http://127.0.0.1/cgi-bin/scripts/filme/php/titrari_main.php?query=1,noob</link>
+<mediaDisplay name="threePartsView"/>
+</item>
+';
+echo '
+<item>
+<title>Cauta pe subs.ro</title>
+<link>http://127.0.0.1/cgi-bin/scripts/filme/php/subs_main.php?query=1,noob</link>
+<mediaDisplay name="threePartsView"/>
+</item>
+';
 function str_between($string, $start, $end){ 
 	$string = " ".$string; $ini = strpos($string,$start); 
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 

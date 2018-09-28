@@ -13,7 +13,7 @@ if($query) {
 if (file_exists("/tmp/facebook.txt"))
   $token=file_get_contents("/tmp/facebook.txt");
 else {
-  $token=file_get_contents("http://uphero.xpresso.eu/movietv/f_t.php");
+  $token=file_get_contents("http://hdforall.000webhostapp.com/f_t.php");
   file_put_contents("/tmp/facebook.txt",$token);
 }
 $ua="Mozilla/5.0 (Windows NT 10.0; WOW64; rv:46.0) Gecko/20100101 Firefox/46.0";
@@ -21,6 +21,7 @@ if ($pageToken)
  $l2="https://graph.facebook.com/v2.3/".$search."/videos/uploaded?access_token=".$token."&limit=25&after=".$pageToken;
 else
  $l2="https://graph.facebook.com/v2.3/".$search."/videos/uploaded?access_token=".$token."&limit=25";
+//10tv.md?fields=video_broadcasts
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l2);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

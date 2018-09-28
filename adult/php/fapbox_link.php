@@ -27,9 +27,13 @@ $link = $_GET["file"];
   curl_setopt($ch, CURLOPT_NOBODY,1);
   $html = curl_exec($ch);
   curl_close($ch);
+  //echo $html;
+  if (strpos($html,"Location") !== false) {
   $t1=explode("Location:",$html);
   $t2=explode("\n",$t1[1]);
   $out=trim($t2[0]);
+  } else
+   $out=$l;
 /*
 $out='#!/bin/sh
 cat <<EOF

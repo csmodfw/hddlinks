@@ -20,29 +20,19 @@ $cookie="D://cookie.txt";
 $cookie="/tmp/cookie.txt";
 $id = $_GET["file"];
 $id=str_replace(" ","+",$id);
-$id=urldecode($id);
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $id);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
-  $html = curl_exec($ch);
-  curl_close($ch);
-//echo $html;
-/*
-$t1=explode('video" src="',$html);
-$t2=explode('"',$t1[1]);
-$id1=$t2[0];
-$link="http://s2.digisport.ro//".$id1.".360p.mp4";
-$link=str_replace("onedb","onedb/transcode",$link);
-*/
-$t1=explode('data-src="onedb/',$html);
-$t2=explode('"',$t1[1]);
-$id1=$t2[0];
-//$id1="590113a395f9cfbbd9321dab";
-$out="http://s6.digisport.ro//onedb/transcode/".$id1.".480p.mp4";
-//http://s5.digisport.ro//onedb/transcode/5901113a95f9cf3cd9321db0.480p.mp4
+$l=urldecode($id);
+      $ua="Mozilla/5.0 (Windows NT 10.0; rv:55.0) Gecko/20100101 Firefox/55.0";
+      $exec = '-q -U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
+      $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+      $html=shell_exec($exec);
+$x=str_between($html,'<script type="text/template">','</script');
+//echo $x;
+$r=json_decode($x,1);
+//print_r ($r);
+//die();
+//https://v3.iw.ro/video/v/ZmlsZVNvdXJjZT1odHRwJTNBJTJGJTJG/c3RvcmFnZTAxdHJhbnNjb2Rlci5yY3Mt/cmRzLnJvJTJGc3RvcmFnZSUyRjIwMTcl/MkYxMiUyRjE4JTJGODU3MjgyXzg1NzI4/Ml9TSVRFX3BvbGlfZG5tX3JlenVtYXRf/MTgxMjE3X2lvbDMubXA0JmZyPTEmaGFz/aD1kYmNmYzAwMzc0NDAwM2ZhZGYyMzE2ZjczY2EzNjE4ZA==.mp4
 
+$out=$r["new-info"]["meta"]["source"];
+$out=str_replace("https","http",$out);
 print $out;
 ?>

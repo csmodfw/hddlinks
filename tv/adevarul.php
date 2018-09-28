@@ -6,7 +6,10 @@
   setRefreshTime(1);
   buf = "0";
 </onEnter>
-
+<onExit>
+    xmlurl = "http://127.0.0.1/cgi-bin/scripts/util/kill.php";
+    ret = getUrl(xmlurl);
+</onExit>
 <onRefresh>
   setRefreshTime(-1);
   itemCount = getPageInfo("itemCount");
@@ -172,6 +175,7 @@ ret;
 
 <?php
 $query = $_GET["query"];
+//http://adevarul.ro/video-center/
 if($query) {
    $queryArr = explode(',', $query);
    $page = $queryArr[0];
@@ -219,10 +223,14 @@ function str_between($string, $start, $end){
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   //curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
   //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $html = curl_exec($ch);
   curl_close($ch);
-$videos = explode('<li class="item video', $html);
-
+  //echo $html;
+if (strpos($l,"video-center") === false)
+   $videos = explode('<li class="item video', $html);
+else
+   $videos = explode('figure class="vidbox">',$html);
 unset($videos[0]);
 $videos = array_values($videos);
 
@@ -230,17 +238,22 @@ foreach($videos as $video) {
   $t1 = explode('href="', $video);
   $t2 = explode('"',$t1[1]);
   $link="http://adevarul.ro/embed".$t2[0];
-
+  if (strpos($l,"video-center") === false) {
   $t1=explode('title="',$video);
   $t2=explode('"',$t1[1]);
   $title=trim($t2[0]);
-
+  } else {
+  $t1=explode('itemprop="name"><a href="',$video);
+  $t2=explode(">",$t1[1]);
+  $t3=explode("<",$t2[1]);
+  $title=$t3[0];
+  }
   $t1=explode('src="',$video);
   $t2=explode('"',$t1[1]);
   $image="http://adevarul.ro".$t2[0];
     
 		//$link = $host.'/scripts/tv/php/adevarul_link.php?file='.urlencode($link);
-
+/*
 	echo'
 	<item>
 	<title>'.$title.'</title>
@@ -277,6 +290,27 @@ foreach($videos as $video) {
     <mediaDisplay name="threePartsView"/>
 	</item>
 	';
+*/
+    echo '
+    <item>
+    <title>'.$title.'</title>
+    <onClick>
+    <script>
+    showIdle();
+    xmlurl = "http://127.0.0.1/cgi-bin/scripts/util/kill.php";
+    ret = getUrl(xmlurl);
+    movie="http://127.0.0.1/cgi-bin/scripts/tv/php/adevarul_link.php?file='.urlencode($link).'," + buf;
+    cancelIdle();
+    playItemUrl(movie,10);
+    </script>
+    </onClick>
+    <location>'.$title.'</location>
+    <annotation>'.$title.'</annotation>
+    <image>'.$image.'</image>
+    <media:thumbnail url="'.$image.'" />
+    <mediaDisplay name="threePartsView"/>
+    </item>
+    ';
 }
 ?>
 

@@ -270,12 +270,13 @@ columnCount=4
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
+
 <item>
 <title>Vremea în România</title>
-<link><?php echo $host; ?>/scripts/news/php/weather.php</link>
+<link><?php echo $host; ?>/scripts/news/php/w.php</link>
 <media:thumbnail url="image/mele/weather.png" />
 <image>/usr/local/etc/www/cgi-bin/scripts/news/image/weather.png</image>
-<location>http://vremea.meteoromania.ro/</location>
+<location>https://weather.com/</location>
 <annotation>Starea vremii în diferite localităţi</annotation>
 </item>
 

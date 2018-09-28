@@ -326,7 +326,7 @@ columnCount=5
 	<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/clip/image/trilulilu.png" />
 	<annotation>Vezi, asculţi, dai mai departe</annotation>
 </item>
-
+<!--
 <item>
 <title>peţeavă</title>
 	<link><?php echo $host; ?>/scripts/clip/peteava_main.php</link>
@@ -335,6 +335,7 @@ columnCount=5
 	<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/clip/image/peteava.png" />
 	<annotation>Play me! Poţi încărca 50 de clipuri video sau 50 de imagini simultan, iar clipurile video pot avea 1 GB sau 50 min.</annotation>
 </item>
+-->
 <!--
 <item>
 <title>ViaţaLaServiciu</title>
@@ -426,7 +427,7 @@ columnCount=5
 <location>http://www.youtube.com/user/UnguruBulanOfficial</location>
 <annotation>Tara lui Fratzica</annotation>
 </item>
-
+<!--
 <item>
 <title>RObotzi</title>
 	<link><?php echo $host; ?>/scripts/clip/php/roboti.php?query=1,</link>
@@ -462,7 +463,7 @@ columnCount=5
 	<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/clip/image/roboti.jpg" />
 	<annotation>Website dedicat artei!</annotation>
 </item>
-
+-->
 <item>
 <title>DoZa De Has</title>
 <link><?php echo $host; ?>/scripts/php1/youtube_user.php?query=1,DoZaDeHas</link>
@@ -591,15 +592,17 @@ columnCount=5
 	<annotation>YouClubVideo was started as an idea to bring together a wide variety of clubbing experiences and people from all the countries of the world that have in common the same feelings, sounds and sences of club music.</annotation>
 </item>
 -->
+
 <item>
 <title>dancetrippin.tv</title>
-	<link><?php echo $host; ?>/scripts/clip/php/dancetrippin.php</link>
+	<link><?php echo $host; ?>/scripts/clip/php/dancetrippin.php?page=1,user9760561,dancetrippin.tv</link>
 	<location>http://www.dancetrippin.tv</location>
 	<image>/usr/local/etc/www/cgi-bin/scripts/clip/image/dancetrippin.png</image>
 	<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/clip/image/dancetrippin.png" />
 	<annotation>DanceTrippin.tv: The Man With No Shadow (aka De Man Zonder Schaduw in his homeland of the Netherlands) closes Zomerpark 2012 with a stunning set that builds and builds to the perfect ending of an amazing day in Amsterdam. Much respect to the organization GZG for this special event!</annotation>
 </item>
 
+<!--
 <item>
 <title>Best of YouTube (iPod video)</title>
 	<link>http://feeds.feedburner.com/boyt</link>
@@ -637,6 +640,7 @@ columnCount=5
 <location>http://revision3.com/</location>
 <annotation>Revision3 is the leading independent free online video service that offers hit TV shows including Diggnation with Kevin Rose, Scam School, Film Riot, etc.</annotation>
 </item>
+-->
 <!--
 <item>
 <title>Video Podcast from SDK4</title>
@@ -657,6 +661,7 @@ columnCount=5
 	<annotation>HD-Podcasts (High Definition)  | podcast.tv is an international video podcast directory with podcast recommendations and useful podcasting functions for enjoying podcasts and learn how to podcast</annotation>
 </item>
 -->
+<!--
 <item>
 <title>Video Podcast Directory</title>
 	<link><?php echo $host; ?>/scripts/clip/php/videopodcasts_main.php</link>
@@ -665,7 +670,7 @@ columnCount=5
 	<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/clip/image/videopodcasts.gif" />
 	<annotation>The best video podcast directory. Search the biggest collection of video podcasts, video podcast feeds and video podcast software in the universe. Play, share, and enjoy!</annotation>
 </item>
-
+-->
 
 </channel>
 </rss>

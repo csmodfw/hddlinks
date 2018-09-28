@@ -173,7 +173,34 @@ ret;
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
+
+<item>
+<title>TVR</title>
+<link><?php echo $host; ?>/scripts/tv/tvr.php</link>
+<media:thumbnail url="image/tv_radio.png" />
+<mediaDisplay name="threePartsView"/>
+</item>
 <?php
+$f="/usr/local/etc/dvdplayer/tvplay.txt";
+if (file_exists($f)) {
+echo '
+<item>
+<title>Ines</title>
+<link>'.$host.'/scripts/tv/ines.php</link>
+<media:thumbnail url="image/tv_radio.png" />
+<mediaDisplay name="threePartsView"/>
+</item>
+';
+echo '
+<item>
+<title>gazw</title>
+<link>'.$host.'/scripts/tv/gazv.php</link>
+<media:thumbnail url="image/tv_radio.png" />
+<mediaDisplay name="threePartsView"/>
+</item>
+';
+
+}
 /*
 $f="/usr/local/etc/dvdplayer/digi.m3u";
 //$f="D:\EasyPHP\data\localweb\scripts1\digi.m3u";
@@ -197,7 +224,7 @@ echo '
 <mediaDisplay name="threePartsView"/>
 </item>
  -->
-
+<!--
 <item>
 <title>Voyo TV</title>
 <link><?php echo $host; ?>/scripts/tv/voyo.php</link>
@@ -211,13 +238,21 @@ echo '
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <item>
-<title>Seenow TV (Freezone) - alternativ</title>
+<title>Seenow TV (Freezone)</title>
 <link><?php echo $host; ?>/scripts/tv/php/seenow_e1.php?query=1,http://www.seenow.ro/freezone-9-pagina-,Seenow+TV+(freezone)</link>
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
+<!--
+<item>
+<title>iptvro</title>
+<link><?php echo $host; ?>/scripts/tv/php/iptvro_main.php</link>
+<media:thumbnail url="image/tv_radio.png" />
+<mediaDisplay name="threePartsView"/>
+</item>
+-->
 <!--
 <item>
 <title>Seenow TV (Abonament)</title>
@@ -234,13 +269,14 @@ echo '
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
+<!--
 <item>
 <title>TVRPlus TV</title>
 <link>/usr/local/etc/www/cgi-bin/scripts/tv/php/tvrplus_tv.rss</link>
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <item>
 <title>Diverse playlist</title>
 <link><?php echo $host; ?>/scripts/tv/php/playlist_main.php</link>
@@ -249,12 +285,20 @@ echo '
 </item>
 
 <item>
+<title>tvpemobil</title>
+<link><?php echo $host; ?>/scripts/tv/php/tvpemobil_main.php</link>
+<media:thumbnail url="image/tv_radio.png" />
+<mediaDisplay name="threePartsView"/>
+</item>
+
+<!--
+<item>
 <title>iptvsatlinks</title>
 <link><?php echo $host; ?>/scripts/tv/php/iptvsatlinks_main.php?page=1</link>
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <item>
 <title>iptv.filmover</title>
 <link><?php echo $host; ?>/scripts/tv/php/filmover_main.php?page=1</link>
@@ -390,18 +434,19 @@ else
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
-
+<!--
 <item>
 <title>oklivetv</title>
 <link><?php echo $host; ?>/scripts/tv/php/oklivetv_main.php</link>
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <?php
 error_reporting(0);
-$f="/usr/local/etc/dvdplayer/astra.m3u";
+$f="/usr/local/etc/dvdplayer/astra.m3u11";
 if (file_exists($f)) {
+/*
 echo '
 <item>
 <title>Astra</title>
@@ -410,7 +455,7 @@ echo '
 <media:thumbnail url="image/tv_radio.png" />
 </item>
 ';
-
+*/
 
 echo '
 <item>
@@ -420,6 +465,16 @@ echo '
 <media:thumbnail url="image/tv_radio.png" />
 </item>
 ';
+/*
+echo '
+<item>
+<title>gazv1</title>
+<link>'.$host.'/scripts/tv/gazv1.php</link>
+<annotation>Gazv TV</annotation>
+<media:thumbnail url="image/tv_radio.png" />
+</item>
+';
+*/
 }
 ?>
 

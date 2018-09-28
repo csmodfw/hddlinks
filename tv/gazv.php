@@ -15,7 +15,10 @@ function str_between($string, $start, $end){
   startitem = "middle";
   setRefreshTime(1);
 </onEnter>
-
+<onExit>
+    xmlurl = "http://127.0.0.1/cgi-bin/scripts/util/kill.php";
+    ret = getUrl(xmlurl);
+</onExit>
 <onRefresh>
   setRefreshTime(-1);
   itemCount = getPageInfo("itemCount");
@@ -172,8 +175,14 @@ ret;
 	</item_template>
 
 <channel>
-  <title>gazv (php)</title>
+  <title>gazv</title>
 <?php
+$f="/usr/local/etc/dvdplayer/tvplay.txt";
+if (file_exists($f))
+  $pass=trim(file_get_contents($f));
+else
+  $pass="";
+if ($pass) {
 $f="http://mxcore.forithost.com/alltvn.m3u";
 $m3uFile = file($f);
 foreach($m3uFile as $key => $line) {
@@ -188,7 +197,8 @@ foreach($m3uFile as $key => $line) {
 }
 asort($arr);
 foreach ($arr as $key => $val) {
-  $link="http://127.0.0.1/cgi-bin/scripts/util/spyce.php?file=".$arr[$key][1];
+  $link="http://127.0.0.1/cgi-bin/scripts/util/spyce2.php?file=".$arr[$key][1];
+  //$link="http://192.168.0.25/scripts1/alltv.php?file=".$arr[$key][1];
   $title=$arr[$key][0];
     $title1=trim(preg_replace("/(Romania|Hungary)/i","",$title));
     $title1=strtolower($title1);
@@ -196,29 +206,56 @@ foreach ($arr as $key => $val) {
     $title1=trim($t1[0]);
     $title1=str_replace(" ","-",$title1);
   
-  echo '
-     <item>
-     <title>'.$title.'</title>
-     <onClick>
-     <script>
-     showIdle();
-     movie="'.$link.'";
-     cancelIdle();
+    $link1 = $host.'/scripts/util/m3u8g.php?file='.urlencode($l);
+	echo'
+	<item>
+	<title>'.$title.'</title>
+    <onClick>
+    <script>
+    showIdle();
+    xmlurl = "http://127.0.0.1/cgi-bin/scripts/util/kill.php";
+    ret = getUrl(xmlurl);
+    url="'.$link.'";
+    movie1=geturl(url);
+    movie="'.$host.'/scripts/util/m3u8g.php?file=" + movie1;
+    cancelIdle();
+    storagePath = getStoragePath("tmp");
+    storagePath_stream = storagePath + "stream.dat";
     streamArray = null;
     streamArray = pushBackStringArray(streamArray, "");
     streamArray = pushBackStringArray(streamArray, "");
     streamArray = pushBackStringArray(streamArray, movie);
     streamArray = pushBackStringArray(streamArray, movie);
-    streamArray = pushBackStringArray(streamArray, video/mp4);
-    streamArray = pushBackStringArray(streamArray, "'.$title.'");
+    streamArray = pushBackStringArray(streamArray, video/x-flv);
+    streamArray = pushBackStringArray(streamArray, "'.str_replace('"',"'",$title).'");
     streamArray = pushBackStringArray(streamArray, "1");
     writeStringToFile(storagePath_stream, streamArray);
     doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer_tv1.rss");
-     </script>
-     </onClick>
+    </script>
+    </onClick>
+    <location>'.$title.'</location>
+    <id>'.$title1.'</id>
+    <mediaDisplay name="threePartsView"/>
+	</item>
+	';
+
+  /*
+  echo '
+  <item>
+  <title>'.$title.'</title>
+    <onClick>
+    <script>
+     showIdle();
+     movie="'.$link.'";
+     cancelIdle();
+    playItemUrl(movie,10);
+    </script>
+    </onClick>
     <id>'.$title1.'</id>
      </item>
     ';
+  */
+}
 }
 ?>
 

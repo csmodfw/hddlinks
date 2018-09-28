@@ -183,7 +183,7 @@ echo '
 ';
 
 
-$html = file_get_contents("http://www.veziserialeonline.info/tv-shows");
+$html = file_get_contents("http://www.veziseriale.online/tv-shows");
 $videos = explode('<li class="post-', $html);
 
 unset($videos[0]);
@@ -197,7 +197,7 @@ foreach($videos as $video) {
     $t1 = explode('src="', $video);
     $t2 = explode('"', $t1[1]);
     $image = $t2[0];
-
+    $image="";
     $t1 = explode('title="', $video);
     $t2 = explode('"', $t1[1]);
     $title = trim($t2[0]);

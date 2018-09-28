@@ -184,6 +184,7 @@ if($page) {
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   $html = curl_exec($ch);
   curl_close($ch);
@@ -224,7 +225,7 @@ foreach($videos as $video) {
   $tip="movie";
   $l1=trim(str_between($video,'href="','"'));
   if (strpos($l1,"http") === false)
-  $link = "http://topfilmeonline.net/".$l1;
+  $link = "https://topfilmeonline.net/".$l1;
   else
   $link=$l1;
   $title=str_between($video,'alt="','"');
@@ -247,9 +248,9 @@ foreach($videos as $video) {
     $image=$t2[0];
   } else {
   if ($t2[0][0] == "/")
-    $image = "http://topfilmeonline.net".$t2[0];
+    $image = "https://topfilmeonline.net".$t2[0];
   else
-    $image = "http://topfilmeonline.net/".$t2[0];
+    $image = "https://topfilmeonline.net/".$t2[0];
   }
   $image=htmlentities($image,ENT_QUOTES,'UTF-8');
   $image=str_replace("https","http",$image);

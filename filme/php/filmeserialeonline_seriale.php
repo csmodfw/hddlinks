@@ -187,6 +187,9 @@ function decode_entities($text) {
   curl_close($ch);
   //$html=str_replace("script","zzzzz",$html);
   //echo $html;
+$t1=explode('property="og:image" content="',$html);
+$t2=explode('"',$t1[1]);
+$pageimage=str_replace("https","http",$t2[0]);
 $videos = explode('div class="numerando">', $html);
 unset($videos[0]);
 $videos = array_values($videos);

@@ -200,17 +200,39 @@ echo '
 
 <item>
 <title>filmeseriale.online</title>
-<link><?php echo $host; ?>/scripts/filme/php/filmeseriale_main.php?query=,https://filmeseriale.online/seriale</link>
-<annotation>https://filmeseriale.online</annotation>
+<link><?php echo $host; ?>/scripts/filme/php/filmeseriale_main.php?query=,http://www.filmeserialeonline.org/seriale</link>
+<annotation>http://www.filmeserialeonline.org/</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
 
 <item>
 <title>filmeserialeonline</title>
-<link><?php echo $host; ?>/scripts/filme/php/filmeserialeonline_seriale_main.php?query=,http://www.filmeserialeonline.org/seriale</link>
+<link><?php echo $host; ?>/scripts/filme/php/filmeserialeonline_seriale_main.php?query=1,release,http://www.filmeserialeonline.org/seriale</link>
 <annotation>http://www.filmeserialeonline.org/seriale/</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
+
+<item>
+<title>vezionline</title>
+<link><?php echo $host; ?>/scripts/filme/php/vezionline.php?query=1,release,https://cinemahd.eu</link>
+<annotation>https://vezionline.org/seriale-online</annotation>
+<media:thumbnail url="image/movies.png" />
+</item>
+
+<item>
+<title>tvhub</title>
+<link><?php echo $host; ?>/scripts/filme/php/serialenoi_online.php?page=1,release,,seriale</link>
+<annotation>https://tvhub.ro</annotation>
+<media:thumbnail url="image/movies.png" />
+</item>
+
+<item>
+<title>filme-seriale.gold</title>
+<link><?php echo $host; ?>/scripts/filme/php/gold_main.php?query=1,release,https://filme-seriale.gold</link>
+<annotation>http://filme-seriale.gold</annotation>
+<media:thumbnail url="image/movies.png" />
+</item>
+
 <!--
 <item>
 <title>seriale-filme</title>
@@ -221,7 +243,7 @@ echo '
 -->
 <item>
 <title>moviesplanet</title>
-<link><?php echo $host; ?>/scripts/filme/php/moviesplanet_seriale.php?query=1,https://www.moviesplanet.tv/tv-shows</link>
+<link><?php echo $host; ?>/scripts/filme/php/moviesplanet_seriale.php?query=1,release</link>
 <annotation>http://moviesplanet.is</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
@@ -282,38 +304,93 @@ echo '
 <media:thumbnail url="image/movies.png" />
 </item>
 -->
+<!--
 <item>
-<title>noobroom - seriale</title>
-<link><?php echo $host; ?>/scripts/filme/php/noobroom_series_main.php?query=a</link>
+<title>noobroom (com) - seriale</title>
+<link><?php echo $host; ?>/scripts/filme/php/noobroom_series_main.php?query=a,com</link>
 <annotation>http://noobroom.com</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
 
+<item>
+<title>noobroom (net) - seriale</title>
+<link><?php echo $host; ?>/scripts/filme/php/noobroom_series_main.php?query=a,net</link>
+<annotation>http://noobroom.com</annotation>
+<media:thumbnail url="image/movies.png" />
+</item>
+-->
+<!--
 <item>
 <title>vumoo - seriale</title>
 <link><?php echo $host; ?>/scripts/filme/php/vumoo_s.php?page=1,release,,seriale</link>
 <annotation>http://vumoo.at</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
-
+-->
+<!--
 <item>
 <title>flixanity - seriale</title>
 <link><?php echo $host; ?>/scripts/filme/php/flixanity_s.php?page=1,release,,seriale</link>
 <annotation>http://flixanity.watch</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
-
+-->
+<!--
+<item>
+<title>cartoonhd - seriale</title>
+<link><?php echo $host; ?>/scripts/filme/php/cartoonhd_s.php?page=1,release,,seriale</link>
+<annotation>http://cartoonhd.zone</annotation>
+<media:thumbnail url="image/movies.png" />
+</item>
+-->
+<!--
 <item>
 <title>gomovies</title>
 <link><?php echo $host; ?>/scripts/filme/php/gomovies_s.php?page=1,release,,seriale</link>
 <annotation>https://gomovies.to/</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
-
+-->
+<!--
 <item>
 <title>watchfree</title>
 <link><?php echo $host; ?>/scripts/filme/php/putlocker_s.php?page=1,release,,seriale</link>
 <annotation>http://www.watchfree.to</annotation>
+<media:thumbnail url="image/movies.png" />
+</item>
+-->
+<item>
+<title>watchsk</title>
+<link><?php echo $host; ?>/scripts/filme/php/watchsk.php?page=1,release,,seriale</link>
+<annotation>http://watchseries.sk</annotation>
+<media:thumbnail url="image/movies.png" />
+</item>
+
+<item>
+<title>putlockerfit.net</title>
+<link><?php echo $host; ?>/scripts/filme/php/putlockerfit.php?page=1,release,,seriale</link>
+<annotation>https://putlockerfit.net/</annotation>
+<media:thumbnail url="image/movies.png" />
+</item>
+
+<item>
+<title>hdeuropix</title>
+<link><?php echo $host; ?>/scripts/filme/php/pix_main.php?page=1,release,,seriale</link>
+<annotation>https://hdeuropix.cc</annotation>
+<media:thumbnail url="image/movies.png" />
+</item>
+
+<item>
+<title>putlocker.tl</title>
+<link><?php echo $host; ?>/scripts/filme/php/put.php?page=1,release,,seriale</link>
+<annotation>http://putlocker.tl</annotation>
+<media:thumbnail url="image/movies.png" />
+</item>
+
+<item>
+<title>tvseries</title>
+<link><?php echo $host; ?>/scripts/filme/php/tvseries_s.php?page=1,release,,seriale</link>
+<annotation>http://www.tvseries.net</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
 <!--
@@ -368,12 +445,13 @@ echo '
 </item>
 -->
 
-
+<!--
 <item>
 <title>vezi-online.ro</title>
-<link><?php echo $host; ?>/scripts/filme/php/vezi-online_ro_main.php</link>
+<link><?php echo $host; ?>/scripts/filme/php/vezi-online_ro_main.php?query=1,rls</link>
 <media:thumbnail url="image/movies.png" />
 </item>
+-->
 <!--
 <item>
 <title>filmeonline - seriale</title>
@@ -388,34 +466,31 @@ echo '
 <annotation>http://www.veziserialeonline.info/tv-shows</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+<!--
 <item>
 <title>filme-seriale.gratis</title>
 <link><?php echo $host; ?>/scripts/filme/php/filme-seriale_gratis_main.php?query=1,</link>
 <annotation>http://filme-seriale.gratis/seriale-online/</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
+-->
 
-<item>
-<title>serialenoi.online</title>
-<link><?php echo $host; ?>/scripts/filme/php/serialenoi_online.php?page=1,release,,seriale</link>
-<annotation>http://serialenoi.online</annotation>
-<media:thumbnail url="image/movies.png" />
-</item>
-
+<!--
 <item>
 <title>clickplus</title>
 <link><?php echo $host; ?>/scripts/filme/php/clickplus_main.php</link>
 <annotation>http://www.clickplus.online/p/lista-seriale.html</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
+<!--
 <item>
 <title>hindilover (turcesti)</title>
 <link><?php echo $host; ?>/scripts/filme/php/hindilover_main.php</link>
 <annotation>http://hindilover.com/</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
+-->
 <!--
 <item>
 <title>hdfilm</title>
@@ -513,6 +588,7 @@ echo '
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
+<!--
 <item>
 <title>serialesubtitrateonline - Drame coreene</title>
 <link><?php echo $host; ?>/scripts/filme/php/serialesubtitrateonline_main.php?tip=1</link>
@@ -524,6 +600,13 @@ echo '
 <title>serialesubtitrateonline - Seriale Istorice</title>
 <link><?php echo $host; ?>/scripts/filme/php/serialesubtitrateonline_main.php?tip=2</link>
 <annotation>http://serialesubtitrateonline.info/serialecoreene.php</annotation>
+<mediaDisplay name="threePartsView"/>
+</item>
+-->
+<item>
+<title>streamroyale</title>
+<link><?php echo $host; ?>/scripts/filme/php/royales_main.php</link>
+<annotation>https://streamroyale.com</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
 <!--
