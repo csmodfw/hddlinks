@@ -595,7 +595,7 @@ columnCount=5
 
 <item>
 <title>dancetrippin.tv</title>
-	<link><?php echo $host; ?>/scripts/clip/php/dancetrippin.php?page=1,user9760561,dancetrippin.tv</link>
+	<link><?php echo $host; ?>/scripts/php1/youtube_user.php?query=1,UCANDAWMJQsxMlaDMGlCdKpg</link>
 	<location>http://www.dancetrippin.tv</location>
 	<image>/usr/local/etc/www/cgi-bin/scripts/clip/image/dancetrippin.png</image>
 	<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/clip/image/dancetrippin.png" />

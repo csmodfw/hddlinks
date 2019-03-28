@@ -188,6 +188,7 @@ function dec($string) {
     return $v;
 }
 $link="http://inprofunzime.md/emisiuni/shows/in-profunzime-cu-lorena-bogza/";
+$link="http://inprofunzime.protv.md/emisiuni/shows/in-profunzime-cu-lorena-bogza/";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $link);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

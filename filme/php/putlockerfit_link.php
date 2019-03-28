@@ -353,12 +353,18 @@ if($requestPage->status->http_code == 503) {
       $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
       $html=shell_exec($exec);
   //echo $html;
+$r=parse_url($link);
+//print_r ($r);
+//echo $link;
+$host1=$r["host"];
   $imdb="";
-  $t1=explode('post_id":"',$html);
-  $t2=explode('"',$t1[1]);
-  $id_post=$t2[0];
+  $t1=explode("shortlink",$html);
+  $t2=explode("p=",$t1[1]);
+  $t3=explode("'",$t2[1]);
+  $id_post=$t3[0];
   $l="https://www1.putlockerfit.net/wp-admin/admin-ajax.php";
   $l="https://www2.putlockerfit.net/wp-admin/admin-ajax.php";
+  $l="https://".$host1."/wp-admin/admin-ajax.php";
   $post="action=get_oload_gs&post_id=".$id_post;
 
   $head=array('Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8','Accept-Language: ro-ro,ro;q=0.8,en-us;q=0.6,en-gb;q=0.4,en;q=0.2','Accept-Encoding: deflate','Content-Type: application/x-www-form-urlencoded','Content-Length: '.strlen($post));
@@ -385,7 +391,7 @@ if($requestPage->status->http_code == 503) {
 
 
 
- $videos = explode('src":"', $h);
+ $videos = explode('src="', $h);
 unset($videos[0]);
 $videos = array_values($videos);
 foreach($videos as $video) {

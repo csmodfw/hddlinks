@@ -253,6 +253,46 @@ if ($sezon) {
 }
 $l_sub="https://subs.ro/subtitrari/imdbid/".$imdbid;
 }
+if ($search=="cineplex") {
+$tip=trim($t1[2]);
+$tit2=trim($t1[1]);
+
+  $tit=urldecode($t1[0]);
+  $tit=str_replace("\\","",$tit);
+  $tit=str_replace("^",",",$tit);
+
+  $tit=str_replace("&amp;","&",$tit);
+  $tit2=urldecode($t1[1]);
+  $tit2=str_replace("\\","",$tit2);
+  $tit2=str_replace("^",",",$tit2);
+  $tit2=str_replace("&amp;","&",$tit2);
+if ($tip=="series") {
+  preg_match("/(\d+)x(\d+)/",$tit2,$m);
+  $sezon=$m[1];
+  $episod=intval($m[2]);
+//echo $sezon." ".$episod."ceva";
+}
+  $page1=($page-1)*20;
+  //$l="https://www.titrari.ro/index.php?page=cautareavansata&z7=Star+Trek%3A+Voyager&z2=&z5=&z3=-1&z4=-1&z8=1&z9=All&z11=0&z6=0";
+  //$l="https://www.titrari.ro/index.php?page=cautareavansata&z1=".$page1."&z2=&z3=-1&z4=-1&z5=&z6=0&z7=".urlencode($tit)."&z8=1&z9=All&z10=&z11=0";
+  //$l="https://www.titrari.ro/index.php?page=cautareavansata&z1=".$page1."&z2=&z3=-1&z4=-1&z5=".$imdbid."&z6=0&z7=&z8=1&z9=All&z10=&z11=0";
+  $l="https://subs.ro/subtitrari/";
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt ($ch, CURLOPT_REFERER, "https://subs.ro/subtitrari/");
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  $x = curl_exec($ch);
+  curl_close($ch);
+  //echo $x;
+  $t1=explode('name="antispam',$x);
+  $t2=explode('value="',$t1[1]);
+  $t3=explode('"',$t2[1]);
+  $l_sub="https://subs.ro/cautare/?search-text=".urlencode($tit)."&in=name&antispam=".$t3[0];
+  $l_sub="https://subs.ro/ajax/search/?search-text=".urlencode($tit)."&amp;in=name&amp;antispam=".$t3[0];
+}
 ?>
 <rss version="2.0">
 <onEnter>

@@ -47,7 +47,7 @@ $host = "http://127.0.0.1/cgi-bin";
 		  <script>getPageInfo("pageTitle");</script>
 		</text>
   	<text align="left" offsetXPC="6" offsetYPC="15" widthPC="75" heightPC="4" fontSize="16" backgroundColor="10:105:150" foregroundColor="100:200:255">
-    right for more
+    right for more,2=Setare GoogleCaptcha
 		</text>
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
@@ -144,6 +144,11 @@ cancelIdle();
 ret_val=doModalRss("/usr/local/etc/www/cgi-bin/scripts/filme/php/movie_detail.rss");
 ret="true";
 }
+else if (userInput == "two" || userInput == "2")
+{
+ jumptolink("logon");
+ "true";
+}
 ret;
 </script>
 </onUserInput>
@@ -167,6 +172,14 @@ ret;
 	    <script>"<?php echo $host."/scripts/filme/php/filmeseriale_filme.php?query=search,1,"; ?>" + urlEncode(keyword);</script>
 	  </link>
 	</searchLink>
+	<logon>
+	<link>
+	<script>
+	url="/usr/local/etc/www/cgi-bin/scripts/filme/php/filmeseriale.rss";
+	url;
+	</script>
+	</link>
+	</logon>
 <channel>
 	<title>filmeseriale.online</title>
 	<menu>main menu</menu>

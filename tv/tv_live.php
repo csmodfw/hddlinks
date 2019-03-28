@@ -283,14 +283,20 @@ echo '
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
-
+<!--
 <item>
 <title>tvpemobil</title>
 <link><?php echo $host; ?>/scripts/tv/php/tvpemobil_main.php</link>
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
+<item>
+<title>neterra</title>
+<link><?php echo $host; ?>/scripts/tv/neterra.php</link>
+<media:thumbnail url="image/tv_radio.png" />
+<mediaDisplay name="threePartsView"/>
+</item>
 <!--
 <item>
 <title>iptvsatlinks</title>
@@ -299,6 +305,13 @@ echo '
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
+<item>
+<title>arconaitv.us</title>
+<link><?php echo $host; ?>/scripts/tv/php/arconaitv.php</link>
+<media:thumbnail url="image/tv_radio.png" />
+<mediaDisplay name="threePartsView"/>
+</item>
+
 <item>
 <title>iptv.filmover</title>
 <link><?php echo $host; ?>/scripts/tv/php/filmover_main.php?page=1</link>
@@ -427,13 +440,14 @@ else
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
-
+<!--
 <item>
 <title>streams.magazinmixt.ro</title>
 <link><?php echo $host; ?>/scripts/tv/php/magazin_main.php</link>
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
+-->
 <!--
 <item>
 <title>oklivetv</title>

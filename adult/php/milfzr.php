@@ -204,7 +204,14 @@ if ($tip=="release") {
 } else {
   $link=$search2;
 }
-$html = file_get_contents($link);
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $link);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, "http://milfzr.com");
+  $html = curl_exec($ch);
+  curl_close($ch);
 
 if($page > 1) { ?>
 
@@ -245,9 +252,9 @@ foreach($videos as $video) {
     $t1 = explode('src="', $video);
     $t2 = explode('"', $t1[1]);
     $image = $t2[0];
-    if (strpos($image,"http") === false) $image="http://milfzr.com".$image;
+    if (strpos($image,"http") === false) $image="https://milfzr.com".$image;
     //if (strpos($image,"milfzr.com") !== false) $image=$host."/scripts/filme/php/r.php?file=".$image;
-    //$image="r.php?file=".$image;
+    $image=$host."/scripts/filme/php/r_m.php?file=".$image;
 
     $t1 = explode('title="', $video);
     $t2 = explode('"', $t1[1]);

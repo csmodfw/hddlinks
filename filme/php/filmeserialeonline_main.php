@@ -46,7 +46,9 @@ $host = "http://127.0.0.1/cgi-bin";
   	<text align="center" offsetXPC="0" offsetYPC="0" widthPC="100" heightPC="20" fontSize="30" backgroundColor="10:105:150" foregroundColor="100:200:255">
 		  <script>getPageInfo("pageTitle");</script>
 		</text>
-
+  	<text align="left" offsetXPC="6" offsetYPC="15" widthPC="75" heightPC="4" fontSize="16" backgroundColor="10:105:150" foregroundColor="100:200:255">
+    2=Setare GoogleCaptcha
+		</text>
   	<text redraw="yes" offsetXPC="85" offsetYPC="12" widthPC="10" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
 		</text>
@@ -129,6 +131,11 @@ if (userInput == "pagedown" || userInput == "pageup")
   redrawDisplay();
   "true";
 }
+else if (userInput == "two" || userInput == "2")
+{
+ jumptolink("logon");
+ "true";
+}
 ret;
 </script>
 </onUserInput>
@@ -148,6 +155,14 @@ ret;
 		</mediaDisplay>
 
 	</item_template>
+	<logon>
+	<link>
+	<script>
+	url="/usr/local/etc/www/cgi-bin/scripts/filme/php/filmeseriale.rss";
+	url;
+	</script>
+	</link>
+	</logon>
 <channel>
 	<title>filmeserialeonline - categorii</title>
 	<menu>main menu</menu>
@@ -166,6 +181,7 @@ $l="http://www.filmeserialeonline.org/filme-online/";
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   $html = curl_exec($ch);
   curl_close($ch);

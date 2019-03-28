@@ -323,8 +323,8 @@ $html=shell_exec($exec);
 unset($videos[0]);
 $videos = array_values($videos);
 foreach($videos as $video) {
-  $t1=explode('src="',$video);
-  $t2=explode('"',$t1[1]);
+  $t1=explode("src','",$video);
+  $t2=explode("'",$t1[1]);
   $openload=str_replace("\\","",$t2[0]);
 
   $siteParts = parse_url($openload);

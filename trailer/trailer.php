@@ -175,7 +175,7 @@ ret;
   <channel>
 
     <title>Trailere filme şi jocuri</title>
-
+<!--
 <item>
 <title>www.cinemarx.ro</title>
 <link><?php echo $host; ?>/scripts/trailer/php/cinemarx.php</link>
@@ -185,7 +185,7 @@ ret;
 <annotation>Filme noi, program cinema, trailere, filme 2011, filme 2010, box office, premiere cinema, filme, seriale tv - Radiografia cinematografiei - CinemaRx</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <item>
 <title>www.cinemagia.ro</title>
 <link><?php echo $host; ?>/scripts/trailer/php/cinemagia.php</link>

@@ -190,12 +190,12 @@ $l="https://www.incestvidz.com/";
   $html = curl_exec($ch);
   curl_close($ch);
 //$html=str_between($html,'<ul class="ordenar','</ul');
-$videos = explode('id="menu-item-', $html);
+$videos = explode('id=menu-item', $html);
 unset($videos[0]);
 $videos = array_values($videos);
 foreach($videos as $video) {
-    $t=explode('href="',$video);
-    $t1=explode('"',$t[1]);
+    $t=explode('href=',$video);
+    $t1=explode('>',$t[1]);
     $link=$t1[0];
   	$title=trim(str_between($t[1],">","<"));
 

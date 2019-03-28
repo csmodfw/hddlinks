@@ -200,54 +200,33 @@ if($query) {
 }
 //http://www.protv.ro/multimedia/happy-hour
 //http://www.protv.ro/multimedia/happy-hour/pagina-1#paginare
-$html = file_get_contents("http://protvplus.ro/produs/".$search."?page=".$page);
-
-if($page > 1) { ?>
-
-<item>
-<?php
-$sThisFile = 'http://127.0.0.1'.$_SERVER['SCRIPT_NAME'];
-$url = $sThisFile."?query=".($page-1).",";
-if($search) {
-  $url = $url.$search.",".urlencode($tit);
-}
-?>
-<title>Previous Page</title>
-<link><?php echo $url;?></link>
-<annotation>Pagina anterioara</annotation>
-<image>image/left.jpg</image>
-<mediaDisplay name="threePartsView"/>
-</item>
+//https://protvplus.ro/page/arena-bucatarilor/
+//$html = file_get_contents("http://protvplus.ro/produs/".$search."?page=".$page);
 
 
-<?php } ?>
-<?php
+
 function str_between($string, $start, $end){ 
 	$string = " ".$string; $ini = strpos($string,$start); 
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
-$videos = explode('<div class="item"', $html);
-
-unset($videos[0]);
-unset($videos[1]);
-$videos = array_values($videos);
-
-foreach($videos as $video) {
-    $t1=explode('href="',$video);
-    $t2 = explode('"', $t1[1]);
-    $link = $t2[0];
-
-    $t3=explode(">",$t1[2]);
-    $t4=explode("<",$t3[1]);
-    $title=$t4[0];
-	$title=ucfirst(strtolower($title));
-	if ( strpos($title,'maruta') !== false ) $title=ucwords(strtolower($title));
-	if ( strpos($title,'protv') !== false ) $title=str_replace("Protv","PROTV",ucwords(strtolower($title)));
-
-    $t1 = explode("src='", $video);
-    $t2 = explode("'", $t1[1]);
-    $image = $t2[0];
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $search);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, "http://protvplus.ro");
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  $html = curl_exec($ch);
+  curl_close($ch);
+  $x=json_decode($html,1);
+  $r=$x["content"]["areas"];
+  
+  for ($k=0;$k<count($r);$k++) {
+    for ($z=0;$z<count($r[$k]["items"]);$z++) {
+      $title= $r[$k]["items"][$z]["title"];
+      $image=$r[$k]["items"][$z]["thumbnail"];
+      $link= $r[$k]["items"][$z]["id"];
     $name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".flv";
     $descriere=$title;
     if ($title <> "") {
@@ -284,23 +263,9 @@ foreach($videos as $video) {
     ';
     }
 }
-
-?>
-
-<item>
-<?php
-$sThisFile = 'http://127.0.0.1'.$_SERVER['SCRIPT_NAME'];
-$url = $sThisFile."?query=".($page+1).",";
-if($search) {
-  $url = $url.$search.",".urlencode($tit);
 }
 ?>
-<title>Next Page</title>
-<link><?php echo $url;?></link>
-<annotation>Pagina urmatoare</annotation>
-<image>image/right.jpg</image>
-<mediaDisplay name="threePartsView"/>
-</item>
+
 
 </channel>
 </rss>

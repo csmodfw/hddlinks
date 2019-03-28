@@ -176,13 +176,13 @@ ret;
   <link><?php echo $host; ?>/scripts/adult/tjoob.php</link>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+<!--
 <item>
 <title>freepornvs</title>
   <link><?php echo $host; ?>/scripts/adult/php/freepornvs_main.php</link>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <item>
 <title>redtube</title>
   <link><?php echo $host; ?>/scripts/adult/php/redtube_main.php</link>
@@ -306,13 +306,13 @@ XXX4PODS
 <link><?php echo $host; ?>/scripts/adult/php/anybunny_main.php</link>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+<!--
   <item>
 <title>datoporn</title>
 <link><?php echo $host; ?>/scripts/adult/php/datoporn_main.php</link>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
   <item>
 <title>milfzr</title>
 <link><?php echo $host; ?>/scripts/adult/php/milfzr_main.php</link>

@@ -53,6 +53,9 @@ if(preg_match('/youtube\.com\/(v\/|watch\?v=|embed\/)([\w\-]+)/', $file, $match)
   $html = str_between($html,'ytplayer.config = ',';ytplayer.load');
   $parts = json_decode($html,1);
   if ($parts['args']['livestream']== 1) {
+    $r1=json_decode($parts['args']['player_response'],1);
+    //print_r ($r1);
+    $l=$r1['streamingData']["hlsManifestUrl"];
     $link="http://127.0.0.1/cgi-bin/scripts/util/m3u8yt.php?file=".urlencode($l);
     print $link;
   } else {

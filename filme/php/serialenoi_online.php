@@ -310,7 +310,98 @@ $url = $sThisFile."?page=".($page-1).",".$tip.",".urlencode($link).",".urlencode
 
 /////////////////////////////////////////////////////////////
 //https://serialenoi.online/wp-admin/admin-ajax.php
+    function getClearanceLink($content, $url)
+    {
+        /*
+         * 1. Mimic waiting process
+         */
+        sleep(4);
 
+        /*
+         * 2. Extract "jschl_vc" and "pass" params
+         */
+        preg_match_all('/name="\w+" value="(.+?)"/', $content, $matches);
+
+
+        $params = array();
+        //list($params['jschl_vc'], $params['pass']) = $matches[1];
+        list($params['s'],$params['jschl_vc'], $params['pass']) = $matches[1];
+        // Extract CF script tag portion from content.
+        $cf_script_start_pos    = strpos($content, 's,t,o,p,b,r,e,a,k,i,n,g,f,');
+        $cf_script_end_pos      = strpos($content, '</script>', $cf_script_start_pos);
+        $cf_script              = substr($content, $cf_script_start_pos, $cf_script_end_pos-$cf_script_start_pos);
+        /*
+         * 3. Extract JavaScript challenge logic
+         */
+        preg_match_all('/:[\/!\[\]+()]+|[-*+\/]?=[\/!\[\]+()]+/', $cf_script, $matches);
+        //print_r ($matches);
+
+            /*
+             * 4. Convert challenge logic to PHP
+             */
+            $php_code = "";
+            foreach ($matches[0] as $js_code) {
+                // [] causes "invalid operator" errors; convert to integer equivalents
+                $js_code = str_replace(array(
+                    ")+(",
+                    "![]",
+                    "!+[]",
+                    "[]"
+                ), array(
+                    ").(",
+                    "(!1)",
+                    "(!0)",
+                    "(0)"
+                ), $js_code);
+                $php_code .= '$params[\'jschl_answer\']' . ($js_code[0] == ':' ? '=' . substr($js_code, 1) : $js_code) . ';';
+            }
+            //echo $php_code;
+            /*
+             * 5. Eval PHP and get solution
+             */
+            eval($php_code);
+
+            // toFixed(10).
+            $params['jschl_answer'] = round($params['jschl_answer'], 10);
+            // Split url into components.
+            $uri = parse_url($url);
+            // Add host length to get final answer.
+            //echo $uri['host'];
+            $params['jschl_answer'] += strlen($uri['host'])  ;
+            //$params['jschl_answer'] += strlen("www2.123netflix.pr") ;
+            /*
+             * 6. Generate clearance link
+             */
+             //echo http_build_query($params);
+            return sprintf("%s://%s/cdn-cgi/l/chk_jschl?%s",
+                $uri['scheme'],
+                $uri['host'],
+                http_build_query($params)
+            );
+    }
+$ua = $_SERVER['HTTP_USER_AGENT'];
+$cookie="/tmp/cloud.dat";
+
+//$requestLink="http://hdpopcorns.co/category/latest-movies/";
+if ($page==1 && $tip !="search") {
+  if (file_exists($cookie)) unlink ($cookie);
+  $requestLink="https://tvhub.org/";
+  $exec_path="/usr/local/bin/Resource/www/cgi-bin/scripts/wget ";
+  $exec = '--content-on-error -q -S  -U "'.$ua.'" --referer="'.$requestLink.'" --no-check-certificate "'.$requestLink.'" -O - 2>&1';
+  $exec = $exec_path.$exec;
+  $html=shell_exec($exec);
+  //echo $html;
+  if (strpos($html,"503 Service") !== false) {
+     $rez = getClearanceLink($html,$requestLink);
+     //echo $rez."\n";
+     $exec = '-q  --load-cookies  '.$cookie.' --save-cookies '.$cookie.' -U "'.$ua.'" --no-check-certificate "'.$rez.'" -O -';
+     $exec = $exec_path.$exec;
+     //echo $exec;
+     $h=shell_exec($exec);
+     //echo $h;
+     //echo (file_get_contents($cookie));
+  }
+}
 if ($tip=="search")
    $requestLink="https://tvhub.org/?s=".str_replace(" ","+",$link);
 else
@@ -333,8 +424,8 @@ if ($tip=="release") {
   echo $html;
   die();
   */
-  $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
-  $exec = '--header="Content-Type: application/x-www-form-urlencoded" --post-data="'.$post.'" -U "'.$ua.'" --referer="'.$requestLink.'" --no-check-certificate "'.$requestLink.'" -O -';
+
+  $exec = '--content-on-error -S --keep-session-cookies --load-cookies  '.$cookie.' --save-cookies '.$cookie.' --header="Content-Type: application/x-www-form-urlencoded" --post-data="'.$post.'" -U "'.$ua.'" --referer="'.$requestLink.'" --no-check-certificate "'.$requestLink.'" -O -';
   $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
   $html=shell_exec($exec);
 } else {
@@ -349,8 +440,8 @@ if ($tip=="release") {
   $html = curl_exec($ch);
   curl_close($ch);
   */
-      $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
-      $exec = '-q -U "'.$ua.'" --referer="'.$requestLink.'" --no-check-certificate "'.$requestLink.'" -O -';
+
+      $exec = '-q --content-on-error -S --keep-session-cookies --load-cookies  '.$cookie.' --save-cookies '.$cookie.' -U "'.$ua.'" --referer="'.$requestLink.'" --no-check-certificate "'.$requestLink.'" -O -';
       $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
       $html=shell_exec($exec);
 }

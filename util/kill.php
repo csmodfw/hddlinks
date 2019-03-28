@@ -8,6 +8,7 @@ exec ("killall spyce.php");
 exec ("killall ts.php");
 exec ("killall filmon_link.php");
 exec ("killall adevarul_link.php");
+exec ("killall arconaitv_link.php");
 exec ("killall rtmpdump");
 exec ("killall wget");
 ?>

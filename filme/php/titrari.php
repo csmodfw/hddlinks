@@ -237,6 +237,35 @@ if ($sezon) {
   $link=$t1[1];
 }
 }
+if ($search=="cineplex") {
+$new_file = "/tmp/fs.dat";
+$f=file_get_contents($new_file);
+//echo $f;
+$t1=explode("\n",$f);
+$tip=trim($t1[2]);
+$tit2=trim($t1[1]);
+
+  $tit=urldecode($t1[0]);
+  $tit=str_replace("\\","",$tit);
+  $tit=str_replace("^",",",$tit);
+
+  $tit=str_replace("&amp;","&",$tit);
+  $tit2=urldecode($t1[1]);
+  $tit2=str_replace("\\","",$tit2);
+  $tit2=str_replace("^",",",$tit2);
+  $tit2=str_replace("&amp;","&",$tit2);
+if ($tip=="series") {
+  preg_match("/(\d+)x(\d+)/",$tit2,$m);
+  $sezon=$m[1];
+  $episod=intval($m[2]);
+//echo $sezon." ".$episod."ceva";
+}
+  $page1=($page-1)*20;
+  //$l="https://www.titrari.ro/index.php?page=cautareavansata&z7=Star+Trek%3A+Voyager&z2=&z5=&z3=-1&z4=-1&z8=1&z9=All&z11=0&z6=0";
+  //$l="https://www.titrari.ro/index.php?page=cautareavansata&z1=".$page1."&z2=&z3=-1&z4=-1&z5=&z6=0&z7=".urlencode($tit)."&z8=1&z9=All&z10=&z11=0";
+  //$l="https://www.titrari.ro/index.php?page=cautareavansata&z1=".$page1."&z2=&z3=-1&z4=-1&z5=".$imdbid."&z6=0&z7=&z8=1&z9=All&z10=&z11=0";
+
+}
 ?>
 <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
 <onEnter>
@@ -464,7 +493,7 @@ if (preg_match("/(srt|txt|vtt)/i",$ext)) {
   $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
       //echo $exec;
   $x=shell_exec($exec);
-  if ($search=="royale") {
+  if ($search=="cineplex") {
 	    echo'
 	    <item>
 	    <title>'.$filename.'</title>
@@ -551,7 +580,7 @@ if (preg_match("/(srt|txt|vtt)/i",$ext)) {
         else
           $dir=$l;
         //echo $l."\n".$dir."\n";
-     if ($search=="royale") {
+     if ($search=="cineplex") {
 	    echo'
 	    <item>
 	    <title>'.$dir.'</title>
@@ -649,7 +678,7 @@ if (preg_match("/(srt|txt|vtt)/i",$ext)) {
         else
           $dir=$l;
         //echo $l."\n".$dir."\n";
-     if ($search=="royale") {
+     if ($search=="cineplex") {
 	    echo'
 	    <item>
 	    <title>'.$dir.'</title>

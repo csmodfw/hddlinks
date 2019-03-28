@@ -18,8 +18,9 @@ if($query) {
    $tip=$queryArr[4];
    $image= urldecode($queryArr[5]);
 }
-      $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
-      $exec = '-q -U "'.$ua.'" --referer="'.$link.'" --no-check-certificate "'.$link.'" -O -';
+$ua = $_SERVER['HTTP_USER_AGENT'];
+$cookie="/tmp/cloud.dat";
+      $exec = '-q --content-on-error --keep-session-cookies --load-cookies  '.$cookie.' --save-cookies '.$cookie.' -U "'.$ua.'" --referer="'.$link.'" --no-check-certificate "'.$link.'" -O -';
       $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
       $html=shell_exec($exec);
 //echo $html;

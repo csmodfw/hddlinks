@@ -64,7 +64,7 @@ if($query) {
 		  <script>getPageInfo("pageTitle");</script>
 		</text>
   	<text align="left" offsetXPC="6" offsetYPC="15" widthPC="50" heightPC="4" fontSize="16" backgroundColor="10:105:150" foregroundColor="100:200:255">
-    2= adauga la favorite,right for more
+    2= adauga la favorite,right for more,5=Setare GoogleCaptcha
 		</text>
   	<text redraw="yes" align="right" offsetXPC="65" offsetYPC="12" widthPC="30" heightPC="6" fontSize="20" backgroundColor="10:105:150" foregroundColor="60:160:205">
 		  <script>sprintf("%s / ", focus-(-1))+itemCount;</script>
@@ -222,6 +222,11 @@ cancelIdle();
 ret_val=doModalRss("/usr/local/etc/www/cgi-bin/scripts/filme/php/movie_detail.rss");
 ret="true";
 }
+else if (userInput == "five" || userInput == "5")
+{
+ jumptolink("logon");
+ "true";
+}
 ret;
 </script>
 </onUserInput>
@@ -246,6 +251,14 @@ ret;
 	    <script>"<?php echo $host."/scripts/filme/php/filmeserialeonline_seriale_main.php?query=1,search,"; ?>" + urlEncode(keyword);</script>
 	  </link>
 	</searchLink>
+	<logon>
+	<link>
+	<script>
+	url="/usr/local/etc/www/cgi-bin/scripts/filme/php/filmeseriale.rss";
+	url;
+	</script>
+	</link>
+	</logon>
 <channel>
 	<title>filmeserialeonline - seriale</title>
 	<menu>main menu</menu>

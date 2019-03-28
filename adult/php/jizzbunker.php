@@ -194,29 +194,19 @@ if($query) {
 if ($tip=="release") {
 //$search3 = $search."?page=".$page;
 $search3  = $search."/".$page;
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $search3);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt($ch, CURLOPT_REFERER, "http://jizzbunker.com");
-  //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-  $html = curl_exec($ch);
-  curl_close($ch);
+  $ua="Mozilla/5.0 (Windows NT 10.0; WOW64; rv:46.0) Gecko/20100101 Firefox/46.0";
+  $exec = '-q -U "'.$ua.'"   --no-check-certificate "'.$search3.'" -O -';
+  $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+  $html=shell_exec($exec);
 } else {
   $tip="search";
   $search1=str_replace(" ","+",urldecode($search));
-  $search3 = "http://jizzbunker.com/search?query=".$search1."&page=".$page;
+  $search3 = "https://jizzbunker.com/search?query=".$search1."&page=".$page;
   //$html = file_get_contents($search3);
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $search3);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  curl_setopt($ch, CURLOPT_REFERER, "http://jizzbunker.com");
-  //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-  $html = curl_exec($ch);
-  curl_close($ch);
+  $ua="Mozilla/5.0 (Windows NT 10.0; WOW64; rv:46.0) Gecko/20100101 Firefox/46.0";
+  $exec = '-q -U "'.$ua.'"   --no-check-certificate "'.$search3.'" -O -';
+  $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+  $html=shell_exec($exec);
 }
 
 if($page > 1) { ?>

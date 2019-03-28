@@ -251,22 +251,21 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
-$videos=explode('id="post',$html);
+$videos=explode('id=post',$html);
 unset($videos[0]);
 $videos = array_values($videos);
 
 foreach($videos as $video) {
-    $t1=explode('href="',$video);
-    $t2 = explode('"', $t1[1]);
+    $t1=explode('href=',$video);
+    $t2 = explode('>', $t1[1]);
     $link = $t2[0];
 
     //http://img02.redtubefiles.com/_thumbs/0000350/0350855/0350855_009m.jpg
-    $t1 = explode('src="', $video);
-    $t2 = explode('"', $t1[1]);
+    $t1 = explode('src=', $video);
+    $t2 = explode(' ', $t1[1]);
     $image = $t2[0];
 
     $title=str_between($video,'title="','"');
-    $image = $t2[0];
     $image = str_replace("https","http",$image);
     $link = $host."/scripts/filme/php/filme_link.php?file=".urlencode($link).",".urlencode($title);
     //http://img02.redtubefiles.com/_thumbs/0000350/0350855/0350855_009m.jpg

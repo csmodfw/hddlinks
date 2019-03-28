@@ -291,10 +291,10 @@ function getPage($url, $referer) {
 			}
 		}
 	}
-$link="https://f-hd.net/";
+$link="https://f-hd.biz/";
 $siteNetLoc = getSiteHost($link);
 //bypassCloudFlare($siteNetLoc);
-$l="https://f-hd.net/";
+$l="https://f-hd.biz/";
 $ua="proxyFactory";
 
 $exec_path="/usr/local/bin/Resource/www/cgi-bin/scripts/wget ";
@@ -302,7 +302,7 @@ $exec = '-q --load-cookies  '.$cookie.' -U "'.$ua.'" --referer="'.$l.'" --no-che
 $exec = $exec_path.$exec;
 $html=shell_exec($exec);
 
-$link="https://f-hd.net/";
+$link="https://f-hd.biz/";
 $link = $host."/scripts/filme/php/f-hd.php?query=,".$link;
 $title="Filme Noi";
     	echo '

@@ -248,11 +248,14 @@ function str_between($string, $start, $end){
 if (strpos($html,'<div class="contenido">') !== false) {
 $t1=explode('<div class="contenido">',$html);
 $p=count($t1);
-$html=$t1[count($t1)-1];
+//$html=$t1[count($t1)-1];
 //echo $html;
 }
 //echo $html;
-$videos=explode('<div class="muestra-canal',$html);
+if (strpos($html,'class="thumb"') !== false)
+$videos=explode('class="thumb"',$html);
+else
+$videos=explode('class="box-thumb',$html);
 unset($videos[0]);
 $videos = array_values($videos);
 
@@ -267,16 +270,25 @@ foreach($videos as $video) {
     $image = $t2[0];
     if (strpos($image,"http") === false) $image="http:".$image;
     $image = str_replace("https","http",$image);
-    $title=str_between($video,'data-stats-video-name="','"');
+    //$title=str_between($video,'data-stats-video-name="','"');
     $link = $host."/scripts/adult/php/pornjam_link.php?file=".$link;
     //http://img02.redtubefiles.com/_thumbs/0000350/0350855/0350855_009m.jpg
 
 
-    $data = trim(str_between($video,'ico-duracion sprite"></span>',"<"));
+    $title=str_between($video,'stats-video-name="','"');
+    if (!$title) $title=str_between($video,'class="titulo">','<');
+    $x1="";
+    $x1=trim(str_between($video,'ico-duracion sprite"></span>',"<"));
+    $a1=explode('ico-duracion sprite"></span>',$video);
+    $a2=explode('<',$a1[1]);
+    $x1=trim($a2[0]);
+    if (!$x1) $x1=str_between($video,'class="duracion">','<');
+    $data = "".trim($x1)."";
 
     $data = "Durata: ".$data;
     $name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".flv";
     $title=str_replace("&quot;",'"',$title);
+    if ($title) {
     echo '
     <item>
     <title>'.$title.'</title>
@@ -314,6 +326,7 @@ foreach($videos as $video) {
   <mediaDisplay name="threePartsView"/>
   </item>
   ';
+  }
 }
 
 

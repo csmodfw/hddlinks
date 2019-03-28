@@ -268,8 +268,10 @@ foreach($videos as $video) {
     $image=str_replace("https","http",$image);
     $link = $host."/scripts/adult/php/xnxx_link.php?file=".$link;
 
-
-    $data = $title." ".trim(str_between($video,'class="duration">','<'));
+    $x1=trim(str_between($video,'class="metadata">','<'));
+    $x2=explode("-",$x1);
+    $x3=trim($x2[0]);
+    $data = $title." ".trim($x3);
     $data = preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$data);
 
     //$data = "Duration: ".$data;

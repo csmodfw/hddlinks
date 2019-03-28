@@ -198,12 +198,12 @@ if($query) {
      //$search2="http://www.xnxx.com/?k=".$search3."&p=".$page;
      //http://datoporn.co/?k=mom+son&op=search
      //http://datoporn.co/?k=mom+son&op=search&page=2
-     $search2="http://datoporn.co/?k=".$search3."&op=search&page=".$page;
+     $search2="https://datoporn.co/?k=".$search3."&op=search&page=".$page;
      $tip="search";
    }
 }
 if ($tip=="release") {
-if ($search=="http://datoporn.co") {
+if ($search=="https://datoporn.co") {
   $link=$search;
 } else {
   //http://www.xnxx.com/c/Blowjob-15
@@ -220,6 +220,7 @@ if ($search=="http://datoporn.co") {
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   curl_setopt($ch, CURLOPT_REFERER, "http://datoporn.co");
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $html = curl_exec($ch);
   curl_close($ch);
 
@@ -249,7 +250,7 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
-$videos = explode('class="boxvid">', $html);
+$videos = explode('class="videobox">', $html);
 
 unset($videos[0]);
 $videos = array_values($videos);
@@ -259,8 +260,8 @@ foreach($videos as $video) {
     $t2 = explode('"', $t1[1]);
     $link = $t2[0];
 
-    $t3=explode('<b>',$video);
-    $t4=explode('</b>',$t3[1]);
+    $t3=explode('class="title">',$video);
+    $t4=explode('<',$t3[1]);
     $title=$t4[0];
     if (!$title) {
     $t4=explode('"',$t3[1]);
@@ -275,7 +276,7 @@ foreach($videos as $video) {
       //$image=str_replace($rest,"mozaiquehome.jpg",$image);
       $image=str_replace("THUMBNUM","2",$image);
     }
-    //$image=str_replace("https","http",$image);
+    $image=str_replace("https","http",$image);
     $link = $host."/scripts/adult/php/datoporn_link.php?file=".$link;
 
 

@@ -8,6 +8,7 @@ print $file;
 } else {
       $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
 $ua="proxyFactory";
+$ua = $_SERVER['HTTP_USER_AGENT'];
 $cookie="/tmp/cloud.dat";
 //$x=file_get_contents($cookie);
 //echo $x;

@@ -8,6 +8,7 @@ function str_between($string, $start, $end){
 $l = $_GET["file"];
 //$html = file_get_contents($link);
 $link="https://www.pornhub.com/embed/".$l;
+$link="https://www.pornhub.com/view_video.php?viewkey=".$l;
 //echo $link;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $link);
@@ -18,6 +19,7 @@ $link="https://www.pornhub.com/embed/".$l;
   $html = curl_exec($ch);
   curl_close($ch);
 //echo $html;
+/*
 $l=str_between($html,'quality":"480","videoUrl":"','"');
 $l=str_replace('\\',"",$l);
 //echo $l;
@@ -35,6 +37,14 @@ foreach($r as $key => $r1) {
  }
 
 }
+*/
+$l=str_between($html,'quality":"720","videoUrl":"','"');
+$l=str_replace('\\',"",$l);
+if (!$l) {
+$l=str_between($html,'quality":"480","videoUrl":"','"');
+$l=str_replace('\\',"",$l);
+}
+$out=$l;
 $out=str_replace("https","http",$out);
 print $out;
 ?>

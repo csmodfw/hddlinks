@@ -248,8 +248,8 @@ function str_between($string, $start, $end){
 }
 //$videos = explode('<div class="video">', $html);
 //$videos=explode('class="video-thumb"',$html);
-if (strpos($html,'class="video_block') !== false)
-   $videos=explode('class="video_block',$html);
+if (strpos($html,'li class="videoblock_list') !== false)
+   $videos=explode('li class="videoblock_list',$html);
 else {
   $t1=explode('class="video-listing',$html);
   //$html=$t1[1];
@@ -267,7 +267,7 @@ foreach($videos as $video) {
     } else
       $link="";
     //http://img02.redtubefiles.com/_thumbs/0000350/0350855/0350855_009m.jpg
-    $t1 = explode('data-thumb_url="', $video);
+    $t1 = explode('data-src="', $video);
     $t2 = explode('"', $t1[1]);
     $image = $t2[0];
     $t1=explode('class="video_title" >',$video);
@@ -283,7 +283,7 @@ foreach($videos as $video) {
 
     //$data = trim(str_between($video,'video-duration">',"<"));
     $t1=explode('class="duration">',$video);
-    $t2=explode('<div',$t1[1]);
+    $t2=explode('</a',$t1[1]);
     $data = trim(preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$t2[0]));
     //$data = "Durata: ".$data;
     $title=str_replace("&quot;",'"',$title);

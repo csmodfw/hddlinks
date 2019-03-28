@@ -360,7 +360,16 @@ showIdle();
 <location>https://www.stareanatiei.ro</location>
 <annotation>Starea Natiei</annotation>
 </item>
-
+<!--
+<item>
+<title>Traznitii</title>
+<link><?php echo $host; ?>/scripts/tv/php/traznitii.php</link>
+<media:thumbnail url="/usr/local/etc/www/cgi-bin/scripts/tv/image/tvrplus.jpg" />
+<image>/usr/local/etc/www/cgi-bin/scripts/tv/image/tvrplus.jpg</image>
+<location>https://www.primatv.ro/seriale/trasnitii</location>
+<annotation>Traznitii</annotation>
+</item>
+-->
 <!--
 <item>
 <title>National 24 Plus</title>
@@ -381,7 +390,7 @@ showIdle();
 <annotation>Naţional 24 Plus : filmele româneşti, emisiunile şi serialele tale preferate</annotation>
 </item>
 -->
-
+<!--
 <item>
 <title>ProTV</title>
 <link><?php echo $host; ?>/scripts/tv/php/protv_main.php</link>
@@ -390,7 +399,7 @@ showIdle();
 <location>http://www.protv.ro/</location>
 <annotation>Vezi aici emisiuni inregistrate ale postului TV ProTV</annotation>
 </item>
-
+-->
 <!--
 <item>
 <title>Naţional TV</title>
@@ -401,7 +410,7 @@ showIdle();
 <annotation>Naţional 24 Plus : filmele româneşti, emisiunile şi serialele tale preferate</annotation>
 </item>
 -->
-
+<!--
 <item>
 <title>RealitateaTV</title>
 <link><?php echo $host; ?>/scripts/tv/php/realitateatv_main.php</link>
@@ -410,6 +419,7 @@ showIdle();
 <location>http://www.realitatea.net/tv</location>
 <annotation>Site-ul de stiri nr. 1 in Romania iti ofera informatia proaspata corecta obiectiva si documentata despre stirile de ultima ora.</annotation>
 </item>
+-->
 <!--
 <item>
 <title>RealitateaTV - emisiuni</title>
@@ -420,6 +430,7 @@ showIdle();
 <annotation>Inregistrari emisiuni</annotation>
 </item>
 -->
+<!--
 <item>
 <title>Romania TV</title>
 <link><?php echo $host; ?>/scripts/tv/php/rtv_main.php</link>
@@ -428,7 +439,7 @@ showIdle();
 <location>http://www.rtv.net/</location>
 <annotation>RTV.NET | Romania TV | Noi dam stirea exacta!:</annotation>
 </item>
-
+-->
 
 <item>
 <title>Digi24</title>
@@ -467,7 +478,7 @@ showIdle();
 </item>
 
 
-
+<!--
 <item>
 <title>B1 TV - emisiuni</title>
 <link><?php echo $host; ?>/scripts/tv/php/seenow_e.php?query=1,http://www.seenow.ro/b1-tv-2699-pagina-,B1TV</link>
@@ -476,7 +487,7 @@ showIdle();
 <location>http://www.seenow.ro/</location>
 <annotation>Inregistrari emisiuni</annotation>
 </item>
-
+-->
 <item>
 <title>Adevarul</title>
 <link><?php echo $host; ?>/scripts/tv/adevarul.php?query=1,https://adevarul.ro/arhiva-live/</link>
@@ -510,7 +521,7 @@ showIdle();
 <location>http://www1.agerpres.ro/agerpres/home</location>
 <annotation>AGERPRES : Actualizeaz� lumea.</annotation>
 </item>
-
+<!--
 <item>
 <title>Seenow</title>
 <link><?php echo $host; ?>/scripts/tv/php/seenow_e.php?query=1,http://www.seenow.ro/emisiuni-tv-2697-pagina-,Emisiuni+TV</link>
@@ -519,7 +530,7 @@ showIdle();
 <location>http://www.seenow.ro/emisiuni-tv-2697-pagina-1</location>
 <annotation>Emisiuni inregistrate Seenow</annotation>
 </item>
-
+-->
 <!--
 <item>
 <title>Kanal D</title>

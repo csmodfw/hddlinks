@@ -20,6 +20,7 @@ $link = $_GET["file"];
   $t2=explode('src="',$t1[1]);
   $t3=explode('"',$t2[1]);
   $link=str_replace("&amp;","&",$t3[0]);
+  //echo $link;
   //$link=str_replace("https","http",$out);
 $out='#!/bin/sh
 cat <<EOF

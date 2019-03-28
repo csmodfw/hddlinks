@@ -328,20 +328,26 @@ if (strpos($filelink,"filmeserialeonline.org") !== false) {
   //curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   //curl_setopt($ch, CURLOPT_HEADER, true);
   $h2 = curl_exec($ch);
   curl_close ($ch);
   $id=str_between($h2,'post_id":"','"');
-
+if (preg_match("/id:\s+(\d+)/",$h2,$m)){
+$id=$m[1];
+}
   if (strpos($h2,"grifus/includes") !== false) {
-    $id=str_between($h2,'data: {id: ',')');
+    //$id=str_between($h2,'data: {id: ','}');
     $l="http://www.filmeserialeonline.org/wp-content/themes/grifus/includes/single/second.php";
   } else {
     $id=str_between($h2,'data: {id: ','}');
+    //$l="http://www.filmeserialeonline.org/wp-content/themes/grifus/loop/second.php";
     $l="http://www.filmeserialeonline.org/wp-content/themes/grifus/loop/second.php";
   }
   //$l="http://www.filmeserialeonline.org/wp-content/themes/grifus/includes/single/second.php";
   $post="id=".$id;
+  $post="id=".$id."&logat=1";
+  //echo $post;
   $cookie="Cookie: _ga=GA1.2.226532075.1472192307; _gat=1; GoogleCaptcha=c07edfad41d0f118e5d44ec9a725f017";
   $headers = array('Accept: text/html, */*; q=0.01',
    'Accept-Language: ro-RO,ro;q=0.8,en-US;q=0.6,en-GB;q=0.4,en;q=0.2',
@@ -350,13 +356,19 @@ if (strpos($filelink,"filmeserialeonline.org") !== false) {
    'X-Requested-With: XMLHttpRequest',
    'Cookie: _ga=GA1.2.226532075.1472192307; _gat=1; GoogleCaptcha=c07edfad41d0f118e5d44ec9a725f017'
   );
+  //GoogleCaptcha:"c438a6f21f56c99d9bcfbf6a43bb5325"
+  if (file_exists($base_pass."/usr/local/etc/dvdplayer/filmeseriale.txt"))
+    $captcha=trim(file_get_contents("/usr/local/etc/dvdplayer/filmeseriale.txt"));
+  else
+   $captcha="1c438a6f21f56c99d9bcfbf6a43bb5325";
   $headers = array('Accept: text/html, */*; q=0.01',
    'Accept-Language: ro-RO,ro;q=0.8,en-US;q=0.6,en-GB;q=0.4,en;q=0.2',
    'Accept-Encoding: deflate',
    'Content-Type: application/x-www-form-urlencoded; charset=UTF-8',
    'X-Requested-With: XMLHttpRequest',
-   'Cookie: _ga=GA1.2.924584098.1530905963; _gid=GA1.2.950242713.1530905963; _gat=1; GoogleCaptcha=c438a6f21f56c99d9bcfbf6a43bb5325'
+   'Cookie: _popfired=1; _gat=1; GoogleCaptcha='.$captcha.'; _gat=1;'
   );
+  //print_r ($headers);
   $ch = curl_init($l);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch,CURLOPT_REFERER,$filelink);
@@ -365,6 +377,7 @@ if (strpos($filelink,"filmeserialeonline.org") !== false) {
   curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+  //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   //curl_setopt($ch, CURLOPT_HEADER, true);
   $html = curl_exec($ch);
   curl_close ($ch);
@@ -380,21 +393,33 @@ if (strpos($filelink,"filmeserialeonline.org") !== false) {
       $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
       $html=shell_exec($exec);
 } elseif (strpos($filelink,"serialenoi.online") !== false || strpos($filelink,"tvhub.org") !== false) {
-      $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
-      $exec = '-q -U "'.$ua.'" --referer="'.$filelink.'" --no-check-certificate "'.$filelink.'" -O -';
+require_once("JavaScriptUnpacker.php");
+$ua = $_SERVER['HTTP_USER_AGENT'];
+$cookie="/tmp/cloud.dat";
+      $exec = '-q --content-on-error -U "'.$ua.'" --load-cookies  '.$cookie.' --referer="'.$filelink.'" --no-check-certificate "'.$filelink.'" -O -';
       $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
       $h2=shell_exec($exec);
-  $id=str_between($h2,'data-id="','"');
+
 $l="https://serialenoi.online/wp-content/themes/serialenoi/field-ajax.php";
 $post="post_id=".$id;
 
   $id=str_between($h2,'data-id="','"');
 $l="https://tvhub.ro/wp-content/themes/serialenoi/field-ajax.php";
 $l="https://tvhub.org/wp-content/themes/grifus/loop/field-ajax.php";
-$post="post_id=".$id;
+$l="https://tvhub.org/wp-content/themes/grifus/includes/single/field-ajax.php";
+$l="https://tvhub.org/wp-content/themes/grifus/loop/field2-ajax.php";
+  $t1=explode('eval(function(p,a,c,k,e,d)',$h2);
+  $h2="eval(function(p,a,c,k,e,d)".$t1[count($t1)-1];
+  $jsu = new JavaScriptUnpacker();
+  $out = $jsu->Unpack($h2);
 
-      $ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
-      $exec = '--header="Content-Type: application/x-www-form-urlencoded" --post-data="'.$post.'" -U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
+$post="post_id=".$id;
+$t1=explode('url:"',$out);
+$t2=explode('"',$t1[1]);
+$l="https://tvhub.org".$t2[0];
+//$l="https://tvhub.org/wp-content/themes/grifus/loop/field2-ajax.php";
+      //$ua="Mozilla/5.0 (Windows NT 5.1; rv:52.0) Gecko/20100101 Firefox/52.0";
+      $exec = '--content-on-error --header="Content-Type: application/x-www-form-urlencoded" --load-cookies  '.$cookie.' --post-data="'.$post.'" -U "'.$ua.'" --referer="'.$l.'" --no-check-certificate "'.$l.'" -O -';
       $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
       $html=shell_exec($exec);
   /*
@@ -557,7 +582,7 @@ elseif (strpos($filelink,"filmeseriale.online") !== false) {
       //echo $html;
     }
     */
-} elseif (strpos($filelink,"f-hd.net") !== false) {
+} elseif (strpos($filelink,"f-hd.") !== false) {
 $ua="proxyFactory";
 $cookie="/tmp/cloud.dat";
 $exec_path="/usr/local/bin/Resource/www/cgi-bin/scripts/wget ";
@@ -574,7 +599,7 @@ foreach($videos as $video) {
  $t1=explode('data-server="',$video);
  $t2=explode('"',$t1[1]);
  $s=$t2[0];
- $l="https://f-hd.net/wp-admin/admin-ajax.php";
+ $l="https://f-hd.biz/wp-admin/admin-ajax.php";
  $post="action=samara_video_lazyload&singleid=".$id."&server=".$s;
  $exec = '-q --load-cookies  '.$cookie.' -U "'.$ua.'" --post-data="'.$post.'" --referer="'.$filelink.'" --no-check-certificate "'.$l.'" -O -';
  $exec = $exec_path.$exec;
@@ -693,7 +718,7 @@ $x=shell_exec($exec);
 */
   $html = $out;
 } elseif (strpos($filelink,"pefilme") !== false) {
-set_time_limit(90);
+//set_time_limit(90);
 //bypass cloudflare
 $cookie="/tmp/base64.txt";
 exec ("rm -f /tmp/base64.txt");
@@ -829,7 +854,7 @@ function getPage($url, $referer) {
 $cookie="/tmp/base64.txt";
 
 $l="http://baza64.com/pefilme";
-$siteNetLoc = getSiteHost($l);
+//$siteNetLoc = getSiteHost($l);
 //bypassCloudFlare($siteNetLoc);
 
    // require_once("JavaScriptUnpacker.php");
@@ -852,42 +877,19 @@ $ua="Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 
 $exec_path="/usr/local/bin/Resource/www/cgi-bin/scripts/wget ";
 $exec = '-q -U "'.$ua.'" --referer="'.$filelink.'" --no-check-certificate "'.$filelink.'" -O -';
 $exec = $exec_path.$exec;
-$html22=shell_exec($exec);
-
-$html=$html22;
-    //echo $html22;
-$html2=str_between($html22,'<ul class="tab">','</ul');
-$videos = explode('<li', $html2);
-unset($videos[0]);
-$videos = array_values($videos);
-
-foreach($videos as $video) {
-  $t1=explode('href="',$video);
-  $t2=explode('"',$t1[1]);
-  $l=$t2[0];
-/*
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $l);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-  curl_setopt($ch, CURLOPT_REFERER, "https://pefilme.net/");
-  //curl_setopt($ch, CURLOPT_HEADER,1);
-  //curl_setopt($ch, CURLOPT_NOBODY,1);
-  $h2 = curl_exec($ch);
-  curl_close($ch);
-*/
-//http://baza64.com/pefilme/?R29uZ
-//$ua="Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5";
-$ua="proxyFactory";
-$exec_path="/usr/local/bin/Resource/www/cgi-bin/scripts/wget ";
-$exec = '-q --load-cookies  '.$cookie.' -U "'.$ua.'" --referer="https://pefilme.net/" --no-check-certificate "'.$l.'" -O -';
-$exec = $exec_path.$exec;
-$h2=shell_exec($exec);
-
-  $html .=" ".$h2;
-}
+$h=shell_exec($exec);
+  $html="";
+  $videos = explode('baza64.com/pefilme/', $h);
+  unset($videos[0]);
+  $videos = array_values($videos);
+  //print_r ($videos);
+  foreach($videos as $video) {
+    $t1=explode('"',$video);
+    $l=base64_decode($t1[0]);
+    $t1=explode('atob("',$l);
+    $t2=explode('"',$t1[1]);
+    $html .=base64_decode($t2[0]).'" ';
+  }
 } elseif (strpos($filelink,"incestvidz.com") !== false) {
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $filelink);
@@ -979,7 +981,7 @@ if (!file_exists($dat)) {
 }
 //echo $html;
 $html=str_replace("https","http",$html);
-if(preg_match_all("/(\/\/.*?)(\"|\')+/si",$html,$matches)) {
+if(preg_match_all("/(\/\/.*?)(\"|\'|\s)+/si",$html,$matches)) {
 $links=$matches[1];
 //print_r ($links);
 }
@@ -992,8 +994,8 @@ $s=$s."|trilulilu|proplayer\/playlist-controller.php|viki\.com|modovideo\.com|ro
 $s=$s."filebox\.com|glumbouploads\.com|uploadc\.com|sharefiles4u\.com|zixshare\.com|uploadboost\.com|hqq\.tv|hqq\.watch|vidtodo\.com|vshare\.eu|bit\.ly";
 $s=$s."|nowvideo\.eu|nowvideo\.co|vreer\.com|180upload\.com|dailymotion\.com|nosvideo\.com|vidbull\.com|purevid\.com|videobam\.com|streamcloud\.eu|donevideo\.com|upafile\.com|docs\.google|mail\.ru|superweb|moviki\.ru|entervideos\.com";
 $s=$s."|indavideo\.hu|redfly\.us|videa\.hu|videakid\.hu|mooshare\.biz|streamin\.to|kodik\.biz|videomega\.tv|ok\.ru|realvid\.net|up2stream\.com|openload\.co|allvid\.ch|oload\.tv|";
-$s=$s."vidoza\.net|spankbang\.com|sexiz\.net|streamflv\.com|streamdefence\.com|veehd\.com|coo5shaine\.com|divxme\.com|movdivx\.com|thevideobee\.to|speedvid\.net|streamango\.com|streamplay\.to|gorillavid\.in|daclips\.in|movpod\.in|vodlocker\.com|filehoot\.com|bestreams\.net|vidto\.me|cloudyvideos\.com|allmyvideos\.net|goo\.gl|cloudy\.ec|rapidvideo\.com|megavideo\.pro|raptu\.com|vidlox\.tv|flashservice\.xvideos\.com|xhamster\.com|entervideo\.net|vev\.io/i";
-
+$s=$s."vidoza\.net|spankbang\.com|sexiz\.net|streamflv\.com|streamdefence\.com|veehd\.com|coo5shaine\.com|divxme\.com|movdivx\.com|thevideobee\.to|speedvid\.net|streamango\.com|streamplay\.to|gorillavid\.in|daclips\.in|movpod\.in|vodlocker\.com|filehoot\.com|bestreams\.net|vidto\.me|cloudyvideos\.com|allmyvideos\.net|goo\.gl|cloudy\.ec|rapidvideo\.com|megavideo\.pro|raptu\.com|vidlox|flashservice\.xvideos\.com|xhamster\.com|entervideo\.net|vev\.io";
+$s=$s."|fembed\.|streamcherry\./i";
 for ($i=0;$i<count($links);$i++) {
   if (strpos($links[$i],"http") !== false) {
     $t1=explode("http:",$links[$i]);

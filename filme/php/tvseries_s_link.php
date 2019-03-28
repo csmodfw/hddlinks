@@ -16,9 +16,10 @@ $l="http://www.tvseries.net".$link;
   $html = curl_exec($ch);
   curl_close($ch);
   if (strpos($link,"/tvshows") !== false || strpos($link,"/tvplay") !== false) {
-  $t1=explode('checkurl_tv.php',$html);
+  $t1=explode('checkurl.php',$html);
   $t2=explode('"',$t1[1]);
-  $l1="http://www.tvseries.net/checkurl_tv.php".$t2[0];
+  $l1="http://www.tvseries.net/checkurl.php".$t2[0];
+  $l1=str_replace("free=false","free=trus",$l1);
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l1);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

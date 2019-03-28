@@ -171,12 +171,13 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
-  	$link=$host."/scripts/adult/php/datoporn.php?query=1,http://datoporn.co,release";
+  	$link=$host."/scripts/adult/php/datoporn.php?query=1,https://datoporn.co,release";
   	echo '
   	<item>
   		<title>New</title>
   		<link>'.$link.'</link>
   	</item>';
+  	//http://datoporn.co/categories_all
 $l="http://datoporn.co/categories_all";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
@@ -184,10 +185,11 @@ $l="http://datoporn.co/categories_all";
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   curl_setopt($ch, CURLOPT_REFERER, "http://datoporn.co");
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $html = curl_exec($ch);
   curl_close($ch);
 //$html = str_between($html,'ALL SEX VIDEOS:','XXX Porn Tube:');
-$videos = explode('class="boxvid">', $html);
+$videos = explode('class="vb_title_center', $html);
 unset($videos[0]);
 $videos = array_values($videos);
 foreach($videos as $video) {

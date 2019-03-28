@@ -244,12 +244,14 @@ ret;
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
+<!--
 <item>
 <title>moviesplanet</title>
 <link><?php echo $host; ?>/scripts/filme/php/moviesplanet_main.php</link>
 <annotation>http://moviesplanet.is</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
+-->
 <!--
 <item>
 <title>flixanity</title>
@@ -259,12 +261,19 @@ ret;
 </item>
 -->
 <item>
+<title>cineplex (cont)</title>
+<link><?php echo $host; ?>/scripts/filme/php/cineplex_main.php</link>
+<annotation>https://cineplex.to</annotation>
+<mediaDisplay name="threePartsView"/>
+</item>
+<!--
+<item>
 <title>123netflix.pro</title>
 <link><?php echo $host; ?>/scripts/filme/php/123netflix.php?query=release,1,release</link>
 <annotation>https://123netflix.pro</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
-
+-->
 <!--
 <item>
 <title>gomovies</title>
@@ -351,14 +360,14 @@ ret;
 <annotation>http://topfilmeonline.net/</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+<!--
 <item>
 <title>zfilmeonline</title>
 <link><?php echo $host; ?>/scripts/filme/php/zfilmeonline_main.php</link>
 <annotation>http://zfilmeonline.eu/</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <item>
 <title>filmeonline2016</title>
 <link><?php echo $host; ?>/scripts/filme/php/filmeonline2016_main.php</link>
@@ -413,14 +422,14 @@ ret;
 <annotation>http://filmehd.net/</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+<!--
 <item>
 <title>filmehdonline</title>
 <link><?php echo $host; ?>/scripts/filme/php/filmehdonline_main.php</link>
 <annotation>http://www.filmehdonline.org</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
 <item>
 <title>f-hd</title>
 <link><?php echo $host; ?>/scripts/filme/php/f-hd_main.php</link>
@@ -583,12 +592,9 @@ ret;
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
-<item>
-<title>streamroyale</title>
-<link><?php echo $host; ?>/scripts/filme/php/royale_main.php</link>
-<annotation>https://streamroyale.com</annotation>
-<mediaDisplay name="threePartsView"/>
-</item>
+
+
+
 <!--
 <item>
 <title>cr3ative-zone</title>

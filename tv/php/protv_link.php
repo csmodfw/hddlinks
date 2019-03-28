@@ -23,15 +23,111 @@ $file = get_headers($l);
 }
 }
 }
+//https://player.protv-vidnt.com/api/get_embed_token/
+//{"media_id":"5bb76d61f162062379dfe497","poster":"https://avod.static.protv.ro/cust/protv/www/protvmms-o2meD1-nnq6.5729751.poster.HD.jpg","_csrf":"2e0716f4e98fb4e712a8f34d0192bde1","account":"protv"}
+
+//https://protvplus.ro/play/5bb76d61f162062379dfe497/?embtoken=10a03c3d996182915ec6b2a14e85260f
+
+
 //http://assets.sport.ro/assets/protv/2012/07/27/videos/18872/varciu_beta.flv?start=0
 //echo urldecode("http%3A%2F%2Fwww.protv.ro%2Fvideo-cop%2Fget-video%2Fvideo_id%2F18872%2Fvideo_player_div%2FminiPlayerVideo%2Fvideo_player%2Fcme%2Fplayer_dimension%2F600X338%2Fvideo_key%2Fhappy-hour%2Fkey_id%2F%2Farticle_category_url_identifier%2Fmultimedia");
 $query = $_GET["file"];
 if($query) {
    $queryArr = explode(',', $query);
    $link = $queryArr[0];
-   $image = $queryArr[1];
+   //$image = $queryArr[1];
 }
+$l="https://player.protv-vidnt.com/api/get_embed_token/";
+$post='{"media_id":"'.$link.'","poster":"https://avod.static.protv.ro/cust/protv/www/protvmms-o2meD1-nnq6.5729751.poster.HD.jpg","_csrf":"2e0716f4e98fb4e712a8f34d0192bde1","account":"protv"}';
 $ua="Mozilla/5.0 (iPhone; CPU iPhone OS 5_0_1 like Mac OS X)";
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, "http://protvplus.ro");
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  curl_setopt ($ch, CURLOPT_POST, 1);
+  curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
+  $html = curl_exec($ch);
+  curl_close($ch);
+$x=json_decode($html,1);
+//print_r ($x);
+$token=$x["data"]["token"];
+$l="https://protvplus.ro/play/".$link."/?embtoken=".$token;
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, "http://protvplus.ro");
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+  $html = curl_exec($ch);
+  curl_close($ch);
+$x=json_decode($html,1);
+//print_r ($x);
+$man=$x["media"][0]["link"];
+/*
+echo $man;
+sleep(1);
+$l="https://protvplus.ro/play/".$link."/?embtoken=".$token;
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, "http://protvplus.ro");
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+  $html = curl_exec($ch);
+  curl_close($ch);
+$x=json_decode($html,1);
+//print_r ($x);
+$man=$x["media"][0]["link"];
+echo $man;
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $man);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, "http://protvplus.ro");
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+  $html = curl_exec($ch);
+  curl_close($ch);
+$x=json_decode($html,1);
+print_r ($x);
+*/
+$l="https://player.protv-vidnt.com/api/decrypt_link/";
+$post='{"link":"'.$man.'.","_csrf":"2e0716f4e98fb4e712a8f34d0192bde1","account":"protv"}';
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, "http://protvplus.ro");
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  curl_setopt ($ch, CURLOPT_POST, 1);
+  curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
+  $html = curl_exec($ch);
+  curl_close($ch);
+$x=json_decode($html,1);
+print_r ($x);
+$l1=$x["data"]["playback_url"];
+echo $l1;
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l1);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_REFERER, "http://protvplus.ro");
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+  $html = curl_exec($ch);
+  curl_close($ch);
+  echo $html;
+die();
 $cookie="D:\protv.txt";
 $cookie="/tmp/protv.txt";
 $l = "http://protvplus.ro".urldecode($link);

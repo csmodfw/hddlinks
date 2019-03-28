@@ -173,7 +173,7 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
-  	$link=$host."/scripts/adult/php/redtube.php?query=1,https://www.redtube.com/,release";
+  	$link=$host."/scripts/adult/php/redtube.php?query=1,https://www.redtube.com,release";
   	echo '
   	<item>
   		<title>New</title>

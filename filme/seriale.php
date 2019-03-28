@@ -225,14 +225,14 @@ echo '
 <annotation>https://tvhub.ro</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
-
+<!--
 <item>
 <title>filme-seriale.gold</title>
 <link><?php echo $host; ?>/scripts/filme/php/gold_main.php?query=1,release,https://filme-seriale.gold</link>
 <annotation>http://filme-seriale.gold</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
-
+-->
 <!--
 <item>
 <title>seriale-filme</title>
@@ -241,13 +241,14 @@ echo '
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
+<!--
 <item>
 <title>moviesplanet</title>
 <link><?php echo $host; ?>/scripts/filme/php/moviesplanet_seriale.php?query=1,release</link>
 <annotation>http://moviesplanet.is</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
-
+-->
 
 <!--
 <item>
@@ -359,11 +360,19 @@ echo '
 <media:thumbnail url="image/movies.png" />
 </item>
 -->
+<!--
 <item>
 <title>watchsk</title>
 <link><?php echo $host; ?>/scripts/filme/php/watchsk.php?page=1,release,,seriale</link>
 <annotation>http://watchseries.sk</annotation>
 <media:thumbnail url="image/movies.png" />
+</item>
+-->
+<item>
+<title>cineplex (cont)</title>
+<link><?php echo $host; ?>/scripts/filme/php/cineplex_s_main.php</link>
+<annotation>https://cineplex.to</annotation>
+<mediaDisplay name="threePartsView"/>
 </item>
 
 <item>
@@ -372,14 +381,14 @@ echo '
 <annotation>https://putlockerfit.net/</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
-
+<!--
 <item>
 <title>hdeuropix</title>
 <link><?php echo $host; ?>/scripts/filme/php/pix_main.php?page=1,release,,seriale</link>
 <annotation>https://hdeuropix.cc</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
-
+-->
 <item>
 <title>putlocker.tl</title>
 <link><?php echo $host; ?>/scripts/filme/php/put.php?page=1,release,,seriale</link>
@@ -603,12 +612,14 @@ echo '
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
+<!--
 <item>
 <title>streamroyale</title>
 <link><?php echo $host; ?>/scripts/filme/php/royales_main.php</link>
 <annotation>https://streamroyale.com</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
+-->
 <!--
 <item>
 <title>online-filmek.org (in lb. maghiara)</title>

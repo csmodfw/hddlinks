@@ -211,16 +211,17 @@ function print_tvr($title,$l) {
 	</item>
 	';
 }
-print_tvr("TVR 1","http://89.136.209.27:1935/liveedge/TVR1.smil/playlist.m3u8");
-print_tvr("TVR 2","http://89.136.209.27:1935/liveedge/TVR2.smil/playlist.m3u8");
-print_tvr("TVR 3","http://89.136.209.30:1935/liveedge/TVR3.smil/playlist.m3u8");
-print_tvr("TVR International","http://89.136.209.33:1935/liveorigin/TVRI.smil/playlist.m3u8");
-print_tvr("TVR Moldova","http://89.136.209.30:1935/liveedge/TVRMOLDOVA.stream/playlist.m3u8");
-print_tvr("TVR Cluj","http://89.136.209.29:1935/liveedge/TVRCLUJ.stream/playlist.m3u8");
-print_tvr("TVR Craiova","http://89.136.209.29:1935/liveedge/TVRCRAIOVA.stream/playlist.m3u8");
-print_tvr("TVR Iasi","http://89.136.209.29:1935/liveedge/TVRIASI.stream/playlist.m3u8");
-print_tvr("TVR Timisoara","http://89.136.209.30:1935/liveedge/TVRTIMISOARA.stream/playlist.m3u8");
-print_tvr("TVR Targu-Mures","http://89.136.209.30:1935/liveedge/TVRTGMURES.stream/playlist.m3u8");
+print_tvr("TVR 1","https://mn-nl.mncdn.com/tvr_1_live/smil:tvr_1_live.smil/playlist.m3u8");
+print_tvr("TVR 2","https://mn-nl.mncdn.com/tvr_2_live/smil:tvr_2_live.smil/playlist.m3u8");
+print_tvr("TVR 3","https://mn-nl.mncdn.com/tvr_3_live/smil:tvr_3_live.smil/playlist.m3u8");
+print_tvr("TVR HD","https://mn-nl.mncdn.com/tvr_hd_live/tvr_hd_live2/playlist.m3u8");
+print_tvr("TVR International","https://mn-nl.mncdn.com/tvr_i_live/smil:tvr_i_live.smil/playlist.m3u8");
+print_tvr("TVR Moldova","https://mn-nl.mncdn.com/tvr_moldova_live/tvr_moldova_live2/playlist.m3u8");
+print_tvr("TVR Cluj","https://mn-nl.mncdn.com/tvr_cluj_live/tvr_cluj_live2/playlist.m3u8");
+print_tvr("TVR Craiova","https://mn-nl.mncdn.com/tvr_craiova_live/tvr_craiova_live2/playlist.m3u8");
+print_tvr("TVR Iasi","https://mn-nl.mncdn.com/tvr_iasi_live/tvr_iasi_live2/playlist.m3u8");
+print_tvr("TVR Timisoara","https://mn-nl.mncdn.com/tvr_timisoara_live/tvr_timisoara_live2/playlist.m3u8");
+print_tvr("TVR Targu-Mures","https://mn-nl.mncdn.com/tvr_tirgumures_live/tvr_tirgumures_live2/playlist.m3u8");
 ?>
 
 </channel>

@@ -200,6 +200,7 @@ $ua="Mozilla/5.0 (Windows NT 10.0; WOW64; rv:46.0) Gecko/20100101 Firefox/46.0";
   curl_setopt($ch, CURLOPT_URL, $search);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, $ua);
+  curl_setopt($ch,CURLOPT_REFERER,"http://tvpemobil.net/");
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $html = curl_exec($ch);
@@ -223,7 +224,7 @@ foreach($videos as $video) {
   $t3=explode("<",$video);
   $title=trim($t3[0]);
   $title=html_entity_decode($title,ENT_QUOTES,'UTF-8');
-  $t1=explode('stream=',$video);
+  $t1=explode('href="',$video);
   for ($k=1;$k<count($t1);$k++) {
      $t2=explode('"',$t1[$k]);
      $link=$t2[0];
