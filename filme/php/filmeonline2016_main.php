@@ -162,15 +162,25 @@ function str_between($string, $start, $end){
 include("../../common.php");
 //$html = file_get_contents("http://divxonline.biz/");
 $l="http://www.filmeonline2016.biz/";
+$l="https://filmeonline.st/";
+/*
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
   $html = curl_exec($ch);
   curl_close($ch);
-$link="http://www.filmeonline2016.biz/";
+  */
+$ua="Mozilla/5.0 (Windows NT 10.0; rv:55.0) Gecko/20100101 Firefox/55.0";
+$exec_path="/usr/local/bin/Resource/www/cgi-bin/scripts/wget ";
+$exec = '-q -U "'.$ua.'"  --no-check-certificate "'.$l.'" -O -';
+//echo $exec;
+$exec = $exec_path.$exec;
+$html=shell_exec($exec);
+$link="https://filmeonline.st/";
 $link = $host."/scripts/filme/php/filmeonline2016.php?query=,".$link;
 $title="Filme Noi";
     	echo '

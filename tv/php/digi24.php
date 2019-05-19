@@ -259,10 +259,10 @@ $cookie="/tmp/digi1.dat";
   $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
   $html=shell_exec($exec);
 //$html=str_between($html,'<h1 class="h3">Video</h1>','');
-$t1=explode('h3">Video',$html);
-$html=$t1[1];
+//$t1=explode('h3">Video',$html);
+//$html=$t1[1];
 //echo $html;
-$videos = explode('<figure class="card', $html);
+$videos = explode('article class="article"', $html);
 
 unset($videos[0]);
 $videos = array_values($videos);

@@ -1,7 +1,7 @@
 #!/usr/local/bin/Resource/www/cgi-bin/php
 <?php echo "<?xml version='1.0' encoding='UTF8' ?>";
 $host = "http://127.0.0.1/cgi-bin";
-$amigo="/usr/local/etc/dvdplayer/tvplay.txt";
+$amigo="/usr/local/etc/dvdplayer/tvplay1.txt";
 $f="/usr/local/etc/dvdplayer/royale_serv.txt";
 if (file_exists($f))
    $server=file_get_contents($f);

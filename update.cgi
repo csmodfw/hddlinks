@@ -9,7 +9,7 @@ if [ $NAME = "uploadc" ]
 then
   /opt/bin/curl -s $SERVER --referer "http://www.uploadc.com" -o /tmp/scripts.zip
 else
-  wget -q $SERVER -O /tmp/scripts.zip
+  /usr/local/bin/Resource/www/cgi-bin/scripts/wget -q --no-check-certificate $SERVER -O /tmp/scripts.zip
 fi
 touch /tmp/scripts.zip
 if [ -s /tmp/scripts.zip ]

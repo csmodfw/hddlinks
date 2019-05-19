@@ -320,14 +320,14 @@ ret;
 <annotation>https://pefilme.com/</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
-
+<!--
 <item>
 <title>tvhub</title>
 <link><?php echo $host; ?>/scripts/filme/php/tvhub_f.php?page=1,release,,tvhub</link>
 <annotation>https://tvhub.ro</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
-
+-->
 <item>
 <title>filmeseriale.online</title>
 <link><?php echo $host; ?>/scripts/filme/php/filmeseriale_filme.php?query=release,1,http://www.filmeserialeonline.org/filme-online</link>

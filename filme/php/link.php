@@ -598,6 +598,46 @@ fclose($fp);
 exec("chmod +x /usr/local/etc/www/cgi-bin/scripts/util/m.cgi");
 sleep (1);
 $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
+} elseif (strpos($filelink,"verystream") !== false) {
+  $t1=explode("/",$filelink);
+  $filelink="https://verystream.com/e/".$t1[4];
+  $ua="Mozilla/5.0 (Windows NT 10.0; WOW64; rv:46.0) Gecko/20100101 Firefox/46.0";
+  $exec = '-q -U "'.$ua.'"  --no-check-certificate "'.$filelink.'" -O -';
+  $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+  $h1=shell_exec($exec);
+      if (preg_match('/([http|https][\.\d\w\-\.\/\\\:\?\&\#\%\_\,]*(\.(srt|vtt)))/', $h1, $m))
+         $srt=$m[1];
+      if ($srt) {
+         if (strpos($srt,"http") === false)
+         $srt="https://verystream.com".$srt;
+         $l_srt="http://127.0.0.1/cgi-bin/scripts/util/srt_xml.php?file=".urlencode($srt);
+         //echo $l_srt;
+         $h=file_get_contents($l_srt);
+      }
+      $t1=explode('id="videolink">',$h1);
+      if (isset($t1[1])) {
+      $t2=explode('<',$t1[1]);
+      $id=$t2[0];
+      $l="https://verystream.com/gettoken/".$id."?mime=true";
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, $l);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch, CURLOPT_USERAGENT, $ua);
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+      curl_setopt($ch, CURLOPT_REFERER, "https://verystream.com");
+      curl_setopt($ch, CURLOPT_NOBODY,1);
+      curl_setopt($ch, CURLOPT_HEADER,1);
+      $ret = curl_exec($ch);
+      curl_close($ch);
+      $t1=explode("Location:",$ret);
+      $t2=explode("?",$t1[1]);
+      $link=urldecode(trim($t2[0]));
+      $movie_file=substr(strrchr(urldecode($link), "/"), 1);
+      $movie_file1=substr($movie_file, 0, -4);
+      $movie_file2 = preg_replace('/[^A-Za-z0-9_]/','_',$movie_file1);
+      $link=str_replace($movie_file1,$movie_file2,$link);
+      $link=str_replace("https","http",$link).".mp4";
+      }
 } elseif (strpos($filelink,"streamango") !== false) {
 function indexOf($hack,$pos) {
     $ret= strpos($hack,$pos);
@@ -824,7 +864,10 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
   //print_r ($r);
   //die();
   $c = count($r["data"]);
-  $l1="https://www.fembed.com".$r["data"][$c-1]["file"];
+  if (strpos($r["data"][$c-1]["file"],"http") === false)
+   $l1="https://www.fembed.com".$r["data"][$c-1]["file"];
+  else
+   $l1=$r["data"][$c-1]["file"];
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l1);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -973,6 +1016,12 @@ require_once("JavaScriptUnpacker.php");
   preg_match_all('/[file:"]([http|https][\.\d\w\-\.\/\\\:\?\&\#\%\_\,]*(\.mp4))/', $out, $m);
   //print_r ($m);
   $link=$m[1][count($m[1]) -1];
+  if (preg_match('/([http|https]?[\.\d\w\-\.\/\\\:\?\&\#\%\_\,]*(\.(srt|vtt)))/', $out, $s)) {
+  $srt=$s[1]; if (strpos($srt,"http") === false) $srt="https://fastplay.to".$srt;
+   $l_srt="http://127.0.0.1/cgi-bin/scripts/util/srt_xml.php?file=".urlencode($srt);
+   //echo $l_srt;
+   $h_srt=file_get_contents($l_srt);
+  }
   /*
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $link);

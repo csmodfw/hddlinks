@@ -189,41 +189,47 @@ function dec($string) {
 }
 $link="http://inprofunzime.md/emisiuni/shows/in-profunzime-cu-lorena-bogza/";
 $link="http://inprofunzime.protv.md/emisiuni/shows/in-profunzime-cu-lorena-bogza/";
+$link="http://inpro.protv.md/api/category-page";
+$post="link=emisiuni&page=1";
+$head=array('Accept-Language: ro-RO,ro;q=0.8,en-US;q=0.6,en-GB;q=0.4,en;q=0.2',
+'Accept-Encoding: gzip, deflate',
+'Referer: http://inpro.protv.md/emisiuni',
+'Content-Type: application/x-www-form-urlencoded; charset=UTF-8',
+'X-Requested-With: XMLHttpRequest',
+'Content-Length: 20');
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $link);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch,CURLOPT_REFERER,$link);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
-  //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+  curl_setopt($ch,CURLOPT_HTTPHEADER,$head);
+  curl_setopt ($ch, CURLOPT_POST, 1);
+  curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+  curl_setopt($ch, CURLOPT_TIMEOUT, 15);
   $html = curl_exec($ch);
-  curl_close($ch);
-//$html = file_get_contents($link);
-$videos = explode('class="arhiva_thums', $html);
-unset($videos[0]);
-$videos = array_values($videos);
-foreach($videos as $video) {
-    $t1=explode('href="',$video);
-    $t2=explode('"',$t1[1]);
-    $image=$t2[0];
+  $p=json_decode($html,1);
+  //print_r ($p);
+  $r=$p["items"];
+for ($k=0;$k<count($r);$k++) {
 
-    $t1=explode('video/',$video);
-    //$t2=explode('value="',$t1[1]);
-    $t3=explode('"',$t1[1]);
-    $link=$t3[0];
+    $image=$r[$k]["cover_thumb_md"];
 
-    $t1=explode('titlee="',$video);
-    //$t2=explode(">",$t1[1]);
-    $t3=explode('"',$t1[1]);
-    $title=trim($t3[0]);
-    $link="http://video.protv.md/assets/articles/files/".$link.".mp4";
-    
+    $link="http://inpro.protv.md".$r[$k]["long_link"];
+    $title=$r[$k]["name"];
+    //$link="http://video.protv.md/assets/articles/files/".$link.".mp4";
+ if ($r[$k]["site"]["link_desktop"] == "http://inpro.protv.md" || $r[$k]["site"]["link_desktop"] == "http://inprofunzime.md") {
+
     echo '
     <item>
     <title>'.$title.'</title>
     <onClick>
     <script>
     showIdle();
-    movie="'.$link.'";
+    url="'.$host.'/scripts/tv/php/inprofunzime_link.php?file='.urlencode($link).'";
+    movie=getUrl(url);
     cancelIdle();
     storagePath = getStoragePath("tmp");
     storagePath_stream = storagePath + "stream.dat";
@@ -247,7 +253,7 @@ foreach($videos as $video) {
     ';
 
 }
-
+}
 ?>
 
 

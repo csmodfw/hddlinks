@@ -180,6 +180,9 @@ function str_between($string, $start, $end){
 }
 $l="https://www.stareanatiei.ro/wp-json/sn-theme/v1/load-infinite";
 $post="offset=0&limit=100&args[category_name]=emisiuni-intregi&args[paged]=1&args[posts_per_page]=4&args[cat]=24&args[cache_results]=true&args[update_post_term_cache]=true&args[lazy_load_term_meta]=true&args[update_post_meta_cache]=true&args[comments_per_page]=15&args[order]=DESC";
+$l="https://www.stareanatiei.ro/wp-json/sn-theme/v1/load-more";
+$post="offset=0&limit=100&template=archive-posts&args[category_name]=emisiuni-intregi&args[paged]=1&args[posts_per_page]=12";
+
   $ch = curl_init($l);
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
   curl_setopt($ch, CURLOPT_REFERER, $l);
@@ -203,10 +206,10 @@ foreach($videos as $video) {
     $t1=explode('src="',$video);
     $t2=explode('"',$t1[1]);
     $image=$t2[0];
-    $image=str_replace("https","http",$image);
-    $t1=explode('title="',$video);
-    $t2=explode('"',$t1[1]);
-    $title=$t2[0];
+    //$image=str_replace("https://ctns","https://ctnses",$image);
+    $t1=explode('class="title">',$video);
+    $t2=explode('<',$t1[1]);
+    $title=trim($t2[0]);
 
   $name="starea.mp4";
   $data="";

@@ -16,6 +16,7 @@ function round_fix($s) {
 //$cookie="D://m.txt";
 error_reporting(0);
 set_time_limit(60);
+$amigo="/usr/local/etc/dvdplayer/tvplay.txt";
 $f="/usr/local/etc/dvdplayer/royale_serv.txt";
 if (file_exists($f))
    $server=file_get_contents($f);
@@ -71,7 +72,24 @@ for ($k=0;$k<count($arr);$k++) {
     break;
   }
 }
+//////////////////////////////////////////////////////////////
+$orig=$movie;
+$t1=explode("/",$movie);
+$host_movie=$t1[2];
+//echo $host_movie;
+//$host_movie=parse_url($movie)['host'];
+if (file_exists($amigo)) {
+  $movie_file=preg_replace("/\\|\/|\?|\:|\s|\'|\"/","_",$title);
+  $host_movie_new = preg_replace("/trial/","sv",$host_movie);
+  $host_movie_dl=str_replace("sv","dl",$host_movie_new);
+  $movie=str_replace($host_movie,$host_movie_new,$orig);
+  $movie_dl=str_replace($host_movie,$host_movie_dl,$orig);
+  $movie=str_replace("&end=","&u=",$movie);
+  $movie_dl=str_replace("&end=","&u=",$movie_dl)."&file=".$movie_file;
+}
 
+
+//////////////////////////////////////////////////////////////
 
 if ($delay=="600") {
 $t1=explode("end=",$movie);

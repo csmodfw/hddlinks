@@ -28,6 +28,7 @@ $key="f8cf02e6b30bf8cc33c04c60695781aa";
 $key1="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmOGNmMDJlNmIzMGJmOGNjMzNjMDRjNjA2OTU3ODFhYSIsInN1YiI6IjU5MjMzY2ZhOTI1MTQxMDRjYTAwMWVkNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.IyP2G7iuQ7QhbnsRPbs4idA32IxEWSKqH0r2XBDwLaA";
 $IMDB_API_URL = "http://www.omdbapi.com/?t=".urlencode($tit3)."&y=".$year."&type=".$tip."&plot=full";
 $api_url="https://api.themoviedb.org/3/search/".$tip."?api_key=".$key."&query=".urlencode($tit3)."&year=".$year;
+  /*
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $api_url);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -37,6 +38,11 @@ $api_url="https://api.themoviedb.org/3/search/".$tip."?api_key=".$key."&query=".
   curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $h = curl_exec($ch);
   curl_close($ch);
+  */
+  $ua="Mozilla/5.0 (Windows NT 10.0; WOW64; rv:46.0) Gecko/20100101 Firefox/46.0";
+  $exec = '-q -U "'.$ua.'"  --no-check-certificate "'.$api_url.'" -O -';
+  $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+  $h=shell_exec($exec);
 $r=json_decode($h,1);
 //print_r ($r);
 if ($r["results"][0]["id"]) {
@@ -51,6 +57,7 @@ if (!$tit) $tit=$r["results"][0]["name"];
 $id_m=$r["results"][0]["id"];
 $l="https://api.themoviedb.org/3/".$tip."/".$id_m."?api_key=".$key;
 //$l="https://api.themoviedb.org/3/tv/".$id_m."?api_key=".$key;   //."&append_to_response=videos"
+  /*
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -60,6 +67,11 @@ $l="https://api.themoviedb.org/3/".$tip."/".$id_m."?api_key=".$key;
   curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $h = curl_exec($ch);
   curl_close($ch);
+  */
+  $ua="Mozilla/5.0 (Windows NT 10.0; WOW64; rv:46.0) Gecko/20100101 Firefox/46.0";
+  $exec = '-q -U "'.$ua.'"  --no-check-certificate "'.$l.'" -O -';
+  $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+  $h=shell_exec($exec);
   $p=json_decode($h,1);
 //print_r ($JSON);
 
@@ -86,6 +98,11 @@ if (!$d) $d=$p["episode_run_time"][0];
 $durata="Duration: ".$d. "min";
 $cast="";
 $l="https://api.themoviedb.org/3/".$tip."/".$id_m."/credits?api_key=".$key;
+  $ua="Mozilla/5.0 (Windows NT 10.0; WOW64; rv:46.0) Gecko/20100101 Firefox/46.0";
+  $exec = '-q -U "'.$ua.'"  --no-check-certificate "'.$l.'" -O -';
+  $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+  $h=shell_exec($exec);
+  /*
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -95,6 +112,7 @@ $l="https://api.themoviedb.org/3/".$tip."/".$id_m."/credits?api_key=".$key;
   curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $h = curl_exec($ch);
   curl_close($ch);
+  */
 $r=json_decode($h,1);
 //print_r ($r);
 $c=count($r["cast"]);

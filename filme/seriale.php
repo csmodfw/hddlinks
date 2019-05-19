@@ -218,13 +218,14 @@ echo '
 <annotation>https://vezionline.org/seriale-online</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
-
+<!--
 <item>
 <title>tvhub</title>
 <link><?php echo $host; ?>/scripts/filme/php/serialenoi_online.php?page=1,release,,seriale</link>
 <annotation>https://tvhub.ro</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
+-->
 <!--
 <item>
 <title>filme-seriale.gold</title>
@@ -389,13 +390,14 @@ echo '
 <media:thumbnail url="image/movies.png" />
 </item>
 -->
+<!--
 <item>
 <title>putlocker.tl</title>
 <link><?php echo $host; ?>/scripts/filme/php/put.php?page=1,release,,seriale</link>
 <annotation>http://putlocker.tl</annotation>
 <media:thumbnail url="image/movies.png" />
 </item>
-
+-->
 <item>
 <title>tvseries</title>
 <link><?php echo $host; ?>/scripts/filme/php/tvseries_s.php?page=1,release,,seriale</link>

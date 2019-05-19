@@ -291,12 +291,14 @@ echo '
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
+<!--
 <item>
 <title>neterra</title>
 <link><?php echo $host; ?>/scripts/tv/neterra.php</link>
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
+-->
 <!--
 <item>
 <title>iptvsatlinks</title>
@@ -349,12 +351,14 @@ echo '
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
+<!--
 <item>
 <title>România - Digi TV</title>
 <link><?php echo $host; ?>/scripts/tv/digitv.php</link>
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
+-->
 <!--
 <item>
 <title>România - Orange TV</title>
@@ -434,12 +438,14 @@ else
 <mediaDisplay name="threePartsView"/>
 </item>
 -->
+<!--
 <item>
 <title>Youtube live</title>
 <link><?php echo $host; ?>/scripts/php1/yt_playlist.php?query=1,PLU12uITxBEPFy1nVJaDM-nGeB2q66Z4nP,%28playlist%29+Youtube+Live</link>
 <media:thumbnail url="image/tv_radio.png" />
 <mediaDisplay name="threePartsView"/>
 </item>
+-->
 <!--
 <item>
 <title>streams.magazinmixt.ro</title>

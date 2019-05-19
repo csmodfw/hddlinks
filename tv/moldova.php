@@ -261,7 +261,7 @@ columnCount=5
   <channel>
 
     <title>Stiri si Emisiuni din Moldova</title>
-
+<!--
 <item>
 <title>Publika.Md</title>
 <link><?php echo $host; ?>/scripts/tv/php/publika.php</link>
@@ -270,6 +270,7 @@ columnCount=5
 <location>http://publika.md/</location>
 <annotation>Site-ul de stiri care iti ofera informatia proaspata corecta obiectiva si documentata despre stirile de ultima ora.</annotation>
 </item>
+-->
 <!--
 <item>
 <title>JurnalTV</title>
@@ -280,6 +281,7 @@ columnCount=5
 <annotation>JurnalTV - Prima televiziune de stiri din Republica Moldova</annotation>
 </item>
 -->
+<!--
 <item>
 <title>Moldova in Direct</title>
 <link><?php echo $host; ?>/scripts/tv/php/moldova-in-direct_main.php</link>
@@ -288,7 +290,7 @@ columnCount=5
 <location>http://www.trm.md/ro/moldova-in-direct/</location>
 <annotation>Emisiune difuzata de postul Moldova 1</annotation>
 </item>
-
+-->
 <item>
 <title>In PROfunzime</title>
 <link><?php echo $host; ?>/scripts/tv/php/in-profunzime.php</link>
@@ -297,7 +299,7 @@ columnCount=5
 <location>http://inprofunzime.md/emisiuni/shows/in-profunzime-cu-lorena-bogza/</location>
 <annotation>Emisiune difuzata de postul PROTV</annotation>
 </item>
-
+<!--
 <item>
 <title>ProTV Moldova</title>
 <link><?php echo $host; ?>/scripts/tv/php/protv_md.php</link>
@@ -306,6 +308,7 @@ columnCount=5
 <location>http://www.protv.md/</location>
 <annotation>Vezi aici emisiuni inregistrate ale postului TV ProTV Moldova</annotation>
 </item>
+-->
 <!--
 <item>
 <title>Europa libera</title>

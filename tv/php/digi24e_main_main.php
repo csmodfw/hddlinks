@@ -182,15 +182,16 @@ $link=$host."/scripts/tv/php/digi24e_starea.php";
 	';
 */
 $l="https://www.digi24.ro/emisiuni";
+$l="https://www.digi24.ro/emisiuni/toate-emisiunile";
 $cookie="/tmp/digi1.dat";
   $ua="Mozilla/5.0 (Windows NT 10.0; WOW64; rv:46.0) Gecko/20100101 Firefox/46.0";
   $exec = '-q -U "'.$ua.'"   --no-check-certificate "'.$l.'" -O -';
   $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
   $html=shell_exec($exec);
   //echo $html;
-$html=str_between($html,'<section','</section');
+//$html=str_between($html,'<section','</section');
 //echo $html;
-$videos = explode('<figure class="card', $html);
+$videos = explode('article class="article', $html);
 
 unset($videos[0]);
 $videos = array_values($videos);
@@ -199,7 +200,7 @@ foreach($videos as $video) {
  $video=html_entity_decode($video);
  $title=str_between($video,'title="','"');
  $descriere=$title;
- $image=urldecode(str_between($video,'data-src="','"'));
+ $image=urldecode(str_between($video,'src="','"'));
  $image=str_replace("https","http",$image);
  $link="https://www.digi24.ro".str_between($video,'href="','"');
     $link=$host."/scripts/tv/php/digi24e_main.php?file=".urlencode($link).",".urlencode($title);

@@ -283,7 +283,7 @@ foreach($videos as $video) {
     $t2 = explode('"', $t1[1]);
     $title = $t2[0];
 
-    $data = "Durata: ".trim(str_between($video,'video_duration">',"<"));
+    $data = "Durata: ".trim(str_between($video,'video-duration">',"<"));
     $name = preg_replace('/[^A-Za-z0-9_]/','_',$title).".flv";
     $title=str_replace("&quot;",'"',$title);
     echo '

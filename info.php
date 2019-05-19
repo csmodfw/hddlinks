@@ -71,13 +71,23 @@ if (file_exists($f_version)) {
   $curr_vers=trim(file_get_contents($script_directory."/version.txt"));
   $l="http://hdforall.googlecode.com/hg/version.txt";
   $l="http://hdforall.freehostia.com/version.txt";
+  $l="https://raw.githubusercontent.com/vb6rocod/hddlinks/master/version.txt";
+  //https://raw.githubusercontent.com/vb6rocod/hddlinks/master/scripts.zip
+  /*
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   $h = curl_exec($ch);
   curl_close($ch);
+  */
+  $ua="Mozilla/5.0 (Windows NT 10.0; WOW64; rv:46.0) Gecko/20100101 Firefox/46.0";
+  $exec = '-q -U "'.$ua.'"  --no-check-certificate "'.$l.'" -O -';
+  $exec = "/usr/local/bin/Resource/www/cgi-bin/scripts/wget ".$exec;
+  $h=shell_exec($exec);
+  //echo $h;
   $t=explode("\n",$h);
   $avb_vers=trim($t[0]);
   $serv_update=trim($t[1]);
