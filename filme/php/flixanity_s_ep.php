@@ -10,6 +10,7 @@ if($query) {
    $link = urldecode($queryArr[0]);
    $series_title=urldecode($queryArr[1]);
    $series_title=str_replace("\'","'",$series_title);
+   $series_title=str_replace("^",",",$series_title);
    $id1= $queryArr[2];
    $id_t= $queryArr[3];
    $tip=$queryArr[4];
@@ -344,7 +345,7 @@ foreach($videos as $video) {
     <image>'.$image.'</image>
     <image1>'.$image1.'</image1>
     <tit>'.trim($title).'</tit>
-    <tit1>'.urlencode(trim($title)).'</tit1>
+    <tit1>'.urlencode(trim(str_replace(",","^",$title))).'</tit1>
     <id>'.$season.'</id>
     <idt>'.$episod.'</idt>
     <movie>'.trim($link1).'</movie>

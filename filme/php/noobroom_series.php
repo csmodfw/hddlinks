@@ -25,6 +25,9 @@ $nn=count($serv);
   storagePath_playlist    = storagePath + "playlist.dat";
   
   error_info          = "";
+	setRefreshTime(-1);
+	enablenextplay = 0;
+	itemCount = getPageInfo("itemCount");
 </script>
 <onEnter>
   cachePath = getStoragePath("key");
@@ -76,7 +79,6 @@ echo '
       ';
 }
 ?>
-setRefreshTime(1);
 </onEnter>
 <onExit>
   arr = null;
@@ -86,11 +88,64 @@ setRefreshTime(1);
   print("arr=",arr);
 
   writeStringToFile(optionsPath, arr);
+  setRefreshTime(-1);
 </onExit>
 <onRefresh>
-    itemCount = getPageInfo("itemCount");
-    setRefreshTime(-1);
-    redrawdisplay();
+  setRefreshTime(-1);
+  itemCount = getPageInfo("itemCount");
+	if ( Integer( 1 + getFocusItemIndex() ) != getPageInfo("itemCount") && enablenextplay == 1 && playvideo == getFocusItemIndex()) {
+		ItemFocus = getFocusItemIndex();
+		setFocusItemIndex( Integer( 1 + getFocusItemIndex() ) );
+		redrawDisplay();
+		setRefreshTime(-1);
+		"true";
+	}
+
+	if ( enablenextplay == 1 ) {
+		enablenextplay = 0;
+		url1=getItemInfo(getFocusItemIndex(),"movie");
+		tit=getItemInfo(getFocusItemIndex(),title1);
+     showIdle();
+     url="http://127.0.0.1/cgi-bin/scripts/filme/php/noobroom_link.php?file=" + url1 + "," + subtitle + "," + server + "," + hhd + ",1";
+     movie=geturl(url);
+     cancelIdle();
+    storagePath = getStoragePath("tmp");
+    storagePath_stream = storagePath + "stream.dat";
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/mp4);
+    streamArray = pushBackStringArray(streamArray, tit);
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    <?php
+    $f = "/usr/local/bin/home_menu";
+    if (file_exists($f)) {
+    echo '
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer22.rss");
+    ';
+    } else {
+    echo '
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer1.rss");
+    ';
+    }
+    ?>
+
+		if ( Integer( 1 + getFocusItemIndex() ) == getPageInfo("itemCount") ) {
+			enablenextplay = 0;
+			setRefreshTime(-1);
+		} else {
+			playvideo = getFocusItemIndex();
+			setRefreshTime(4000);
+			enablenextplay = 1;
+		}
+	} else {
+		setRefreshTime(-1);
+		redrawDisplay();
+		"true";
+	}
 </onRefresh>
 
 <mediaDisplay name="threePartsView"
@@ -473,7 +528,7 @@ foreach($videos as $video) {
      </onClick>
     <download>'.$link1.'</download>
     <title1>'.urlencode($title).'</title1>
-    <title2>'.urlencode($tit."|".$title).'</title2>
+    <title2>'.urlencode(str_replace(",","^",$tit."|".$title)).'</title2>
     <link1>'.urlencode($link).'</link1>
     <name>'.$name.'</name>
     <movie>'.$link.'</movie>

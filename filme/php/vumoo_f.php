@@ -348,7 +348,7 @@ foreach($videos as $video) {
   $title=$title11; //." (".$year.")";
   //$id_t=$id1;
   $id_t="";
-   $link2=$host."/scripts/filme/php/vumoo_f_link.php?file=".urlencode($link1).",".urlencode($title).",".$id1.",".$id_t.",movie,".urlencode($image);
+   $link2=$host."/scripts/filme/php/vumoo_f_link.php?file=".urlencode($link1).",".urlencode(str_replace(",","^",$title)).",".$id1.",".$id_t.",movie,".urlencode($image);
    if ($title) {
      echo '
      <item>
@@ -357,7 +357,7 @@ foreach($videos as $video) {
     <image>'.$image.'</image>
     <image1>'.$image1.'</image1>
     <tit>'.trim($title).'</tit>
-    <tit1>'.urlencode(trim($title)).'</tit1>
+    <tit1>'.urlencode(trim(str_replace(",","^",$title))).'</tit1>
     <id>'.$id1.'</id>
     <idt>'.$id_t.'</idt>
     <movie>'.trim($link1).'</movie>

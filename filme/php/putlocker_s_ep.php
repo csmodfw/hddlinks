@@ -316,7 +316,7 @@ foreach($videos as $video) {
    $title1=$ep_tit;
    $title=$ep_tit;
    $image1=$image;
-   $link2=$host."/scripts/filme/php/putlocker_link.php?file=".urlencode($link1).",".urlencode($title1).",".urlencode($series_title_no_year).",".$id_t.",series,".urlencode($image);
+   $link2=$host."/scripts/filme/php/putlocker_link.php?file=".urlencode($link1).",".urlencode(str_replace(",","^",$title1)).",".urlencode(str_replace(",","^",$series_title_no_year)).",".$id_t.",series,".urlencode($image);
    if ($video) {
      echo '
      <item>

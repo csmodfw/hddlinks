@@ -464,6 +464,34 @@ elseif (strpos($filelink,"vezi-online1.com") !== false) {
   curl_close ($ch);
   $html=html_entity_decode($html);
 }
+elseif (strpos($filelink,"filmeserialeonline.org") !== false) {
+  $ch = curl_init($filelink);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch,CURLOPT_REFERER,$filelink);
+  //curl_setopt ($ch, CURLOPT_POST, 1);
+  //curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+  //curl_setopt($ch, CURLOPT_HEADER, true);
+  $h2 = curl_exec($ch);
+  curl_close ($ch);
+  $id=str_between($h2,'post_id":"','"');
+  if (strpos($h2,"movies.php") !== false)
+    $l="http://www.filmeserialeonline.org/wp-content/themes/grifus/loop/movies.php";
+  else
+    $l="http://www.filmeserialeonline.org/wp-content/themes/grifus/includes/single/sources.php";
+  $post="id=".$id;
+  $ch = curl_init($l);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch,CURLOPT_REFERER,$filelink);
+  curl_setopt ($ch, CURLOPT_POST, 1);
+  curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);  // RETURN THE CONTENTS OF THE CALL
+  //curl_setopt($ch, CURLOPT_HEADER, true);
+  $html = curl_exec($ch);
+  curl_close ($ch);
+}
 elseif (strpos($filelink,"filmeonlinesubtitrate") !== false) {
 
   $post="pageviewnr=1";
@@ -533,9 +561,18 @@ elseif (strpos($filelink,"filmeonlinesubtitrate") !== false) {
 //  $filelink="http://filmedivix.com/filmeonline/".str_between($html,"filmedivix.com/filmeonline/",'"');
 //  $html = file_get_contents($filelink);
 } elseif (strpos($filelink,"vezi-online.com") !== false) {
-    require_once("JavaScriptUnpacker.php");
-    $jsu = new JavaScriptUnpacker();
-    $html22=file_get_contents($filelink);
+    //require_once("JavaScriptUnpacker.php");
+   //$jsu = new JavaScriptUnpacker();
+/*
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $filelink);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+  $html22 = curl_exec($ch);
+  curl_close($ch);
     //echo $html22;
     $out="";
     $html="";
@@ -543,14 +580,30 @@ elseif (strpos($filelink,"filmeonlinesubtitrate") !== false) {
     unset($videos[0]);
     $videos = array_values($videos);
     foreach($videos as $video) {
-      $t1=explode('src="',$video);
+      $t1=explode('url: "../',$video);
       $t2=explode('"',$t1[1]);
-      $html1=file_get_contents($t2[0]);
+      $l="https://vezi-online.com/".$t2[0];
+      $t1=explode("id='+'",$video);
+      $t2=explode("'",$t1[1]);
+      $post="id=".$t2[0];
       //echo $html1;
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $l);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0');
+  //curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt ($ch, CURLOPT_REFERER, "http://vezi-online.com/");
+  curl_setopt ($ch, CURLOPT_POST, 1);
+  //curl_setopt($ch, CURLOPT_HEADER,1);
+  curl_setopt ($ch, CURLOPT_POSTFIELDS, $post);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  $out = curl_exec($ch);
+  curl_close($ch);
 
-      $out = $jsu->Unpack($html1);
       $html .=" ".$out;
     }
+*/
+$html=file_get_contents("http://uphero.xpresso.eu/movietv/filme_link1.php?file=".$filelink);
 } elseif (strpos($filelink,"http://filmehd.net") !== false) {
   require_once("JavaScriptUnpacker.php");
   $html1=file_get_contents($filelink);
@@ -719,6 +772,19 @@ for ($i=0;$i<count($links);$i++) {
   $cur_link=$t1[0];
   $t1=explode("&stretching",$cur_link);    //vezi-online
   $cur_link=$t1[0];
+  if (strpos($cur_link,"raptu.com") !== false) {
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $cur_link);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  //curl_setopt($ch, CURLOPT_HEADER,1);
+  //curl_setopt($ch, CURLOPT_NOBODY,1);
+  $h2 = curl_exec($ch);
+  curl_close($ch);
+  $cur_link=str_between($h2,'property="og:url" content="','"');
+  }
   if (strpos($cur_link,"entervideos.com/vidembed") !==false) {
   $t1=explode("&",$cur_link);    //
   $cur_link=$t1[0];
@@ -782,7 +848,7 @@ for ($i=0;$i<count($links);$i++) {
         if (strpos($cur_link, 'videomega') !== false || strpos($cur_link, 'up2stream.com') !== false || strpos($cur_link, 'openload.co') !== false)
           $mysrt_roshare="asasas";
         $mysrt="asasas"; // IMPORTANT PENTRU TOATE LINK-URILE 990 !!!!!!!!!!!!!!!!!!!!
-        if (strpos($cur_link,"hqq.tv") !== false) $mysrt="";
+        //if (strpos($cur_link,"hqq.tv") !== false) $mysrt="";
           //echo $cur_link;
           /*
           $ch = curl_init($cur_link);
@@ -807,6 +873,8 @@ for ($i=0;$i<count($links);$i++) {
         //}
         //echo "mysrt=".$mysrt;
         if (!$server) $server = "LINK";
+        if (strpos($server,"openload") !== false) $server=$server. " - activati ip-ul openload.co/pair";
+        if (strpos($server,"thevideo.me") !== false) $server=$server. " - activati ip-ul thevideo.me/pair";
         $title=$server;
         if (preg_match("/vk\.com/",$cur_link)) {
          if (preg_match("/hd=1/",$cur_link)) $title=$server." (360p)";

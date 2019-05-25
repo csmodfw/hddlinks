@@ -224,6 +224,10 @@ foreach($videos as $video) {
  $title=str_replace("&abreve;","a",$title);
  $title=str_replace("&tcedil;","t",$title);
  $title=str_replace("&colon;",":",$title);
+ $title=str_replace("vert;","|",$title);
+ $title=str_replace("quest;","?",$title);
+ $title=str_replace("scedil;","s",$title);
+ $title=str_replace("bdquo;",'"',$title);
  //&tcedil;ig&abreve;ri
  $descriere=$title;
  $image=urldecode(str_between($video,'src="','"'));

@@ -70,10 +70,10 @@ foreach($t3 as $a) {
 	$t1 = '$sA = '.str_replace('join($s)','implode($sA)',str_replace('split','str_split',str_replace('""','$s',str_replace('(a','($sA',str_between($a,'.',')').'); '))))."\n";
 		foreach($t2 as $b) {
 			$c=str_between($a,'.','(');
-				if (strpos($b,$c) !== false) {
+				if (strpos($b.':',$c.':') !== false) {
 				  $d=str_between($b,'.','(');
 				  if (!$d) $d='slice';
-				  $t1 = str_replace($c,'_'.$d,$t1);
+				  $t1 = str_replace($c.'(','_'.$d.'(',$t1);
 				}
 		}
 	$t4 = $t4.$t1;

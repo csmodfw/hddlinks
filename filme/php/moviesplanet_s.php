@@ -200,7 +200,7 @@ else if (userInput == "zero" || userInput == "0" || userInput == "option_blue")
   l = getItemInfo(getFocusItemIndex(),"link1");
   sez=getItemInfo(getFocusItemIndex(),"sez");
   ep=getItemInfo(getFocusItemIndex(),"ep");
-  movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/fs_det.php?file=" + "<?php echo urlencode($page_title); ?>" + "," + l + "," + sez + "," + ep + "," + "0" + ",series";
+  movie_info="http://127.0.0.1/cgi-bin/scripts/filme/php/fs_det.php?file=" + "<?php echo urlencode(str_replace(",","^",$page_title)); ?>" + "," + l + "," + sez + "," + ep + "," + "0" + ",series";
   dummy = getURL(movie_info);
 
     jumpToLink("fs");
@@ -309,25 +309,50 @@ $cookie="/tmp/moviesplanet.txt";
   $html = curl_exec($ch);
   curl_close($ch);
 //echo $html;
-$t0=explode('class="show-poster">',$html);
-  $t1 = explode('timthumb.php?src=', $t0[1]);
+//$t0=explode('class="show-poster">',$html);
+  $t1 = explode('timthumb.php?src=', $html);
   $t2 = explode('&', $t1[1]);
   $image=$t2[0];
-$videos = explode('<div class="item"', $html);
+  //class="ml-item">
+$videos = explode('class="ml-item">', $html);
+unset($videos[0]);
+$videos = array_values($videos);
+//$videos = array_reverse($videos);
+foreach($videos as $video) {
+  $t1=explode('href="',$video);
+  $t2=explode('"',$t1[1]);
+  $s[]=$t2[0];
+}
+$c=count($s);
+for ($k=0;$k<$c;$k++) {
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $s[$k]);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0');
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+  curl_setopt ($ch, CURLOPT_REFERER, "http://www.moviesplanet.is/");
+  curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
+  curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+  //curl_setopt($ch, CURLOPT_HEADER,1);
+  $html = curl_exec($ch);
+  curl_close($ch);
+$videos = explode('class="col-sm', $html);
 unset($videos[0]);
 //$videos = array_values($videos);
 $videos = array_reverse($videos);
 foreach($videos as $video) {
-  $t1=explode('class="title-overflow',$video);
-  $t2=explode('title="',$t1[1]);
-  $t3=explode('"',$t2[1]);
-  $title1=$t3[0];
-  preg_match("/Season\s*(\d+)/",$title1,$m);
+  //$t1=explode('class="title-overflow',$video);
+  //$t2=explode('title="',$t1[1]);
+  //$t3=explode('"',$t2[1]);
+  //$title1=$t3[0];
+  //season/01/episode/04
+  $link1= "http://www.moviesplanet.is".str_between($video,'href="','"');
+  preg_match("/season\/(\d+)/",$link1,$m);
   //print_r($m);
   $sez=$m[1];
-  preg_match("/Episode\s*(\d+)/",$title1,$m);
+  preg_match("/episode\/(\d+)/",$link1,$m);
   $ep=$m[1];
-  $link1= "http://www.moviesplanet.is".str_between($video,'href="','"');
+  $title1=$sez."x".$ep;
   
 
   $image1=$image;
@@ -367,7 +392,7 @@ foreach($videos as $video) {
     echo '
      </script>
      </onClick>
-    <title1>'.urlencode($page_title).'</title1>
+    <title1>'.urlencode(str_replace(",","^",$page_title)).'</title1>
     <link1>'.urlencode($link1).'</link1>
     <sez>'.$sez.'</sez>
     <ep>'.$ep.'</ep>
@@ -375,6 +400,7 @@ foreach($videos as $video) {
      </item>
      ';
    }
+}
 }
 //http://sit2play.com/movies/901259-My-Love,-My-Bride
 //url="http://127.0.0.1/cgi-bin/scripts/filme/php/movietv_add.php?mod=add," + urlEncode(movie) + "," + urlEncode(tit) + "," + urlEncode(img) + "," + urlEncode(year) + "," + urlEncode(id);

@@ -507,10 +507,26 @@ else if ((input == "enter" || input == "ENTR") &amp;&amp; pause == 0)
      pause = 1;
      ret = "true";
 }
-else if (input == "video_completed" || input == "video_stop")
+ else if (input == "video_completed")
 {
     playItemURL(-1, 1);
     postMessage("return");
+    postMessage("down");
+    postMessage("enter");
+    postMessage("down");
+    postMessage("enter");
+    ret="true";
+}
+ else if (input == "video_stop")
+{
+    playItemURL(-1, 1);
+    postMessage("return");
+    ret="true";
+}
+else if (input == "video_play")
+{
+ seek=0;
+ ret=false;
 }
 else if (input == "right" || input == "left" || input == "R" || input == "L")
 {
@@ -573,16 +589,6 @@ else if (input == "six" || input == "6" || input == "option_blue")
 	redrawDisplay();
 	ret = "true";
 }
-else if (input == "up" || input == "U")
-        { 
-                fontoffset = fontoffset - "0.5" ;
-                ret = "true";
-        }
-else if (input == "down" || input == "D")
-        { 
-                fontoffset = "0.5" + fontoffset ;
-                ret = "true";
-        }
 else if (input == "zoom" || input == "zoom_in" || input == "zoom_out")
 {
   ret="false";

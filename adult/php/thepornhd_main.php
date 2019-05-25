@@ -4,6 +4,9 @@ $host = "http://127.0.0.1/cgi-bin";
 ?>
 <rss version="2.0">
 <onEnter>
+    storagePath             = getStoragePath("tmp");
+    storagePath_stream      = storagePath + "stream.dat";
+    storagePath_playlist    = storagePath + "playlist.dat";
   startitem = "middle";
   setRefreshTime(1);
 </onEnter>
@@ -162,6 +165,7 @@ function str_between($string, $start, $end){
 	if ($ini == 0) return ""; $ini += strlen($start); $len = strpos($string,$end,$ini) - $ini; 
 	return substr($string,$ini,$len); 
 }
+/*
 $l="http://thepornhd.com/videos";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
@@ -193,6 +197,53 @@ foreach($videos as $video) {
   		<link>'.$link.'</link>
   	</item>';
   	}
+}
+*/
+   $key="3E1G6Mjs";
+   $login="de2a2a3fe31fdb89";
+$l="https://api.openload.co/1/file/listfolder?login=".$login."&key=".$key;//."&folder=";
+//$l="https://api.openload.co/1/account/info?login=".$login."&key=".$key;
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, $l);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:22.0) Gecko/20100101 Firefox/22.0');
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+      $ret = curl_exec($ch);
+      curl_close($ch);
+      //echo $ret;
+      $r=json_decode($ret,1);
+      //print_r ($r);
+$c=count($r["result"]["files"]);
+$f="ohlulz.dat";
+$out="";
+for ($i=0;$i<$c;$i++) {
+  $tit=$r["result"]["files"][$i]["name"];
+  $link=$r["result"]["files"][$i]["link"];
+  $link = $host."/scripts/filme/php/link.php?file=".$link;
+    echo '
+    <item>
+    <title>'.$tit.'</title>
+    <onClick>
+    <script>
+    showIdle();
+    url="'.$link.'";
+    movie=getUrl(url);
+    cancelIdle();
+    streamArray = null;
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, "");
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, movie);
+    streamArray = pushBackStringArray(streamArray, video/x-flv);
+    streamArray = pushBackStringArray(streamArray, "'.$tit.'");
+    streamArray = pushBackStringArray(streamArray, "1");
+    writeStringToFile(storagePath_stream, streamArray);
+    doModalRss("rss_file:///usr/local/etc/www/cgi-bin/scripts/util/videoRenderer.rss");
+    </script>
+    </onClick>
+  <mediaDisplay name="threePartsView"/>
+  </item>
+  ';
 }
 ?>
 </channel>

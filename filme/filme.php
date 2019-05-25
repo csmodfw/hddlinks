@@ -284,14 +284,34 @@ ret;
 </item>
 -->
 
-
+<!--
 <item>
 <title>zfilme-online</title>
 <link><?php echo $host; ?>/scripts/filme/php/zfilme_main.php</link>
 <annotation>http://www.zfilme-online.com/</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-
+-->
+<item>
+<title>zfilmeonline</title>
+<link><?php echo $host; ?>/scripts/filme/php/zfilmeonline_main.php</link>
+<annotation>http://zfilmeonline.eu/</annotation>
+<mediaDisplay name="threePartsView"/>
+</item>
+<!--
+<item>
+<title>vezi-online</title>
+<link><?php echo $host; ?>/scripts/filme/php/vezi-online_filme_main.php</link>
+<annotation>http://vezi-online.net/filme</annotation>
+<mediaDisplay name="threePartsView"/>
+</item>
+-->
+<item>
+<title>vezi-online</title>
+<link>http://uphero.xpresso.eu/movietv/vezi-online_filme_main.php</link>
+<annotation>http://vezi-online.net/filme</annotation>
+<mediaDisplay name="threePartsView"/>
+</item>
 <item>
 <title>calitatehd</title>
 <link><?php echo $host; ?>/scripts/filme/php/calitatehd_main.php</link>
@@ -423,14 +443,9 @@ ret;
 <annotation>http://movietv.to</annotation>
 <mediaDisplay name="threePartsView"/>
 </item>
-<!--
-<item>
-<title>vezi-online</title>
-<link><?php echo $host; ?>/scripts/filme/php/vezi-online_filme.php?query=1,http://vezi-online.net/lista-filme/</link>
-<annotation>http://vezi-online.net/filme</annotation>
-<mediaDisplay name="threePartsView"/>
-</item>
--->
+
+
+
 <!--
 <item>
 <title>malovatz-city.ucoz</title>

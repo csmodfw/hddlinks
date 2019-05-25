@@ -239,7 +239,7 @@ ret;
 
 <?php
 
-  $link1=$host."/scripts/filme/php/moviesplanet.php?page=1,release,%2Fmovies,Recent"; //page=1,release,".urlencode($link).",".urlencode($title);
+  $link1=$host."/scripts/filme/php/moviesplanet.php?page=1,release,http://www.moviesplanet.is/movies,Recent"; //page=1,release,".urlencode($link).",".urlencode($title);
   $title="Recent";
 	echo '
 	<item>
@@ -248,7 +248,7 @@ ret;
 	<mediaDisplay name="threePartsView"/>
 	</item>
 	';
-$h1=str_between($h,'<a href="/movies"',"<a href='/pages/help'");
+$h1=str_between($h,'GENRE MOVIES',"</ul");
 $videos = explode('<li>', $h1);
 unset($videos[0]);
 $videos = array_values($videos);

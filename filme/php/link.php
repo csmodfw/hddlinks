@@ -2627,6 +2627,7 @@ $out="";
 for ($k=0;$k<count($m[0]);$k++) {
   $out .=$base.$m[0][$k]."\r\n";
 }
+//echo $out;
 file_put_contents("/tmp/list.txt",$out);
 $out='#!/bin/sh
 cat <<EOF
@@ -2642,7 +2643,36 @@ sleep (1);
 $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
 } elseif (strpos($filelink,"openload.co") !==false) {
 //require_once('AADecoder.php');
-include ("jj.php");
+//include ("jj.php");
+function calc($equation)
+{
+    // Remove whitespaces
+    $equation = preg_replace('/\s+/', '', $equation);
+    $equation=str_replace("--","+",$equation);
+    $equation=str_replace("-+","-",$equation);
+    $equation=str_replace("+-","-",$equation);
+    $equation=str_replace("++","+",$equation);
+    //echo "$equation\n";
+
+    $number = '((?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?|pi|p)'; // What is a number
+
+    $functions = '(?:sinh?|cosh?|tanh?|acosh?|asinh?|atanh?|exp|log(10)?|deg2rad|rad2deg
+|sqrt|pow|abs|intval|ceil|floor|round|(mt_)?rand|gmp_fact)'; // Allowed PHP functions
+    $operators = '[\/*\^\+-,]'; // Allowed math operators
+    $regexp = '/^([+-]?('.$number.'|'.$functions.'\s*\((?1)+\)|\((?1)+\))(?:'.$operators.'(?1))?)+$/'; // Final regexp, heavily using recursive patterns
+
+    if (preg_match($regexp, $equation))
+    {
+        $equation = preg_replace('!pi|p!', 'pi()', $equation); // Replace pi with pi function
+        //echo "$equation\n";
+        eval('$result = '.$equation.';');
+    }
+    else
+    {
+        $result = false;
+    }
+    return $result;
+}
 function base10toN($num, $n){
     $num_rep = array(
                '10' => 'a',
@@ -2782,14 +2812,48 @@ $ua="Mozilla/5.0 (Windows NT 10.0; WOW64; rv:46.0) Gecko/20100101 Firefox/46.0";
     else
      $srt=$t3[0];
    }
+//echo $filelink;
+$pattern = '/(embed|f)\/([0-9a-zA-Z-_]+)/';
+preg_match($pattern,$filelink,$m);
+$id=$m[2];
+$l="https://api.openload.co/pair";
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, $l);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+      curl_setopt($ch, CURLOPT_USERAGENT, $ua);
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+      $h2 = curl_exec($ch);
+      curl_close($ch);
+$l="https://api.openload.co/1/streaming/get?file=".$id;
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, $l);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1);
+      curl_setopt($ch, CURLOPT_USERAGENT, $ua);
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+      $h2 = curl_exec($ch);
+      curl_close($ch);
+//echo $h2;
+$t1=explode('url":"',$h2);
+$t2=explode("?",$t1[1]);
+$link=str_replace("\\","",$t2[0]);
+/*
 function openload($c,$z) {
 return chr(($c<="Z" ? 90:122) >= ($c=ord($c)+$z) ? $c : $c-26);
 }
 preg_match_all("/}\s*\(\s*(.*?)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*\((.*?)\).split\((.*?)\)/",$h1,$m);
 //preg_match("/}\('(.*)', *(\d+), *(\d+), *'(.*?)'\.split\('\|\)/",$h1,$m);
-//print_r ($m);
+$t=explode("'",$h1);
+//print_r ($t);
+for ($k=1;$k<count($t);$k++) {
+if (substr($t[$k],0,2) == "cm") $a[] = base64_decode($t[$k]);
+ //if (strpos($a,"PNG") !== false) break;
+}
+print_r ($a);
+//echo $h;
 $pattern = "/=\"([^\"]+).*}\s*\((\d+)\)/";
-preg_match($pattern,$m[0][1],$a);
+preg_match($pattern,$m[1][0],$a);
 //print_r ($a);
 $o="";
 for ($k=0;$k<strlen($a[1]);$k++) {
@@ -2799,8 +2863,9 @@ for ($k=0;$k<strlen($a[1]);$k++) {
      $o .= $a[1][$k];
 }
 $o=urldecode($o);
+//echo $o;
 $rep="j^_^__^___";
-$r=explode("'",$m[4][1]);
+$r=explode("'",$m[4][0]);
 $rep=$r[1];
 $t1=explode("^",$rep);
 $k=count($t1);
@@ -2809,75 +2874,78 @@ for ($i=0;$i<$k;$i++) {
   $o=str_replace($i,$t1[$i],$o);
 }
 $out = jjdecode($o);
-//echo $out;
-//echo $h1;
-$a1=explode("tmp.slice(-1).charCodeAt(0) +",$out);
-//$a2=explode(")",$a1[1]);
-//$index=trim($a2[0]);
-$a2=explode("(",$a1[1]);
-$f=trim($a2[0]);
-
-$a3=explode("function ".$f,$out);
-$a4=explode("return",$a3[1]);
-$a5=explode(";",$a4[1]);
-preg_match_all("/\d+/",$a5[0],$m);;
-$index=$m[0][0] + $m[0][1];
+//echo "<BR>".$out;
+//die();
 if (strpos($out,"y.length") === false)
   $h_index=str_between($out,'var x = $("#','"');
 else
   $h_index=str_between($out,'var y = $("#','"');
 //echo $h_index;
-if (!$index) {
+if (!$h_index) {
 $sPattern = '/<script type="text\/javascript">([a-z]=.+?\(\)\)\(\);)/';
 preg_match($sPattern,$h1,$m);
 $j=str_replace('<script type="text/javascript">',"",$m[0]);
 $out = jjdecode($j);
-//echo $out;
-$a1=explode("tmp.slice(-1).charCodeAt(0) +",$out);
-//$a2=explode(")",$a1[1]);
-//$index=trim($a2[0]);
-$a2=explode("(",$a1[1]);
-$f=trim($a2[0]);
-
-$a3=explode("function ".$f,$out);
-$a4=explode("return",$a3[1]);
-$a5=explode(";",$a4[1]);
-preg_match_all("/\d+/",$a5[0],$m);;
-$index=$m[0][0] + $m[0][1];
 if (strpos($out,"y.length") === false)
   $h_index=str_between($out,'var x = $("#','"');
 else
   $h_index=str_between($out,'var y = $("#','"');
 }
-if (!$index) {
+if (!$h_index) {
 $t1=explode('<script type="text/javascript">',$h1);
 $n=count($t1);
 $y=explode("</script",$t1[$n - 1]);
 
-$out=dec_text(urlencode($y[0]));
-//echo $out;
-$a1=explode("tmp.slice(-1).charCodeAt(0) +",$out);
-//$a2=explode(")",$a1[1]);
-//$index=trim($a2[0]);
-$a2=explode("(",$a1[1]);
-$f=trim($a2[0]);
+//$out=dec_text(urlencode($y[0]));
 
-$a3=explode("function ".$f,$out);
-$a4=explode("return",$a3[1]);
-$a5=explode(";",$a4[1]);
-preg_match_all("/\d+/",$a5[0],$m);;
-$index=$m[0][0] + $m[0][1];
 if (strpos($out,"y.length") === false)
   $h_index=str_between($out,'var x = $("#','"');
 else
   $h_index=str_between($out,'var y = $("#','"');
 }
 
-if (!$index) $index=0;
-
-//$out=$out.AADecoder::decode($h1);
+if (!$h_index) $index=0;
 //echo $out;
 //die();
+//$out=AADecoder::decode($h1);
+//preg_match("/([0-9a-f](1,4))/",$h1,$m);
+//print_r ($m);
+//$out = preg_replace("/\x([0-9a-f]{1,4})/i","&#x\\1;",$h1);
+$t1=explode("var _0x305e=",$h1);
+$source=$y[0];
+//preg_match_all("/\x([0-9a-f](1,2))/",$h1,$m);
+//print_r ($m);
+//die();
+if (preg_match_all('/\\x(..)/', $source, $matches)) {
+    for ($i = 0, $len = count($matches[0]); $i < $len; ++$i) {
+        $source = str_replace($matches[0][$i], chr(hexdec($matches[1][$i])), $source);
+    }
+}
+
+//echo urlencode($source);
+//preg_match_all("x(..)",$source,$m);
+//print_r ($m);
+//$source = str_replace("\\x63",chr(63),$source);
+//$source = str_replace("\\x6d",chr(hexdec("6d")),$source);
+//$source = str_replace("\\x56",chr(56),$source);
+//echo $source;
+$source=AADecoder::decode($source);
+if (preg_match_all('/\\x(..)/', $source, $matches)) {
+    echo "OK";
+    for ($i = 0, $len = count($matches[0]); $i < $len; ++$i) {
+        $source = str_replace($matches[0][$i], chr(hexdec($matches[1][$i])), $source);
+    }
+}
+echo $source;
+die();
+$out = preg_replace("/\x([0-9a-f]{1,2})/i","&#x\\1;",$t1[1]);
+$out = preg_replace("/\x([0-9a-f]{1,2})/i","&#x\\1;",$out);
+$out =  html_entity_decode($out);
+//$out=dec_text(urlencode($out));
+//$out=html_entity_decode($out);
+//$out=AADecoder::decode($out);
+echo $out;
+die();
 //$out=$out."<BR>".AADecoder::decode($t1[3]);
 //echo $out;
 //die();
@@ -2997,6 +3065,45 @@ $linkData = array();
 $link="https://openload.co/stream/".str_replace(",","",$linkData[7])."~".str_replace(",","",$linkData[3])."~".str_replace(",","",$linkData[5])."~".str_replace(",","",$linkData[2])."?mime=true";
 
 */
+//echo $out;
+/*
+preg_match_all("/function\s*(\w+)/",$out,$m);
+//print_r ($m);
+$t1=explode("function ".$m[1][0],$out);
+$t3=explode("return",$t1[1]);
+$t2=explode(";",$t3[1]);
+$x1=calc($t2[0]);
+$out=str_replace($m[1][0]."()",$x1,$out);
+
+$t1=explode("function ".$m[1][3],$out);
+$t3=explode("return",$t1[1]);
+$t2=explode(";",$t3[1]);
+$x1=calc($t2[0]);
+$out=str_replace($m[1][3]."()",$x1,$out);
+
+$t1=explode("function ".$m[1][1],$out);
+$t3=explode("return",$t1[1]);
+$t2=explode(";",$t3[1]);
+$x1=calc($t2[0]);
+$out=str_replace($m[1][1]."()",$x1,$out);
+
+$t1=explode("function ".$m[1][2],$out);
+$t3=explode("return",$t1[1]);
+$t2=explode(";",$t3[1]);
+$x1=calc($t2[0]);
+$out=str_replace($m[1][2]."()",$x1,$out);
+
+//echo $out;
+
+$t1=explode('charCodeAt(0) +',$out);
+$t2=explode(")",$t1[1]);
+$index=trim($t2[0]);
+$t1=explode("length -",$out);
+$t2=explode(")",$t1[1]);
+$index1=trim($t2[0]);
+//echo $out;
+
+//die();
 $out="";
 if (!$h_index) {
 $x1=explode('id="hiddenurl">',$h1);
@@ -3034,6 +3141,8 @@ $hiddenurl=$x2[0];
 //$index=2;
 $hiddenurl = htmlspecialchars_decode($hiddenurl);
 //$hiddenurl="12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567899";
+
+/*
 $magic=ord(substr($hiddenurl,-1));
 $t1=explode(chr($magic-1),$hiddenurl);
 $c=count($t1);
@@ -3044,6 +3153,7 @@ for ($i=0;$i<$c;$i++) {
   $a .=$t1[$i];
 }
 $hiddenurl=substr($a, 0, -1);
+*/
 //$hiddenurl =substr($hiddenurl, 0, -1).chr($magic-1);
 //echo $hiddenurl;
 //echo "\n"."12345679801234567980123456798012345679801234567980123456798012345679801234567980123456798012345679801234567988";
@@ -3051,6 +3161,7 @@ $hiddenurl=substr($a, 0, -1);
 //12345679801234567980123456798012345679801234567980123456798012345679801234567980123456798012345679801234567988
 //$hiddenurl="AI5IyHA6&+&O`cfehcgafgOga]a`_]_]_Or~b<dvr(";
 //$index=2;
+/*
 $c=strlen($hiddenurl);
 for ($k=0;$k<$c;$k++) {
   $j=ord($hiddenurl[$k]);
@@ -3059,10 +3170,21 @@ for ($k=0;$k<$c;$k++) {
   else
     $out=$out.chr($j);
 }
+//echo "\n".$out."\n".$index1."\n".$index."\n";
+$part1=substr($out,0,-1*$index1);
+$part2=substr($out,-1*$index1+1);
+if ($index1==1) $part2="";
+$part3=chr(ord(substr($out, -1*$index1, 1)) + $index);
+//echo $part1."\n".$part2."\n".$part3."\n".substr($out, -1*$index1, 1)."\n";
+$out=$part1.$part3.$part2;
+/*
+
 $o1=substr($out,0,strlen($out)-1);
 //echo $o1."\n";
 $o2=chr(ord(substr($out, -1)) + $index);
 $out=$o1.$o2;
+*/
+/*
 $link="https://openload.co/stream/".$out."?mime=true";
       $ch = curl_init();
       curl_setopt($ch, CURLOPT_URL, $link);
@@ -3078,6 +3200,7 @@ $link="https://openload.co/stream/".$out."?mime=true";
       $t2=explode("?",$t1[1]);
       $link=trim($t2[0]);
       $link=str_replace("https","http",$link).".mp4";
+*/
 //}
 //}
     //if (strpos($link,"Komp+1.mp4") === false) break;
@@ -3314,6 +3437,7 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
 } elseif (strpos($filelink,"redfly.us") !==false) {
   $link=$filelink;
 } elseif (strpos($filelink,"mooshare.biz") !==false || strpos($filelink,"streamin.to") !==false) {
+  require_once("JavaScriptUnpacker.php");
   //http://streamin.to/embed-giepc5gb5yvp-640x360.html
   if (strpos($filelink,"embed") !== false) {
    $id=str_between($filelink,"embed-","-");
@@ -3342,7 +3466,10 @@ $link="http://127.0.0.1/cgi-bin/scripts/util/m.cgi?".mt_rand();
   $h = curl_exec($ch);
   curl_close($ch);
   //echo $h;
-  $link=str_between($h,'file: "','"');
+  //$link=str_between($h,'file: "','"');
+  $jsu = new JavaScriptUnpacker();
+  $x=$jsu->Unpack($h);
+  $link=str_between($x,'file:"','"');
 } elseif (strpos($filelink,"up2stream.com") !==false) {
    $filelink=str_replace("&#038;","&",$filelink);
    $ch = curl_init();

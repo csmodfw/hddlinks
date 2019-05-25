@@ -379,7 +379,7 @@ $post="q=".$link."&limit=100&timestamp=&verifiedCheck=".$tok."&set=&sl=52b1b9947
   $r=json_decode($html,1);
 }
 if ($tip=="release") {
- $videos = explode('class="new-episodes">', $html);
+ $videos = explode('class="flipBox">', $html);
 unset($videos[0]);
 $videos = array_values($videos);
 foreach($videos as $video) {
@@ -401,7 +401,7 @@ foreach($videos as $video) {
   $title=$title11; //." (".$year.")";
   //$id_t=$id1;
   $id_t="";
-   $link2=$host."/scripts/filme/php/flixanity_s_ep.php?file=".urlencode($link1).",".urlencode($title).",".$id1.",".$id_t.",series,".urlencode($image);
+   $link2=$host."/scripts/filme/php/flixanity_s_ep.php?file=".urlencode($link1).",".urlencode(str_replace(",","^",$title)).",".$id1.",".$id_t.",series,".urlencode($image);
    if ($title) {
      echo '
      <item>
@@ -410,7 +410,7 @@ foreach($videos as $video) {
     <image>'.$image.'</image>
     <image1>'.$image1.'</image1>
     <tit>'.trim($title).'</tit>
-    <tit1>'.urlencode(trim($title)).'</tit1>
+    <tit1>'.urlencode(trim(str_replace(",","^",$title))).'</tit1>
     <id>'.$id1.'</id>
     <idt>'.$id_t.'</idt>
     <movie>'.trim($link1).'</movie>

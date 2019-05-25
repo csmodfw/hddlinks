@@ -26,7 +26,7 @@ $cookie="/tmp/moviesplanet.txt";
   //curl_setopt($ch, CURLOPT_HEADER,1);
   $h1 = curl_exec($ch);
   curl_close($ch);
-$t1=explode('class="show-poster">',$h1);
+$t1=explode('div class="thumb mvic-thumb',$h1);
 $html=$t1[1];
 $ttxml="";
 exec ("rm -f /tmp/movie.dat");
@@ -34,16 +34,16 @@ $t1=explode('timthumb.php?src=',$html);
 $t2=explode('&',$t1[1]);
 $img=$t2[0];
 $t1=explode('Released',$h1);
-$t3=explode('year=',$t1[1]);
-$t4=explode('"',$t3[1]);
-$year="Year: ".$t4[0];
+$t3=explode('</strong>',$t1[1]);
+$t4=explode('<',$t3[1]);
+$year="Year: ".trim($t4[0]);
 
-$a1=explode("checked='checked' value=",$h1);
-$a2=explode('"',$a1[1]);
-$imdb="IMDB: ".trim($a2[1]);
+$a1=explode("IMDb:</strong>",$h1);
+$a2=explode('<',$a1[1]);
+$imdb="IMDB: ".trim($a2[0]);
 $imdb=str_replace('"',"",$imdb);
 
-$gen=trim(str_between($h1,'Categories:</span>','<style'));
+$gen=trim(str_between($h1,'Categories:','</p'));
 $gen=str_replace("</a>",',',$gen);
 $t1=explode('Run time:',$h1);
 $t3=explode('a>',$t1[1]);
@@ -57,16 +57,16 @@ $gen=str_replace("\t","",$gen);
 $gen=str_replace("  ","",$gen);
 $gen="Genre: ".$gen;
 
-$cast=str_between($h1,'Stars:</span>','</div');
+$cast=str_between($h1,'Stars:','<p');
 $cast = "Cast: ".trim(preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$cast));
 $cast=str_replace("&nbsp;","",$cast);
 $cast=str_replace("\n","",$cast);
 $cast=str_replace("\t","",$cast);
 $cast=str_replace("  ","",$cast);
-$a1=explode('class="show-overview"',$h1);
-$a2=explode(">",$a1[1]);
-$a3=explode("<",$a2[1]);
-$desc=trim($a3[0]);
+$a1=explode('<abbr>',$h1);
+$a2=explode("</abbr>",$a1[1]);
+//$a3=explode("<",$a2[1]);
+$desc=trim($a2[0]);
 $desc = trim(preg_replace("/(<\/?)(\w+)([^>]*>)/e","",$desc));
 $ttxml .=$tit."\n"; //title
 $ttxml .= $year."\n";     //an

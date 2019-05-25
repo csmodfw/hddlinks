@@ -7,6 +7,8 @@ if($query) {
    $queryArr = explode(',', $query);
    $link = urldecode($queryArr[0]);
    $title=urldecode($queryArr[1]);
+   $title=str_replace("^",",",$title);
+   $title=str_replace("\'","'",$title);
    $id1= $queryArr[2];
    $id_t= $queryArr[3];
    $tip=$queryArr[4];
@@ -275,7 +277,7 @@ if($requestPage->status->http_code == 503) {
 	}
 }
 */
-
+//echo $link;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $link);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -291,12 +293,12 @@ unset($videos[0]);
 $videos = array_values($videos);
 foreach($videos as $video) {
   //$t1=explode('href="',$video);
-  $t2=explode('&',$video);
+  $t2=explode("&",$video);
   $openload="http://www.watchfree.to/go.php".$t2[0];
   $server = str_between($video,"</strong>","<");
   $server=trim(str_replace("-","",$server));
   //if (!$server) $server = str_between($openload,"https://","/");
-   if ($openload) {
+   if ($openload && $server) {
      echo '
      <item>
      <title>'.$server.'</title>
@@ -333,7 +335,7 @@ foreach($videos as $video) {
      </onClick>
     <image>'.$image.'</image>
     <tit>'.trim($title).'</tit>
-    <tit1>'.urlencode(trim($title)).'</tit1>
+    <tit1>'.urlencode(trim(str_replace(",","^",$title))).'</tit1>
     <an>'.$year.'</an>
     <id>'.$id1.'</id>
     <idt>'.$id_t.'</idt>

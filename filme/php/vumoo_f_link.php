@@ -24,6 +24,8 @@ if ($tip == "series") {
   if ($id1) $openload="https://openload.co/embed/".$id1;
   if ($id_t) $google="https://docs.google.com/uc?id=".$id_t."&export=download";
 }
+$title=str_replace("\'","'",$title);
+$title=str_replace("^",",",$title);
 $year="";
 ?>
 <rss version="2.0">

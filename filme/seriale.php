@@ -308,6 +308,13 @@ echo '
 <media:thumbnail url="image/movies.png" />
 </item>
 
+<item>
+<title>putlockers</title>
+<link><?php echo $host; ?>/scripts/filme/php/putlockers_s.php?page=1,release,,seriale</link>
+<annotation>http://putlockers.ch</annotation>
+<media:thumbnail url="image/movies.png" />
+</item>
+
 <!--
 <item>
 <title>inviatapenet</title>
@@ -344,9 +351,16 @@ echo '
 <media:thumbnail url="image/movies.png" />
 </item>
 -->
+<!--
 <item>
 <title>vezi-online.ro</title>
 <link><?php echo $host; ?>/scripts/filme/php/vezi-online_ro_main.php</link>
+<media:thumbnail url="image/movies.png" />
+</item>
+-->
+<item>
+<title>vezi-online.ro</title>
+<link>http://uphero.xpresso.eu/movietv/vezi-online_ro_main.php</link>
 <media:thumbnail url="image/movies.png" />
 </item>
 <!--

@@ -193,7 +193,7 @@ function str_between($string, $start, $end){
 
 $image = "/usr/local/etc/www/cgi-bin/scripts/tv/image/publika.jpg";
 $html = file_get_contents("http://www.publika.md/");
-$videos = explode('<div class="item"', $html);
+$videos = explode('article id="', $html);
 
 unset($videos[0]);
 $videos = array_values($videos);
@@ -202,7 +202,7 @@ foreach($videos as $video) {
     $t2 = explode('"', $t1[1]);
     $link = $t2[0];
 
-    $t1 = explode('title="', $video);
+    $t1 = explode('alt="', $video);
     $t2 = explode('"', $t1[1]);
     $title = $t2[0];
     $t1 = explode('src="',$video);

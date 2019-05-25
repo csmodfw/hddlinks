@@ -630,7 +630,17 @@ else if (input == "two" || input == "2")
 delay = 0;
 ret = "true";
 }
- else if (input == "video_completed" || input == "video_stop")
+ else if (input == "video_completed")
+{
+    playItemURL(-1, 1);
+    postMessage("return");
+    postMessage("down");
+    postMessage("enter");
+    postMessage("down");
+    postMessage("enter");
+    ret="true";
+}
+ else if (input == "video_stop")
 {
     playItemURL(-1, 1);
     postMessage("return");

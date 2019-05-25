@@ -280,6 +280,7 @@ function str_between($string, $start, $end){
 	return substr($string,$ini,$len);
 }
 //http://www.moviesplanet.is/tv-shows/date/3
+//http://www.moviesplanet.is/tv-shows/date/2
 if($page) {
   $l =$search."/date/".$page;
 } else {
@@ -314,11 +315,11 @@ $host = "http://127.0.0.1/cgi-bin";
   curl_close($ch);
 //echo $html;
 
-$videos = explode('<div class="item"', $html);
+$videos = explode('class="ml-item"', $html);
 unset($videos[0]);
 $videos = array_values($videos);
 foreach($videos as $video) {
-  $title=str_between($video,'-free" title="','"');
+  $title=str_between($video,'class="mli-info"><h2>','</h2');
   if (!$title) {
     $t1=explode('id="title"',$video);
     $t2=explode('title="',$t1[1]);
@@ -326,7 +327,7 @@ foreach($videos as $video) {
     $title=$t3[0];
   }
 
-  $image=str_between($video,'src="','"');;
+  //$image=str_between($video,'timthumb.php?src=','"');
   $link1= str_between($video,'href="','"');
   if (!$title) {
     $t1=explode("show/",$link1);

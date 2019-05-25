@@ -307,7 +307,8 @@ if($requestPage->status->http_code == 503) {
 //echo $html;
 //http://www.moviesplanet.is/movies/date/1
 $cookie="/tmp/moviesplanet.txt";
-$l="http://www.moviesplanet.is/".str_replace(" ","%20",$link)."/date/".$page."";
+//$l="http://www.moviesplanet.is/".str_replace(" ","%20",$link)."/date/".$page."";
+$l=str_replace(" ","%20",$link)."/date/".$page."";
 //$l="http://www.moviesplanet.is/movies/date/1";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $l);
@@ -322,17 +323,11 @@ $l="http://www.moviesplanet.is/".str_replace(" ","%20",$link)."/date/".$page."";
   curl_close($ch);
 //echo $html;
   
-$videos = explode('<div class="item"', $html);
+$videos = explode('<div class="ml-item"', $html);
 unset($videos[0]);
 $videos = array_values($videos);
 foreach($videos as $video) {
-  $title1=str_between($video,'-free" title="','"');
-  if (!$title1) {
-    $t1=explode('id="title"',$video);
-    $t2=explode('title="',$t1[1]);
-    $t3=explode('"',$t2[1]);
-    $title1=$t3[0];
-  }
+  $title1=str_between($video,'class="mli-info"><h2>','</h2');
   $image=str_between($video,'src="','"');;
   $link1= str_between($video,'href="','"');
   
@@ -378,7 +373,7 @@ foreach($videos as $video) {
     echo '
      </script>
      </onClick>
-    <title1>'.urlencode($title1).'</title1>
+    <title1>'.urlencode(str_replace(",","^",$title1)).'</title1>
     <link1>'.urlencode($link1).'</link1>
     <movie>'.$link1.'</movie>
     <image1>'.$image1.'</image1>

@@ -15,6 +15,10 @@ if ($tip=="movie") {
 } else {
   $tit2=$sezon."x".$episod;
 }
+  $tit2=str_replace("\'","'",$tit2);
+  $tit2=str_replace("^",",",$tit2);
+  $tit=str_replace("\'","'",$tit);
+  $tit=str_replace("^",",",$tit);
 ?>
 <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
 <onEnter>
